@@ -1,0 +1,25 @@
+# Tasks to do when move files from store module.
+replace \Store\ => \RdbCMSA\      case sensitive      (this should be namespace)
+replace /store/ => /cms      case sensitive      (this should be URL)
+
+replace 'store' => 'rdbcmsa'        case sensitive      (this should be translation domain)
+replace 'Store' => 'RdbCMSA'        case sensitive      (this should be module folder name in string value)
+replace rdba-page-admin_store_files_browser => rdba-page-admin_cms_files_browser        case sensitive      (this should be auto generate css class on html element)
+replace (['"])store- => $1rdbcmsa-      regular expression, case sensitive      (this should be html id and css prefix)
+
+# Tasks that have to do by order.
+replace rdstore- => rdbcmsa-        case sensitive      (this should be html id and css prefix)
+replace ([\.#])store- => $1rdbcmsa-      regular expression, case sensitive      (this should be html id and css prefix)
+replace (?<![a-zA-Z0-9])store- => rdbcmsa-      regular expression, case sensitive      (this should be html id and css prefix)
+replace rdstore([a-zA-Z0-9]) => rdbcmsa$1      regular expression, case sensitive      (this should be html JS variable)
+replace rdStore([a-zA-Z0-9]) => rdbcmsa$1      regular expression, case sensitive      (this should be html JS variable)
+
+# Tasks that have to do by order.
+replace (?<![a-zA-Z0-9])Store([a-zA-Z0-9]) => RdbCMSA$1     regular expression, case sensitive      (this should be JS class, JS object, permission name)
+replace /Store => /RdbCMSA        case sensitive        (this should be module folder name in string value)
+
+replace (?<![a-zA-Z0-9])store (follow with space) => rdbcmsa (follow with space)        regular expression, case sensitive      (use in many cases, PREVIEW first)
+replace (['"])store([a-zA-Z]) => $1rdbcmsa$2        regular expression, case sensitive      (this should be html id and css prefix)
+replace (['"])Store([a-zA-Z]) => $1RdbCMSA$2        regular expression, case sensitive
+replace (?<![a-zA-Z0-9])store([a-zA-Z0-9]) => rdbcmsa$1     regular expression, case sensitive      (this should be JS variable)
+replace (rdstore|store)\. => rdbcmsa.       regular expression, case sensitive      (this should be JS events)
