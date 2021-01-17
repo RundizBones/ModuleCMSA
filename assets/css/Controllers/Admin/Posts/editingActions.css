@@ -1,0 +1,40 @@
+/*
+ * CSS for editing post pages (add, edit)
+*/
+
+
+img.rdbcmsa-files-featuredimage,
+.rdbcmsa-files-featuredimage {
+    max-height: 300px;
+}
+
+
+.revisionHistoryTable .row-actions-link {
+    cursor: pointer;
+}
+
+
+.rdbcmsa-contents-posts-save-container {
+    padding: 1.25rem; /* .625rem of .rd-tabs + .625em of .rd-tabs-content*/
+}
+
+
+#categories-form-fields .each-category {
+    margin-bottom: .625rem;
+}
+
+
+#dialog-image-browser .rd-dialog-body iframe {
+    border: none;
+    height: 82vh;
+    width: 100%;
+}
+
+
+#post_feature_image-removebutton {
+    cursor: pointer;
+}
+#post_feature_image-preview a:first-child {
+    display: inline-block;
+    max-width: 300px;
+}

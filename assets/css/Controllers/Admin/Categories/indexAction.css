@@ -1,0 +1,8 @@
+/*
+ CSS for categories management page.
+*/
+
+
+.rdba-datatables-js tbody tr .sortable-nwse-handle {
+    cursor: move;
+}

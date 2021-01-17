@@ -1,0 +1,128 @@
+/* 
+ CSS for files management page. 
+*/
+
+
+.filesListItemsTable td,
+.filesListItemsTable th {
+    word-break: break-all;
+    word-wrap: break-word;
+}
+.filesListItemsTable td::after,
+.filesListItemsTable th::after {
+    clear: both;
+    content: '';
+    display: table;
+}
+
+
+.rdbcmsa-files-columns-header .form-description,
+.rd-dialog .form-description {
+    color: #777;
+    font-size: 0.875rem;
+    font-style: italic;
+}
+.rdbcmsa-files-columns-header .form-description {
+    align-self: center;
+    margin-left: .313em;
+}
+.rdbcmsa-files-columns-header #rdbcmsa-files-upload-status-placeholder {
+    align-self: center;
+    font-size: 0.875rem;
+}
+
+
+.rdbcmsa-files-columns-header {
+    display: flex;
+    flex-direction: column;
+}
+@media (min-width: 768px) {
+    .rdbcmsa-files-columns-header {
+        flex-direction: row;
+    }
+}
+.rdbcmsa-files-columns-header .rd-button {
+    align-self: center;
+    font-size: 1rem;
+}
+@media (min-width: 768px) {
+    .rdbcmsa-files-columns-header .rd-button {
+        line-height: normal;
+        margin-bottom: 2px;
+    }
+}
+
+
+.rdbcmsa-files-dropzone {
+    align-self: stretch;
+    border: 3px dashed #ddd;
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+}
+@media (min-width: 768px) {
+    .rdbcmsa-files-dropzone {
+        margin-left: 0.938rem;
+    }
+}
+.rdbcmsa-files-dropzone .rd-button {
+    vertical-align: middle;
+}
+
+
+.rdbcmsa-files-folders-list-link.current {
+    background-color: #eee;
+}
+
+
+.rdbcmsa-folder-name-dialog-folder-name {
+    display: block;
+    width: 100%;
+}
+
+
+.rdbcmsa-files-folders-list-container {
+    border: 1px solid #ddd;
+    list-style: none;
+    margin: 0;
+    padding: 5px;
+}
+.rdbcmsa-files-folders-list-container li {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.rdbcmsa-files-folders-list-container li a {
+    cursor: pointer;
+    display: block;
+    flex-grow: 1;
+    padding: .313em 0 0 .188em;
+}
+.rdbcmsa-files-folders-list-container li .rdbcmsa-files-folder-commands {
+    padding: .313em 0;
+}
+.rdbcmsa-files-folders-list-container li::after {
+    clear: both;
+    content: '';
+    display: table;
+}
+.rdbcmsa-files-folders-list-container ol,
+.rdbcmsa-files-folders-list-container ul {
+    clear: both;
+    flex-basis: 100%;
+    list-style: none;
+    margin: 0 0 0 .438em;
+    width: 100%;
+}
+
+
+img.rdbcmsa-files-image-thumbnail,
+.rdbcmsa-files-image-thumbnail {
+    max-height: 100px;
+    max-width: 100px;
+    vertical-align: top;
+}
+.rdbcmsa-files-image-thumbnail-link {
+    float: left;
+    margin-right: 5px;
+}

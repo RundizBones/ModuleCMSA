@@ -1,0 +1,23 @@
+/*
+ Edit file data page CSS.
+*/
+
+
+.files-actions-row {
+    text-align: center;
+}
+.files-actions-row > span + span::before {
+    content: ' \00a0 | \00a0 ';
+}
+
+
+.files-thumbnails-row {
+    max-height: 400px;
+    text-align: center;
+}
+.files-thumbnails-row a {
+    display: block;
+}
+.files-thumbnails-row img {
+    max-height: 400px;
+}

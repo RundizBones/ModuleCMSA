@@ -1,0 +1,107 @@
+/*
+ File browser dialog CSS.
+*/
+
+
+.rdba-page-admin_rdbcmsa_files_browser body {
+    height: 100%;/* make `.rdbcmsa-files-list-placeholder` scrollable */
+}
+
+
+.rdbcmsa-files-browser-dialog-column-main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;/* make `.rdbcmsa-files-list-placeholder` scrollable */
+}
+.rdbcmsa-files-browser-dialog-column-aside,
+.rdbcmsa-files-browser-dialog-column-main {
+    margin-bottom: 1.25rem;
+}
+@media (min-width: 1000px) {
+    .rdbcmsa-files-browser-dialog-column-aside,
+    .rdbcmsa-files-browser-dialog-column-main {
+        margin-bottom: 0;
+    }
+}
+
+
+.rdbcmsa-files-dropzone {
+    align-self: stretch;
+    border: 3px dashed #ddd;
+    display: flex;
+    flex-grow: 0;
+    flex-wrap: wrap;
+}
+.rdbcmsa-files-dropzone .form-description {
+    color: #777;
+    font-size: 0.875rem;
+    font-style: italic;
+}
+.rdbcmsa-files-dropzone .form-description {
+    align-self: center;
+    margin-left: .313em;
+}
+.rdbcmsa-files-dropzone .rd-button {
+    vertical-align: middle;
+}
+.rdbcmsa-files-dropzone #rdbcmsa-files-upload-status-placeholder {
+    align-self: center;
+    font-size: 0.875rem;
+}
+
+
+.rdbcmsa-files-generic-file-icon {
+    color: #555;
+    font-size: 10rem;
+    text-align: center;
+    width: 1em;
+}
+
+
+.rdbcmsa-files-list-placeholder {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: -.625rem;
+    margin-right: -.625rem;
+    overflow-y: auto;
+}
+.rdbcmsa-files-list-placeholder .rdbcmsa-files-file-wrapper {
+    padding: .625rem;
+}
+.rdbcmsa-files-list-placeholder .rdbcmsa-files-file-preview {
+    padding: 3px;
+    width: 160px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+.rdbcmsa-files-list-placeholder .rdbcmsa-files-file-preview:hover {
+    background-color: rgba(100, 100, 100, 0.05);
+}
+.rdbcmsa-files-list-placeholder .rdbcmsa-files-file-preview .rdbcmsa-files-file-name {
+    cursor: default;
+}
+.rdbcmsa-files-list-placeholder .rdbcmsa-files-file-preview .rdbcmsa-files-file-thumbnail {
+    display: flex;
+    flex-direction: column;
+    height: 160px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+}
+.rdbcmsa-files-list-placeholder .rdbcmsa-files-file-preview .rdbcmsa-files-file-thumbnail img {
+    margin-top: auto;
+    max-height: 100%;
+    object-fit: contain;
+    width: 100%;
+}
+
+
+#rdba-filter-search {
+    max-width: 150px;
+}
+
+
+#rdbcmsa-files-list-form {
+    height: 100%;/* make `.rdbcmsa-files-list-placeholder` scrollable */
+}
