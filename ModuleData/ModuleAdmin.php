@@ -132,7 +132,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
                 ],
                 'icon' => 'fas fa-file-alt fa-fw',
                 'name' => d__('rdbcmsa', 'Contents'),
-                'link' => $urlBaseWithLang . '/admin/rdbcmsa/posts',
+                'link' => $urlBaseWithLang . '/admin/cms/posts',
                 'subMenu' => [
                     0 => [
                         'id' => 'rdbcmsa-contents-posts',
@@ -140,10 +140,10 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
                             ['RdbCMSAPosts', 'list', 'add', 'edit', 'delete'],
                         ],
                         'name' => d__('rdbcmsa', 'Posts'),
-                        'link' => $urlBaseWithLang . '/admin/rdbcmsa/posts',
+                        'link' => $urlBaseWithLang . '/admin/cms/posts',
                         'linksCurrent' => [
-                            $urlBase . '/admin/rdbcmsa/posts/add',
-                            $urlBase . '/admin/rdbcmsa/posts/edit/*',
+                            $urlBase . '/admin/cms/posts/add',
+                            $urlBase . '/admin/cms/posts/edit/*',
                         ],
                     ],
                     1 => [
@@ -152,10 +152,10 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
                             ['RdbCMSAContentCategories', 'list', 'add', 'edit', 'delete'],
                         ],
                         'name' => d__('rdbcmsa', 'Categories'),
-                        'link' => $urlBaseWithLang . '/admin/rdbcmsa/categories',
+                        'link' => $urlBaseWithLang . '/admin/cms/categories',
                         'linksCurrent' => [
-                            $urlBase . '/admin/rdbcmsa/categories/add',
-                            $urlBase . '/admin/rdbcmsa/categories/edit/*',
+                            $urlBase . '/admin/cms/categories/add',
+                            $urlBase . '/admin/cms/categories/edit/*',
                         ],
                     ],
                     2 => [
@@ -164,10 +164,10 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
                             ['RdbCMSAContentTags', 'list', 'add', 'edit', 'delete'],
                         ],
                         'name' => d__('rdbcmsa', 'Tags'),
-                        'link' => $urlBaseWithLang . '/admin/rdbcmsa/tags',
+                        'link' => $urlBaseWithLang . '/admin/cms/tags',
                         'linksCurrent' => [
-                            $urlBase . '/admin/rdbcmsa/tags/add',
-                            $urlBase . '/admin/rdbcmsa/tags/edit/*',
+                            $urlBase . '/admin/cms/tags/add',
+                            $urlBase . '/admin/cms/tags/edit/*',
                         ],
                     ],
                     3 => [
@@ -176,10 +176,10 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
                             ['RdbCMSAPages', 'list', 'add', 'edit', 'delete'],
                         ],
                         'name' => d__('rdbcmsa', 'Pages'),
-                        'link' => $urlBaseWithLang . '/admin/rdbcmsa/pages',
+                        'link' => $urlBaseWithLang . '/admin/cms/pages',
                         'linksCurrent' => [
-                            $urlBase . '/admin/rdbcmsa/pages/add',
-                            $urlBase . '/admin/rdbcmsa/pages/edit/*',
+                            $urlBase . '/admin/cms/pages/add',
+                            $urlBase . '/admin/cms/pages/edit/*',
                         ],
                     ],
                     4 => [
@@ -188,9 +188,9 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
                             ['RdbCMSAFiles', 'list', 'add', 'edit', 'delete'],
                         ],
                         'name' => d__('rdbcmsa', 'Files'),
-                        'link' => $urlBaseWithLang . '/admin/rdbcmsa/files',
+                        'link' => $urlBaseWithLang . '/admin/cms/files',
                         'linksCurrent' => [
-                            $urlBase . '/admin/rdbcmsa/files/edit/*',
+                            $urlBase . '/admin/cms/files/edit/*',
                         ],
                     ],
                 ],
@@ -203,10 +203,10 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
                             ['RdbCMSAUrlAliases', 'list', 'add', 'edit', 'delete'],
                         ],
                         'name' => d__('rdbcmsa', 'URL aliases'),
-                        'link' => $urlBaseWithLang . '/admin/tools/rdbcmsa/url-aliases',
+                        'link' => $urlBaseWithLang . '/admin/tools/cms/url-aliases',
                         'linksCurrent' => [
-                            $urlBase . '/admin/tools/rdbcmsa/url-aliases/add',
-                            $urlBase . '/admin/tools/rdbcmsa/url-aliases/edit/*',
+                            $urlBase . '/admin/tools/cms/url-aliases/add',
+                            $urlBase . '/admin/tools/cms/url-aliases/edit/*',
                         ],
                     ],
                 ],
