@@ -143,8 +143,8 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
         $sql = 'SELECT `file_id`, `file_folder` FROM `' . $this->tableName . '` WHERE `file_folder` = :actual_file_folder OR `file_folder` LIKE :file_folder';
         $Sth = $this->Db->PDO()->prepare($sql);
         unset($sql);
-        $Sth->bindValue(':actual_file_folder', $folder);// example product/pc
-        $Sth->bindValue(':file_folder', $folder . '/%');// example product/pc/* such as product/pc/desktop, product/pc/laptop
+        $Sth->bindValue(':actual_file_folder', $folder);// example books/cartoon
+        $Sth->bindValue(':file_folder', $folder . '/%');// example books/cartoon/* such as books/cartoon/onepiece, books/cartoon/dragonball
         $Sth->execute();
         $result = $Sth->fetchAll();
         $Sth->closeCursor();
@@ -188,8 +188,8 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
         $sql = 'DELETE FROM `' . $this->tableName . '` WHERE `file_folder` = :actual_file_folder OR `file_folder` LIKE :file_folder';
         $Sth = $this->Db->PDO()->prepare($sql);
         unset($sql);
-        $Sth->bindValue(':actual_file_folder', $folder);// example product/pc
-        $Sth->bindValue(':file_folder', $folder . '/%');// example product/pc/* such as product/pc/desktop, product/pc/laptop
+        $Sth->bindValue(':actual_file_folder', $folder);// example books/cartoon
+        $Sth->bindValue(':file_folder', $folder . '/%');// example books/cartoon/* such as books/cartoon/onepiece, books/cartoon/dragonball
         $deleteResult = $Sth->execute();
         $Sth->closeCursor();
         unset($Sth);
@@ -611,8 +611,8 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
     /**
      * Rename the URL that contain `file_folder` data in `post_revision` table.
      * 
-     * Example: `renameFileFolderInPostRevision('http://domain.tld/rdbadmin-public/product', 'http://domain.tld/rdbadmin-public/products')`.<br>
-     * The example above will be rename http://domain.tld/rdbadmin-public/product/any/path/image.jpg to http://domain.tld/rdbadmin-public/products/any/path/image.jpg
+     * Example: `renameFileFolderInPostRevision('http://domain.tld/rdbadmin-public/book', 'http://domain.tld/rdbadmin-public/books')`.<br>
+     * The example above will be rename http://domain.tld/rdbadmin-public/book/any/path/image.jpg to http://domain.tld/rdbadmin-public/books/any/path/image.jpg
      * 
      * @param string $currentUrl The current URL (full URL).
      * @param string $newUrl The new URL (full URL).

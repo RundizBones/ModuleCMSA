@@ -20,7 +20,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
 
 
     /**
-     * @var string Taxonomy type for category on `taxonomy_term_data`.`t_type` column. Example category, product_category.
+     * @var string Taxonomy type for category on `taxonomy_term_data`.`t_type` column. Example category, custom_category.
      */
     public $categoryType = 'category';
 
@@ -62,7 +62,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
 
 
     /**
-     * @var string Taxonomy type for tag on `taxonomy_term_data`.`t_type` column. Example tag, product_tag.
+     * @var string Taxonomy type for tag on `taxonomy_term_data`.`t_type` column. Example tag, custom_tag.
      */
     public $tagType = 'tag';
 
