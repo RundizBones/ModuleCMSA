@@ -61,7 +61,7 @@ class ModuleAssetsPosts
                 [
                     'handle' => 'rdbcmsaPostsCommonActions',
                     'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/Posts/commonActions.js',
-                    'dependency' => ['rdta', 'rdbaCommon', 'rdbaUiXhrCommonData', 'lodash', 'rdbcmsaJsUtils', 'tinymce', 'acejs', 'tagify'],
+                    'dependency' => ['rdta', 'rdbaCommon', 'rdbaUiXhrCommonData', 'lodash', 'rdbcmsaJsUtils', 'tinymce', 'ace-builds', 'tagify'],
                 ],
                 [
                     'handle' => 'rdbcmsaPostsCommonEditRevision',

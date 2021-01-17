@@ -61,20 +61,15 @@ class ModuleAssets
                 ],
                 'js' => [
                     [
-                        'handle' => 'acejs',
+                        'handle' => 'ace-builds',
                         'file' => $publicModuleUrl . '/assets/vendor/ace-builds/ace.js',
                         'version' => '1.4.12',
-                    ],
-                    [
-                        'handle' => 'bignumber-js',
-                        'file' => $publicModuleUrl . '/assets/vendor/bignumber.js/bignumber.min.js',
-                        'version' => '9.0.1',
                     ],
                     // diff, diff2html
                     [
                         'handle' => 'jsdiff',
-                        'file' => $publicModuleUrl . '/assets/vendor/diff/diff.min.js',
-                        'version' => '4.0.2',
+                        'file' => $publicModuleUrl . '/assets/vendor/diff/diff.js',
+                        'version' => '5.0.0',
                     ],
                     [
                         'handle' => 'diff2html',
