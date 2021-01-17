@@ -1,0 +1,6 @@
+{
+    "require": {
+        "rundiz/nested-set": "~1.0",
+        "james-heinrich/getid3": "~1.0"
+    }
+}
