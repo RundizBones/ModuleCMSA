@@ -1,5 +1,5 @@
 /**
- * Common actions for add, edit post in different post types such as article, page, product, etc.
+ * Common actions for add, edit post in different post types such as article, page, etc.
  */
 
 
