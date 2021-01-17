@@ -28,7 +28,6 @@
                                 <div class="control-wrapper">
                                     <select id="t_type" name="t_type">
                                         <option value="category"<?php if (isset($t_type) && $t_type == 'category') {echo ' selected="selected"';} ?>><?php echo d__('rdbcmsa', 'Contents category'); ?></option>
-                                        <option value="product_category"<?php if (isset($t_type) && $t_type == 'product_category') {echo ' selected="selected"';} ?>><?php echo d__('rdbcmsa', 'Product category'); ?></option>
                                     </select>
                                 </div>
                             </div>

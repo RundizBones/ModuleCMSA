@@ -29,7 +29,6 @@
                                 <div class="control-wrapper">
                                     <select id="t_type" name="t_type" disabled="disabled">
                                         <option value="tag"<?php if (isset($t_type) && $t_type == 'tag') {echo ' selected="selected"';} ?>><?php echo d__('rdbcmsa', 'Contents tag'); ?></option>
-                                        <option value="product_tag"<?php if (isset($t_type) && $t_type == 'product_tag') {echo ' selected="selected"';} ?>><?php echo d__('rdbcmsa', 'Product tag'); ?></option>
                                     </select>
                                 </div>
                             </div>
