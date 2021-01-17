@@ -48,6 +48,8 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
         }
 
         parent::__construct($PDO);
+
+        include_once MODULE_PATH . DIRECTORY_SEPARATOR . 'RdbCMSA' . DIRECTORY_SEPARATOR . 'Helpers' . DIRECTORY_SEPARATOR . 'php-array.php';
     }// __construct
 
 

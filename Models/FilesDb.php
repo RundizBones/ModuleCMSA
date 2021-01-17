@@ -688,7 +688,7 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
             $data['file_ext'],
             $data['file_size'],
             $data['file_add'],
-            $data['file_add_gmt'],
+            $data['file_add_gmt']
         );
 
         // add some data if missing
