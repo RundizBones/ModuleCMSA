@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ruleset name="Custom standard">
+	<description>Custom standard.</description>
+
+	<!-- What to scan -->
+	<file>.</file>
+	<exclude-pattern>/.backup/</exclude-pattern>
+	<exclude-pattern>/.dev-notes/</exclude-pattern>
+	<exclude-pattern>/.dist/</exclude-pattern>
+	<exclude-pattern>/.git/</exclude-pattern>
+	<exclude-pattern>/assets/</exclude-pattern>
+	<exclude-pattern>/config/</exclude-pattern>
+	<exclude-pattern>/gulpfile.js/</exclude-pattern>
+	<exclude-pattern>/languages/</exclude-pattern>
+	<exclude-pattern>/Tests/</exclude-pattern>
+	<exclude-pattern>/node_modules/</exclude-pattern>
+
+	<!-- How to scan -->
+	<!-- Usage instructions: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Usage -->
+	<!-- Annotated ruleset: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-ruleset.xml -->
+	<arg value="wsp"/><!-- https://github.com/squizlabs/PHP_CodeSniffer/wiki/Usage use one dash argument here. example -s will be s -->
+	<arg name="basepath" value="./"/><!-- Strip the file paths down to the relevant bit -->
+	<arg name="colors"/>
+	<arg name="extensions" value="php"/>
+	<arg name="parallel" value="8"/><!-- Enables parallel processing when available for faster results. -->
+	<arg name="report" value="full"/>
+	<arg name="report-file" value=".phpcs.report.txt"/>
+
+	<rule ref="PHPCompatibility"/>
+	<!-- Rules: Check PHP version compatibility -->
+	<!-- https://github.com/PHPCompatibility/PHPCompatibility#sniffing-your-code-for-compatibility-with-specific-php-versions -->
+	<config name="testVersion" value="7.1-"/>
+
+	<rule ref="PSR1"/>
+</ruleset>
