@@ -1,8 +1,9 @@
 # Tasks to do when move files from store module.
-replace \Store => \RdbCMSA      case sensitive
-replace /store => /cms      case sensitive
-replace 'store' => 'rdbcmsa'        case sensitive
-replace 'Store' => 'RdbCMSA'        case sensitive
+replace \Store => \RdbCMSA      case sensitive (this should be namespace)
+replace /store => /cms      case sensitive (this should be URL)
+replace /Store => /RdbCMSA        case sensitive (this should be module folder name in string value)
+replace 'store' => 'rdbcmsa'        case sensitive (this should be translation domain)
+replace 'Store' => 'RdbCMSA'        case sensitive (this should be module folder name in string value)
 replace store- => rdbcmsa-      case sensitive
 replace store (follow with space) => rdbcmsa (follow with space)        case sensitive
 replace (['"])store([a-zA-Z]) => $1rdbcmsa$2        regular expression, case sensitive
