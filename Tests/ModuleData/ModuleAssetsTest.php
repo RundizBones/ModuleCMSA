@@ -44,6 +44,8 @@ class ModuleAssetsTest extends \Rdb\Tests\BaseTestCase
                     }
                 }// endforeach;
                 unset($asset);
+            } else {
+                $this->markTestSkipped('The asset type ' . $assetType . ' is not exists in this module data.');
             }
         }// endforeach;
         unset($assetType, $assetTypes, $moduleAssets);
