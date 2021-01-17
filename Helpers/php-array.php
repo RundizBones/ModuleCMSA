@@ -1,6 +1,7 @@
 <?php
 /** 
  * Array helpers in case that PHP does not supported.
+ * 
  * @license http://opensource.org/licenses/MIT MIT
  */
 
