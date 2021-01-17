@@ -1,6 +1,6 @@
 CMS (Content Management System) admin module for [RundizBones] framework.
 
-This module contains only content management for administrators. There is no front-end here, it is headless. The front pages is your totally free style.
+This module contains only content management for administrators. There is no front pages here, it is headless. The front pages is your totally free style.
 
 This module required [RdbAdmin][rdbamodule], [Languages][langmodule] modules.
 
