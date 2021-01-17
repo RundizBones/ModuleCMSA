@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rdbcmsa\n"
-"POT-Creation-Date: 2020-12-25 11:14+0700\n"
-"PO-Revision-Date: 2021-01-17 14:54+0700\n"
+"POT-Creation-Date: 2021-01-17 15:18+0700\n"
+"PO-Revision-Date: 2021-01-17 15:18+0700\n"
 "Last-Translator: Vee W.\n"
 "Language-Team: \n"
 "Language: th_TH\n"
@@ -13,12 +13,56 @@ msgstr ""
 "X-Poedit-Basepath: ../..\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: d__:2;dn__:2,3;dnp__:2c,3,4;dp__:2c,3;n__:1,2;noop__;np__:1c,2,3;"
-"p__:1c,2;esc__;esc_d__:2;esc_dn__:2,3;esc_dnp__:2c,3,4;esc_dp__:2c,3;esc_n__:1,2;"
-"esc_np__:1c,2,3;esc_p__:1c,2\n"
+"X-Poedit-KeywordsList: d__:2;dn__:2,3;dnp__:2c,3,4;dp__:2c,3;n__:1,2;noop__;"
+"np__:1c,2,3;p__:1c,2;esc__;esc_d__:2;esc_dn__:2,3;esc_dnp__:2c,3,4;"
+"esc_dp__:2c,3;esc_n__:1,2;esc_np__:1c,2,3;esc_p__:1c,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: node_modules\n"
 "X-Poedit-SearchPathExcluded-1: Tests\n"
 "X-Poedit-SearchPathExcluded-2: assets\n"
 "X-Poedit-SearchPathExcluded-3: .git\n"
 "X-Poedit-SearchPathExcluded-4: .dev-notes\n"
+
+#: ModuleData/ModuleAdmin.php:75 ModuleData/ModuleAdmin.php:154
+msgid "Categories"
+msgstr "หมวดหมู่"
+
+#: ModuleData/ModuleAdmin.php:76 ModuleData/ModuleAdmin.php:166
+msgid "Tags"
+msgstr "แท็ก"
+
+#: ModuleData/ModuleAdmin.php:77 ModuleData/ModuleAdmin.php:142
+msgid "Posts"
+msgstr "โพสต์"
+
+#: ModuleData/ModuleAdmin.php:78 ModuleData/ModuleAdmin.php:178
+msgid "Pages"
+msgstr "หน้า"
+
+#: ModuleData/ModuleAdmin.php:79 ModuleData/ModuleAdmin.php:205
+msgid "URL aliases"
+msgstr "URL แฝง"
+
+#: ModuleData/ModuleAdmin.php:80 ModuleData/ModuleAdmin.php:190
+msgid "Files"
+msgstr "ไฟล์"
+
+#: ModuleData/ModuleAdmin.php:83
+msgid "List items"
+msgstr "แสดงรายการ"
+
+#: ModuleData/ModuleAdmin.php:84
+msgid "Add"
+msgstr "เพิ่ม"
+
+#: ModuleData/ModuleAdmin.php:85
+msgid "Edit"
+msgstr "แก้ไข"
+
+#: ModuleData/ModuleAdmin.php:86
+msgid "Delete"
+msgstr "ลบ"
+
+#: ModuleData/ModuleAdmin.php:134
+msgid "Contents"
+msgstr "เนื้อหา"
