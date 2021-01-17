@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `%$posts%` (
   `parent_id` bigint(20) NOT NULL DEFAULT '0' COMMENT 'refer to post_id. this column value must be integer. if it is root then this value must be 0, it can not be NULL.',
   `revision_id` bigint(20) DEFAULT NULL COMMENT 'refer to post_revision.revision_id. the revision id here will be use as current content.',
   `user_id` bigint(20) NOT NULL COMMENT 'refer to users.user_id who created this.',
-  `post_type` varchar(255) DEFAULT NULL COMMENT 'post type. english only. example: article, page, product.',
+  `post_type` varchar(255) DEFAULT NULL COMMENT 'post type. english only. example: article, page.',
   `language` varchar(5) DEFAULT NULL COMMENT 'language that matched the framework language locale URL.',
   `post_name` varchar(191) DEFAULT NULL COMMENT 'post name or post title.',
   `post_feature_image` bigint(20) DEFAULT NULL COMMENT 'refer to files.file_id',
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `%$posts%` (
   KEY `revision_id` (`revision_id`),
   KEY `user_id` (`user_id`),
   KEY `post_feature_image` (`post_feature_image`)
-) DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='contain posts data such as content, article, page, product.' AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='contain posts data such as content, article, page.' AUTO_INCREMENT=1 ;
 
 
 CREATE TABLE IF NOT EXISTS `%$post_revision%` (
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `%$post_fields%` (
 CREATE TABLE IF NOT EXISTS `%$files%` (
   `file_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL COMMENT 'refer to users.user_id who created this.',
-  `file_folder` text DEFAULT NULL COMMENT 'folder that store this file. related from different locations depend on visibility. not url encoded. not begins or end with slash. not set to null, use empty string instead. example products/camera.',
+  `file_folder` text DEFAULT NULL COMMENT 'folder that store this file. related from different locations depend on visibility. not url encoded. not begins or end with slash. not set to null, use empty string instead. example books/cartoon.',
   `file_visibility` int(1) NOT NULL DEFAULT 0 COMMENT '0=non-public and the file must be in framework storage folder, 1=public and the file must be in [public_path]/rdbadmin-public folder, 2=custom path that related from framework root.',
   `file_custom_path` text DEFAULT NULL COMMENT 'custom file path to the file (renamed) related from framework root (ROOT_PATH constant) but not begins with slash. leave null if not use.',
   `file_name` varchar(255) DEFAULT NULL COMMENT 'the real file name with extension (in case that it was renamed then store renamed in this field). should be english, not include any path or slash.',
