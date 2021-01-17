@@ -77,7 +77,7 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
                 $data['file_status'] = 0;
             }
 
-            $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container);
+            $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
 
             // validate the form. -------------------------------------------------------------------------
             $formValidated = false;

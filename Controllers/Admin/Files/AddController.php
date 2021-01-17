@@ -96,7 +96,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
 
                 if ($uploadResult === true && is_array($uploadData)) {
                     // if upload success (at least one file success).
-                    $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container);
+                    $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
                     $FilesDb->rootPublicFolderName = $this->rootPublicFolderName;
                     $InputUtils = new \Rdb\Modules\RdbCMSA\Libraries\InputUtils();
                     $output['insertedFileIds'] = [];

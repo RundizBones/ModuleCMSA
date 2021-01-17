@@ -91,7 +91,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             if (isset($formValidated) && $formValidated === true) {
                 $PDO = $this->Db->PDO();
                 $PDO->beginTransaction();
-                $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container);
+                $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
                 $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName);
                 $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
 
@@ -267,7 +267,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
         $fileIdArray = explode(',', $file_ids);
         if (is_array($fileIdArray)) {
-            $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container);
+            $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
             $options = [];
             $options['file_id_in'] = $fileIdArray;
             $options['unlimited'] = true;
@@ -358,7 +358,6 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
         $output['urls'] = $this->getFilesUrlsMethod();
         $output = array_merge($output, $Csrf->createToken());
-        unset($Csrf);
         unset($Csrf);
 
         // validate files and action must be selected.
@@ -507,7 +506,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $output['actionText'] = $output['action'];
         }
 
-        $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container);
+        $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
         // get selected files.
         $options = [];
         $options['file_id_in'] = $output['file_id_array'];

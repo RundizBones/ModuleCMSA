@@ -109,7 +109,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             // end validate the form. --------------------------------------------
 
             if ($formValidated === true) {
-                $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container);
+                $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
 
                 try {
                     $deleteResult = $FilesDb->deleteFilesInFolder($data['folderrelpath']);
@@ -503,7 +503,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 if (rename($oldFolderName, $newFolderName) === true) {
                     // if create new folder successfully.
                     // rename `file_folder` in `files` table.
-                    $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container);
+                    $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
                     $upperFolder = trim($upperFolder, '\\/');
                     if (!empty($upperFolder)) {
                         $upperFolder .= '/';

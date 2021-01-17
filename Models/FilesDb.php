@@ -31,11 +31,21 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
     protected $tableName;
 
 
-    public function __construct(\Rdb\System\Container $Container)
+    /**
+     * Class constructor.
+     * 
+     * @param \Rdb\System\Container $Container
+     * @param string $rootPublicFolderName Root public folder name for upload files.
+     */
+    public function __construct(\Rdb\System\Container $Container, string $rootPublicFolderName = '')
     {
         parent::__construct($Container);
 
         $this->tableName = $this->Db->tableName('files');
+
+        if (!empty($rootPublicFolderName)) {
+            $this->rootPublicFolderName = $rootPublicFolderName;
+        }
     }// __construct
 
 
@@ -93,18 +103,46 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
      */
     public function countSearchFileInPosts(string $fileUrl, int $file_id): int
     {
+        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+        $imageSizes = $FilesSubController->getThumbnailSizes();
+        unset($FilesSubController);
+
+        $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName);
+        // build search values.
+        $bindValues = [];
+        $placeholders = [];
+        $i = 1;
+        foreach ($imageSizes as $sizeString => $sizeArray) {
+            $bindValues[':searchthumb' . $i] = '%' . $FileSystem->getSuffixFileName($fileUrl, '_' . $sizeString) . '%';
+            $placeholders[] = '`post_revision`.`revision_body_value` LIKE :searchthumb' . $i;
+            $placeholders[] = '`post_revision`.`revision_body_summary` LIKE :searchthumb' . $i;
+            $i++;
+        }// endforeach;
+        unset($FileSystem, $i, $sizeArray, $sizeString);
+
         $sql = 'SELECT COUNT(DISTINCT `posts`.`post_id`) AS `total` FROM `' . $this->Db->tableName('posts') . '` AS `posts`
             INNER JOIN `' . $this->Db->tableName('post_revision') . '` AS `post_revision`
                 ON `posts`.`post_id` = `post_revision`.`post_id`
             WHERE `post_feature_image` = :file_id
             OR (
                 `post_revision`.`revision_body_value` LIKE :search
-                OR `post_revision`.`revision_body_summary` LIKE :search
-            )';
+                OR `post_revision`.`revision_body_summary` LIKE :search' . "\n";
+        if (!empty($placeholders)) {
+            $sql .= ' OR ' . implode("\n" . ' OR ', $placeholders) . "\n";
+        }
+        unset($placeholders);
+        $sql .= '            )';
         $Sth = $this->Db->PDO()->prepare($sql);
         unset($sql);
+
         $Sth->bindValue(':file_id', $file_id);
         $Sth->bindValue(':search', '%' . $fileUrl . '%');
+        // bind whereValues
+        foreach ($bindValues as $placeholder => $value) {
+            $Sth->bindValue($placeholder, $value);
+        }// endforeach;
+        unset($bindValues, $placeholder, $value);
+
         $Sth->execute();
         $total = $Sth->fetchColumn();
         $Sth->closeCursor();

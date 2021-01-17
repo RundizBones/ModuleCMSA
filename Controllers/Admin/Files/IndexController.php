@@ -44,7 +44,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
 
         $output = [];
         $file_id = (int) $file_id;
-        $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container);
+        $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
         $resultRow = $FilesDb->get(['file_id' => $file_id]);
         unset($FilesDb);
 
@@ -83,7 +83,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
 
         $output = [];
 
-        $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container);
+        $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
         $options = [];
         $options['sortOrders'] = $sortOrders;
         $options['offset'] = $this->Input->get('start', 0, FILTER_SANITIZE_NUMBER_INT);
@@ -133,7 +133,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
 
         $output = [];
         $file_id = (int) $file_id;
-        $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container);
+        $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
         // this is downloads for admin, do not check `file_status`.
         $resultRow = $FilesDb->get(['file_id' => $file_id], ['getFileFullPath' => true]);
         unset($FilesDb);
