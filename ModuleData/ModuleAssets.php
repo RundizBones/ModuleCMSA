@@ -103,11 +103,6 @@ class ModuleAssets
                             'class' => 'ajaxInjectJs'// this is required because js/Controllers/Admin/Categories/commonActions.js use it on ajax dialog page.
                         ],
                     ],
-                    [
-                        'handle' => 'rdbcmsaJsPrice',
-                        'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/RdsPrice.js',
-                        'dependency' => ['bignumber-js'],
-                    ],
                 ],// end js array
             ],// end return array
             $ModuleAssetsFiles->getModuleAssets(),
