@@ -3,7 +3,7 @@
 */
 
 
-.rdba-page-admin_rdbcmsa_files_browser body {
+.rdba-page-admin_cms_files_browser body {
     height: 100%;/* make `.rdbcmsa-files-list-placeholder` scrollable */
 }
 

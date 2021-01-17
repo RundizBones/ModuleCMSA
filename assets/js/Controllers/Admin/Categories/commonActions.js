@@ -302,7 +302,7 @@ class RdbCMSACategoriesCommonActions {
             thisClass.ajaxGetParentCategories()
                 .then(function(response) {
                     if (typeof(response) !== 'undefined') {
-                        let event = new Event('rdcmsa.categoriesediting.ajaxgetparents.done');
+                        let event = new Event('rdbcmsa.categoriesediting.ajaxgetparents.done');
                         document.dispatchEvent(event, {'bubbles': true});
                     }
                 });
@@ -311,7 +311,7 @@ class RdbCMSACategoriesCommonActions {
                 thisClass.ajaxGetParentCategories()
                     .then(function(response) {
                         if (typeof(response) !== 'undefined') {
-                            let event = new Event('rdcmsa.categoriesediting.ajaxgetparents.done');
+                            let event = new Event('rdbcmsa.categoriesediting.ajaxgetparents.done');
                             document.dispatchEvent(event, {'bubbles': true});
                         }
                     });

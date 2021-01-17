@@ -164,7 +164,7 @@ class RdbCMSACategoriesAddController {
             return ;
         }
 
-        document.addEventListener('rdcmsa.categoriesediting.ajaxgetparents.done', function(event) {
+        document.addEventListener('rdbcmsa.categoriesediting.ajaxgetparents.done', function(event) {
             if (!document.querySelector(thisClass.formIDSelector)) {
                 // if not in add page.
                 // stop! don't do anything here. this is for prevent duoble call to functions below.
@@ -211,7 +211,7 @@ class RdbCMSACategoriesAddController {
 }// RdbCMSACategoriesAddController
 
 
-document.addEventListener('rdcmsa.contents-categories.editing.newinit', function() {
+document.addEventListener('rdbcmsa.contents-categories.editing.newinit', function() {
     // listen on new assets loaded.
     // this will be working on js loaded via AJAX.
     // must use together with `document.addEventListener('DOMContentLoaded')`

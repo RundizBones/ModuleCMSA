@@ -401,8 +401,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let rdbcmsaCategoriesIndexControllerClass = new RdbCMSACategoriesIndexController();
     let rdbaXhrDialog = new RdbaXhrDialog({
         'dialogIDSelector': '#rdbcmsa-contents-categories-dialog',
-        'dialogNewInitEvent': 'rdcmsa.contents-categories.editing.newinit',
-        'dialogReInitEvent': 'rdcmsa.contents-categories.editing.reinit',
+        'dialogNewInitEvent': 'rdbcmsa.contents-categories.editing.newinit',
+        'dialogReInitEvent': 'rdbcmsa.contents-categories.editing.reinit',
         'xhrLinksSelector': '.rdba-listpage-addnew, .rdba-listpage-edit'
     });
     rdbcmsaCategoriesIndexControllerClass.setRdbaXhrDialogObject(rdbaXhrDialog);

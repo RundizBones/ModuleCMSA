@@ -114,8 +114,8 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
                                 } else {
                                     thumbnailImage = publicUrlWithFolderPrefix + '/' + row.file_name;
                                 }
-                                html += '<a class="rdcmsa-files-image-thumbnail-link" href="' + publicUrlWithFolderPrefix + '/' + row.file_name + '" target="realImageFile">'
-                                + '<img class="fluid rdcmsa-files-image-thumbnail" src="' + thumbnailImage + '" alt="">'
+                                html += '<a class="rdbcmsa-files-image-thumbnail-link" href="' + publicUrlWithFolderPrefix + '/' + row.file_name + '" target="realImageFile">'
+                                + '<img class="fluid rdbcmsa-files-image-thumbnail" src="' + thumbnailImage + '" alt="">'
                                 + '</a>';
                             }
                             html += '<a class="rdba-listpage-edit" href="' + RdbCMSAFilesCommonObject.editFileUrlBase + '/' + row.file_id + '">'

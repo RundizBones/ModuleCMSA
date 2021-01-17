@@ -246,7 +246,7 @@ class RdbCMSACategoriesEditController {
             return ;
         }
 
-        document.addEventListener('rdcmsa.categoriesediting.ajaxgetparents.done', function(event) {
+        document.addEventListener('rdbcmsa.categoriesediting.ajaxgetparents.done', function(event) {
             if (!document.querySelector(thisClass.formIDSelector)) {
                 // if not in edit page.
                 // stop! don't do anything here. this is for prevent duoble call to functions below.
@@ -295,7 +295,7 @@ class RdbCMSACategoriesEditController {
 }// RdbCMSACategoriesEditController
 
 
-document.addEventListener('rdcmsa.contents-categories.editing.newinit', function() {
+document.addEventListener('rdbcmsa.contents-categories.editing.newinit', function() {
     // listen on new assets loaded.
     // this will be working on js loaded via AJAX.
     // must use together with `document.addEventListener('DOMContentLoaded')`
@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // this will be working on normal page load (non AJAX).
     RdbCMSACategoriesEditController.staticInit();
 }, false);
-//document.addEventListener('rdcmsa.contents-categories.editing.reinit', function() {
+//document.addEventListener('rdbcmsa.contents-categories.editing.reinit', function() {
     // listen on re-open ajax dialog (assets is already loaded before).
     // ===this is required when... user click edit > save > close dialog > click edit other > now it won't load if there is no this listener.===
     // NO NEED THIS due to it is already work via event listener in `listenGetParentsDone()` method.

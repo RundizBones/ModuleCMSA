@@ -134,7 +134,7 @@ class RdbCMSACategoriesActionsController {
 }// RdbCMSACategoriesActionsController
 
 
-document.addEventListener('rdcmsa.contents-categories.editing.newinit', function() {
+document.addEventListener('rdbcmsa.contents-categories.editing.newinit', function() {
     // listen on new assets loaded.
     // this will be working on js loaded via AJAX.
     // must use together with `document.addEventListener('DOMContentLoaded')`
