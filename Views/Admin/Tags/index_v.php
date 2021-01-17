@@ -65,6 +65,7 @@
                                     <?php echo d__('rdbcmsa', 'Type'); ?>
                                     <select id="rdba-filter-t_type" name="filter-t_type">
                                         <option value="tag"><?php echo esc_d__('rdbcmsa', 'Contents tag'); ?></option>
+                                        <option value="product_tag"><?php echo esc_d__('rdbcmsa', 'Product tag'); ?></option>
                                     </select>
                                 </label>
                                 <label>

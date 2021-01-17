@@ -6,7 +6,7 @@
 ?>
                         <h1 class="rdba-page-content-header"><?php echo $pageTitle; ?></h1>
 
-                        <form id=rdbcmsa"rlaliases-edit-form" class="rd-form horizontal rdba-edit-form" method="post">
+                        <form id="rdbcmsaurlaliases-edit-form" class="rd-form horizontal rdba-edit-form" method="post">
                             <?php 
                             // use form html CSRF because this page can load via XHR, REST by HTML type and this can reduce double call to get CSRF values in JSON type again.
                             if (
