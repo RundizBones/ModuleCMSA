@@ -117,6 +117,20 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
                                 html += '<a class="rdbcmsa-files-image-thumbnail-link" href="' + publicUrlWithFolderPrefix + '/' + row.file_name + '" target="realImageFile">'
                                 + '<img class="fluid rdbcmsa-files-image-thumbnail" src="' + thumbnailImage + '" alt="">'
                                 + '</a>';
+                            } else {
+                                if (row.file_visibility === '1') {
+                                    html += '<a class="rdbcmsa-files-image-thumbnail-link" href="' + publicUrlWithFolderPrefix + '/' + row.file_name + '" target="realImageFile">';
+                                }
+                                let iconClass = 'far fa-file';
+                                if (row.file_mime_type.toLowerCase().includes('video/')) {
+                                    iconClass = 'far fa-file-video';
+                                } else if (row.file_mime_type.toLowerCase().includes('audio/')) {
+                                    iconClass = 'far fa-file-audio';
+                                }
+                                html += '<i class="' + iconClass + ' fa-6x"></i>';
+                                if (row.file_visibility === '1') {
+                                    html += '</a>';
+                                }
                             }
                             html += '<a class="rdba-listpage-edit" href="' + RdbCMSAFilesCommonObject.editFileUrlBase + '/' + row.file_id + '">'
                                 + RdbaCommon.escapeHtml(data) 

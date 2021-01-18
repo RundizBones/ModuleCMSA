@@ -123,6 +123,15 @@ img.rdbcmsa-files-image-thumbnail,
     vertical-align: top;
 }
 .rdbcmsa-files-image-thumbnail-link {
+    color: #888;
+    display: inline-block;
     float: left;
     margin-right: 5px;
+}
+.rdbcmsa-files-image-thumbnail-link:visited {
+    color: #888;
+}
+.rdbcmsa-files-image-thumbnail-link:focus,
+.rdbcmsa-files-image-thumbnail-link:hover {
+    color: #ccc;
 }
