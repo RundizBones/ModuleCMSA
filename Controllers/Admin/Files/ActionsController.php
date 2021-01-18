@@ -421,7 +421,9 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     'csrfName' => $output['csrfName'],
                     'csrfValue' => $output['csrfValue'],
                     'csrfKeyPair' => $output['csrfKeyPair'],
+                    'audioExtensions' => $FilesSubController->audioExtensions,
                     'imageExtensions' => $FilesSubController->imageExtensions,
+                    'videoExtensions' => $FilesSubController->videoExtensions,
                     'txtDeleteSuccessfully' => __('Deleted successfully.'),
                 ], $this->getFilesUrlsMethod())
             );
