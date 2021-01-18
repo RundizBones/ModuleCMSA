@@ -24,7 +24,7 @@
                             <input id="file_id" type="hidden" name="file_id" value="<?php echo ($file_id ?? ''); ?>">
                             <div class="form-result-placeholder"></div>
 
-                            <div id="files-thumbnails-row" class="files-thumbnails-row rd-block-level-margin-bottom"></div>
+                            <div id="files-media-views-row" class="files-media-views-row rd-block-level-margin-bottom"></div>
                             <div id="files-actions-row" class="files-actions-row rd-block-level-margin-bottom"></div>
                             <div class="form-group">
                                 <label class="control-label" for="file_media_name"><?php echo d__('rdbcmsa', 'Name'); ?></label>

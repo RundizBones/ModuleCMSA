@@ -11,13 +11,18 @@
 }
 
 
-.files-thumbnails-row {
+.files-media-views-row {
     max-height: 400px;
     text-align: center;
 }
-.files-thumbnails-row a {
+.files-media-views-row a {
     display: block;
 }
-.files-thumbnails-row img {
+.files-media-views-row * {
     max-height: 400px;
+}
+
+
+.rdcmsa-files-audio-media-views {
+    width: 100%;
 }

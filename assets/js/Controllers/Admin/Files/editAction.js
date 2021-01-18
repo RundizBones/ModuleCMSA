@@ -118,36 +118,80 @@ class RdbCMSAFilesEditController {
 
             if (resultRow) {
 
-                // display thumbnail. -------------------------
-                if (resultRow.file_visibility === '1' && RdbCMSAFilesCommonObject.imageExtensions.includes(resultRow.file_ext.toLowerCase())) {
-                    let thumbnailUrl = null;
-                    let publicUrlWithFolderPrefix;
-                    if (resultRow.file_visibility === '1') {
-                        // if in public/rdbadmin-public folder.
+                if (resultRow.file_visibility === '1') {
+                    // if in public/rdbadmin-public folder.
+                    let mediaViewsPlaceholder = document.getElementById('files-media-views-row');
+
+                    // display thumbnail. -------------------------
+                    if (RdbCMSAFilesCommonObject.imageExtensions.includes(resultRow.file_ext.toLowerCase())) {
+                        let thumbnailUrl = null;
+                        let publicUrlWithFolderPrefix;
+
                         publicUrlWithFolderPrefix = RdbCMSAFilesCommonObject.rootPublicUrl + '/' + RdbCMSAFilesCommonObject.rootPublicFolderName;
                         if (!_.isEmpty(resultRow.file_folder)) {
                             publicUrlWithFolderPrefix += '/' + resultRow.file_folder;
                         }
-                    }
 
-                    if (RdbaCommon.isset(() => resultRow.thumbnails.thumb600)) {
-                        thumbnailUrl = resultRow.thumbnails.thumb600;
-                    } else if (RdbaCommon.isset(() => resultRow.thumbnails.thumb300)) {
-                        thumbnailUrl = resultRow.thumbnails.thumb300;
-                    } else {
-                        thumbnailUrl = publicUrlWithFolderPrefix + '/' + resultRow.file_name;
-                    }
+                        if (RdbaCommon.isset(() => resultRow.thumbnails.thumb600)) {
+                            thumbnailUrl = resultRow.thumbnails.thumb600;
+                        } else if (RdbaCommon.isset(() => resultRow.thumbnails.thumb300)) {
+                            thumbnailUrl = resultRow.thumbnails.thumb300;
+                        } else {
+                            thumbnailUrl = publicUrlWithFolderPrefix + '/' + resultRow.file_name;
+                        }
 
-                    let thumbnailPlaceholder = document.getElementById('files-thumbnails-row');
-                    if (thumbnailUrl) {
-                        if (thumbnailPlaceholder) {
-                            thumbnailPlaceholder.innerHTML = '<a href="' + publicUrlWithFolderPrefix + '/' + resultRow.file_name + '" target="realImageFile">'
-                                + '<img class="fluid" src="' + thumbnailUrl + '" alt="">'
-                                + '</a>';
+                        if (thumbnailUrl) {
+                            if (mediaViewsPlaceholder) {
+                                mediaViewsPlaceholder.innerHTML = '<a href="' + publicUrlWithFolderPrefix + '/' + resultRow.file_name + '" target="realImageFile">'
+                                    + '<img class="fluid" src="' + thumbnailUrl + '" alt="">'
+                                    + '</a>';
+                            }
                         }
                     }
-                }
-                // display thumbnail. -------------------------
+                    // end display thumbnail. -------------------------
+
+                    // display video player. --------------------------
+                    if (
+                        RdbCMSAFilesCommonObject.videoExtensions.includes(resultRow.file_ext.toLowerCase()) && 
+                        resultRow.file_mime_type.toLowerCase().includes('video/')
+                    ) {
+                        let publicUrlWithFolderPrefix;
+
+                        publicUrlWithFolderPrefix = RdbCMSAFilesCommonObject.rootPublicUrl + '/' + RdbCMSAFilesCommonObject.rootPublicFolderName;
+                        if (!_.isEmpty(resultRow.file_folder)) {
+                            publicUrlWithFolderPrefix += '/' + resultRow.file_folder;
+                        }
+
+                        if (mediaViewsPlaceholder) {
+                            mediaViewsPlaceholder.innerHTML = '<div class="rd-embed-responsive rd-embed-responsive16by9">'
+                                + '<video class="rd-embed-responsive-item" controls>'
+                                + '<source src="' + publicUrlWithFolderPrefix + '/' + resultRow.file_name + '">'
+                                + '</video>'
+                                + '</div>';
+                        }
+                    }
+                    // end display video player. ---------------------
+
+                    // display audio player. --------------------------
+                    if (
+                        RdbCMSAFilesCommonObject.audioExtensions.includes(resultRow.file_ext.toLowerCase()) && 
+                        resultRow.file_mime_type.toLowerCase().includes('audio/')
+                    ) {
+                        let publicUrlWithFolderPrefix;
+
+                        publicUrlWithFolderPrefix = RdbCMSAFilesCommonObject.rootPublicUrl + '/' + RdbCMSAFilesCommonObject.rootPublicFolderName;
+                        if (!_.isEmpty(resultRow.file_folder)) {
+                            publicUrlWithFolderPrefix += '/' + resultRow.file_folder;
+                        }
+
+                        if (mediaViewsPlaceholder) {
+                            mediaViewsPlaceholder.innerHTML = '<audio class="rdcmsa-files-audio-media-views" controls>'
+                                + '<source src="' + publicUrlWithFolderPrefix + '/' + resultRow.file_name + '">'
+                                + '</audio>';
+                        }
+                    }
+                    // end display audio player. ---------------------
+                }// endif; resultRow.file_visibility === '1'
 
                 if (resultRow.file_status && resultRow.file_status === '1') {
                     document.getElementById('file_status').checked = true;
@@ -157,7 +201,7 @@ class RdbCMSAFilesEditController {
 
                 // render HTML
                 thisClass.ajaxGetFormRenderHTML(resultRow);
-            }
+            }// endif resultRow
         });
     }// ajaxGetFormData
 
