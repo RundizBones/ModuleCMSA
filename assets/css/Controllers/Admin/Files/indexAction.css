@@ -135,3 +135,6 @@ img.rdbcmsa-files-image-thumbnail,
 .rdbcmsa-files-image-thumbnail-link:hover {
     color: #ccc;
 }
+.rdbcmsa-files-image-thumbnail-link i {
+    display: inline-block;
+}
