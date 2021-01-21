@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rdbcmsa\n"
 "POT-Creation-Date: 2021-01-17 19:04+0700\n"
-"PO-Revision-Date: 2021-01-17 19:04+0700\n"
+"PO-Revision-Date: 2021-01-22 01:39+0700\n"
 "Last-Translator: Vee W.\n"
 "Language-Team: \n"
 "Language: th_TH\n"
@@ -57,8 +57,8 @@ msgstr "ไม่สามารถลบได้."
 #: Controllers/Admin/Files/ActionsController.php:380
 #: Controllers/Admin/Files/EditController.php:182 Controllers/Admin/Pages/AddController.php:257
 #: Controllers/Admin/Pages/EditController.php:278
-#: Controllers/Admin/Pages/IndexController.php:238
-#: Controllers/Admin/Posts/AddController.php:257 Controllers/Admin/Posts/EditController.php:278
+#: Controllers/Admin/Pages/IndexController.php:238 Controllers/Admin/Posts/AddController.php:257
+#: Controllers/Admin/Posts/EditController.php:278
 #: Controllers/Admin/Posts/IndexController.php:240 Controllers/Admin/Tags/AddController.php:198
 #: Controllers/Admin/Tags/EditController.php:228 ModuleData/ModuleAdmin.php:134
 msgid "Contents"
@@ -334,10 +334,9 @@ msgid "The selected post is not in trash (ID %d)."
 msgstr "รายการโพสต์ที่เลือกไม่อยู่ในถังขยะ (ไอดี %d)."
 
 #: Controllers/Admin/Pages/AddController.php:109 Controllers/Admin/Pages/AddController.php:307
-#: Controllers/Admin/Pages/EditController.php:135
-#: Controllers/Admin/Pages/EditController.php:331 Controllers/Admin/Posts/AddController.php:109
-#: Controllers/Admin/Posts/AddController.php:307 Controllers/Admin/Posts/EditController.php:135
-#: Controllers/Admin/Posts/EditController.php:331
+#: Controllers/Admin/Pages/EditController.php:135 Controllers/Admin/Pages/EditController.php:331
+#: Controllers/Admin/Posts/AddController.php:109 Controllers/Admin/Posts/AddController.php:307
+#: Controllers/Admin/Posts/EditController.php:135 Controllers/Admin/Posts/EditController.php:331
 msgid "Please enter the title."
 msgstr "กรุณากรอกหัวข้อ."
 
@@ -360,8 +359,7 @@ msgstr "เพิ่มหน้าใหม่"
 msgid "Pages"
 msgstr "หน้า"
 
-#: Controllers/Admin/Pages/EditController.php:127
-#: Controllers/Admin/Posts/EditController.php:127
+#: Controllers/Admin/Pages/EditController.php:127 Controllers/Admin/Posts/EditController.php:127
 #: Controllers/Admin/Posts/IndexController.php:118
 msgid "Not found selected post."
 msgstr "ไม่พบโพสต์ที่เลือก."
@@ -370,8 +368,7 @@ msgstr "ไม่พบโพสต์ที่เลือก."
 msgid "Edit page"
 msgstr "แก้ไขหน้า"
 
-#: Controllers/Admin/Pages/EditController.php:330
-#: Controllers/Admin/Posts/EditController.php:330
+#: Controllers/Admin/Pages/EditController.php:330 Controllers/Admin/Posts/EditController.php:330
 msgid "Are you sure to rollback to this item?"
 msgstr "คุณแน่ใจหรือไม่ที่จะย้อนกลับไปยังรายการนี้?"
 
@@ -556,8 +553,8 @@ msgid "Name"
 msgstr "ชื่อ"
 
 #: Views/Admin/Categories/add_v.php:47 Views/Admin/Categories/edit_v.php:48
-#: Views/Admin/Files/edit_v.php:35 Views/Admin/Pages/add_v.php:31
-#: Views/Admin/Posts/add_v.php:32 Views/Admin/Tags/add_v.php:39 Views/Admin/Tags/edit_v.php:40
+#: Views/Admin/Files/edit_v.php:35 Views/Admin/Pages/add_v.php:31 Views/Admin/Posts/add_v.php:32
+#: Views/Admin/Tags/add_v.php:39 Views/Admin/Tags/edit_v.php:40
 msgid "HTML will be escaped."
 msgstr "HTML จะถูกแปลง."
 
@@ -811,8 +808,8 @@ msgstr "ประวัติการปรับปรุง"
 msgid "Title"
 msgstr "หัวข้อ"
 
-#: Views/Admin/Pages/add_v.php:42 Views/Admin/Pages/add_v.php:187
-#: Views/Admin/Posts/add_v.php:49 Views/Admin/Posts/add_v.php:214
+#: Views/Admin/Pages/add_v.php:42 Views/Admin/Pages/add_v.php:187 Views/Admin/Posts/add_v.php:49
+#: Views/Admin/Posts/add_v.php:214
 msgid "Featured image"
 msgstr "ภาพหลัก"
 
@@ -828,8 +825,8 @@ msgstr "แท็กต่างๆในส่วนหัว"
 #: Views/Admin/Pages/add_v.php:64 Views/Admin/Posts/add_v.php:91
 #, php-format
 msgid ""
-"Optional elements such as meta tags, additional styles, or scripts that will be render "
-"within %1$s element."
+"Optional elements such as meta tags, additional styles, or scripts that will be render within "
+"%1$s element."
 msgstr "ทางเลือกแท็กต่างๆอย่างเช่น แท็ก meta, สไตล์ชีท, สคริปต์ ซึ่งมันจะนำไปใช้ภายในแท็ก %1$s."
 
 #: Views/Admin/Pages/add_v.php:84
@@ -1002,47 +999,3 @@ msgstr "รหัสเปลี่ยนเส้นทาง"
 #, php-format
 msgid "%1$sHTTP status code%2$s for redirection."
 msgstr "%1$sรหัสสถานะ HTTP%2$s สำหรับการเปลี่ยนเส้นทาง."
-
-#~ msgid "Unable to add new item."
-#~ msgstr "ไม่สามารถเพิ่มรายการใหม่."
-
-#~ msgid "Add an attribute"
-#~ msgstr "เพิ่มคุณลักษณะ"
-
-#~ msgid "Products"
-#~ msgstr "สินค้า"
-
-#~ msgid "Attributes"
-#~ msgstr "คุณลักษณะ"
-
-#~ msgid "Edit an attribute"
-#~ msgstr "แก้ไขคุณลักษณะ"
-
-#~ msgid "Product attributes"
-#~ msgstr "คุณลักษณะสินค้า"
-
-#~ msgid "Please enter the value."
-#~ msgstr "กรุณากรอกค่า."
-
-#, php-format
-#~ msgid "Add %1$s"
-#~ msgstr "เพิ่ม %1$s"
-
-#, php-format
-#~ msgid "Edit %1$s"
-#~ msgstr "แก้ไข %1$s"
-
-#~ msgid "Not found selected product."
-#~ msgstr "ไม่พบสินค้าที่เลือก."
-
-#~ msgid "Unable to add new product."
-#~ msgstr "ไม่สามารถเพิ่มสินค้าใหม่."
-
-#~ msgid "Add new product"
-#~ msgstr "เพิ่มสินค้าใหม่"
-
-#~ msgid "Are you sure to remove this attribute?"
-#~ msgstr "คุณแน่ใจหรือไม่ที่จะเอาคุณลักษณะนี้ออก?"
-
-#~ msgid "Edit product"
-#~ msgstr "แก้ไขสินค้า"
