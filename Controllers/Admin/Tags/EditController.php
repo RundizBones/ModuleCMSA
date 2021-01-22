@@ -268,6 +268,7 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
                     'csrfName' => $output['csrfName'],
                     'csrfValue' => $output['csrfValue'],
                     'csrfKeyPair' => $output['csrfKeyPair'],
+                    'baseUrl' => $Url->getAppBasedPath(true),
                 ], $this->getTagsUrlsMethod())
             );
 

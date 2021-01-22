@@ -189,6 +189,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
                     'csrfValue' => $output['csrfValue'],
                     'csrfKeyPair' => $output['csrfKeyPair'],
                     'language' => ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th'),
+                    'baseUrl' => $Url->getAppBasedPath(true),
                     't_type' => $output['t_type'],
                     'txtConfirmDelete' => __('Are you sure to delete?'),
                     'txtPleaseSelectAction' => __('Please select an action.'),

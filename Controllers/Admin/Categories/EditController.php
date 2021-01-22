@@ -308,6 +308,7 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
                     'csrfValue' => $output['csrfValue'],
                     'csrfKeyPair' => $output['csrfKeyPair'],
                     'language' => ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th'),
+                    'baseUrl' => $Url->getAppBasedPath(true),
                     't_type' => $output['t_type'],
                 ], 
                     $this->getCategoriesUrlMethods(),

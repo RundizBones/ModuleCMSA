@@ -357,6 +357,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     'csrfName' => $output['csrfName'],
                     'csrfValue' => $output['csrfValue'],
                     'csrfKeyPair' => $output['csrfKeyPair'],
+                    'baseUrl' => $Url->getAppBasedPath(true),
                 ], $this->getCategoriesUrlMethods())
             );
 
