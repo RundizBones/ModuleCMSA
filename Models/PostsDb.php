@@ -307,10 +307,11 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
      * 
      * @param array $where The associative array where key is column name and value is its value.
      * @param array $options The addition options. Available options:<br>
-     *                                  `countRevision` (bool) Set to `true` to count total revision for this data too. This is useful for editing in admin page.<br>
-            *                          `skipCategories` (bool) Skip retrieve categories or not. Default is `false` means do not skip, `true` means skip it.,<br>
-            *                          `skipTags` (bool) Skip retrieve tags or not. Default is `false` means do not skip, `true` means skip it.,<br>
-            *                          `skipPostFields` (bool) Skip retrieve `post_fields`table or not. Default is `true` means skip it, `false` means do not skip it.<br>
+     *                          `isPublished` (bool) Set to `true` to list for published, schedule and already on time.<br>
+     *                          `countRevision` (bool) Set to `true` to count total revision for this data too. This is useful for editing in admin page.<br>
+     *                          `skipCategories` (bool) Skip retrieve categories or not. Default is `false` means do not skip, `true` means skip it.,<br>
+     *                          `skipTags` (bool) Skip retrieve tags or not. Default is `false` means do not skip, `true` means skip it.,<br>
+     *                          `skipPostFields` (bool) Skip retrieve `post_fields`table or not. Default is `true` means skip it, `false` means do not skip it.<br>
      * @return mixed Return object if result was found, return `empty`, `null`, `false` if it was not found.
      */
     public function get(array $where = [], array $options = [])
@@ -330,8 +331,17 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
             LEFT JOIN `' . $this->Db->tableName('taxonomy_index') . '` AS `taxonomy_index`
                 ON `posts`.`post_id` = `taxonomy_index`.`post_id`
             WHERE 1';
+
         $values = [];
         $placeholders = [];
+
+        if (array_key_exists('isPublished', $options) && $options['isPublished'] === true) {
+            $sql .= ' AND ('
+                . '`posts`.`post_status` = 1'
+                . ' OR (`posts`.`post_status` = 2 AND `posts`.`post_publish_date_gmt` <= :publish_date_gmt)'
+                . ')';
+            $values[':publish_date_gmt'] = gmdate('Y-m-d H:i:s');
+        }
 
         $genWhereValues = $this->Db->buildPlaceholdersAndValues($where);
         if (isset($genWhereValues['values'])) {
