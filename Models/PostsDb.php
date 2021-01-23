@@ -339,7 +339,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
             $sql .= ' AND ('
                 . '`posts`.`post_status` = 1'
                 . ' OR (`posts`.`post_status` = 2 AND `posts`.`post_publish_date_gmt` <= :publish_date_gmt)'
-                . ' OR `post`.`post_status` = 4'
+                . ' OR `posts`.`post_status` = 4'
                 . ')';
             $values[':publish_date_gmt'] = gmdate('Y-m-d H:i:s');
         }
