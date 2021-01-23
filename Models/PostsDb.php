@@ -551,6 +551,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
      *                          `where` (array) the where conditions where key is column name and value is its value,<br>
      *                          `tidsIn` (array) the taxonomy IDs to use in the sql command `WHERE IN (...)`<br>
      *                          `postidsIn` (array) the post IDs to use in the sql command `WHERE IN (...)`<br>
+     *                          `isPublished` (bool) Set to `true` to list for published, schedule and already on time.<br>
      *                          `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
      *                          `unlimited` (bool) set to `true` to show unlimited items, unset or set to `false` to show limited items,<br>
      *                          `limit` (int) limit items per page. maximum is 1000,<br>
@@ -651,6 +652,14 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
 
             $sql .= ' `posts`.`post_id` IN (' . implode(', ', $postidsInPlaceholder) . ')';
             unset($postidsInPlaceholder);
+        }
+
+        if (array_key_exists('isPublished', $options) && $options['isPublished'] === true) {
+            $sql .= ' AND ('
+                . '`posts`.`post_status` = 1'
+                . ' OR (`posts`.`post_status` = 2 AND `posts`.`post_publish_date_gmt` <= :publish_date_gmt)'
+                . ')';
+            $bindValues[':publish_date_gmt'] = gmdate('Y-m-d H:i:s');
         }
 
         // prepare and get 'total' records while not set limit and offset.
