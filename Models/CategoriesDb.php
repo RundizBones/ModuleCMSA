@@ -295,20 +295,24 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
         $Sth->closeCursor();
         unset($Sth);
 
+        $previousSql = $sql;
         // limited or unlimited.
         if (!isset($options['unlimited']) || (isset($options['unlimited']) && $options['unlimited'] !== true)) {
             // if limited.
             $sql .= ' LIMIT ' . $options['limit'] . ' OFFSET ' . $options['offset'];
         }
 
-        // prepare and get 'items'.
-        $Sth = $this->Db->PDO()->prepare($sql);
-        $this->listRecursiveBindValues($Sth, $options, $bindValues);
-        $Sth->execute();
-        $result = $Sth->fetchAll();
-        $Sth->closeCursor();
+        if ($sql !== $previousSql) {
+            // if it is the same, no need to re-query to get items because we already have them.
+            // prepare and get 'items'.
+            $Sth = $this->Db->PDO()->prepare($sql);
+            $this->listRecursiveBindValues($Sth, $options, $bindValues);
+            $Sth->execute();
+            $result = $Sth->fetchAll();
+            $Sth->closeCursor();
+        }
         $output['items'] = $result;
-        unset($bindValues, $sql, $Sth);
+        unset($bindValues, $previousSql, $sql, $Sth);
 
         if (
             !empty($result) && 
