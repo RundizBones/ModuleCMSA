@@ -190,7 +190,7 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
      *                          `limit` (int) limit items per page. maximum is 1000,<br>
      *                          `offset` (int) offset or start at record. 0 is first record,<br>
      *                          `list_flatten` (bool) Set to `true` to list the result flatten.
-     * @return array
+     * @return array Return array with `total` and `items` in keys.
      */
     public function listRecursive(array $options = []): array
     {
