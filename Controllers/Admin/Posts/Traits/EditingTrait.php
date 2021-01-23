@@ -63,8 +63,13 @@ trait EditingTrait
         $options = [];
         $options['unlimited'] = true;
         $options['where'] = [
-            'whereString' => '`parent`.`t_type` = :t_type' . (isset($options['search']) ? ' AND `child`.`t_type` = :t_type' : ''),
-            'whereValues' => [':t_type' => $this->Input->get('t_type', 'category', FILTER_SANITIZE_STRING)],
+            'whereString' => '`parent`.`t_type` = :t_type' 
+                . (isset($options['search']) ? ' AND `child`.`t_type` = :t_type' : '')
+                . ' AND `parent`.`language` = :language',
+            'whereValues' => [
+                ':t_type' => $this->Input->get('t_type', 'category', FILTER_SANITIZE_STRING),
+                ':language' => ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th'),
+            ],
         ];
         $result = $CategoriesDb->listTaxonomyFlatten($options);
         unset($CategoriesDb, $options);
