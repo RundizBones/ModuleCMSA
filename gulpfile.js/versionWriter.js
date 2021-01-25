@@ -18,7 +18,7 @@ const replace = require('gulp-replace');
 /**
  * Write packages version to PHP file.
  *
- * Do not use too many `.pipe()` or you will get error like this.
+ * Do not use too many `.pipe()` or it will have an error like this.
  * > MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 end listeners added to [DestroyableTransform]. Use emitter.setMaxListeners() to increase limit
  */
 function writePackagesVersionSet1(cb) {
@@ -70,7 +70,7 @@ function writePackagesVersionSet1(cb) {
 /**
  * Write packages version to PHP file.
  *
- * Do not use too many `.pipe()` or you will get error like this.
+ * Do not use too many `.pipe()` or it will have an error like this.
  * > MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 end listeners added to [DestroyableTransform]. Use emitter.setMaxListeners() to increase limit
  */
 function writePackagesVersionSet2(cb) {
