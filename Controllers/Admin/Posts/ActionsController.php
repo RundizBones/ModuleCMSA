@@ -56,7 +56,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
     public function doActionsAction(string $post_ids): string
     {
         // processing part ----------------------------------------------------------------------------------------------------
-        $this->checkPermission('RdbCMSA', 'RdbCMSAPosts', ['delete']);
+        $this->checkPermission('RdbCMSA', 'RdbCMSAPosts', ['edit']);
 
         if (session_id() === '') {
             session_start();
