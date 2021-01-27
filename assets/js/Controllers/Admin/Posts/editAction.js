@@ -209,7 +209,7 @@ class RdbCMSAPostsEditController {
                         tabsNav.firstElementChild.querySelector('a').click();
                     }
                 }
-            }
+            }// endif resultRow
 
             thisClass.ajaxGetFormDataPromise.resolve(responseObject);
             return Promise.resolve(responseObject);
