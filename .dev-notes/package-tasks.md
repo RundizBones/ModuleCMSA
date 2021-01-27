@@ -19,7 +19,7 @@ This should be run every time before start modify the theme files.
  * Delete **assets** folders.<br>
  * Copy packages from **node_modules** to **assets** folders.<br>
  * Bundle package files.<br>
- * Copy everything from **assets** folder to **public/Modules/CMS/assets** folder.
+ * Copy everything from **assets** folder to **public/Modules/RdbCMSA/assets** folder.
 
 ### Update version number of packages.
 #### Automatic update.
