@@ -24,6 +24,18 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
     public $PostsDb;
 
 
+    public function __construct(\Rdb\System\Container $Container)
+    {
+        parent::__construct($Container);
+
+        // bind text domain in case it is being use by other modules.
+        $this->Languages->bindTextDomain(
+            'rdbcmsa', 
+            MODULE_PATH . DIRECTORY_SEPARATOR . 'RdbCMSA' . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . 'translations'
+        );
+    }// __construct
+
+
     /**
      * Magic set.
      * @param string $name
