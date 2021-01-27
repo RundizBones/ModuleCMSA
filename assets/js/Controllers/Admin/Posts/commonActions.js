@@ -213,6 +213,11 @@ class RdbCMSAPostsCommonActions {
      * @returns {undefined}
      */
     activateHtmlEditor(editorSelector = 'revision_head_value') {
+        if (!document.getElementById(editorSelector + '-editor')) {
+            console.info('the editor was not found. (' + editorSelector + '-editor)');
+            return ;
+        }
+
         let aceEditor = ace.edit(editorSelector + '-editor', {
             'maxLines': 90,
             'minLines': 10,
