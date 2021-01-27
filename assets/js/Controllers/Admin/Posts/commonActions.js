@@ -214,6 +214,9 @@ class RdbCMSAPostsCommonActions {
      */
     activateHtmlEditor(editorSelector = 'revision_head_value') {
         if (!document.getElementById(editorSelector + '-editor')) {
+            let event = new Event('rdbcmsa.postsCommonActions.activateHtmlEditor.notfound');
+            document.dispatchEvent(event, {'bubbles': true});
+
             console.info('the editor was not found. (' + editorSelector + '-editor)');
             return ;
         }
@@ -252,6 +255,9 @@ class RdbCMSAPostsCommonActions {
                 aceEditor.session.setAnnotations(annotations);
             }
         });
+
+        let event = new Event('rdbcmsa.postsCommonActions.activateHtmlEditor.found');
+        document.dispatchEvent(event, {'bubbles': true});
 
         this.aceEditor = aceEditor;
     }// activateHtmlEditor
