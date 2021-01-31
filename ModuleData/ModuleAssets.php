@@ -60,9 +60,15 @@ class ModuleAssets
                     ],
                 ],
                 'js' => [
+                    // ace js
                     [
                         'handle' => 'ace-builds',
                         'file' => $publicModuleUrl . '/assets/vendor/ace-builds/ace.js',
+                        'version' => '1.4.12',
+                    ],
+                    [
+                        'handle' => 'ace-ext-modelist',
+                        'file' => $publicModuleUrl . '/assets/vendor/ace-builds/ext-modelist.js',
                         'version' => '1.4.12',
                     ],
                     // diff, diff2html
