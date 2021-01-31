@@ -51,6 +51,8 @@ function writePackagesVersionSet1(cb) {
         aceVersion = getVersionNumberOnly(aceVersion);
         let regExp1 = new RegExp(getRegexPattern('ace-builds'), 'gi');
         tasks[1].pipe(replace(regExp1, '$1$2$3' + aceVersion + '$5$6'));
+        let regExp2 = new RegExp(getRegexPattern('ace-ext-[\\w\\d\\-_]+'), 'gi');
+        tasks[1].pipe(replace(regExp2, '$1$2$3' + aceVersion + '$5$6'));
         aceVersion = undefined;
     }
 
