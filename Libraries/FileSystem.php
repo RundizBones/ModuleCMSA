@@ -1,4 +1,7 @@
 <?php
+/**
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 
 
 namespace Rdb\Modules\RdbCMSA\Libraries;

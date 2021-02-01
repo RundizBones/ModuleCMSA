@@ -1,6 +1,6 @@
 <?php
 /**
- * @license EULA
+ * @license http://opensource.org/licenses/MIT MIT
  */
 
 
