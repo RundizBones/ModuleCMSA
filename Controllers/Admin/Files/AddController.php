@@ -1,4 +1,7 @@
 <?php
+/**
+ * @license http://opensource.org/licenses/MIT MIT
+ */
 
 
 namespace Rdb\Modules\RdbCMSA\Controllers\Admin\Files;
@@ -105,7 +108,9 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                         if (in_array(strtolower($item['extension']), $FilesSubController->imageExtensions)) {
                             // if the extension is in one of allowed image extensions.
                             // create thumbnail size.
-                            $Image = new \Rundiz\Image\Drivers\Gd($item['full_path_new_name']);
+                            $RdbCMSAImage = new \Rdb\Modules\RdbCMSA\Libraries\Image($item['full_path_new_name']);
+                            $Image = $RdbCMSAImage->Image;
+                            unset($RdbCMSAImage);
                             $Image->jpg_quality = 80;
                             $Image->png_quality = 5;
                             $imageSize = $Image->getImageSize();
