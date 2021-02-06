@@ -132,11 +132,11 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
                 if ($data['post_status'] == '2') {
                     $data['post_publish_date'] = date('Y-m-d\TH:i', strtotime('+1 hours'));
                 } else {
-                    $data['post_publish_date'] = date('Y-m-d\TH:i');
+                    $data['post_publish_date'] = date('Y-m-d\TH:i:s');
                 }
             }
             if (!isset($data['post_publish_date_gmt'])) {
-                $data['post_publish_date_gmt'] = gmdate('Y-m-d\TH:i', strtotime($data['post_publish_date']));
+                $data['post_publish_date_gmt'] = gmdate('Y-m-d\TH:i:s', strtotime($data['post_publish_date']));
             }
         }
         if (!array_key_exists('user_id', $dataRevision)) {
