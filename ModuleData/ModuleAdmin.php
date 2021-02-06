@@ -46,6 +46,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
         return [
             'RdbCMSAContentCategories' => ['list', 'add', 'edit', 'delete'],
             'RdbCMSAContentTags' => ['list', 'add', 'edit', 'delete'],
+            'RdbCMSAEncodeDecode' => ['encode_decode'],
             'RdbCMSAPosts' => ['list', 'add', 'edit', 'delete'],
             'RdbCMSAPages' => ['list', 'add', 'edit', 'delete'],
             'RdbCMSAUrlAliases' => ['list', 'add', 'edit', 'delete'],
@@ -74,6 +75,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
         // pages keywords
         $keywords['RdbCMSAContentCategories'] = noop__('Categories');
         $keywords['RdbCMSAContentTags'] = noop__('Tags');
+        $keywords['RdbCMSAEncodeDecode'] = noop__('Encode/Decode');
         $keywords['RdbCMSAPosts'] = noop__('Posts');
         $keywords['RdbCMSAPages'] = noop__('Pages');
         $keywords['RdbCMSAUrlAliases'] = noop__('URL aliases');
@@ -84,6 +86,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
         $keywords['add'] = noop__('Add');
         $keywords['edit'] = noop__('Edit');
         $keywords['delete'] = noop__('Delete');
+        $keywords['encode_decode'] = noop('Encode/Decode');
 
         if (!empty($key)) {
             if (array_key_exists($key, $keywords)) {
@@ -209,8 +212,16 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
                             $urlBase . '/admin/tools/cms/url-aliases/edit/*',
                         ],
                     ],
+                    10 => [
+                        'id' => 'rdbcmsa-tools-encodedecode',
+                        'permission' => [
+                            ['RdbCMSAEncodeDecode', 'encode_decode'],
+                        ],
+                        'name' => d__('rdbcmsa', 'Encode/Decode'),
+                        'link' => $urlBaseWithLang . '/admin/tools/encode-decode',
+                    ],
                 ],
-            ],
+            ],// end tools menu
         ];
     }// menuItems
 

@@ -27,3 +27,12 @@ $Rc->addGroup('/tools/cms', function(\FastRoute\RouteCollector $Rc) {
     // end url aliases management. -------------------------------------------------------
 });// /tools/cms route group.
 // end /tools/cms/xxx -----------------------------------------------------------------------------
+
+// /tools/encode-decode --------------------------------------------------------------------------
+$Rc->addGroup('/tools/encode-decode', function(\FastRoute\RouteCollector $Rc) {
+    // encode/decode page. ----------------------------------------------------------------
+    // /admin/tools/encode-decode page.
+    $Rc->addRoute('GET', '', '\\Rdb\\Modules\\RdbCMSA\\Controllers\\Admin\\Tools\\EncodeDecode\\Index:index');
+    // /admin/tools/encode-decode REST API
+    $Rc->addRoute('POST', '', '\\Rdb\\Modules\\RdbCMSA\\Controllers\\Admin\\Tools\\EncodeDecode\\Index:doProcess');
+});

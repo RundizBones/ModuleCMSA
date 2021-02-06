@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rdbcmsa\n"
-"POT-Creation-Date: 2021-01-17 19:04+0700\n"
-"PO-Revision-Date: 2021-01-22 01:39+0700\n"
+"POT-Creation-Date: 2021-02-06 12:46+0700\n"
+"PO-Revision-Date: 2021-02-06 12:46+0700\n"
 "Last-Translator: Vee W.\n"
 "Language-Team: \n"
 "Language: th_TH\n"
@@ -35,50 +35,50 @@ msgstr ""
 #: Controllers/Admin/Posts/RevisionController.php:280
 #: Controllers/Admin/Tags/ActionsController.php:101
 #: Controllers/Admin/Tags/EditController.php:154
-#: Controllers/Admin/Tools/URLAliases/EditController.php:156
+#: Controllers/Admin/Tools/URLAliases/EditController.php:159
 msgid "Updated successfully."
 msgstr "ปรับปรุงเรียบร้อยแล้ว."
 
 #: Controllers/Admin/Categories/ActionsController.php:240
 #: Controllers/Admin/Files/ActionsController.php:158
-#: Controllers/Admin/Files/FoldersController.php:147
+#: Controllers/Admin/Files/FoldersController.php:150
 #: Controllers/Admin/Pages/ActionsController.php:315
 #: Controllers/Admin/Pages/RevisionController.php:153
 #: Controllers/Admin/Posts/ActionsController.php:315
 #: Controllers/Admin/Posts/RevisionController.php:153
 #: Controllers/Admin/Tags/ActionsController.php:241
-#: Controllers/Admin/Tools/URLAliases/ActionsController.php:88
+#: Controllers/Admin/Tools/URLAliases/ActionsController.php:91
 msgid "Unable to delete."
 msgstr "ไม่สามารถลบได้."
 
 #: Controllers/Admin/Categories/ActionsController.php:317
 #: Controllers/Admin/Categories/AddController.php:199
 #: Controllers/Admin/Categories/EditController.php:264
-#: Controllers/Admin/Files/ActionsController.php:380
+#: Controllers/Admin/Files/ActionsController.php:379
 #: Controllers/Admin/Files/EditController.php:182 Controllers/Admin/Pages/AddController.php:257
 #: Controllers/Admin/Pages/EditController.php:278
-#: Controllers/Admin/Pages/IndexController.php:238 Controllers/Admin/Posts/AddController.php:257
-#: Controllers/Admin/Posts/EditController.php:278
+#: Controllers/Admin/Pages/IndexController.php:238
+#: Controllers/Admin/Posts/AddController.php:257 Controllers/Admin/Posts/EditController.php:278
 #: Controllers/Admin/Posts/IndexController.php:240 Controllers/Admin/Tags/AddController.php:198
-#: Controllers/Admin/Tags/EditController.php:228 ModuleData/ModuleAdmin.php:134
+#: Controllers/Admin/Tags/EditController.php:228 ModuleData/ModuleAdmin.php:137
 msgid "Contents"
 msgstr "เนื้อหา"
 
 #: Controllers/Admin/Categories/ActionsController.php:321
 #: Controllers/Admin/Categories/AddController.php:203
 #: Controllers/Admin/Categories/EditController.php:268
-#: Controllers/Admin/Categories/IndexController.php:143 ModuleData/ModuleAdmin.php:75
-#: ModuleData/ModuleAdmin.php:154 Views/Admin/Posts/add_v.php:67
+#: Controllers/Admin/Categories/IndexController.php:143 ModuleData/ModuleAdmin.php:76
+#: ModuleData/ModuleAdmin.php:157 Views/Admin/Posts/add_v.php:67
 #: Views/Admin/Posts/index_v.php:24 Views/Admin/Posts/index_v.php:36
 msgid "Categories"
 msgstr "หมวดหมู่"
 
-#: Controllers/Admin/Categories/ActionsController.php:424
-#: Controllers/Admin/Categories/IndexController.php:212
+#: Controllers/Admin/Categories/ActionsController.php:425
+#: Controllers/Admin/Categories/IndexController.php:213
 msgid "Please select at least one category."
 msgstr "โปรดเลือกอย่างน้อยหนึ่งหมวดหมู่."
 
-#: Controllers/Admin/Categories/ActionsController.php:440
+#: Controllers/Admin/Categories/ActionsController.php:441
 msgid "Delete category"
 msgid_plural "Delete categories"
 msgstr[0] "ลบหมวดหมู่"
@@ -94,15 +94,15 @@ msgstr "กรุณากรอกชื่อ."
 #: Controllers/Admin/Pages/AddController.php:129 Controllers/Admin/Pages/EditController.php:154
 #: Controllers/Admin/Posts/AddController.php:129 Controllers/Admin/Posts/EditController.php:154
 #: Controllers/Admin/Tags/AddController.php:95 Controllers/Admin/Tags/EditController.php:115
-#: Controllers/Admin/Tools/URLAliases/AddController.php:109
-#: Controllers/Admin/Tools/URLAliases/EditController.php:133
+#: Controllers/Admin/Tools/URLAliases/AddController.php:112
+#: Controllers/Admin/Tools/URLAliases/EditController.php:136
 msgid "The URL is already exists."
 msgstr "URL นี้มีอยู่แล้ว."
 
 #: Controllers/Admin/Categories/AddController.php:126
 #: Controllers/Admin/Pages/AddController.php:181 Controllers/Admin/Posts/AddController.php:181
 #: Controllers/Admin/Tags/AddController.php:125
-#: Controllers/Admin/Tools/URLAliases/AddController.php:133
+#: Controllers/Admin/Tools/URLAliases/AddController.php:136
 msgid "Added successfully."
 msgstr "เพิ่มเรียบร้อยแล้ว."
 
@@ -132,7 +132,7 @@ msgstr "หมวดหมู่ผู้ปกครองจะต้องไ
 #: Controllers/Admin/Posts/EditController.php:208
 #: Controllers/Admin/Posts/RevisionController.php:285
 #: Controllers/Admin/Tags/EditController.php:162
-#: Controllers/Admin/Tools/URLAliases/EditController.php:164
+#: Controllers/Admin/Tools/URLAliases/EditController.php:167
 msgid "Unable to update."
 msgstr "ไม่สามารถปรับปรุงได้."
 
@@ -140,57 +140,57 @@ msgstr "ไม่สามารถปรับปรุงได้."
 msgid "Edit a category"
 msgstr "แก้ไขหมวดหมู่"
 
-#: Controllers/Admin/Categories/IndexController.php:213
-#: Controllers/Admin/Files/IndexController.php:285 Models/PostsDb.php:804
+#: Controllers/Admin/Categories/IndexController.php:214
+#: Controllers/Admin/Files/IndexController.php:287 Models/PostsDb.php:827
 #: Views/Admin/Categories/add_v.php:79 Views/Admin/Categories/edit_v.php:89
 #: Views/Admin/Files/edit_v.php:61
 msgid "Published"
 msgstr "เผยแพร่แล้ว"
 
-#: Controllers/Admin/Categories/IndexController.php:214
-#: Controllers/Admin/Files/IndexController.php:286 Views/Admin/Categories/add_v.php:78
+#: Controllers/Admin/Categories/IndexController.php:215
+#: Controllers/Admin/Files/IndexController.php:288 Views/Admin/Categories/add_v.php:78
 #: Views/Admin/Categories/edit_v.php:88
 msgid "Unpublished"
 msgstr "ไม่เผยแพร่"
 
-#: Controllers/Admin/Files/ActionsController.php:384
+#: Controllers/Admin/Files/ActionsController.php:383
 #: Controllers/Admin/Files/EditController.php:186
-#: Controllers/Admin/Files/IndexController.php:214 ModuleData/ModuleAdmin.php:80
-#: ModuleData/ModuleAdmin.php:190 Views/Admin/Files/index_v.php:23
+#: Controllers/Admin/Files/IndexController.php:214 ModuleData/ModuleAdmin.php:82
+#: ModuleData/ModuleAdmin.php:193 Views/Admin/Files/index_v.php:23
 msgid "Files"
 msgstr "ไฟล์"
 
-#: Controllers/Admin/Files/ActionsController.php:489
+#: Controllers/Admin/Files/ActionsController.php:490
 msgid "Please select at least one file."
 msgstr "โปรดเลือกอย่างน้อยหนึ่งไฟล์."
 
-#: Controllers/Admin/Files/ActionsController.php:505
+#: Controllers/Admin/Files/ActionsController.php:506
 msgid "Delete file"
 msgid_plural "Delete files"
 msgstr[0] "ลบไฟล์"
 
-#: Controllers/Admin/Files/AddController.php:76
+#: Controllers/Admin/Files/AddController.php:79
 msgid "Please select the file."
 msgstr "กรุณาเลือกไฟล์."
 
-#: Controllers/Admin/Files/AddController.php:187
+#: Controllers/Admin/Files/AddController.php:192
 msgid "Uploaded successfully."
 msgstr "อัพโหลดเรียบร้อยแล้ว."
 
-#: Controllers/Admin/Files/BrowserController.php:50
-#: Controllers/Admin/SubControllers/FileBrowserSubController.php:65
+#: Controllers/Admin/Files/BrowserController.php:53
+#: Controllers/Admin/SubControllers/FileBrowserSubController.php:68
 msgid "File browser"
 msgstr "ไฟล์เบราว์เซอร์"
 
-#: Controllers/Admin/Files/BrowserController.php:121
-#: Controllers/Admin/Files/IndexController.php:284
+#: Controllers/Admin/Files/BrowserController.php:124
+#: Controllers/Admin/Files/IndexController.php:286
 #: Controllers/Admin/Pages/EditController.php:333
 #: Controllers/Admin/Pages/IndexController.php:288
 #: Controllers/Admin/Posts/EditController.php:333
 #: Controllers/Admin/Posts/IndexController.php:290
 #: Controllers/Admin/Tags/ActionsController.php:177
-#: Controllers/Admin/Tags/IndexController.php:195
-#: Controllers/Admin/Tools/URLAliases/IndexController.php:182
+#: Controllers/Admin/Tags/IndexController.php:196
+#: Controllers/Admin/Tools/URLAliases/IndexController.php:185
 msgid "Please select at least one item."
 msgstr "โปรดเลือกอย่างน้อยหนึ่งรายการ."
 
@@ -208,82 +208,82 @@ msgstr "ไม่พบรายการที่เลือก."
 msgid "Edit file data"
 msgstr "แก้ไขข้อมูลไฟล์"
 
-#: Controllers/Admin/Files/EditController.php:230
-#: Controllers/Admin/Files/IndexController.php:282
+#: Controllers/Admin/Files/EditController.php:232
+#: Controllers/Admin/Files/IndexController.php:284
 msgid "Image dimension"
 msgstr "ขนาดภาพ"
 
-#: Controllers/Admin/Files/EditController.php:231
-#: Controllers/Admin/Files/IndexController.php:288
+#: Controllers/Admin/Files/EditController.php:233
+#: Controllers/Admin/Files/IndexController.php:290
 msgid "Video dimension"
 msgstr "ขนาดวีดีโอ"
 
-#: Controllers/Admin/Files/FoldersController.php:80
-#: Controllers/Admin/Files/FoldersController.php:97
-#: Controllers/Admin/Files/FoldersController.php:332
-#: Controllers/Admin/Files/FoldersController.php:463
+#: Controllers/Admin/Files/FoldersController.php:83
+#: Controllers/Admin/Files/FoldersController.php:100
+#: Controllers/Admin/Files/FoldersController.php:335
+#: Controllers/Admin/Files/FoldersController.php:466
 msgid "Hack attempt!"
 msgstr "Hack attempt!"
 
-#: Controllers/Admin/Files/FoldersController.php:80
+#: Controllers/Admin/Files/FoldersController.php:83
 msgid "Could not delete the root folder."
 msgstr "ไม่สามารถลบโฟลเดอร์หลัก."
 
-#: Controllers/Admin/Files/FoldersController.php:89
+#: Controllers/Admin/Files/FoldersController.php:92
 msgid "Unable to delete restricted folder."
 msgstr "ไม่สามารถลบโฟลเดอร์ที่ถูกจำกัด."
 
-#: Controllers/Admin/Files/FoldersController.php:105
-#: Controllers/Admin/Files/FoldersController.php:471
+#: Controllers/Admin/Files/FoldersController.php:108
+#: Controllers/Admin/Files/FoldersController.php:474
 msgid "The selected folder is not exists, please check again."
 msgstr "โฟลเดอร์ที่ถูกเลือกไม่มีอยู่, โปรดตรวจสอบอีกครั้ง."
 
-#: Controllers/Admin/Files/FoldersController.php:123
+#: Controllers/Admin/Files/FoldersController.php:126
 #, php-format
 msgid "Unable to delete selected folder. %s"
 msgstr "ไม่สามารถลบโฟลเดอร์ที่เลือก. %s"
 
-#: Controllers/Admin/Files/FoldersController.php:322
-#: Controllers/Admin/Files/FoldersController.php:446
+#: Controllers/Admin/Files/FoldersController.php:325
+#: Controllers/Admin/Files/FoldersController.php:449
 msgid "Please enter the folder name."
 msgstr "กรุณากรอกชื่อโฟลเดอร์."
 
-#: Controllers/Admin/Files/FoldersController.php:340
+#: Controllers/Admin/Files/FoldersController.php:343
 msgid "The target location to create new folder is not exists, please check again."
 msgstr "ตำแหน่งเป้าหมายที่จะสร้างโฟลเดอร์ใหม่นั้นไม่มีอยู่, โปรดตรวจสอบอีกครั้ง."
 
-#: Controllers/Admin/Files/FoldersController.php:348
-#: Controllers/Admin/Files/FoldersController.php:479
+#: Controllers/Admin/Files/FoldersController.php:351
+#: Controllers/Admin/Files/FoldersController.php:482
 #, php-format
 msgid "Please enter valid characters for new folder name. Suggested: %s"
 msgstr "กรุณากรอกอักขระที่ถูกต้องสำหรับชื่อโฟลเดอร์. แนะนำ: %s"
 
-#: Controllers/Admin/Files/FoldersController.php:356
+#: Controllers/Admin/Files/FoldersController.php:359
 msgid "The folder name is already exists."
 msgstr "ชื่อโฟลเดอร์นี้มีอยู่แล้ว."
 
-#: Controllers/Admin/Files/FoldersController.php:367
+#: Controllers/Admin/Files/FoldersController.php:370
 msgid "New folder was created successfully."
 msgstr "โฟลเดอร์ใหม่ถูกสร้างเรียบร้อยแล้ว."
 
-#: Controllers/Admin/Files/FoldersController.php:372
+#: Controllers/Admin/Files/FoldersController.php:375
 msgid "Unable to create new folder."
 msgstr "ไม่สามารถสร้างโฟลเดอร์ใหม่."
 
-#: Controllers/Admin/Files/FoldersController.php:455
+#: Controllers/Admin/Files/FoldersController.php:458
 msgid "Unable to rename restricted folder."
 msgstr "ไม่สามารถเปลี่ยนชื่อโฟลเดอร์ที่ถูกจำกัด."
 
-#: Controllers/Admin/Files/FoldersController.php:494
+#: Controllers/Admin/Files/FoldersController.php:497
 #, php-format
 msgid "The folder name is already exists. (%s)"
 msgstr "ชื่อโฟลเดอร์นี้มีอยู่แล้ว. (%s)"
 
-#: Controllers/Admin/Files/FoldersController.php:517
+#: Controllers/Admin/Files/FoldersController.php:520
 msgid "Success."
 msgstr "สำเร็จ."
 
-#: Controllers/Admin/Files/FoldersController.php:522
+#: Controllers/Admin/Files/FoldersController.php:525
 msgid "Unable to rename folder."
 msgstr "ไม่สามารถเปลี่ยนชื่อโฟลเดอร์."
 
@@ -291,22 +291,22 @@ msgstr "ไม่สามารถเปลี่ยนชื่อโฟลเ
 msgid "The selected file was not found."
 msgstr "ไม่พบไฟล์ที่เลือก."
 
-#: Controllers/Admin/Files/IndexController.php:276
+#: Controllers/Admin/Files/IndexController.php:278
 msgid "All files in this folder will be deleted."
 msgstr "ไฟล์ทั้งหมดในโฟลเดอร์นี้จะถูกลบ."
 
-#: Controllers/Admin/Files/IndexController.php:278
+#: Controllers/Admin/Files/IndexController.php:280
 msgid "Are you sure to delete selected folder?"
 msgstr "คุณแน่ใจหรือไม่ที่จะลบโฟลเดอร์ที่เลือก?"
 
-#: Controllers/Admin/Files/IndexController.php:279
+#: Controllers/Admin/Files/IndexController.php:281
 #: Controllers/Admin/Pages/IndexController.php:283
 #: Controllers/Admin/Posts/IndexController.php:285
 #, php-format
 msgid "Add: %s"
 msgstr "เพิ่ม: %s"
 
-#: Controllers/Admin/Files/IndexController.php:280
+#: Controllers/Admin/Files/IndexController.php:282
 #: Controllers/Admin/Pages/IndexController.php:284
 #: Controllers/Admin/Posts/IndexController.php:286
 #, php-format
@@ -334,9 +334,10 @@ msgid "The selected post is not in trash (ID %d)."
 msgstr "รายการโพสต์ที่เลือกไม่อยู่ในถังขยะ (ไอดี %d)."
 
 #: Controllers/Admin/Pages/AddController.php:109 Controllers/Admin/Pages/AddController.php:307
-#: Controllers/Admin/Pages/EditController.php:135 Controllers/Admin/Pages/EditController.php:331
-#: Controllers/Admin/Posts/AddController.php:109 Controllers/Admin/Posts/AddController.php:307
-#: Controllers/Admin/Posts/EditController.php:135 Controllers/Admin/Posts/EditController.php:331
+#: Controllers/Admin/Pages/EditController.php:135
+#: Controllers/Admin/Pages/EditController.php:331 Controllers/Admin/Posts/AddController.php:109
+#: Controllers/Admin/Posts/AddController.php:307 Controllers/Admin/Posts/EditController.php:135
+#: Controllers/Admin/Posts/EditController.php:331
 msgid "Please enter the title."
 msgstr "กรุณากรอกหัวข้อ."
 
@@ -354,12 +355,13 @@ msgid "Add new page"
 msgstr "เพิ่มหน้าใหม่"
 
 #: Controllers/Admin/Pages/AddController.php:261 Controllers/Admin/Pages/EditController.php:282
-#: Controllers/Admin/Pages/IndexController.php:206 ModuleData/ModuleAdmin.php:78
-#: ModuleData/ModuleAdmin.php:178
+#: Controllers/Admin/Pages/IndexController.php:206 ModuleData/ModuleAdmin.php:80
+#: ModuleData/ModuleAdmin.php:181
 msgid "Pages"
 msgstr "หน้า"
 
-#: Controllers/Admin/Pages/EditController.php:127 Controllers/Admin/Posts/EditController.php:127
+#: Controllers/Admin/Pages/EditController.php:127
+#: Controllers/Admin/Posts/EditController.php:127
 #: Controllers/Admin/Posts/IndexController.php:118
 msgid "Not found selected post."
 msgstr "ไม่พบโพสต์ที่เลือก."
@@ -368,7 +370,8 @@ msgstr "ไม่พบโพสต์ที่เลือก."
 msgid "Edit page"
 msgstr "แก้ไขหน้า"
 
-#: Controllers/Admin/Pages/EditController.php:330 Controllers/Admin/Posts/EditController.php:330
+#: Controllers/Admin/Pages/EditController.php:330
+#: Controllers/Admin/Posts/EditController.php:330
 msgid "Are you sure to rollback to this item?"
 msgstr "คุณแน่ใจหรือไม่ที่จะย้อนกลับไปยังรายการนี้?"
 
@@ -397,8 +400,8 @@ msgid "Add new post"
 msgstr "เพิ่มโพสต์ใหม่"
 
 #: Controllers/Admin/Posts/AddController.php:261 Controllers/Admin/Posts/EditController.php:282
-#: Controllers/Admin/Posts/IndexController.php:208 ModuleData/ModuleAdmin.php:77
-#: ModuleData/ModuleAdmin.php:142
+#: Controllers/Admin/Posts/IndexController.php:208 ModuleData/ModuleAdmin.php:79
+#: ModuleData/ModuleAdmin.php:145
 msgid "Posts"
 msgstr "โพสต์"
 
@@ -406,9 +409,9 @@ msgstr "โพสต์"
 msgid "Edit post"
 msgstr "แก้ไขโพสต์"
 
-#: Controllers/Admin/SubControllers/PostsSubController.php:268
-#: Controllers/Admin/SubControllers/PostsSubController.php:305
-#: Controllers/Admin/SubControllers/PostsSubController.php:339
+#: Controllers/Admin/SubControllers/PostsSubController.php:283
+#: Controllers/Admin/SubControllers/PostsSubController.php:320
+#: Controllers/Admin/SubControllers/PostsSubController.php:354
 #: Views/Admin/Files/browser_v.php:42
 msgid "All"
 msgstr "ทั้งหมด"
@@ -422,14 +425,14 @@ msgid "Add a tag"
 msgstr "เพิ่มแท็ก"
 
 #: Controllers/Admin/Tags/AddController.php:202 Controllers/Admin/Tags/EditController.php:232
-#: Controllers/Admin/Tags/IndexController.php:131 ModuleData/ModuleAdmin.php:76
-#: ModuleData/ModuleAdmin.php:166 Views/Admin/Posts/add_v.php:75
+#: Controllers/Admin/Tags/IndexController.php:131 ModuleData/ModuleAdmin.php:77
+#: ModuleData/ModuleAdmin.php:169 Views/Admin/Posts/add_v.php:75
 #: Views/Admin/Posts/index_v.php:25 Views/Admin/Posts/index_v.php:37
 msgid "Tags"
 msgstr "แท็ก"
 
 #: Controllers/Admin/Tags/EditController.php:90 Controllers/Admin/Tags/IndexController.php:57
-#: Controllers/Admin/Tools/URLAliases/IndexController.php:54
+#: Controllers/Admin/Tools/URLAliases/IndexController.php:57
 msgid "Not found selected tag."
 msgstr "ไม่พบแท็กที่เลือก."
 
@@ -437,83 +440,88 @@ msgstr "ไม่พบแท็กที่เลือก."
 msgid "Edit a tag"
 msgstr "แก้ไขแท็ก"
 
-#: Controllers/Admin/Tools/URLAliases/AddController.php:74
-#: Controllers/Admin/Tools/URLAliases/EditController.php:93
+#: Controllers/Admin/Tools/EncodeDecode/IndexController.php:133 ModuleData/ModuleAdmin.php:78
+#: ModuleData/ModuleAdmin.php:220 Views/Admin/Tools/EncodeDecode/index_v.php:23
+msgid "Encode/Decode"
+msgstr "Encode/Decode"
+
+#: Controllers/Admin/Tools/URLAliases/AddController.php:77
+#: Controllers/Admin/Tools/URLAliases/EditController.php:96
 msgid "Please enter the URL alias."
 msgstr "กรุณากรอก URL แฝง."
 
-#: Controllers/Admin/Tools/URLAliases/AddController.php:98
-#: Controllers/Admin/Tools/URLAliases/EditController.php:115
+#: Controllers/Admin/Tools/URLAliases/AddController.php:101
+#: Controllers/Admin/Tools/URLAliases/EditController.php:118
 msgid "Please choose to enter the required fields to work as URL alias or URL redirection."
 msgstr "กรุณาเลือกกรอกช่องที่จำเป็นเพื่อให้ทำงานเป็น URL แฝงหรือเปลี่ยนเส้นทาง URL."
 
-#: Controllers/Admin/Tools/URLAliases/AddController.php:142
+#: Controllers/Admin/Tools/URLAliases/AddController.php:145
 msgid "Unable to add new URL alias."
 msgstr "ไม่สามารถเพิ่ม URL แฝงใหม่."
 
-#: Controllers/Admin/Tools/URLAliases/AddController.php:189
+#: Controllers/Admin/Tools/URLAliases/AddController.php:192
 msgid "Add an URL alias"
 msgstr "เพิ่ม URL แฝง"
 
-#: Controllers/Admin/Tools/URLAliases/AddController.php:211
-#: Controllers/Admin/Tools/URLAliases/EditController.php:235
+#: Controllers/Admin/Tools/URLAliases/AddController.php:214
+#: Controllers/Admin/Tools/URLAliases/EditController.php:238
 msgid "URL Aliases"
 msgstr "URL แฝง"
 
-#: Controllers/Admin/Tools/URLAliases/EditController.php:85
+#: Controllers/Admin/Tools/URLAliases/EditController.php:88
 msgid "Not found selected URL alias."
 msgstr "ไม่พบ URL แฝงที่เลือก."
 
-#: Controllers/Admin/Tools/URLAliases/EditController.php:212
+#: Controllers/Admin/Tools/URLAliases/EditController.php:215
 msgid "Edit an URL alias"
 msgstr "แก้ไข URL แฝง"
 
-#: Controllers/Admin/Tools/URLAliases/IndexController.php:124 ModuleData/ModuleAdmin.php:79
-#: ModuleData/ModuleAdmin.php:205
+#: Controllers/Admin/Tools/URLAliases/IndexController.php:127 ModuleData/ModuleAdmin.php:81
+#: ModuleData/ModuleAdmin.php:208
 msgid "URL aliases"
 msgstr "URL แฝง"
 
-#: Controllers/Admin/Tools/URLAliases/IndexController.php:183
+#: Controllers/Admin/Tools/URLAliases/IndexController.php:186
 msgid "Use redirect function."
 msgstr "ใช้ฟังก์ชั่นการเปลี่ยนเส้นทาง."
 
-#: Models/PostsDb.php:803
+#: Models/PostsDb.php:826
 msgid "Draft"
 msgstr "ดราฟท์"
 
-#: Models/PostsDb.php:805
+#: Models/PostsDb.php:828
 msgid "Scheduled"
 msgstr "ตั้งเวลา"
 
-#: Models/PostsDb.php:806
+#: Models/PostsDb.php:829
 msgid "Pending"
 msgstr "รอตรวจ"
 
-#: Models/PostsDb.php:807
+#: Models/PostsDb.php:830
 msgid "Private"
 msgstr "ส่วนตัว"
 
-#: Models/PostsDb.php:808
+#: Models/PostsDb.php:831
 msgid "Trash"
 msgstr "ถังขยะ"
 
-#: Models/PostsDb.php:809
+#: Models/PostsDb.php:832
 msgid "Inherit"
 msgstr "สืบทอด"
 
-#: ModuleData/ModuleAdmin.php:83
+#: ModuleData/ModuleAdmin.php:85
 msgid "List items"
 msgstr "แสดงรายการ"
 
-#: ModuleData/ModuleAdmin.php:84
+#: ModuleData/ModuleAdmin.php:86
 msgid "Add"
 msgstr "เพิ่ม"
 
-#: ModuleData/ModuleAdmin.php:85
+#: ModuleData/ModuleAdmin.php:87
 msgid "Edit"
 msgstr "แก้ไข"
 
-#: ModuleData/ModuleAdmin.php:86 Views/Admin/Files/index_v.php:172
+#: ModuleData/ModuleAdmin.php:88 Views/Admin/Files/index_v.php:172
 msgid "Delete"
 msgstr "ลบ"
 
@@ -526,13 +534,13 @@ msgid "Child entries of any selected items will also be affected."
 msgstr "รายการลูกของรายการที่ถูกเลือกใดๆจะได้รับผลกระทบไปด้วย."
 
 #: Views/Admin/Categories/add_v.php:27 Views/Admin/Categories/edit_v.php:28
-#: Views/Admin/Categories/index_v.php:68 Views/Admin/Tags/add_v.php:27
-#: Views/Admin/Tags/edit_v.php:28 Views/Admin/Tags/index_v.php:65
+#: Views/Admin/Categories/index_v.php:69 Views/Admin/Tags/add_v.php:27
+#: Views/Admin/Tags/edit_v.php:28 Views/Admin/Tags/index_v.php:66
 msgid "Type"
 msgstr "ประเภท"
 
 #: Views/Admin/Categories/add_v.php:30 Views/Admin/Categories/edit_v.php:31
-#: Views/Admin/Categories/index_v.php:70
+#: Views/Admin/Categories/index_v.php:71
 msgid "Contents category"
 msgstr "หมวดหมู่เนื้อหา"
 
@@ -553,8 +561,8 @@ msgid "Name"
 msgstr "ชื่อ"
 
 #: Views/Admin/Categories/add_v.php:47 Views/Admin/Categories/edit_v.php:48
-#: Views/Admin/Files/edit_v.php:35 Views/Admin/Pages/add_v.php:31 Views/Admin/Posts/add_v.php:32
-#: Views/Admin/Tags/add_v.php:39 Views/Admin/Tags/edit_v.php:40
+#: Views/Admin/Files/edit_v.php:35 Views/Admin/Pages/add_v.php:31
+#: Views/Admin/Posts/add_v.php:32 Views/Admin/Tags/add_v.php:39 Views/Admin/Tags/edit_v.php:40
 msgid "HTML will be escaped."
 msgstr "HTML จะถูกแปลง."
 
@@ -615,7 +623,12 @@ msgstr "URL"
 msgid "Total items"
 msgstr "รายการทั้งหมด"
 
-#: Views/Admin/Categories/index_v.php:103 Views/Admin/Tags/index_v.php:100
+#: Views/Admin/Categories/index_v.php:62 Views/Admin/Pages/index_v.php:47
+#: Views/Admin/Posts/index_v.php:49 Views/Admin/Tags/index_v.php:59
+msgid "View"
+msgstr "ดู"
+
+#: Views/Admin/Categories/index_v.php:104 Views/Admin/Tags/index_v.php:101
 msgid "Update total items"
 msgstr "ปรับปรุงจำนวนรายการทั้งหมด"
 
@@ -808,8 +821,8 @@ msgstr "ประวัติการปรับปรุง"
 msgid "Title"
 msgstr "หัวข้อ"
 
-#: Views/Admin/Pages/add_v.php:42 Views/Admin/Pages/add_v.php:187 Views/Admin/Posts/add_v.php:49
-#: Views/Admin/Posts/add_v.php:214
+#: Views/Admin/Pages/add_v.php:42 Views/Admin/Pages/add_v.php:187
+#: Views/Admin/Posts/add_v.php:49 Views/Admin/Posts/add_v.php:214
 msgid "Featured image"
 msgstr "ภาพหลัก"
 
@@ -825,8 +838,8 @@ msgstr "แท็กต่างๆในส่วนหัว"
 #: Views/Admin/Pages/add_v.php:64 Views/Admin/Posts/add_v.php:91
 #, php-format
 msgid ""
-"Optional elements such as meta tags, additional styles, or scripts that will be render within "
-"%1$s element."
+"Optional elements such as meta tags, additional styles, or scripts that will be render "
+"within %1$s element."
 msgstr "ทางเลือกแท็กต่างๆอย่างเช่น แท็ก meta, สไตล์ชีท, สคริปต์ ซึ่งมันจะนำไปใช้ภายในแท็ก %1$s."
 
 #: Views/Admin/Pages/add_v.php:84
@@ -888,10 +901,6 @@ msgstr "ปิด"
 msgid "Remove featured image"
 msgstr "เอาภาพหลักออก"
 
-#: Views/Admin/Pages/index_v.php:47 Views/Admin/Posts/index_v.php:49
-msgid "View"
-msgstr "ดู"
-
 #: Views/Admin/Pages/index_v.php:93 Views/Admin/Posts/index_v.php:106
 msgid "Move to trash"
 msgstr "ย้ายลงถังขยะ"
@@ -944,13 +953,57 @@ msgstr "ชุดการปรับปรุงที่ใช้อยู่
 msgid "Rollback"
 msgstr "ย้อนกลับ"
 
-#: Views/Admin/Tags/add_v.php:30 Views/Admin/Tags/edit_v.php:31 Views/Admin/Tags/index_v.php:67
+#: Views/Admin/Tags/add_v.php:30 Views/Admin/Tags/edit_v.php:31 Views/Admin/Tags/index_v.php:68
 msgid "Contents tag"
 msgstr "แท็กเนื้อหา"
 
 #: Views/Admin/Tags/add_v.php:62 Views/Admin/Tags/edit_v.php:63
 msgid "The name will be use on address of this tag. Do not enter special characters."
 msgstr "ชื่อที่จะใช้บนที่อยู่ของแท็กนี้. อย่ากรอกอักขระพิเศษ."
+
+#: Views/Admin/Tools/EncodeDecode/index_v.php:16
+msgid "Original string"
+msgstr "สตริงต้นฉบับ"
+
+#: Views/Admin/Tools/EncodeDecode/index_v.php:19
+msgid "This form does not store any information that you have entered."
+msgstr "ฟอร์มนี้จะไม่เก็บบันทึกข้อมูลใดๆที่คุณได้กรอกลงไป."
+
+#: Views/Admin/Tools/EncodeDecode/index_v.php:25
+msgid "Encode"
+msgstr "Encode"
+
+#: Views/Admin/Tools/EncodeDecode/index_v.php:26
+msgid "Decode"
+msgstr "Decode"
+
+#: Views/Admin/Tools/EncodeDecode/index_v.php:30
+msgid "Function to use"
+msgstr "ฟังก์ชั่นที่จะใช้งาน"
+
+#: Views/Admin/Tools/EncodeDecode/index_v.php:33
+msgid "Base64"
+msgstr "Base64"
+
+#: Views/Admin/Tools/EncodeDecode/index_v.php:34
+msgid "Raw URL encode/Raw URL decode"
+msgstr "Raw URL encode/Raw URL decode"
+
+#: Views/Admin/Tools/EncodeDecode/index_v.php:35
+msgid "HTML special chars"
+msgstr "HTML special chars"
+
+#: Views/Admin/Tools/EncodeDecode/index_v.php:36
+msgid "HTML entities"
+msgstr "HTML entities"
+
+#: Views/Admin/Tools/EncodeDecode/index_v.php:42
+msgid "Submit"
+msgstr "ส่งข้อมูล"
+
+#: Views/Admin/Tools/EncodeDecode/index_v.php:48
+msgid "Result"
+msgstr "ผลลัพธ์"
 
 #: Views/Admin/Tools/URLAliases/add_v.php:27 Views/Admin/Tools/URLAliases/edit_v.php:28
 #: Views/Admin/Tools/URLAliases/index_v.php:24 Views/Admin/Tools/URLAliases/index_v.php:36

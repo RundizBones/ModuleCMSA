@@ -47,6 +47,7 @@ class ModuleAssets
         $ModuleAssetsPosts = new ModuleAssetsPosts($this->Container);
         $ModuleAssetsTaxonomies = new ModuleAssetsTaxonomies($this->Container);
         $ModuleAssetsUrlAliases = new ModuleAssetsUrlAliases($this->Container);
+        $ModuleAssetsEncodeDecode = new ModuleAssetsEncodeDecode($this->Container);
 
         return array_merge_recursive(
             [
@@ -117,7 +118,8 @@ class ModuleAssets
             $ModuleAssetsFiles->getModuleAssets(),
             $ModuleAssetsPosts->getModuleAssets(),
             $ModuleAssetsTaxonomies->getModuleAssets(),
-            $ModuleAssetsUrlAliases->getModuleAssets()
+            $ModuleAssetsUrlAliases->getModuleAssets(),
+            $ModuleAssetsEncodeDecode->getModuleAssets()
         );// end array_merge_recursive
     }// getModuleAssets
 
