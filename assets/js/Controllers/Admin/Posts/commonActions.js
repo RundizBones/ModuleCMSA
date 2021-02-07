@@ -97,6 +97,11 @@ class RdbCMSAPostsCommonActions {
             'toolbar': 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent | image rdbcmsafilebrowser',
             'toolbar_drawer': 'sliding',
 
+            // image plugins options.
+            'image_advtab': true,
+            'image_caption': true,
+            'image_title': true,
+
             'codesample_languages': [
                 { text: 'Apache Configuration', value: 'apacheconf' },
                 { text: 'ASP.NET (C#)', value: 'aspnet' },
