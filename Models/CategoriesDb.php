@@ -368,6 +368,39 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
 
 
     /**
+     * Build tree data with children.
+     * 
+     * @see Rundiz\NestedSet\NestedSet:listTaxonomyBuildTreeWithChildren The original source code.
+     * @param array $result The array item get from fetchAll() method using the PDO.
+     * @param array $options Available options: <br>
+     *                          `list_flatten` (bool) Set to `true` to list the result flatten.
+     * @return array Return array data of formatted values.
+     */
+    public function listRecursiveBuildTreeWithChildren(array $result, array $options = []): array
+    {
+        if (isset($options['list_flatten']) && $options['list_flatten'] === true) {
+            return $result;
+        }
+
+        $items = [];
+        foreach ($result as $row) {
+            $items[$row->{$this->parentIdColumnName}][] = $row;
+        }// endforeach;
+
+        foreach ($result as $row) {
+            if (isset($items[$row->{$this->idColumnName}])) {
+                $row->children = $items[$row->{$this->idColumnName}];
+            }
+        }// endforeach;
+
+        $result = ($items[0] ?? array_shift($items));// this is important ([0]) for prevent duplicate items
+
+        unset($items, $row);
+        return $result;
+    }// listRecursiveBuildTreeWithChildren
+
+
+    /**
      * Update a category data.
      * 
      * This method will not `rebuild()` the data, you have to call it later once success.
