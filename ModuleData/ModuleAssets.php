@@ -55,12 +55,12 @@ class ModuleAssets
                     [
                         'handle' => 'tagify',
                         'file' => $publicModuleUrl . '/assets/vendor/tagify/tagify.css',
-                        'version' => '3.20.0',
+                        'version' => '3.22.1',
                     ],
                     [
                         'handle' => 'diff2html',
                         'file' => $publicModuleUrl . '/assets/vendor/diff2html/css/diff2html.min.css',
-                        'version' => '3.1.14',
+                        'version' => '3.2.0',
                     ],
                 ],
                 'js' => [
@@ -85,19 +85,19 @@ class ModuleAssets
                         'handle' => 'diff2html',
                         'file' => $publicModuleUrl . '/assets/vendor/diff2html/js/diff2html.min.js',
                         'dependency' => ['jsdiff'],
-                        'version' => '3.1.14',
+                        'version' => '3.2.0',
                     ],
                     [
                         'handle' => 'diff2html-ui',
                         'file' => $publicModuleUrl . '/assets/vendor/diff2html/js/diff2html-ui-slim.min.js',
                         'dependency' => ['diff2html'],
-                        'version' => '3.1.14',
+                        'version' => '3.2.0',
                     ],
                     // end diff, diff2html
                     [
                         'handle' => 'tagify',
                         'file' => $publicModuleUrl . '/assets/vendor/tagify/tagify.min.js',
-                        'version' => '3.20.0',
+                        'version' => '3.22.1',
                     ],
                     [
                         'handle' => 'tinymce',
