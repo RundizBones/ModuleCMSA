@@ -91,7 +91,7 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
                             continue;
                         }
 
-                        $this->Logger->write('modules/cms/installer', 0, $eachStatement);
+                        $this->Logger->write('modules/rdbcmsa/installer', 0, $eachStatement);
 
                         $Sth = $this->Db->PDO()->prepare($eachStatement);
                         $execResult = $Sth->execute();
@@ -107,7 +107,7 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
             }
             unset($expSql);
         } catch (\Exception $e) {
-            $this->Logger->write('modules/cms/installer', 3, $e->getMessage());
+            $this->Logger->write('modules/rdbcmsa/installer', 3, $e->getMessage());
             throw $e;
         }
     }// install
@@ -140,7 +140,7 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
                 foreach ($tables as $table) {
                     $sql = 'DROP TABLE IF EXISTS `' . $this->Db->tableName($table) . '`;';
 
-                    $this->Logger->write('modules/cms/installer', 0, $sql);
+                    $this->Logger->write('modules/rdbcmsa/installer', 0, $sql);
 
                     $stmt = $this->Db->PDO()->prepare($sql);
                     unset($sql);
@@ -152,7 +152,7 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
             }
             unset($sqlString);
         } catch (\Exception $e) {
-            $this->Logger->write('modules/cms/installer', 3, $e->getMessage());
+            $this->Logger->write('modules/rdbcmsa/installer', 3, $e->getMessage());
             throw $e;
         }
     }
