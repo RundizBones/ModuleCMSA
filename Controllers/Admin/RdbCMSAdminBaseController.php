@@ -11,6 +11,8 @@ namespace Rdb\Modules\RdbCMSA\Controllers\Admin;
  * RundizBones CMS admin module - admin base controller.
  * 
  * Use this controller to automatically bind text domain for translation.
+ * 
+ * @since 0.0.1
  */
 abstract class RdbCMSAdminBaseController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBaseController
 {
