@@ -88,7 +88,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
         $keywords['add'] = noop__('Add');
         $keywords['edit'] = noop__('Edit');
         $keywords['delete'] = noop__('Delete');
-        $keywords['encode_decode'] = noop('Encode/Decode');
+        $keywords['encode_decode'] = noop__('Encode/Decode');
 
         if (!empty($key)) {
             if (array_key_exists($key, $keywords)) {
