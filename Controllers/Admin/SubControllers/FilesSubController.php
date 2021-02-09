@@ -171,7 +171,8 @@ class FilesSubController
      * 
      * @return array Return array of thumbnail sizes. (Ascending sizes.) Array structure will be:<pre>
      * array(
-     *     'thumb300' => array(300, 300),// first array value is width, second is height.
+     *     'thumb100' => array(100, 100),// first array value is width, second is height.
+     *     'thumb300' => array(300, 300),
      *     'thumb600' => array(600, 600),
      * )
      * </pre>
