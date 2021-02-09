@@ -9,6 +9,8 @@ namespace Rdb\Modules\RdbCMSA\ModuleData;
 
 /**
  * The module admin class for set permissions, menu items.
+ * 
+ * @since 0.0.1
  */
 class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
 {
@@ -86,7 +88,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
         $keywords['add'] = noop__('Add');
         $keywords['edit'] = noop__('Edit');
         $keywords['delete'] = noop__('Delete');
-        $keywords['encode_decode'] = noop('Encode/Decode');
+        $keywords['encode_decode'] = noop__('Encode/Decode');
 
         if (!empty($key)) {
             if (array_key_exists($key, $keywords)) {
@@ -129,13 +131,12 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
         return [
             5 => [
                 'id' => 'rdbcmsa-contents-menu',
-                'permission' => [
-                    ['RdbCMSAContentCategories', 'list', 'add', 'edit', 'delete'],
-                    ['RdbCMSAPosts', 'list', 'add', 'edit', 'delete'],
-                ],
                 'icon' => 'fas fa-file-alt fa-fw',
                 'name' => d__('rdbcmsa', 'Contents'),
                 'link' => $urlBaseWithLang . '/admin/cms/posts',
+                'liAttributes' => [
+                    'data-mainmenucontainer' => true,
+                ],
                 'subMenu' => [
                     0 => [
                         'id' => 'rdbcmsa-contents-posts',

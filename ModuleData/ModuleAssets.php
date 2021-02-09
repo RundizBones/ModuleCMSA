@@ -9,6 +9,8 @@ namespace Rdb\Modules\RdbCMSA\ModuleData;
 
 /**
  * Module assets data.
+ * 
+ * @since 0.0.1
  */
 class ModuleAssets
 {

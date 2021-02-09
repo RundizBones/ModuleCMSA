@@ -1,14 +1,10 @@
 {
     "name": "rundizbones-cms",
     "version": "0.0.1",
-    "description": "The CMS module for Rundizbones framework. Required RdbAdmin module to work.",
+    "description": "The CMS admin module for Rundizbones framework. Required RdbAdmin module to work.",
     "main": "gulpfile.js",
-    "keywords": [
-        "cms",
-        "article"
-    ],
     "author": "Vee W.",
-    "license": "MIT",
+    "license": "EULA",
     "private": true,
     "dependencies": {
         "@yaireo/tagify": "^3.22.1",

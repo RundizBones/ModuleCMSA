@@ -23,29 +23,6 @@ trait CategoriesTrait
 
 
     /**
-     * Get current locale that can work with JS. The locale data will be match in the key `languageLocale` in framework language configuration file.
-     * 
-     * @return string
-     */
-    protected function getLocale(): string
-    {
-        if (isset($_SERVER['RUNDIZBONES_LANGUAGE_LOCALE'])) {
-            $locales = json_decode($_SERVER['RUNDIZBONES_LANGUAGE_LOCALE'], true);
-            if (is_array($locales)) {
-                foreach ($locales as $locale) {
-                    if (is_string($locale) && stripos($locale, '.') === false) {
-                        // if locale does not contain dot. Example: th-TH.UTF-8
-                        return $locale;
-                    }
-                }
-            }
-        }
-
-        return ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'en-US');
-    }// getLocale
-
-
-    /**
      * Get URLs and methods of pages in this section.
      * 
      * @return array Return associative array.
