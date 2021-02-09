@@ -152,13 +152,6 @@ class RdbCMSACategoriesIndexController extends RdbaDatatables {
                     addedCustomResultControls = true;
                 }
 
-                if (RdbaCommon.isset(() => json.urls.addCategoryUrl)) {
-                    // if there is 'add category URL'. it is possible that this URL will be changed due to filter type.
-                    // modify the 'add' link.
-                    let aElement = document.querySelector('.rdba-listpage-addnew');
-                    aElement.setAttribute('href', json.urls.addCategoryUrl);
-                }
-
                 // add pagination.
                 thisClass.addCustomResultControlsPagination(json);
 
