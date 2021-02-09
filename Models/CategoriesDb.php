@@ -138,9 +138,11 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
      * Get a single taxonomy data without its parent or children.
      * 
      * @param array $where The associative array where key is column name and value is its value.
+     * @param array $options The addition options. Available options:<br>
+     *                          `skipTaxonomyFields` (bool) Skip retrieve `taxonomy_fields`table or not. Default is `true` means skip it, `false` means do not skip it.<br>
      * @return mixed Return object if result was found, return `empty`, `null`, `false` if it was not found.
      */
-    public function get(array $where = [])
+    public function get(array $where = [], array $options = [])
     {
         $sql = 'SELECT `taxonomy_term_data`.*, `url_aliases`.*, `taxonomy_term_data`.`language` AS `language` FROM `' . $this->tableName . '` AS `taxonomy_term_data`
             LEFT JOIN `' . $this->Db->tableName('url_aliases') . '` AS `url_aliases` 
@@ -174,6 +176,24 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
         $result = $Sth->fetchObject();
         $Sth->closeCursor();
         unset($Sth);
+
+        if (is_object($result)) {
+            if (isset($options['skipTaxonomyFields']) && $options['skipTaxonomyFields'] === false) {
+                // get taxonomy fields.
+                $TaxonomyFieldsDb = new TaxonomyFieldsDb($this->Container);
+                $taxonomyFieldsResults = $TaxonomyFieldsDb->get($result->tid);
+                $taxonomyFields = [];
+                if (is_array($taxonomyFieldsResults)) {
+                    foreach ($taxonomyFieldsResults as $eachField) {
+                        $taxonomyFields[$eachField->field_name] = $eachField;
+                    }// endforeach;
+                    unset($eachField);
+                }
+                unset($taxonomyFieldsResults);
+                $result->taxonomyFields = $taxonomyFields;
+                unset($taxonomyFields, $TaxonomyFieldsDb);
+            }
+        }
 
         return $result;
     }// get
