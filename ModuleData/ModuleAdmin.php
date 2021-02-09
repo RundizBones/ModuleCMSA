@@ -131,16 +131,12 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
         return [
             5 => [
                 'id' => 'rdbcmsa-contents-menu',
-                'permission' => [
-                    ['RdbCMSAContentCategories', 'list', 'add', 'edit', 'delete'],
-                    ['RdbCMSAContentTags', 'list', 'add', 'edit', 'delete'],
-                    ['RdbCMSAPosts', 'list', 'add', 'edit', 'delete'],
-                    ['RdbCMSAPages', 'list', 'add', 'edit', 'delete'],
-                    ['RdbCMSAFiles', 'list', 'add', 'edit', 'delete'],
-                ],
                 'icon' => 'fas fa-file-alt fa-fw',
                 'name' => d__('rdbcmsa', 'Contents'),
                 'link' => $urlBaseWithLang . '/admin/cms/posts',
+                'liAttributes' => [
+                    'data-mainmenucontainer' => true,
+                ],
                 'subMenu' => [
                     0 => [
                         'id' => 'rdbcmsa-contents-posts',
