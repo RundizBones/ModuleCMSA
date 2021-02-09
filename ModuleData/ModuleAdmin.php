@@ -9,6 +9,8 @@ namespace Rdb\Modules\RdbCMSA\ModuleData;
 
 /**
  * The module admin class for set permissions, menu items.
+ * 
+ * @since 0.0.1
  */
 class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
 {
