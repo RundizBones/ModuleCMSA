@@ -179,6 +179,7 @@ class FilesSubController
     public function getThumbnailSizes(): array
     {
         return [
+            'thumb100' => [100, 100],
             'thumb300' => [300, 300],
             'thumb600' => [600, 600],
         ];
