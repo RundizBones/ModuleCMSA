@@ -212,7 +212,8 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
      *                          `unlimited` (bool) set to `true` to show unlimited items, unset or set to `false` to show limited items,<br>
      *                          `limit` (int) limit items per page. maximum is 1000,<br>
      *                          `offset` (int) offset or start at record. 0 is first record,<br>
-     *                          `list_flatten` (bool) Set to `true` to list the result flatten.
+     *                          `list_flatten` (bool) Set to `true` to list the result flatten.<br>
+     *                          `skipTaxonomyFields` (bool) Skip retrieve `taxonomy_fields`table or not. Default is `true` means skip it, `false` means do not skip it.<br>
      * @return array Return array with `total` and `items` in keys.
      */
     public function listRecursive(array $options = []): array
@@ -337,6 +338,26 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
         $output['items'] = $result;
         unset($bindValues, $previousSql, $sql, $Sth);
 
+        if (!empty($result) && is_array($result)) {
+            $TaxonomyFieldsDb = new TaxonomyFieldsDb($this->Container);
+            foreach ($result as $row) {
+                if (isset($options['skipTaxonomyFields']) && $options['skipTaxonomyFields'] === false) {
+                    $taxonomyFieldsResults = $TaxonomyFieldsDb->get($row->tid);
+                    $taxonomyFields = [];
+                    if (is_array($taxonomyFieldsResults)) {
+                        foreach ($taxonomyFieldsResults as $eachField) {
+                            $taxonomyFields[$eachField->field_name] = $eachField;
+                        }// endforeach;
+                        unset($eachField);
+                    }
+                    unset($taxonomyFieldsResults);
+                    $row->taxonomyFields = $taxonomyFields;
+                    unset($taxonomyFields);
+                }// endif not skip taxonomy_fields.
+            }// endforeach;
+            unset($row, $TaxonomyFieldsDb);
+        }// endif; $result not empty and is array.
+
         if (
             !empty($result) && 
             is_array($result) &&
@@ -345,7 +366,7 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
                 (isset($options['list_flatten']) && $options['list_flatten'] !== true)
             )
         ) {
-            $result = $this->listTaxonomyBuildTreeWithChildren($result, $options);
+            $result = parent::listTaxonomyBuildTreeWithChildren($result, $options);
         }// endif; populate tree with children.
 
         // set 'items' result
