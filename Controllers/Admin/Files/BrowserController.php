@@ -72,11 +72,15 @@ class BrowserController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
         $output['thumbnailSizes'] = $FilesSubController->getThumbnailSizes();
         $output['fullUrlToRoot'] = $output['domainProtocol'] . 
             (!empty($output['publicUrl']) ? $output['publicUrl'] : '');
+
         if ($this->Input->get('featured-image') === '1') {
             $output['featuredImage'] = true;
         }
         if ($this->Input->get('select-images') === '1') {
             $output['selectImages'] = true;
+        }
+        if (!empty(trim($this->Input->get('set-button-message')))) {
+            $output['setButtonMessage'] = $this->Input->get('set-button-message');
         }
 
         // display, response part ---------------------------------------------------------------------------------------------

@@ -70,7 +70,15 @@
                                 <div class="form-group submit-button-row">
                                     <label class="control-label"></label>
                                     <div class="control-wrapper">
-                                        <button id="rdbcmsa-files-setfeaturedimage-button" class="rd-button primary rdba-submit-button rdbcmsa-files-setfeaturedimage-button" type="button"><?php echo d__('rdbcmsa', 'Set featured image'); ?></button>
+                                        <button id="rdbcmsa-files-setfeaturedimage-button" class="rd-button primary rdba-submit-button rdbcmsa-files-setfeaturedimage-button" type="button">
+                                            <?php 
+                                            if (isset($setButtonMessage) && is_string($setButtonMessage)) {
+                                                echo $setButtonMessage;
+                                            } else {
+                                                echo d__('rdbcmsa', 'Set featured image'); 
+                                            }
+                                            ?> 
+                                        </button>
                                     </div>
                                 </div>
                                 <?php
@@ -81,7 +89,15 @@
                                 <div class="form-group submit-button-row">
                                     <label class="control-label"></label>
                                     <div class="control-wrapper">
-                                        <button id="rdbcmsa-files-selectimages-button" class="rd-button primary rdba-submit-button rdbcmsa-files-selectimages-button" type="button"><?php echo d__('rdbcmsa', 'Set select images'); ?></button>
+                                        <button id="rdbcmsa-files-selectimages-button" class="rd-button primary rdba-submit-button rdbcmsa-files-selectimages-button" type="button">
+                                            <?php 
+                                            if (isset($setButtonMessage) && is_string($setButtonMessage)) {
+                                                echo $setButtonMessage;
+                                            } else {
+                                                echo d__('rdbcmsa', 'Set select images'); 
+                                            }
+                                            ?> 
+                                        </button>
                                     </div>
                                 </div>
                                 <?php
@@ -121,7 +137,15 @@
                                 <div class="form-group submit-button-row">
                                     <label class="control-label"></label>
                                     <div class="control-wrapper">
-                                        <button id="rdbcmsa-files-insert-button" class="rd-button primary rdba-submit-button rdbcmsa-files-insert-button" type="button"><?php echo d__('rdbcmsa', 'Insert'); ?></button>
+                                        <button id="rdbcmsa-files-insert-button" class="rd-button primary rdba-submit-button rdbcmsa-files-insert-button" type="button">
+                                            <?php 
+                                            if (isset($setButtonMessage) && is_string($setButtonMessage)) {
+                                                echo $setButtonMessage;
+                                            } else {
+                                                echo d__('rdbcmsa', 'Insert'); 
+                                            }
+                                            ?> 
+                                        </button>
                                     </div>
                                 </div>
                                 <?php
