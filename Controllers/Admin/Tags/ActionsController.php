@@ -61,7 +61,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             return '';
         }
 
-        $output['t_type'] = $this->Input->delete('t_type', $this->tagTaxonomyType);
+        $output['t_type'] = $this->tagTaxonomyType;
 
         if (
             isset($_PATCH[$csrfName]) &&
@@ -135,7 +135,9 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             session_start();
         }
 
-        $Csrf = new \Rdb\Modules\RdbAdmin\Libraries\Csrf();
+        $Csrf = new \Rdb\Modules\RdbAdmin\Libraries\Csrf([
+            'persistentTokenMode' => true,
+        ]);
         $Url = new \Rdb\System\Libraries\Url($this->Container);
         $this->Languages->getHelpers();
 
@@ -155,7 +157,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             return '';
         }
 
-        $output['t_type'] = $this->Input->delete('t_type', $this->tagTaxonomyType);
+        $output['t_type'] = $this->tagTaxonomyType;
 
         if (
             isset($_DELETE[$csrfName]) &&
@@ -231,11 +233,11 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     $output['deletedItems'] = $deletedItems;
                     $output['formResultStatus'] = 'success';
                     $output['formResultMessage'] = __('Deleted successfully.');
-                    http_response_code(200);
+                    http_response_code(204);
 
                     $_SESSION['formResult'] = json_encode([($output['formResultStatus'] ?? 'success') => $output['formResultMessage']]);
                     unset($output['formResultMessage'], $output['formResultStatus']);
-                    $output['redirectBack'] = $output['urls']['getTagsUrl'] . '?filter-t_type=' . rawurlencode($output['t_type']);
+                    $output['redirectBack'] = $output['urls']['getTagsUrl'];
                 } else {
                     $output['formResultStatus'] = 'error';
                     $output['formResultMessage'] = d__('rdbcmsa', 'Unable to delete.');

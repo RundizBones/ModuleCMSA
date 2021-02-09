@@ -31,21 +31,14 @@ class RdbCMSACategoriesIndexController extends RdbaDatatables {
         let addedCustomResultControls = false;
 
         let urlParams = new URLSearchParams(window.location.search);
-        let getQuerystring = '?';
-        if (!_.isEmpty(urlParams.get('filter-t_type'))) {
-            getQuerystring += 'filter-t_type=' + urlParams.get('filter-t_type');
-        }
 
         $.when(uiXhrCommonData)// uiXhrCommonData is variable from /assets/js/Controllers/Admin/UI/XhrCommonDataController/indexAction.js file
         .done(function() {
             let dataTable = $(thisClass.datatableIDSelector).DataTable({
                 'ajax': {
-                    'url': RdbCMSACategoriesIndexObject.getCategoriesRESTUrl + getQuerystring,
+                    'url': RdbCMSACategoriesIndexObject.getCategoriesRESTUrl,
                     'method': RdbCMSACategoriesIndexObject.getCategoriesRESTMethod,
-                    'dataSrc': 'listItems',// change array key of data source. see https://datatables.net/examples/ajax/custom_data_property.html
-                    'data': function(data) {
-                        data['filter-t_type'] = $('#rdba-filter-t_type').val();
-                    }
+                    'dataSrc': 'listItems'// change array key of data source. see https://datatables.net/examples/ajax/custom_data_property.html
                 },
                 'autoWidth': false,// don't set style="width: xxx;" in the table cell.
                 'columnDefs': [
@@ -87,19 +80,12 @@ class RdbCMSACategoriesIndexController extends RdbaDatatables {
                             let template = Handlebars.compile(source);
                             row.RdbCMSACategoriesIndexObject = RdbCMSACategoriesIndexObject;
 
-                            let searchValue = document.getElementById('rdba-filter-search').value;
-                            let sortableIcon = '';
-                            if (searchValue === '') {
-                                // if not displaying full tree, do not allow sorting.
-                                sortableIcon = '<i class="fas fa-arrows-alt fa-fw sortable-icon sortable-nwse-handle"></i> ';
-                            }
-
                             let categoryName = '';
                             let indentText = '&mdash; ';
                             if (row.t_level > 1) {
                                 categoryName += indentText.repeat((row.t_level - 1));
                             }
-                            categoryName += RdbaCommon.escapeHtml(data);
+                            categoryName += '<a class="rdba-listpage-edit" href="' + RdbCMSACategoriesIndexObject.editCategoryUrlBase + '/' + row.tid + '">' + RdbaCommon.escapeHtml(data) + '</a>';
 
                             let html = categoryName + template(row);
                             return html;
@@ -184,16 +170,11 @@ class RdbCMSACategoriesIndexController extends RdbaDatatables {
                     if (typeof(json.csrfKeyPair) !== 'undefined') {
                         RdbCMSACategoriesIndexObject.csrfKeyPair = json.csrfKeyPair;
                     }
-                    if (json.t_type) {
-                        RdbCMSACategoriesIndexObject.t_type = json.t_type;
-                    }
                 }
             })// datatables on xhr complete.
             .on('draw', function() {
                 // add listening events.
                 thisClass.addCustomResultControlsEvents(dataTable);
-                // set filter category type from querystring.
-                thisClass.setFilterCategoryTypeFromQuerystring();
             })// datatables on draw complete.
             ;
         });// uiXhrCommonData.done()
@@ -262,7 +243,7 @@ class RdbCMSACategoriesIndexController extends RdbaDatatables {
                             thisClass.listenFormSubmitBulkActions(categoryIdsArray);
                         } else if (bulkActionSelectbox.value === 'delete') {
                             // if bulk action is to delete items.
-                            let ajaxUrl = RdbCMSACategoriesIndexObject.actionsCategoriesUrl + '?t_type=' + encodeURI(RdbCMSACategoriesIndexObject.t_type) + '&tids=' + categoryIdsArray.join(',') + '&action=' + selectAction.value;
+                            let ajaxUrl = RdbCMSACategoriesIndexObject.actionsCategoriesUrl + '?tids=' + categoryIdsArray.join(',') + '&action=' + selectAction.value;
                             thisClass.RdbaXhrDialog.ajaxOpenLinkInDialog(ajaxUrl);
                         }
                     }
@@ -296,7 +277,7 @@ class RdbCMSACategoriesIndexController extends RdbaDatatables {
         submitBtn.disabled = true;
 
         RdbaCommon.XHR({
-            'url': RdbCMSACategoriesIndexObject.bulkActionsCategoryRESTUrlBase + '/' + categoryIdsArray.join(',') + '?t_type=' + encodeURI(RdbCMSACategoriesIndexObject.t_type),
+            'url': RdbCMSACategoriesIndexObject.bulkActionsCategoryRESTUrlBase + '/' + categoryIdsArray.join(','),
             'method': RdbCMSACategoriesIndexObject.bulkActionsCategoryRESTMethod,
             'contentType': 'application/x-www-form-urlencoded;charset=UTF-8',
             'data': new URLSearchParams(_.toArray(formData)).toString(),
@@ -369,29 +350,6 @@ class RdbCMSACategoriesIndexController extends RdbaDatatables {
 
         return false;
     }// resetDataTable
-
-
-    /**
-     * Set filter category type from querystring.
-     * 
-     * Also set `t_type` property of `RdbCMSACategoriesIndexObject` JS object.
-     * 
-     * @private This method was called from `activateDataTable()` method (on drawn).
-     * @returns {undefined}
-     */
-    setFilterCategoryTypeFromQuerystring() {
-        let thisForm = document.querySelector(this.formIDSelector);
-        let urlParams = new URLSearchParams(window.location.search);
-
-        if (!_.isEmpty(urlParams.get('filter-t_type'))) {
-            let filterCategoryType = thisForm.querySelector('#rdba-filter-t_type');
-            if (filterCategoryType) {
-                filterCategoryType.value = urlParams.get('filter-t_type');
-                filterCategoryType.disabled = true;
-            }
-            RdbCMSACategoriesIndexObject.t_type = urlParams.get('filter-t_type');
-        }
-    }// setFilterCategoryTypeFromQuerystring
 
 
 }// RdbCMSACategoriesIndexController

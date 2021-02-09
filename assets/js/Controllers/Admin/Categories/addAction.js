@@ -197,8 +197,6 @@ class RdbCMSACategoriesAddController {
         rdbcmsaCategoriesCommonActionsClass.listenDialogClosed();
         // listen on type URL and correct to safe URL string.
         rdbcmsaCategoriesCommonActionsClass.listenUrlToCorrectUrl();
-        // listen on change category type.
-        rdbcmsaCategoriesCommonActionsClass.listenOnChangeType();
 
         // listen ajax get parents done and do tasks.
         thisClass.listenGetParentsDone(rdbcmsaCategoriesCommonActionsClass);

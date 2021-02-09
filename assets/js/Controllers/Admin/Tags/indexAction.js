@@ -31,21 +31,14 @@ class RdbCMSATagsIndexController extends RdbaDatatables {
         let addedCustomResultControls = false;
 
         let urlParams = new URLSearchParams(window.location.search);
-        let getQuerystring = '?';
-        if (!_.isEmpty(urlParams.get('filter-t_type'))) {
-            getQuerystring += 'filter-t_type=' + urlParams.get('filter-t_type');
-        }
 
         $.when(uiXhrCommonData)// uiXhrCommonData is variable from /assets/js/Controllers/Admin/UI/XhrCommonDataController/indexAction.js file
         .done(function() {
             let dataTable = $(thisClass.datatableIDSelector).DataTable({
                 'ajax': {
-                    'url': RdbCMSATagsIndexObject.getTagsRESTUrl + getQuerystring,
+                    'url': RdbCMSATagsIndexObject.getTagsRESTUrl,
                     'method': RdbCMSATagsIndexObject.getTagsRESTMethod,
-                    'dataSrc': 'listItems',// change array key of data source. see https://datatables.net/examples/ajax/custom_data_property.html
-                    'data': function(data) {
-                        data['filter-t_type'] = $('#rdba-filter-t_type').val();
-                    }
+                    'dataSrc': 'listItems'// change array key of data source. see https://datatables.net/examples/ajax/custom_data_property.html
                 },
                 'autoWidth': false,// don't set style="width: xxx;" in the table cell.
                 'columnDefs': [
@@ -85,7 +78,8 @@ class RdbCMSATagsIndexController extends RdbaDatatables {
                             let template = Handlebars.compile(source);
                             row.RdbCMSATagsIndexObject = RdbCMSATagsIndexObject;
 
-                            let html = RdbaCommon.escapeHtml(data) + template(row);
+                            let html = '<a class="rdba-listpage-edit" href="' + RdbCMSATagsIndexObject.editTagUrlBase + '/' + row.tid + '">' + RdbaCommon.escapeHtml(data) + '</a>'
+                                + template(row);
                             return html;
                         }
                     },
@@ -155,16 +149,11 @@ class RdbCMSATagsIndexController extends RdbaDatatables {
                     if (typeof(json.csrfKeyPair) !== 'undefined') {
                         RdbCMSATagsIndexObject.csrfKeyPair = json.csrfKeyPair;
                     }
-                    if (json.t_type) {
-                        RdbCMSATagsIndexObject.t_type = json.t_type;
-                    }
                 }
             })// datatables on xhr complete.
             .on('draw', function() {
                 // add listening events.
                 thisClass.addCustomResultControlsEvents(dataTable);
-                // set filter tag type from querystring.
-                thisClass.setFilterTagTypeFromQuerystring();
             })// datatables on draw complete.
             ;
         });// uiXhrCommonData.done()
@@ -267,7 +256,7 @@ class RdbCMSATagsIndexController extends RdbaDatatables {
         submitBtn.disabled = true;
 
         RdbaCommon.XHR({
-            'url': RdbCMSATagsIndexObject.bulkActionsTagRESTUrlBase + '/' + tagIdsArray.join(',') + '?t_type=' + encodeURI(RdbCMSATagsIndexObject.t_type),
+            'url': RdbCMSATagsIndexObject.bulkActionsTagRESTUrlBase + '/' + tagIdsArray.join(','),
             'method': RdbCMSATagsIndexObject.bulkActionsTagRESTMethod,
             'contentType': 'application/x-www-form-urlencoded;charset=UTF-8',
             'data': new URLSearchParams(_.toArray(formData)).toString(),
@@ -344,7 +333,6 @@ class RdbCMSATagsIndexController extends RdbaDatatables {
             formData.append('tids', tids.join(','));
             formData.append(RdbCMSATagsIndexObject.csrfName, RdbCMSATagsIndexObject.csrfKeyPair[RdbCMSATagsIndexObject.csrfName]);
             formData.append(RdbCMSATagsIndexObject.csrfValue, RdbCMSATagsIndexObject.csrfKeyPair[RdbCMSATagsIndexObject.csrfValue]);
-            formData.append('t_type', RdbCMSATagsIndexObject.t_type);
 
             if (confirmValue === true) {
                 // reset form result placeholder
@@ -431,29 +419,6 @@ class RdbCMSATagsIndexController extends RdbaDatatables {
 
         return false;
     }// resetDataTable
-
-
-    /**
-     * Set filter tag type from querystring.
-     * 
-     * Also set `t_type` property of `RdbCMSATagsIndexObject` JS object.
-     * 
-     * @private This method was called from `activateDataTable()` method (on drawn).
-     * @returns {undefined}
-     */
-    setFilterTagTypeFromQuerystring() {
-        let thisForm = document.querySelector(this.formIDSelector);
-        let urlParams = new URLSearchParams(window.location.search);
-
-        if (!_.isEmpty(urlParams.get('filter-t_type'))) {
-            let filterTagType = thisForm.querySelector('#rdba-filter-t_type');
-            if (filterTagType) {
-                filterTagType.value = urlParams.get('filter-t_type');
-                filterTagType.disabled = true;
-            }
-            RdbCMSATagsIndexObject.t_type = urlParams.get('filter-t_type');
-        }
-    }// setFilterTagTypeFromQuerystring
 
 
 }// RdbCMSATagsIndexController

@@ -51,7 +51,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
         }
         $options['where'] = [
             'language' => ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th'),
-            't_type' => $this->Input->get('filter-t_type', $this->taxonomyType, FILTER_SANITIZE_STRING),
+            't_type' => $this->taxonomyType,
         ];
         $options['list_flatten'] = true;
         try {
@@ -165,10 +165,6 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
 
         $output['urls'] = $this->getCategoriesUrlMethods();
         $output['t_type'] = $this->taxonomyType;
-        if (isset($_GET['filter-t_type'])) {
-            $output['t_type'] = trim($this->Input->get('filter-t_type', $this->taxonomyType, FILTER_SANITIZE_STRING));
-            $output['urls']['addCategoryUrl'] .= '?t_type=' . $output['t_type'];
-        }
 
         $ConfigDb = new \Rdb\Modules\RdbAdmin\Models\ConfigDb($this->Container);
         unset($ConfigDb);

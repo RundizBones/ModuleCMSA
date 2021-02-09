@@ -58,7 +58,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
             // prepare data for checking.
             $data = [];
             $dataUrlAliases = [];
-            $data['t_type'] = trim($this->Input->post('t_type', 'category', FILTER_SANITIZE_STRING));
+            $data['t_type'] = $this->tagTaxonomyType;
             $data['t_name'] = trim($this->Input->post('t_name', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
             $data['t_description'] = trim($this->Input->post('t_description', null));
             // set null if empty.
@@ -127,7 +127,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
 
                     $_SESSION['formResult'] = json_encode([($output['formResultStatus'] ?? 'success') => $output['formResultMessage']]);
                     unset($output['formResultMessage'], $output['formResultStatus']);
-                    $output['redirectBack'] = $output['urls']['getTagsUrl'] . '?filter-t_type=' . $data['t_type'];
+                    $output['redirectBack'] = $output['urls']['getTagsUrl'];
                 } else {
                     $output['formResultStatus'] = 'error';
                     $output['formResultMessage'] = d__('rdbcmsa', 'Unable to add new tag.');
@@ -186,7 +186,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
         unset($Csrf);
 
         $output['baseUrl'] = $Url->getDomainProtocol() . $Url->getAppBasedPath(true);
-        $output['t_type'] = trim($this->Input->get('t_type', $this->tagTaxonomyType, FILTER_SANITIZE_STRING));
+        $output['t_type'] = $this->tagTaxonomyType;
 
         $urlBaseWithLang = $Url->getAppBasedPath(true);
         $output['breadcrumb'] = [

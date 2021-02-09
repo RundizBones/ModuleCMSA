@@ -175,7 +175,6 @@ class RdbCMSACategoriesCommonActions {
             return Promise.resolve();
         }
         let submitBtn = editingForm.querySelector('button[type="submit"]');
-        let categoryType = editingForm.querySelector('#t_type');
         let parentCategorySelectbox = editingForm.querySelector('#parent_id');
         // add spinner icon
         editingForm.querySelector('.action-status-placeholder').insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
@@ -184,7 +183,7 @@ class RdbCMSACategoriesCommonActions {
 
         // ajax get data.
         let promiseObj = RdbaCommon.XHR({
-            'url': RdbCMSACategoriesIndexObject.getCategoriesRESTUrl + '?filter-t_type=' + categoryType.value,
+            'url': RdbCMSACategoriesIndexObject.getCategoriesRESTUrl,
             'method': RdbCMSACategoriesIndexObject.getCategoriesRESTMethod,
             'dataType': 'json'
         })
@@ -318,33 +317,6 @@ class RdbCMSACategoriesCommonActions {
             });
         }
     }// listenDialogOpened
-
-
-    /**
-     * Listen on change category type.
-     * 
-     * @returns {undefined}
-     */
-    listenOnChangeType() {
-        let thisClass = this;
-
-        document.addEventListener('change', function(event) {
-            if (
-                event.target &&
-                event.target.id === 't_type' &&
-                event.target.form &&
-                '#' + event.target.form.id === thisClass.formIDSelector
-            ) {
-                let thisForm = event.target.form;
-
-                // ajax get parent categories.
-                thisClass.ajaxGetParentCategories();
-                // trigger name change to get new preview.
-                let categoryName = thisForm.querySelector('#t_name');
-                categoryName.dispatchEvent(new Event('keyup', {'bubbles': true}));
-            }
-        });
-    }// listenOnChangeType
 
 
     /**

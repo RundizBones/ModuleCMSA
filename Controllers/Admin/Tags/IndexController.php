@@ -94,7 +94,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
         }
         $options['where'] = [
             'taxonomy_term_data.language' => ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th'),
-            't_type' => $this->Input->get('filter-t_type', $this->tagTaxonomyType, FILTER_SANITIZE_STRING),
+            't_type' => $this->tagTaxonomyType,
         ];
         $result = $TagsDb->listItems($options);
         unset($options, $TagsDb);
@@ -153,10 +153,6 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
 
         $output['urls'] = $this->getTagsUrlsMethod();
         $output['t_type'] = $this->tagTaxonomyType;
-        if (isset($_GET['filter-t_type'])) {
-            $output['t_type'] = trim($this->Input->get('filter-t_type', $this->tagTaxonomyType, FILTER_SANITIZE_STRING));
-            $output['urls']['addTagUrl'] .= '?t_type=' . $output['t_type'];
-        }
 
         // display, response part ---------------------------------------------------------------------------------------------
         if ($this->Input->isNonHtmlAccept() || $this->Input->isXhr()) {

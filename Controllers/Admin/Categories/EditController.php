@@ -176,7 +176,7 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
 
                     $_SESSION['formResult'] = json_encode([($output['formResultStatus'] ?? 'success') => $output['formResultMessage']]);
                     unset($output['formResultMessage'], $output['formResultStatus']);
-                    $output['redirectBack'] = $output['urls']['getCategoriesUrl'] . '?filter-t_type=' . $categoryRow->t_type;
+                    $output['redirectBack'] = $output['urls']['getCategoriesUrl'];
                 } else {
                     $output['formResultStatus'] = 'error';
                     $output['formResultMessage'] = d__('rdbcmsa', 'Unable to update.');
@@ -237,22 +237,7 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
         unset($Csrf);
 
         $output['baseUrl'] = $Url->getDomainProtocol() . $Url->getAppBasedPath(true);
-        if (isset($_GET['t_type'])) {
-            $output['t_type'] = trim($this->Input->get('t_type', '', FILTER_SANITIZE_STRING));
-        } else {
-            $sql = 'SELECT `tid`, `t_type` FROM `' . $this->Db->tableName('taxonomy_term_data') . '` WHERE `tid` = :tid';
-            $Sth = $this->Db->PDO()->prepare($sql);
-            unset($sql);
-            $Sth->bindValue('tid', $tid, \PDO::PARAM_INT);
-            $Sth->execute();
-            $row = $Sth->fetchObject();
-            $Sth->closeCursor();
-            unset($Sth);
-            if (is_object($row)) {
-                $output['t_type'] = $row->t_type;
-            }
-            unset($row);
-        }
+        $output['t_type'] = $this->taxonomyType;
 
         $urlBaseWithLang = $Url->getAppBasedPath(true);
         $output['breadcrumb'] = [

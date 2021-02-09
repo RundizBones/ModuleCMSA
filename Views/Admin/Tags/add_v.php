@@ -24,14 +24,6 @@
                             <div class="form-result-placeholder"></div>
 
                             <div class="form-group">
-                                <label class="control-label" for="t_type"><?php echo d__('rdbcmsa', 'Type'); ?></label>
-                                <div class="control-wrapper">
-                                    <select id="t_type" name="t_type">
-                                        <option value="tag"<?php if (isset($t_type) && $t_type == 'tag') {echo ' selected="selected"';} ?>><?php echo d__('rdbcmsa', 'Contents tag'); ?></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label class="control-label" for="t_name"><?php echo d__('rdbcmsa', 'Name'); ?> <em>*</em></label>
                                 <div class="control-wrapper">
                                     <input id="t_name" type="text" name="t_name" maxlength="190" required="">

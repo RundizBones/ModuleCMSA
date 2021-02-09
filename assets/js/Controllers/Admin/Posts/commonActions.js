@@ -298,7 +298,7 @@ class RdbCMSAPostsCommonActions {
             tagify.loading(true) // show the loader animation
 
             RdbaCommon.XHR({
-                'url': RdbCMSAPostsEditingObject.getTagsRESTUrl + '?filter-t_type=' + thisClass.tTypeForTag + '&search[value]=' + e.detail.value + '&search[regex]=false',
+                'url': RdbCMSAPostsEditingObject.getTagsRESTUrl + '?search[value]=' + e.detail.value + '&search[regex]=false',
                 'method': RdbCMSAPostsEditingObject.getTagsRESTMethod,
                 'contentType': 'application/x-www-form-urlencoded;charset=UTF-8',
                 'dataType': 'json'

@@ -61,7 +61,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             return '';
         }
 
-        $output['t_type'] = $this->Input->delete('t_type', $this->taxonomyType);
+        $output['t_type'] = $this->taxonomyType;
 
         if (
             isset($_PATCH[$csrfName]) &&
@@ -156,7 +156,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             return '';
         }
 
-        $output['t_type'] = $this->Input->delete('t_type', $this->taxonomyType);
+        $output['t_type'] = $this->taxonomyType;
 
         if (
             isset($_DELETE[$csrfName]) &&
@@ -234,7 +234,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
                         $_SESSION['formResult'] = json_encode([($output['formResultStatus'] ?? 'success') => $output['formResultMessage']]);
                         unset($output['formResultMessage'], $output['formResultStatus']);
-                        $output['redirectBack'] = $output['urls']['getCategoriesUrl'] . '?filter-t_type=' . rawurlencode($output['t_type']);
+                        $output['redirectBack'] = $output['urls']['getCategoriesUrl'];
                     } else {
                         $output['formResultStatus'] = 'error';
                         $output['formResultMessage'] = d__('rdbcmsa', 'Unable to delete.');
@@ -294,6 +294,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
         $output['urls'] = $this->getCategoriesUrlMethods();
         $output = array_merge($output, $Csrf->createToken());
         unset($Csrf);
+        $output['t_type'] = $this->taxonomyType;
 
         // validate categories and action must be selected.
         $output = array_merge(
@@ -301,11 +302,10 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $this->validateCategoryActions(
                 $this->Input->get('tids'), 
                 $this->Input->get('action'),
-                ['t_type' => trim($this->Input->get('t_type', $this->taxonomyType))]
+                ['t_type' => $output['t_type']]
             )
         );
 
-        $output['t_type'] = trim($this->Input->get('t_type', $this->taxonomyType));
 
         $urlBaseWithLang = $Url->getAppBasedPath(true);
         $output['breadcrumb'] = [

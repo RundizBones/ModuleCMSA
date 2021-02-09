@@ -58,7 +58,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
             $data = [];
             $dataUrlAliases = [];
             $data['parent_id'] = trim($this->Input->post('parent_id', 0, FILTER_SANITIZE_NUMBER_INT));
-            $data['t_type'] = trim($this->Input->post('t_type', $this->taxonomyType, FILTER_SANITIZE_STRING));
+            $data['t_type'] = $this->taxonomyType;
             $data['t_name'] = trim($this->Input->post('t_name', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
             $data['t_description'] = trim($this->Input->post('t_description', null));
             $data['t_status'] = trim($this->Input->post('t_status', 0, FILTER_SANITIZE_NUMBER_INT));
@@ -128,7 +128,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
 
                     $_SESSION['formResult'] = json_encode([($output['formResultStatus'] ?? 'success') => $output['formResultMessage']]);
                     unset($output['formResultMessage'], $output['formResultStatus']);
-                    $output['redirectBack'] = $output['urls']['getCategoriesUrl'] . '?filter-t_type=' . $data['t_type'];
+                    $output['redirectBack'] = $output['urls']['getCategoriesUrl'];
                 } else {
                     $output['formResultStatus'] = 'error';
                     $output['formResultMessage'] = d__('rdbcmsa', 'Unable to add new category.');
@@ -187,7 +187,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
         unset($Csrf);
 
         $output['baseUrl'] = $Url->getDomainProtocol() . $Url->getAppBasedPath(true);
-        $output['t_type'] = trim($this->Input->get('t_type', $this->taxonomyType, FILTER_SANITIZE_STRING));
+        $output['t_type'] = $this->taxonomyType;
 
         $urlBaseWithLang = $Url->getAppBasedPath(true);
         $output['breadcrumb'] = [

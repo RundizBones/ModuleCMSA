@@ -156,7 +156,7 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
 
                     $_SESSION['formResult'] = json_encode([($output['formResultStatus'] ?? 'success') => $output['formResultMessage']]);
                     unset($output['formResultMessage'], $output['formResultStatus']);
-                    $output['redirectBack'] = $output['urls']['getTagsUrl'] . '?filter-t_type=' . $resultRow->t_type;
+                    $output['redirectBack'] = $output['urls']['getTagsUrl'];
                 } else {
                     $output['formResultStatus'] = 'error';
                     $output['formResultMessage'] = d__('rdbcmsa', 'Unable to update.');

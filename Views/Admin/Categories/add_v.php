@@ -24,14 +24,6 @@
                             <div class="form-result-placeholder"></div>
 
                             <div class="form-group">
-                                <label class="control-label" for="t_type"><?php echo d__('rdbcmsa', 'Type'); ?></label>
-                                <div class="control-wrapper">
-                                    <select id="t_type" name="t_type">
-                                        <option value="category"<?php if (isset($t_type) && $t_type == 'category') {echo ' selected="selected"';} ?>><?php echo d__('rdbcmsa', 'Contents category'); ?></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label class="control-label" for="parent_id"><?php echo d__('rdbcmsa', 'Parent category'); ?></label>
                                 <div class="control-wrapper">
                                     <select id="parent_id" name="parent_id">

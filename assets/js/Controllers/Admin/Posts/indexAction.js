@@ -631,7 +631,7 @@ class RdbCMSAPostsIndexController extends RdbaDatatables {
                 datalist.innerHTML = '';
 
                 RdbaCommon.XHR({
-                    'url': RdbCMSAPostsIndexObject.getTagsRESTUrl + '?search[value]=' + encodeURI(thisInput.value) + '&filter-t_type=' + RdbCMSAPostsIndexObject.tagType,
+                    'url': RdbCMSAPostsIndexObject.getTagsRESTUrl + '?search[value]=' + encodeURI(thisInput.value),
                     'method': RdbCMSAPostsIndexObject.getTagsRESTMethod,
                     'contentType': 'application/x-www-form-urlencoded;charset=UTF-8',
                     'dataType': 'json'

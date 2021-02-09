@@ -56,7 +56,7 @@
                         <template id="rdba-datatables-row-actions">
                             <div class="row-actions">
                                 <span class="action"><?php echo __('ID'); ?> {{tid}}</span>
-                                <span class="action"><a class="rdba-listpage-edit" href="{{RdbCMSACategoriesIndexObject.editCategoryUrlBase}}/{{tid}}?t_type={{t_type}}"><?php echo __('Edit'); ?></a></span> 
+                                <span class="action"><a class="rdba-listpage-edit" href="{{RdbCMSACategoriesIndexObject.editCategoryUrlBase}}/{{tid}}"><?php echo __('Edit'); ?></a></span> 
                                 <span class="action"><?php echo d__('rdbcmsa', 'Position'); ?> {{t_position}}</span>
                                 <span class="action"><?php echo d__('rdbcmsa', 'Total items'); ?> {{t_total}}</span>
                                 <span class="action"><a class="rdba-taxonomy-view" href="{{RdbCMSACategoriesIndexObject.baseUrl}}/taxonomies/{{t_type}}/{{tid}}"><?php echo d__('rdbcmsa', 'View'); ?></a></span>
@@ -65,12 +65,6 @@
 
                         <template id="rdba-datatables-result-controls">
                             <div class="col-xs-12 col-sm-6">
-                                <label>
-                                    <?php echo d__('rdbcmsa', 'Type'); ?>
-                                    <select id="rdba-filter-t_type" name="filter-t_type">
-                                        <option value="category"><?php echo esc_d__('rdbcmsa', 'Contents category'); ?></option>
-                                    </select>
-                                </label>
                                 <label>
                                     <?php echo __('Search'); ?>
                                     <input id="rdba-filter-search" class="rdba-datatables-input-search" type="search" name="search" aria-control="contentsCategoriesTable">

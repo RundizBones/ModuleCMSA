@@ -27,7 +27,6 @@
                             }
                             ?></div>
 
-                            <input id="t_type" type="hidden" name="t_type" value="<?php if (isset($t_type)) {echo htmlspecialchars($t_type, ENT_QUOTES);} ?>">
                             <input id="bulk-action" type="hidden" name="action" value="<?php if (isset($action)) {echo htmlspecialchars($action, ENT_QUOTES);} ?>">
                             <input id="bulk-tids" type="hidden" name="tids" value="<?php if (isset($tids)) {echo htmlspecialchars($tids, ENT_QUOTES);} ?>">
 
