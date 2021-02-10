@@ -108,23 +108,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                         if (in_array(strtolower($item['extension']), $FilesSubController->imageExtensions)) {
                             // if the extension is in one of allowed image extensions.
                             // create thumbnail size.
-                            $RdbCMSAImage = new \Rdb\Modules\RdbCMSA\Libraries\Image($item['full_path_new_name']);
-                            $Image = $RdbCMSAImage->Image;
-                            unset($RdbCMSAImage);
-                            $Image->jpg_quality = 80;
-                            $Image->png_quality = 5;
-                            $imageSize = $Image->getImageSize();
-                            $thumbnailSizes = $FilesSubController->getThumbnailSizes();
-                            foreach ($thumbnailSizes as $name => list($width, $height)) {
-                                if ($imageSize['width'] > $width || $imageSize['height'] > $height) {
-                                    $saveFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($item['new_name'], '_' . $name);
-                                    $Image->resize($width, $height);
-                                    $Image->save($saveFile);
-                                    $Image->clear();
-                                }
-                            }// endforeach;
-                            unset($height, $name, $width);
-                            unset($Image, $imageSize);
+                            $FilesSubController->resizeThumbnails($item, $FileSystem);
                         }
 
                         $data = [];

@@ -154,6 +154,7 @@
                                 <label>
                                     <select id="rdbcmsa-files-list-actions" class="rdbcmsa-files-list-actions rdba-actions-selectbox" name="bulk-actions">
                                         <option value=""><?php echo __('Action'); ?></option>
+                                        <option value="updatethumbnails"><?php echo d__('rdbcmsa', 'Update thumbnails'); ?></option>
                                         <option value="updatemeta"><?php echo d__('rdbcmsa', 'Update metadata'); ?></option>
                                         <option value="delete"><?php echo __('Delete'); ?></option>
                                     </select>

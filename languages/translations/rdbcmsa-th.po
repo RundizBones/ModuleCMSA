@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rdbcmsa\n"
-"POT-Creation-Date: 2021-02-06 12:46+0700\n"
-"PO-Revision-Date: 2021-02-06 12:46+0700\n"
+"POT-Creation-Date: 2021-02-10 14:14+0700\n"
+"PO-Revision-Date: 2021-02-10 14:14+0700\n"
 "Last-Translator: Vee W.\n"
 "Language-Team: \n"
 "Language: th_TH\n"
@@ -25,7 +25,8 @@ msgstr ""
 
 #: Controllers/Admin/Categories/ActionsController.php:101
 #: Controllers/Admin/Categories/EditController.php:174
-#: Controllers/Admin/Files/ActionsController.php:322
+#: Controllers/Admin/Files/ActionsController.php:301
+#: Controllers/Admin/Files/ActionsController.php:381
 #: Controllers/Admin/Files/EditController.php:106
 #: Controllers/Admin/Pages/ActionsController.php:151
 #: Controllers/Admin/Pages/EditController.php:189
@@ -46,35 +47,35 @@ msgstr "ปรับปรุงเรียบร้อยแล้ว."
 #: Controllers/Admin/Pages/RevisionController.php:153
 #: Controllers/Admin/Posts/ActionsController.php:315
 #: Controllers/Admin/Posts/RevisionController.php:153
-#: Controllers/Admin/Tags/ActionsController.php:241
+#: Controllers/Admin/Tags/ActionsController.php:243
 #: Controllers/Admin/Tools/URLAliases/ActionsController.php:91
 msgid "Unable to delete."
 msgstr "ไม่สามารถลบได้."
 
 #: Controllers/Admin/Categories/ActionsController.php:317
 #: Controllers/Admin/Categories/AddController.php:199
-#: Controllers/Admin/Categories/EditController.php:264
-#: Controllers/Admin/Files/ActionsController.php:379
+#: Controllers/Admin/Categories/EditController.php:249
+#: Controllers/Admin/Files/ActionsController.php:440
 #: Controllers/Admin/Files/EditController.php:182 Controllers/Admin/Pages/AddController.php:257
 #: Controllers/Admin/Pages/EditController.php:278
 #: Controllers/Admin/Pages/IndexController.php:238
 #: Controllers/Admin/Posts/AddController.php:257 Controllers/Admin/Posts/EditController.php:278
 #: Controllers/Admin/Posts/IndexController.php:240 Controllers/Admin/Tags/AddController.php:198
-#: Controllers/Admin/Tags/EditController.php:228 ModuleData/ModuleAdmin.php:137
+#: Controllers/Admin/Tags/EditController.php:228 ModuleData/ModuleAdmin.php:135
 msgid "Contents"
 msgstr "เนื้อหา"
 
 #: Controllers/Admin/Categories/ActionsController.php:321
 #: Controllers/Admin/Categories/AddController.php:203
-#: Controllers/Admin/Categories/EditController.php:268
-#: Controllers/Admin/Categories/IndexController.php:143 ModuleData/ModuleAdmin.php:76
-#: ModuleData/ModuleAdmin.php:157 Views/Admin/Posts/add_v.php:67
+#: Controllers/Admin/Categories/EditController.php:253
+#: Controllers/Admin/Categories/IndexController.php:143 ModuleData/ModuleAdmin.php:78
+#: ModuleData/ModuleAdmin.php:158 Views/Admin/Posts/add_v.php:67
 #: Views/Admin/Posts/index_v.php:24 Views/Admin/Posts/index_v.php:36
 msgid "Categories"
 msgstr "หมวดหมู่"
 
 #: Controllers/Admin/Categories/ActionsController.php:425
-#: Controllers/Admin/Categories/IndexController.php:213
+#: Controllers/Admin/Categories/IndexController.php:209
 msgid "Please select at least one category."
 msgstr "โปรดเลือกอย่างน้อยหนึ่งหมวดหมู่."
 
@@ -140,31 +141,37 @@ msgstr "ไม่สามารถปรับปรุงได้."
 msgid "Edit a category"
 msgstr "แก้ไขหมวดหมู่"
 
-#: Controllers/Admin/Categories/IndexController.php:214
+#: Controllers/Admin/Categories/IndexController.php:210
 #: Controllers/Admin/Files/IndexController.php:287 Models/PostsDb.php:827
-#: Views/Admin/Categories/add_v.php:79 Views/Admin/Categories/edit_v.php:89
+#: Views/Admin/Categories/add_v.php:71 Views/Admin/Categories/edit_v.php:81
 #: Views/Admin/Files/edit_v.php:61
 msgid "Published"
 msgstr "เผยแพร่แล้ว"
 
-#: Controllers/Admin/Categories/IndexController.php:215
-#: Controllers/Admin/Files/IndexController.php:288 Views/Admin/Categories/add_v.php:78
-#: Views/Admin/Categories/edit_v.php:88
+#: Controllers/Admin/Categories/IndexController.php:211
+#: Controllers/Admin/Files/IndexController.php:288 Views/Admin/Categories/add_v.php:70
+#: Views/Admin/Categories/edit_v.php:80
 msgid "Unpublished"
 msgstr "ไม่เผยแพร่"
 
-#: Controllers/Admin/Files/ActionsController.php:383
+#: Controllers/Admin/Files/ActionsController.php:297
+#, php-format
+msgid "The selected file is not an image. (%1$s)"
+msgid_plural "The selected files are not images. (%1$s)"
+msgstr[0] "ไฟล์ที่เลือกไม่ใช่รูปภาพ. (%1$s)"
+
+#: Controllers/Admin/Files/ActionsController.php:444
 #: Controllers/Admin/Files/EditController.php:186
-#: Controllers/Admin/Files/IndexController.php:214 ModuleData/ModuleAdmin.php:82
-#: ModuleData/ModuleAdmin.php:193 Views/Admin/Files/index_v.php:23
+#: Controllers/Admin/Files/IndexController.php:214 ModuleData/ModuleAdmin.php:84
+#: ModuleData/ModuleAdmin.php:194 Views/Admin/Files/index_v.php:23
 msgid "Files"
 msgstr "ไฟล์"
 
-#: Controllers/Admin/Files/ActionsController.php:490
+#: Controllers/Admin/Files/ActionsController.php:551
 msgid "Please select at least one file."
 msgstr "โปรดเลือกอย่างน้อยหนึ่งไฟล์."
 
-#: Controllers/Admin/Files/ActionsController.php:506
+#: Controllers/Admin/Files/ActionsController.php:567
 msgid "Delete file"
 msgid_plural "Delete files"
 msgstr[0] "ลบไฟล์"
@@ -173,7 +180,7 @@ msgstr[0] "ลบไฟล์"
 msgid "Please select the file."
 msgstr "กรุณาเลือกไฟล์."
 
-#: Controllers/Admin/Files/AddController.php:192
+#: Controllers/Admin/Files/AddController.php:176
 msgid "Uploaded successfully."
 msgstr "อัพโหลดเรียบร้อยแล้ว."
 
@@ -182,14 +189,14 @@ msgstr "อัพโหลดเรียบร้อยแล้ว."
 msgid "File browser"
 msgstr "ไฟล์เบราว์เซอร์"
 
-#: Controllers/Admin/Files/BrowserController.php:124
+#: Controllers/Admin/Files/BrowserController.php:128
 #: Controllers/Admin/Files/IndexController.php:286
 #: Controllers/Admin/Pages/EditController.php:333
 #: Controllers/Admin/Pages/IndexController.php:288
 #: Controllers/Admin/Posts/EditController.php:333
 #: Controllers/Admin/Posts/IndexController.php:290
-#: Controllers/Admin/Tags/ActionsController.php:177
-#: Controllers/Admin/Tags/IndexController.php:196
+#: Controllers/Admin/Tags/ActionsController.php:179
+#: Controllers/Admin/Tags/IndexController.php:192
 #: Controllers/Admin/Tools/URLAliases/IndexController.php:185
 msgid "Please select at least one item."
 msgstr "โปรดเลือกอย่างน้อยหนึ่งรายการ."
@@ -355,8 +362,8 @@ msgid "Add new page"
 msgstr "เพิ่มหน้าใหม่"
 
 #: Controllers/Admin/Pages/AddController.php:261 Controllers/Admin/Pages/EditController.php:282
-#: Controllers/Admin/Pages/IndexController.php:206 ModuleData/ModuleAdmin.php:80
-#: ModuleData/ModuleAdmin.php:181
+#: Controllers/Admin/Pages/IndexController.php:206 ModuleData/ModuleAdmin.php:82
+#: ModuleData/ModuleAdmin.php:182
 msgid "Pages"
 msgstr "หน้า"
 
@@ -400,8 +407,8 @@ msgid "Add new post"
 msgstr "เพิ่มโพสต์ใหม่"
 
 #: Controllers/Admin/Posts/AddController.php:261 Controllers/Admin/Posts/EditController.php:282
-#: Controllers/Admin/Posts/IndexController.php:208 ModuleData/ModuleAdmin.php:79
-#: ModuleData/ModuleAdmin.php:145
+#: Controllers/Admin/Posts/IndexController.php:208 ModuleData/ModuleAdmin.php:81
+#: ModuleData/ModuleAdmin.php:146
 msgid "Posts"
 msgstr "โพสต์"
 
@@ -425,8 +432,8 @@ msgid "Add a tag"
 msgstr "เพิ่มแท็ก"
 
 #: Controllers/Admin/Tags/AddController.php:202 Controllers/Admin/Tags/EditController.php:232
-#: Controllers/Admin/Tags/IndexController.php:131 ModuleData/ModuleAdmin.php:77
-#: ModuleData/ModuleAdmin.php:169 Views/Admin/Posts/add_v.php:75
+#: Controllers/Admin/Tags/IndexController.php:131 ModuleData/ModuleAdmin.php:79
+#: ModuleData/ModuleAdmin.php:170 Views/Admin/Posts/add_v.php:75
 #: Views/Admin/Posts/index_v.php:25 Views/Admin/Posts/index_v.php:37
 msgid "Tags"
 msgstr "แท็ก"
@@ -440,8 +447,9 @@ msgstr "ไม่พบแท็กที่เลือก."
 msgid "Edit a tag"
 msgstr "แก้ไขแท็ก"
 
-#: Controllers/Admin/Tools/EncodeDecode/IndexController.php:133 ModuleData/ModuleAdmin.php:78
-#: ModuleData/ModuleAdmin.php:220 Views/Admin/Tools/EncodeDecode/index_v.php:23
+#: Controllers/Admin/Tools/EncodeDecode/IndexController.php:133 ModuleData/ModuleAdmin.php:80
+#: ModuleData/ModuleAdmin.php:91 ModuleData/ModuleAdmin.php:221
+#: Views/Admin/Tools/EncodeDecode/index_v.php:23
 msgid "Encode/Decode"
 msgstr "Encode/Decode"
 
@@ -476,8 +484,8 @@ msgstr "ไม่พบ URL แฝงที่เลือก."
 msgid "Edit an URL alias"
 msgstr "แก้ไข URL แฝง"
 
-#: Controllers/Admin/Tools/URLAliases/IndexController.php:127 ModuleData/ModuleAdmin.php:81
-#: ModuleData/ModuleAdmin.php:208
+#: Controllers/Admin/Tools/URLAliases/IndexController.php:127 ModuleData/ModuleAdmin.php:83
+#: ModuleData/ModuleAdmin.php:209
 msgid "URL aliases"
 msgstr "URL แฝง"
 
@@ -509,87 +517,76 @@ msgstr "ถังขยะ"
 msgid "Inherit"
 msgstr "สืบทอด"
 
-#: ModuleData/ModuleAdmin.php:85
+#: ModuleData/ModuleAdmin.php:87
 msgid "List items"
 msgstr "แสดงรายการ"
 
-#: ModuleData/ModuleAdmin.php:86
+#: ModuleData/ModuleAdmin.php:88
 msgid "Add"
 msgstr "เพิ่ม"
 
-#: ModuleData/ModuleAdmin.php:87
+#: ModuleData/ModuleAdmin.php:89
 msgid "Edit"
 msgstr "แก้ไข"
 
-#: ModuleData/ModuleAdmin.php:88 Views/Admin/Files/index_v.php:172
+#: ModuleData/ModuleAdmin.php:90 Views/Admin/Files/index_v.php:173
 msgid "Delete"
 msgstr "ลบ"
 
-#: Views/Admin/Categories/actions_v.php:61 Views/Admin/Files/actions_v.php:54
+#: Views/Admin/Categories/actions_v.php:60 Views/Admin/Files/actions_v.php:54
 msgid "Warning!"
 msgstr "คำเตือน!"
 
-#: Views/Admin/Categories/actions_v.php:62
+#: Views/Admin/Categories/actions_v.php:61
 msgid "Child entries of any selected items will also be affected."
 msgstr "รายการลูกของรายการที่ถูกเลือกใดๆจะได้รับผลกระทบไปด้วย."
 
 #: Views/Admin/Categories/add_v.php:27 Views/Admin/Categories/edit_v.php:28
-#: Views/Admin/Categories/index_v.php:69 Views/Admin/Tags/add_v.php:27
-#: Views/Admin/Tags/edit_v.php:28 Views/Admin/Tags/index_v.php:66
-msgid "Type"
-msgstr "ประเภท"
-
-#: Views/Admin/Categories/add_v.php:30 Views/Admin/Categories/edit_v.php:31
-#: Views/Admin/Categories/index_v.php:71
-msgid "Contents category"
-msgstr "หมวดหมู่เนื้อหา"
-
-#: Views/Admin/Categories/add_v.php:35 Views/Admin/Categories/edit_v.php:36
 msgid "Parent category"
 msgstr "หมวดหมู่ผู้ปกครอง"
 
-#: Views/Admin/Categories/add_v.php:38 Views/Admin/Categories/edit_v.php:39
-#: Views/Admin/Files/browser_v.php:94
+#: Views/Admin/Categories/add_v.php:30 Views/Admin/Categories/edit_v.php:31
+#: Views/Admin/Files/browser_v.php:110
 msgid "None"
 msgstr "ไม่มี"
 
-#: Views/Admin/Categories/add_v.php:43 Views/Admin/Categories/edit_v.php:44
+#: Views/Admin/Categories/add_v.php:35 Views/Admin/Categories/edit_v.php:36
 #: Views/Admin/Categories/index_v.php:22 Views/Admin/Categories/index_v.php:33
-#: Views/Admin/Files/edit_v.php:30 Views/Admin/Tags/add_v.php:35 Views/Admin/Tags/edit_v.php:36
+#: Views/Admin/Files/edit_v.php:30 Views/Admin/Tags/add_v.php:27 Views/Admin/Tags/edit_v.php:28
 #: Views/Admin/Tags/index_v.php:22 Views/Admin/Tags/index_v.php:32
 msgid "Name"
 msgstr "ชื่อ"
 
-#: Views/Admin/Categories/add_v.php:47 Views/Admin/Categories/edit_v.php:48
+#: Views/Admin/Categories/add_v.php:39 Views/Admin/Categories/edit_v.php:40
 #: Views/Admin/Files/edit_v.php:35 Views/Admin/Pages/add_v.php:31
-#: Views/Admin/Posts/add_v.php:32 Views/Admin/Tags/add_v.php:39 Views/Admin/Tags/edit_v.php:40
+#: Views/Admin/Posts/add_v.php:32 Views/Admin/Tags/add_v.php:31 Views/Admin/Tags/edit_v.php:32
 msgid "HTML will be escaped."
 msgstr "HTML จะถูกแปลง."
 
-#: Views/Admin/Categories/add_v.php:52 Views/Admin/Categories/edit_v.php:53
+#: Views/Admin/Categories/add_v.php:44 Views/Admin/Categories/edit_v.php:45
 #: Views/Admin/Categories/index_v.php:23 Views/Admin/Categories/index_v.php:34
-#: Views/Admin/Files/edit_v.php:40 Views/Admin/Tags/add_v.php:44 Views/Admin/Tags/edit_v.php:45
+#: Views/Admin/Files/edit_v.php:40 Views/Admin/Tags/add_v.php:36 Views/Admin/Tags/edit_v.php:37
 #: Views/Admin/Tags/index_v.php:23 Views/Admin/Tags/index_v.php:33
 msgid "Description"
 msgstr "รายละเอียด"
 
-#: Views/Admin/Categories/add_v.php:56 Views/Admin/Categories/edit_v.php:57
-#: Views/Admin/Files/edit_v.php:45 Views/Admin/Tags/add_v.php:48 Views/Admin/Tags/edit_v.php:49
+#: Views/Admin/Categories/add_v.php:48 Views/Admin/Categories/edit_v.php:49
+#: Views/Admin/Files/edit_v.php:45 Views/Admin/Tags/add_v.php:40 Views/Admin/Tags/edit_v.php:41
 msgid "HTML is allowed."
 msgstr "อนุญาตให้ใช้ HTML."
 
-#: Views/Admin/Categories/add_v.php:61 Views/Admin/Categories/edit_v.php:62
-#: Views/Admin/Pages/add_v.php:75 Views/Admin/Posts/add_v.php:102 Views/Admin/Tags/add_v.php:53
+#: Views/Admin/Categories/add_v.php:53 Views/Admin/Categories/edit_v.php:54
+#: Views/Admin/Pages/add_v.php:75 Views/Admin/Posts/add_v.php:102 Views/Admin/Tags/add_v.php:45
 #: Views/Admin/Tools/URLAliases/add_v.php:41 Views/Admin/Tools/URLAliases/edit_v.php:42
 #: Views/Admin/Tools/URLAliases/index_v.php:22 Views/Admin/Tools/URLAliases/index_v.php:34
 msgid "URL alias"
 msgstr "URL แฝง"
 
-#: Views/Admin/Categories/add_v.php:70 Views/Admin/Categories/edit_v.php:71
+#: Views/Admin/Categories/add_v.php:62 Views/Admin/Categories/edit_v.php:63
 msgid "The name will be use on address of this category. Do not enter special characters."
 msgstr "ชื่อที่จะใช้บนที่อยู่ของหมวดนี้. อย่ากรอกอักขระพิเศษ."
 
-#: Views/Admin/Categories/add_v.php:75 Views/Admin/Categories/edit_v.php:85
+#: Views/Admin/Categories/add_v.php:67 Views/Admin/Categories/edit_v.php:77
 #: Views/Admin/Categories/index_v.php:25 Views/Admin/Categories/index_v.php:36
 #: Views/Admin/Files/edit_v.php:59 Views/Admin/Files/index_v.php:49
 #: Views/Admin/Files/index_v.php:61 Views/Admin/Pages/add_v.php:113
@@ -598,23 +595,23 @@ msgstr "ชื่อที่จะใช้บนที่อยู่ของ
 msgid "Status"
 msgstr "สถานะ"
 
-#: Views/Admin/Categories/add_v.php:82 Views/Admin/Categories/edit_v.php:92
+#: Views/Admin/Categories/add_v.php:74 Views/Admin/Categories/edit_v.php:84
 msgid ""
 "Any contents that is inside this category still accessible directly even if this category is "
 "unpublished."
 msgstr "เนื้อหาใดๆที่อยู่ภายในหมวดหมู่นี้จะยังเข้าถึงได้โดยตรงแม้ว่าหมวดหมู่นี้จะไม่เผยแพร่."
 
-#: Views/Admin/Categories/edit_v.php:76 Views/Admin/Categories/index_v.php:60
+#: Views/Admin/Categories/edit_v.php:68 Views/Admin/Categories/index_v.php:60
 msgid "Position"
 msgstr "ตำแหน่ง"
 
-#: Views/Admin/Categories/edit_v.php:80
+#: Views/Admin/Categories/edit_v.php:72
 msgid "Position of this category in the same parent."
 msgstr "ตำแหน่งของหมวดหมู่นี้ภายใต้หมวดหมู่ผู้ปกครองเดียวกัน."
 
 #: Views/Admin/Categories/index_v.php:24 Views/Admin/Categories/index_v.php:35
 #: Views/Admin/Pages/index_v.php:23 Views/Admin/Pages/index_v.php:34
-#: Views/Admin/Tags/edit_v.php:54 Views/Admin/Tags/index_v.php:24
+#: Views/Admin/Tags/edit_v.php:46 Views/Admin/Tags/index_v.php:24
 #: Views/Admin/Tags/index_v.php:34
 msgid "URL"
 msgstr "URL"
@@ -628,7 +625,7 @@ msgstr "รายการทั้งหมด"
 msgid "View"
 msgstr "ดู"
 
-#: Views/Admin/Categories/index_v.php:104 Views/Admin/Tags/index_v.php:101
+#: Views/Admin/Categories/index_v.php:98 Views/Admin/Tags/index_v.php:95
 msgid "Update total items"
 msgstr "ปรับปรุงจำนวนรายการทั้งหมด"
 
@@ -679,53 +676,53 @@ msgstr "เสียง"
 msgid "Video"
 msgstr "วีดีโอ"
 
-#: Views/Admin/Files/browser_v.php:73
+#: Views/Admin/Files/browser_v.php:78
 msgid "Set featured image"
 msgstr "กำหนดเป็นภาพหลัก"
 
-#: Views/Admin/Files/browser_v.php:84
+#: Views/Admin/Files/browser_v.php:97
 msgid "Set select images"
 msgstr "กำหนดรูปภาพที่เลือก"
 
-#: Views/Admin/Files/browser_v.php:91
+#: Views/Admin/Files/browser_v.php:107
 msgid "Link to"
 msgstr "ลิ้งค์ไปยัง"
 
-#: Views/Admin/Files/browser_v.php:95
+#: Views/Admin/Files/browser_v.php:111
 msgid "Actual file"
 msgstr "ไฟล์จริง"
 
-#: Views/Admin/Files/browser_v.php:96
+#: Views/Admin/Files/browser_v.php:112
 msgid "Attachment page"
 msgstr "หน้าแสดงไฟล์"
 
-#: Views/Admin/Files/browser_v.php:97
+#: Views/Admin/Files/browser_v.php:113
 msgid "Embed media player (for video or audio, otherwise it will use attachment page)."
 msgstr "ฝังตัวเล่นสื่อ (สำหรับวีดีโอหรือเสียง, นอกจากนั้นมันจะใช้หน้าแสดงไฟล์)."
 
-#: Views/Admin/Files/browser_v.php:102
+#: Views/Admin/Files/browser_v.php:118
 msgid "Image size"
 msgstr "ขนาดภาพ"
 
-#: Views/Admin/Files/browser_v.php:113
+#: Views/Admin/Files/browser_v.php:129
 msgid "Original"
 msgstr "ต้นฉบับ"
 
-#: Views/Admin/Files/browser_v.php:116
+#: Views/Admin/Files/browser_v.php:132
 msgid ""
 "If the selected resolution is not available, it will automatically use a smaller resolution "
 "or the original file."
 msgstr "ถ้าขนาดที่เลือกไม่มีอยู่, มันจะใช้ขนาดที่เล็กกว่าหรือขนาดต้นฉบับโดยอัตโนมัติ."
 
-#: Views/Admin/Files/browser_v.php:117
+#: Views/Admin/Files/browser_v.php:133
 msgid "This option will be use for image only."
 msgstr "ตัวเลือกนี้จะถูกใช้สำหรับภาพเท่านั้น."
 
-#: Views/Admin/Files/browser_v.php:124
+#: Views/Admin/Files/browser_v.php:145
 msgid "Insert"
 msgstr "แทรก"
 
-#: Views/Admin/Files/browser_v.php:189 Views/Admin/Files/edit_v.php:75
+#: Views/Admin/Files/browser_v.php:213 Views/Admin/Files/edit_v.php:75
 #: Views/Admin/Files/index_v.php:116
 msgid "Download"
 msgstr "ดาวน์โหลด"
@@ -787,10 +784,14 @@ msgid "Folder name"
 msgstr "ชื่อโฟลเดอร์"
 
 #: Views/Admin/Files/index_v.php:157
+msgid "Update thumbnails"
+msgstr "ปรับปรุงภาพย่อ"
+
+#: Views/Admin/Files/index_v.php:158
 msgid "Update metadata"
 msgstr "ปรับปรุง metadata"
 
-#: Views/Admin/Files/index_v.php:171
+#: Views/Admin/Files/index_v.php:172
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
@@ -953,11 +954,7 @@ msgstr "ชุดการปรับปรุงที่ใช้อยู่
 msgid "Rollback"
 msgstr "ย้อนกลับ"
 
-#: Views/Admin/Tags/add_v.php:30 Views/Admin/Tags/edit_v.php:31 Views/Admin/Tags/index_v.php:68
-msgid "Contents tag"
-msgstr "แท็กเนื้อหา"
-
-#: Views/Admin/Tags/add_v.php:62 Views/Admin/Tags/edit_v.php:63
+#: Views/Admin/Tags/add_v.php:54 Views/Admin/Tags/edit_v.php:55
 msgid "The name will be use on address of this tag. Do not enter special characters."
 msgstr "ชื่อที่จะใช้บนที่อยู่ของแท็กนี้. อย่ากรอกอักขระพิเศษ."
 
@@ -1052,3 +1049,12 @@ msgstr "รหัสเปลี่ยนเส้นทาง"
 #, php-format
 msgid "%1$sHTTP status code%2$s for redirection."
 msgstr "%1$sรหัสสถานะ HTTP%2$s สำหรับการเปลี่ยนเส้นทาง."
+
+#~ msgid "Type"
+#~ msgstr "ประเภท"
+
+#~ msgid "Contents category"
+#~ msgstr "หมวดหมู่เนื้อหา"
+
+#~ msgid "Contents tag"
+#~ msgstr "แท็กเนื้อหา"

@@ -234,6 +234,9 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             if ($action === 'updatemeta') {
                 // if action is update metadata.
                 $output = array_merge($output, $this->doUpdateDataUpdatemeta($file_ids, $action));
+            } elseif ($action === 'updatethumbnails') {
+                // if action is update thumbnails.
+                $output = array_merge($output, $this->doUpdateDataResizeThumbnails($file_ids, $action));
             }
         } else {
             // if unable to validate token.
@@ -250,6 +253,70 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
         unset($Csrf, $Url);
         return $this->responseAcceptType($output);
     }// doUpdateDataAction
+
+
+    protected function doUpdateDataResizeThumbnails(string $file_ids, string $action): array
+    {
+        $output = [];
+
+        $fileIdArray = explode(',', $file_ids);
+        if (is_array($fileIdArray)) {
+            $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
+            $options = [];
+            $options['file_id_in'] = $fileIdArray;
+            $options['unlimited'] = true;
+            $options['getFileFullPath'] = true;
+            $result = $FilesDb->listItems($options);
+            unset($options);
+
+            $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
+            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+            $resized = 0;
+            $notImageFiles = [];
+
+            if (isset($result['items']) && is_array($result['items'])) {
+                foreach ($result['items'] as $row) {
+                    if (in_array(strtolower($row->file_ext), $FilesSubController->imageExtensions)) {
+                        // if one of selected files is an image.
+                        $item = [];
+                        $item['full_path_new_name'] = $row->fileFullPath;
+                        $item['new_name'] = $row->file_name;
+                        $FilesSubController->resizeThumbnails($item, $FileSystem);
+                        unset($item);
+                        $resized++;
+                    } else {
+                        // if it is not and image.
+                        $output['formResultStatus'] = 'warning';
+                        $notImageFiles[] = $row->file_original_name;
+                    }
+                }// endforeach;
+                unset($row);
+            }// endif; if there is selected items.
+            unset($result);
+
+            // set output result for alert box.
+            if (!isset($output['formResultStatus'])) {
+                $output['formResultStatus'] = 'success';
+            }
+            if (!empty($notImageFiles)) {
+                $output['formResultMessage'][] = sprintf(
+                    dn__('rdbcmsa', 'The selected file is not an image. (%1$s)', 'The selected files are not images. (%1$s)', count($notImageFiles)),
+                    implode(', ', $notImageFiles)
+                );
+            }
+            if (!empty($resized)) {
+                $output['formResultMessage'][] = d__('rdbcmsa', 'Updated successfully.');
+            }
+            $output['totalResized'] = $resized;
+            http_response_code(200);
+            unset($notImageFiles, $resized);
+
+            unset($FilesDb, $FilesSubController, $FileSystem);
+        }// endif; is array fileIdArray
+        unset($fileIdArray);
+
+        return $output;
+    }// doUpdateDataResizeThumbnails
 
 
     /**
@@ -323,8 +390,10 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $output['totalUpdated'] = $updated;
             http_response_code(200);
             unset($updated);
+
+            unset($FilesDb, $FilesSubController);
         }// endif; is array fileIdArray
-        unset($fileIdArray, $FilesDb, $FilesSubController);
+        unset($fileIdArray);
 
         return $output;
     }// doUpdateDataUpdatemeta

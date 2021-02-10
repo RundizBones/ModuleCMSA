@@ -237,4 +237,53 @@ class FilesSubController
     }// getVideoMetadata
 
 
+    /**
+     * Resize thumbnails. If thumbnail exists, it will be overwrite.
+     * 
+     * @param array $item The associative array must contain keys:<br>
+     *                      `full_path_new_name` (string) The full path to original image file.<br>
+     *                      `new_name` (string) The file name with extension that was renamed. No slash or path or directory included.<br>
+     * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem The file system class.
+     * @throws \InvalidArgumentException Throw the errors if the required array key is not exists.
+     */
+    public function resizeThumbnails(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null)
+    {
+        if (!array_key_exists('full_path_new_name', $item)) {
+            throw new \InvalidArgumentException('The array key `full_path_new_name` for full path to original image file is required.');
+        }
+        if (!array_key_exists('new_name', $item)) {
+            throw new \InvalidArgumentException('The array key `new_name` for file name with extension is required.');
+        }
+
+        if (is_null($FileSystem)) {
+            $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
+        }
+
+        // initialize the class and get instance via property.
+        $RdbCMSAImage = new \Rdb\Modules\RdbCMSA\Libraries\Image($item['full_path_new_name']);
+        $Image = $RdbCMSAImage->Image;
+        unset($RdbCMSAImage);
+
+        // set jpg, png quality
+        $Image->jpg_quality = 80;
+        $Image->png_quality = 5;
+
+        // get image size for calculation and thumbnail sizes for resize.
+        $imageSize = $Image->getImageSize();
+        $thumbnailSizes = $this->getThumbnailSizes();
+
+        // loop thumbnail sizes and resize.
+        foreach ($thumbnailSizes as $name => list($width, $height)) {
+            if ($imageSize['width'] > $width || $imageSize['height'] > $height) {
+                $saveFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($item['new_name'], '_' . $name);
+                $Image->resize($width, $height);
+                $Image->save($saveFile);
+                $Image->clear();
+            }
+        }// endforeach;
+        unset($height, $name, $width);
+        unset($Image, $imageSize);
+    }// resizeThumbnails
+
+
 }// FilesSubController

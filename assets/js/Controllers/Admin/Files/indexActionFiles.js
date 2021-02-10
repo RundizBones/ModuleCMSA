@@ -109,9 +109,13 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
                             let html = '';
                             if (row.file_visibility === '1' && RdbCMSAFilesCommonObject.imageExtensions.includes(row.file_ext.toLowerCase())) {
                                 let thumbnailImage;
-                                if (RdbaCommon.isset(() => row.thumbnails.thumb300)) {
-                                    thumbnailImage = row.thumbnails.thumb300;
-                                } else {
+                                if (RdbaCommon.isset(() => row.thumbnails)) {
+                                    for (const [key, value] of Object.entries(row.thumbnails)) {
+                                        thumbnailImage = row.thumbnails[key];
+                                        break;
+                                    }
+                                }
+                                if (!thumbnailImage) {
                                     thumbnailImage = publicUrlWithFolderPrefix + '/' + row.file_name;
                                 }
                                 html += '<a class="rdbcmsa-files-image-thumbnail-link" href="' + publicUrlWithFolderPrefix + '/' + row.file_name + '" target="realImageFile">'
@@ -477,8 +481,8 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
 
                 if (formValidated === true) {
                     if (selectAction) {
-                        if (selectAction.value === 'updatemeta') {
-                            thisClass.listenFormUpdateMeta(selectAction.value, fileIdsArray);
+                        if (selectAction.value === 'updatemeta' || selectAction.value === 'updatethumbnails') {
+                            thisClass.listenFormUpdateActions(selectAction.value, fileIdsArray);
                         } else if (selectAction.value === 'delete') {
                             // if bulk action is to delete items.
                             let ajaxUrl = RdbCMSAFilesCommonObject.actionsFilesUrl + '?file_ids=' + fileIdsArray.join(',') + '&action=' + selectAction.value;
@@ -492,14 +496,14 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
 
 
     /**
-     * Update metadata.
+     * Update actions.
      * 
      * @private This method was called from `listenFormSubmit()` method.
      * @param {string} selectActionValue
      * @param {array} fileIdsArray
      * @returns {undefined}
      */
-    listenFormUpdateMeta(selectActionValue, fileIdsArray) {
+    listenFormUpdateActions(selectActionValue, fileIdsArray) {
         let thisClass = this;
         let thisForm = document.querySelector(this.formIDSelector);
         let submitBtn = thisForm.querySelector('button[type="submit"]');
@@ -564,13 +568,13 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
             // unlock submit button
             submitBtn.disabled = false;
         });
-    }// listenFormUpdateMeta
+    }// listenFormUpdateActions
 
 
     /**
      * Reload data table and filters.
      * 
-     * @private This method was called from `listenFormUpdateMeta()` method.
+     * @private This method was called from `listenFormUpdateActions()` method.
      * @returns {undefined}
      */
     reloadDataTable() {
