@@ -31,7 +31,7 @@ class ModuleAssetsTest extends \Rdb\Tests\BaseTestCase
                         // if the asset file is local.
                         // the code below was copied from `Assets::addAsset()` method.
                         $Url = new \Rdb\System\Libraries\Url($this->Container);
-                        $fileRealPath = preg_replace('#^' . preg_quote($Url->getAppBasedPath()) . '#', PUBLIC_PATH . '/', $asset['file'], 1);
+                        $fileRealPath = preg_replace('#^' . preg_quote($Url->getPublicModuleUrl(__FILE__)) . '#', dirname(__DIR__, 2) . '/', $asset['file'], 1);
                         $fileRealPath = realpath($fileRealPath);
                         if (!is_string($fileRealPath)) {
                             $fileRealPath = $asset['file'];
