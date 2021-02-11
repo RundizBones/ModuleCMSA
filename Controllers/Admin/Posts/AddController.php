@@ -289,7 +289,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
             $this->setJsAssetsAndObject($Assets, $rdbAdminAssets);
 
             $UserPermissionsDb = new \Rdb\Modules\RdbAdmin\Models\UserPermissionsDb($this->Container);
-            $FileBrowserSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FileBrowserSubController($this->Container);// required for tinymce file browser dialog
+            $FileBrowserSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FileBrowserSubController($this->Container);// required for tinymce file browser dialog
 
             $Assets->addMultipleAssets('css', ['rdbcmsaPostsEditingActions'], $Assets->mergeAssetsData('css', $moduleAssetsData, $rdbAdminAssets));
             $Assets->addMultipleAssets('js', ['rdbcmsaPostsAddAction'], $Assets->mergeAssetsData('js', $moduleAssetsData, $rdbAdminAssets));
