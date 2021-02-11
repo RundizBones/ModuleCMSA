@@ -33,7 +33,7 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
      * 
      * Example: file name is `photo123.jpg`, suffix is `_thumbnail300` then it will be return `photo123_thumbnail300.jpg`.
      * 
-     * @param string $filename The file name with full path or not but this can included the file extension.
+     * @param string $filename The file name file extension. Can be full path or not.
      * @param string $suffix The suffix string.
      * @return string Return the same as `$filename` input but add suffix before file extension.
      */
@@ -49,6 +49,32 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
 
         return $fileNameNoExt . $suffix . '.' . $fileExt;
     }// getSuffixFileName
+
+
+    /**
+     * Get file name without suffix.
+     * 
+     * Example: file name with suffix is `photo123_thumbnail300.jpg`, suffix is `_thumbnail300` the it will be return `photo123.jpg`.
+     * 
+     * @param string $filename The file name file extension. Can be full path or not.
+     * @param string $suffix The suffix string.
+     * @return string Return the original file name without suffix.
+     */
+    public function removeSuffixFileName(string $filename, string $suffix): string
+    {
+        $expFilename = explode('.', $filename);
+        // set file extension.
+        $fileExt = $expFilename[count($expFilename) - 1];
+        // remove last array index
+        unset($expFilename[count($expFilename) - 1]);
+        // merge array to get file name without extension.
+        $fileNameNoExt = implode('.', $expFilename);
+
+        $replaced = preg_replace('/' . preg_quote($suffix, '/') . '$/', '', $fileNameNoExt);
+        unset($fileNameNoExt);
+
+        return $replaced . '.' . $fileExt;
+    }// removeSuffixFileName
 
 
 }

@@ -37,4 +37,20 @@ class FileSystemTest extends \Rdb\Tests\BaseTestCase
     }// testGetSuffixFileName
 
 
+    public function testRemoveSuffixFileName()
+    {
+        $fileName = '/path/to/some.file_thumb300.jpg';
+        $expect = '/path/to/some.file.jpg';
+        $this->assertSame($expect, $this->FileSystem->removeSuffixFileName($fileName, '_thumb300'));
+
+        $fileName = '/path/to/some.file_thumb300_thumb300.jpg';
+        $expect = '/path/to/some.file_thumb300.jpg';
+        $this->assertSame($expect, $this->FileSystem->removeSuffixFileName($fileName, '_thumb300'));
+
+        $fileName = '/path/to/some.file_1_2_thumb400.jpg';
+        $expect = '/path/to/some.file_1_2.jpg';
+        $this->assertSame($expect, $this->FileSystem->removeSuffixFileName($fileName, '_thumb400'));
+    }// testRemoveSuffixFileName
+
+
 }
