@@ -71,6 +71,12 @@ trait FilesTrait
         $output['deleteFolderRESTMethod'] = 'DELETE';
         // end folder tasks. --------------
 
+        $output['scanUnindexedUrl'] = $urlAppBased . '/admin/cms/files/scan-unindexed';
+        $output['scanUnindexedRestUrl'] = $output['scanUnindexedUrl'];
+        $output['scanUnindexedRestMethod'] = 'GET';
+        $output['scanUnindexedAddRestUrl'] = $output['scanUnindexedUrl'];
+        $output['scanUnindexedAddRestMethod'] = 'POST';
+
         unset($Url, $urlAppBased);
 
         return $output;

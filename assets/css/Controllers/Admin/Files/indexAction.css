@@ -59,9 +59,11 @@
     display: flex;
     flex-grow: 1;
     flex-wrap: wrap;
+    margin-bottom: .625rem;
 }
 @media (min-width: 768px) {
     .rdbcmsa-files-dropzone {
+        margin-bottom: 0;
         margin-left: 0.938rem;
     }
 }
@@ -137,4 +139,30 @@ img.rdbcmsa-files-image-thumbnail,
 }
 .rdbcmsa-files-image-thumbnail-link i {
     display: inline-block;
+}
+
+
+.rdbcmsa-scan-icon-stack {
+    display: inline-block;
+    height: 1.3em;
+    position: relative;
+    width: 1.6em;
+}
+.rdbcmsa-scan-icon-search {
+    left: 10px;
+    position: absolute;
+    top: 3px;
+}
+
+.rdbcmsa-files-columns-header .rdbcmsa-scan-unindex-files-button,
+.rdbcmsa-scan-unindex-files-button {
+    align-self: flex-start;
+    margin-left: 0;
+}
+@media (min-width: 768px) {
+    .rdbcmsa-files-columns-header .rdbcmsa-scan-unindex-files-button,
+    .rdbcmsa-scan-unindex-files-button {
+        align-self: center;
+        margin-left: .625rem;
+    }
 }

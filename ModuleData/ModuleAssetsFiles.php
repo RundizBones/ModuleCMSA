@@ -54,6 +54,11 @@ class ModuleAssetsFiles
                     'dependency' => ['rdta'],
                 ],
                 [
+                    'handle' => 'rdbcmsaScanUnindexedAction',
+                    'file' => $publicModuleUrl . '/assets/css/Controllers/Admin/Files/scanUnindexedAction.css',
+                    'dependency' => ['rdta'],
+                ],
+                [
                     'handle' => 'rdbcmsaFilesFileBrowserAction',
                     'file' => $publicModuleUrl . '/assets/css/Controllers/Admin/Files/fileBrowserAction.css',
                     'dependency' => ['rdta'],
@@ -99,6 +104,11 @@ class ModuleAssetsFiles
                     'attributes' => [
                         'class' => 'ajaxInjectJs',
                     ],
+                ],
+                [
+                    'handle' => 'rdbcmsaFilesScanUnindexed',
+                    'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/Files/scanUnindexedAction.js',
+                    'dependency' => ['rdta', 'rdbaCommon', 'rdbaUiXhrCommonData', 'handlebars'],
                 ],
                 [
                     'handle' => 'rdbcmsaFilesFileBrowserFolders',

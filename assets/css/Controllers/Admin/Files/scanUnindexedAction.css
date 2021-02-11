@@ -1,0 +1,11 @@
+/*
+Scan unindexed files CSS.
+*/
+
+
+#rdbcmsa-unindexed-files-listing {
+    list-style: none;
+}
+#rdbcmsa-unindexed-files-listing li {
+    list-style: none;
+}

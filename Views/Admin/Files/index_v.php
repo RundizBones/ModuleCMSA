@@ -22,7 +22,7 @@
                                 <h2 class="rdbcmsa-files-columns-header">
                                     <?php echo d__('rdbcmsa', 'Files'); ?> 
                                     <div id="rdbcmsa-files-dropzone" class="rdbcmsa-files-dropzone" title="<?php echo esc_d__('rdbcmsa', 'Drop the files into this area to start upload.'); ?>">
-                                        <span id="rdbcmsa-files-choose-files-button" class="rd-button info rd-inputfile" tabindex="0">
+                                        <span id="rdbcmsa-files-choose-files-button" class="rd-button info rd-inputfile rdbcmsa-button-upload-file" tabindex="0">
                                             <span class="label"><i class="fas fa-file-upload"></i> <?php echo d__('rdbcmsa', 'Choose files'); ?></span>
                                             <input id="files_inputfiles" type="file" name="files_inputfiles" tabindex="-1" multiple="multiple">
                                         </span>
@@ -32,6 +32,13 @@
                                             <?php printf(d__('rdbcmsa', 'Max file size %s.'), ini_get('upload_max_filesize')); ?> 
                                         </div>
                                     </div><!--.rdbcmsa-files-dropzone-->
+                                    <a class="rd-button rdbcmsa-scan-unindex-files-button" href="<?php echo $urls['scanUnindexedUrl']; ?>" title="<?php echo esc_d__('rdbcmsa', 'Scan for unindexed files'); ?>">
+                                        <span class="rdbcmsa-scan-icon-stack">
+                                            <i class="far fa-list-alt"></i>
+                                            <i class="fas fa-search rdbcmsa-scan-icon-search"></i>
+                                        </span>
+                                        <span class="hidden-over-xs"><?php echo d__('rdbcmsa', 'Scan for unindexed files'); ?></span>
+                                    </a>
                                 </h2>
 
                                 <form id="rdbcmsa-files-list-form" class="rdba-datatables-form">

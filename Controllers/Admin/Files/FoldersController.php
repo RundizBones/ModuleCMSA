@@ -231,11 +231,12 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $FileSystem->createFolder($this->rootPublicFolderName);
             unset($FileSystem);
             $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
+            $targetDir = PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName;
 
             // list folders and subs recursively to nested array.
             // @link https://stackoverflow.com/a/40616438/128761 Original source code.
             $RDI = new \RecursiveDirectoryIterator(
-                PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName,
+                $targetDir,
                 \FilesystemIterator::SKIP_DOTS
             );
             $RII = new \RecursiveIteratorIterator(
@@ -245,7 +246,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             );
             $RII = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterRestricted(
                 $RII,
-                PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName,
+                $targetDir,
                 $this->restrictedFolder
             );
 
@@ -261,7 +262,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     ['/', '\\', DIRECTORY_SEPARATOR],
                     '/',
                     str_replace(
-                        PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName . DIRECTORY_SEPARATOR, 
+                        $targetDir . DIRECTORY_SEPARATOR, 
                         '', 
                         $File->getPathname()
                     )
@@ -285,7 +286,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
                 unset($file, $relatePath);
             }// endforeach;
-            unset($FilesSubController, $i, $RDI, $references, $RII);
+            unset($FilesSubController, $i, $RDI, $references, $RII, $targetDir);
         } else {
             // if unable to validate token.
             $output['formResultStatus'] = 'error';

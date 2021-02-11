@@ -39,4 +39,9 @@ $Rc->addRoute('PATCH', '/files/folders', '\\Rdb\\Modules\\RdbCMSA\\Controllers\\
 // /admin/cms/files/folders REST API (delete folder via REST).
 $Rc->addRoute('DELETE', '/files/folders', '\\Rdb\\Modules\\RdbCMSA\\Controllers\\Admin\\Files\\Folders:doDeleteFolder');
 // end folder tasks routes. ----------------
+
+// /admin/cms/files/scan-unindexed page + REST API (scan unindexed files via REST).
+$Rc->addRoute('GET', '/files/scan-unindexed', '\\Rdb\\Modules\\RdbCMSA\\Controllers\\Admin\\Files\\ScanUnindexed:index');
+// /admin/cms/files/scan-unindexed REST API.
+$Rc->addRoute('POST', '/files/scan-unindexed', '\\Rdb\\Modules\\RdbCMSA\\Controllers\\Admin\\Files\\ScanUnindexed:doIndex');
 // end files (media) management. ----------------------------------------------------
