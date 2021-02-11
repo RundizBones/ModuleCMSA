@@ -193,7 +193,7 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
         ];
         unset($urlBaseWithLang);
 
-        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
 
         // display, response part ---------------------------------------------------------------------------------------------
         if ($this->Input->isNonHtmlAccept()) {

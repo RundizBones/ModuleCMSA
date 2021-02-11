@@ -87,7 +87,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
             if ($formValidated === true) {
                 // if form validation passed.
                 $Upload = new \Rundiz\Upload\Upload('files_inputfiles');
-                $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+                $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
                 $Upload->move_uploaded_to = $uploadFolder;
                 $Upload->security_scan = true;
                 $Upload->stop_on_failed_upload_multiple = false;
@@ -202,7 +202,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
     {
         $this->validateArgument($insertedArray);
 
-        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
 
         foreach ($insertedArray as $key => $item) {
             if (in_array(strtolower($item['extension']), $FilesSubController->imageExtensions)) {
@@ -227,7 +227,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
     {
         $this->validateArgument($insertedArray);
 
-        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
         $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
 
         foreach ($insertedArray as $key => $item) {

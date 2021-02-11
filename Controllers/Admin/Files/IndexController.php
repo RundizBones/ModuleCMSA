@@ -236,9 +236,9 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
         unset($Csrf);
 
         $output['urls'] = $this->getFilesUrlsMethod();
-        $output = array_merge($output, $this->getUserUrlsMethods());
+        $output['urls'] = array_merge($output['urls'], $this->getUserUrlsMethods());
 
-        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
 
         // display, response part ---------------------------------------------------------------------------------------------
         if ($this->Input->isNonHtmlAccept()) {

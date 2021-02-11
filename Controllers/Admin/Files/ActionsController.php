@@ -93,7 +93,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 $PDO->beginTransaction();
                 $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
                 $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName);
-                $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+                $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
 
                 if (is_array($validateFileActions['listSelectedFiles']['items'])) {
                     $deleteSuccess = false;
@@ -270,7 +270,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             unset($options);
 
             $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
-            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
             $resized = 0;
             $notImageFiles = [];
 
@@ -342,7 +342,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $result = $FilesDb->listItems($options);
             unset($options);
 
-            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
             $updated = 0;
 
             if (isset($result['items']) && is_array($result['items'])) {
@@ -459,7 +459,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
         ];
         unset($urlBaseWithLang);
 
-        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
 
         // display, response part ---------------------------------------------------------------------------------------------
         if ($this->Input->isNonHtmlAccept()) {

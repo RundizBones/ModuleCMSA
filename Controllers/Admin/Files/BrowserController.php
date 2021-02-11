@@ -68,7 +68,7 @@ class BrowserController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
         $output['fullUrlToRootPublicStorage'] = $output['domainProtocol'] . 
             (!empty($output['publicUrl']) ? $output['publicUrl'] : '') . 
             (!empty($output['rootPublicFolderName']) ? '/' . $output['rootPublicFolderName'] : '');
-        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
         $output['thumbnailSizes'] = $FilesSubController->getThumbnailSizes();
         $output['fullUrlToRoot'] = $output['domainProtocol'] . 
             (!empty($output['publicUrl']) ? $output['publicUrl'] : '');
