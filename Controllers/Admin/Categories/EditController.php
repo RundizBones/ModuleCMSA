@@ -281,7 +281,7 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
             $this->setJsAssetsAndObject($Assets, $rdbAdminAssets);
 
             $ConfigDb = new \Rdb\Modules\RdbAdmin\Models\ConfigDb($this->Container);
-            $FileBrowserSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FileBrowserSubController($this->Container);// required for tinymce file browser dialog
+            $FileBrowserSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FileBrowserSubController($this->Container);// required for tinymce file browser dialog
 
             $Assets->addMultipleAssets('css', ['datatables', 'rdbaCommonListDataPage'], $rdbAdminAssets);
             $Assets->addMultipleAssets('js', ['rdbcmsaCategoriesEditAction', 'rdbaHistoryState'], $Assets->mergeAssetsData('js', $moduleAssetsData, $rdbAdminAssets));

@@ -189,7 +189,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
             $this->setCssAssets($Assets, $rdbAdminAssets);
             $this->setJsAssetsAndObject($Assets, $rdbAdminAssets);
 
-            $FileBrowserSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FileBrowserSubController($this->Container);// required for tinymce file browser dialog
+            $FileBrowserSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FileBrowserSubController($this->Container);// required for tinymce file browser dialog
 
             $Assets->addMultipleAssets('css', ['datatables', 'rdbaCommonListDataPage', 'rdbcmsaCategoriesIndexAction'], $Assets->mergeAssetsData('css', $moduleAssetsData, $rdbAdminAssets));
             $Assets->addMultipleAssets('js', ['rdbcmsaCategoriesIndexAction'], $Assets->mergeAssetsData('js', $moduleAssetsData, $rdbAdminAssets));
