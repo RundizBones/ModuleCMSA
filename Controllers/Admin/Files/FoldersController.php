@@ -77,6 +77,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $data['folderrelpath'] = trim($data['folderrelpath'], '/');
 
             $FileSystem = new \Rdb\System\Libraries\FileSystem(PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName);
+            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
 
             // validate the form. -------------------------------------------------
             $formValidated = false;
@@ -89,7 +90,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 $formValidated = true;
             }
 
-            if ($this->isRestrictedFolder($data['folderrelpath'])) {
+            if ($FilesSubController->isRestrictedFolder($data['folderrelpath'], $this->restrictedFolder)) {
                 $output['formResultStatus'] = 'error';
                 $output['formResultMessage'][] = d__('rdbcmsa', 'Unable to delete restricted folder.');
                 http_response_code(400);
@@ -159,7 +160,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 unset($deleteResult, $errorMessage);
             }
 
-            unset($FileSystem);
+            unset($FilesSubController, $FileSystem);
         } else {
             // if unable to validate token.
             $output['formResultStatus'] = 'error';
@@ -213,6 +214,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $FileSystem = new \Rdb\System\Libraries\FileSystem(PUBLIC_PATH);
             $FileSystem->createFolder($this->rootPublicFolderName);
             unset($FileSystem);
+            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
 
             // list folders and subs recursively to nested array.
             // @link https://stackoverflow.com/a/40616438/128761 Original source code.
@@ -243,7 +245,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     )
                 );
 
-                if ($this->isRestrictedFolder($relatePath)) {
+                if ($FilesSubController->isRestrictedFolder($relatePath, $this->restrictedFolder)) {
                     continue;
                 }
 
@@ -265,7 +267,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
                 unset($file, $relatePath);
             }// endforeach;
-            unset($i, $RDI, $references, $RII);
+            unset($FilesSubController, $i, $RDI, $references, $RII);
         } else {
             // if unable to validate token.
             $output['formResultStatus'] = 'error';
@@ -446,6 +448,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $data['new_folder_name'] = $this->Input->patch('new_folder_name');// new-folder-name
 
             $FileSystem = new \Rdb\System\Libraries\FileSystem(PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName);
+            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
 
             // validate the form. -------------------------------------------------
             $formValidated = false;
@@ -458,7 +461,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 $formValidated = true;
             }
 
-            if ($this->isRestrictedFolder($data['folder_to_rename'])) {
+            if ($FilesSubController->isRestrictedFolder($data['folder_to_rename'], $this->restrictedFolder)) {
                 $output['formResultStatus'] = 'error';
                 $output['formResultMessage'][] = d__('rdbcmsa', 'Unable to rename restricted folder.');
                 http_response_code(400);
@@ -533,7 +536,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 unset($oldFolderName);
             }
 
-            unset($FileSystem, $newFolderName, $upperFolder);
+            unset($FilesSubController, $FileSystem, $newFolderName, $upperFolder);
         } else {
             // if unable to validate token.
             $output['formResultStatus'] = 'error';
@@ -549,28 +552,6 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
         unset($Csrf, $Url);
         return $this->responseAcceptType($output);
     }// doRenameFolderAction
-
-
-    /**
-     * Check if folder specified is in restricted folder. Case insensitive.
-     * 
-     * @param string $folderToAct The folder to check. Related from [public]/[root public folder].
-     * @return bool Return `true` if restricted, `false` for not.
-     */
-    protected function isRestrictedFolder(string $folderToAct): bool
-    {
-        $output = false;
-
-        foreach ($this->restrictedFolder as $restrictedFolder) {
-            if (stripos($folderToAct, $restrictedFolder) === 0) {
-                $output = true;
-                break;
-            }
-        }// endforeach;
-        unset($restrictedFolder);
-
-        return $output;
-    }// isRestrictedFolder
 
 
 }

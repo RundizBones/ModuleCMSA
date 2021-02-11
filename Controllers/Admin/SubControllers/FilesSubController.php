@@ -65,6 +65,8 @@ class FilesSubController
     /**
      * Format duration.
      *
+     * This method was called from `getAudioMetadata()`, `getVideoMetadata()`.
+     * 
      * @link https://stackoverflow.com/a/41433276/128761 Original source code.
      * @param string $duration The duration.
      * @return string Return formatted duration.
@@ -235,6 +237,29 @@ class FilesSubController
 
         return $output;
     }// getVideoMetadata
+
+
+    /**
+     * Check if folder specified is in restricted folder. Case insensitive.
+     * 
+     * @param string $folderToAct The folder to check. Related from [public]/[root public folder].
+     * @param array $restrictedFolders The restricted folders. See `\Rdb\Modules\RdbCMSA\Controllers\Admin\Files\FoldersController::restrictedFolder` property.
+     * @return bool Return `true` if restricted, `false` for not.
+     */
+    public function isRestrictedFolder(string $folderToAct, array $restrictedFolders): bool
+    {
+        $output = false;
+
+        foreach ($restrictedFolders as $restrictedFolder) {
+            if (stripos($folderToAct, $restrictedFolder) === 0) {
+                $output = true;
+                break;
+            }
+        }// endforeach;
+        unset($restrictedFolder);
+
+        return $output;
+    }// isRestrictedFolder
 
 
     /**
