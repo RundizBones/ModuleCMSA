@@ -26,7 +26,9 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
 
     /**
-     * @var array Restricted folder name to list, delete, rename.
+     * @var array Restricted folder name to list, delete, rename. Case insensitive.<br>
+     *                  Start by related from [public folder]/[rootPublicFolderName or default is rdbadmin-public]/.<br>
+     *                  Example: ['avatar'] means [public]/[root public folder]/avatar and everything in it will be restricted.
      */
     protected $restrictedFolder = ['avatar'];
 
@@ -87,7 +89,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 $formValidated = true;
             }
 
-            if (in_array(strtolower($data['folderrelpath']), $this->restrictedFolder)) {
+            if ($this->isRestrictedFolder($data['folderrelpath'])) {
                 $output['formResultStatus'] = 'error';
                 $output['formResultMessage'][] = d__('rdbcmsa', 'Unable to delete restricted folder.');
                 http_response_code(400);
@@ -230,7 +232,18 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 if ($File->isFile()) {
                     continue;
                 }
-                if (in_array(strtolower($File->getFilename()), $this->restrictedFolder)) {
+
+                $relatePath = str_replace(
+                    ['/', '\\', DIRECTORY_SEPARATOR],
+                    '/',
+                    str_replace(
+                        PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName . DIRECTORY_SEPARATOR, 
+                        '', 
+                        $File->getPathname()
+                    )
+                );
+
+                if ($this->isRestrictedFolder($relatePath)) {
                     continue;
                 }
 
@@ -238,15 +251,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     'name' => $File->getFilename(),
                     'size' => $File->getSize(),
                     'realPath' => $File->getPathname(),
-                    'relatePath' => str_replace(
-                        ['/', '\\', DIRECTORY_SEPARATOR],
-                        '/',
-                        str_replace(
-                            PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName . DIRECTORY_SEPARATOR, 
-                            '', 
-                            $File->getPathname()
-                        )
-                    ),
+                    'relatePath' => $relatePath,
                     'depth' => $RII->getDepth(),
                 ];
 
@@ -258,7 +263,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 $references[$RII->getDepth()][] = $file;
                 $i++;
 
-                unset($file);
+                unset($file, $relatePath);
             }// endforeach;
             unset($i, $RDI, $references, $RII);
         } else {
@@ -453,7 +458,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 $formValidated = true;
             }
 
-            if (in_array(strtolower($data['folder_to_rename']), $this->restrictedFolder)) {
+            if ($this->isRestrictedFolder($data['folder_to_rename'])) {
                 $output['formResultStatus'] = 'error';
                 $output['formResultMessage'][] = d__('rdbcmsa', 'Unable to rename restricted folder.');
                 http_response_code(400);
@@ -544,6 +549,28 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
         unset($Csrf, $Url);
         return $this->responseAcceptType($output);
     }// doRenameFolderAction
+
+
+    /**
+     * Check if folder specified is in restricted folder. Case insensitive.
+     * 
+     * @param string $folderToAct The folder to check. Related from [public]/[root public folder].
+     * @return bool Return `true` if restricted, `false` for not.
+     */
+    protected function isRestrictedFolder(string $folderToAct): bool
+    {
+        $output = false;
+
+        foreach ($this->restrictedFolder as $restrictedFolder) {
+            if (stripos($folderToAct, $restrictedFolder) === 0) {
+                $output = true;
+                break;
+            }
+        }// endforeach;
+        unset($restrictedFolder);
+
+        return $output;
+    }// isRestrictedFolder
 
 
 }
