@@ -11,6 +11,7 @@ namespace Rdb\Modules\RdbCMSA\Controllers\Admin\Files;
  * Folders management controller.
  * 
  * @since 0.0.1
+ * @property-read array $restrictedFolder See `Rdb\Modules\RdbCMSA\Controllers\Admin\Files\FoldersController->restrictedFolder` property for more details.
  */
 class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBaseController
 {
@@ -31,6 +32,21 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
      *                  Example: ['avatar'] means [public]/[root public folder]/avatar and everything in it will be restricted.
      */
     protected $restrictedFolder = ['avatar'];
+
+
+    /**
+     * Magic get.
+     * 
+     * @param string $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        if (property_exists($this, $name)) {
+            return $this->{$name};
+        }
+        return ;
+    }// __get
 
 
     /**
@@ -77,7 +93,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $data['folderrelpath'] = trim($data['folderrelpath'], '/');
 
             $FileSystem = new \Rdb\System\Libraries\FileSystem(PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName);
-            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
 
             // validate the form. -------------------------------------------------
             $formValidated = false;
@@ -214,7 +230,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $FileSystem = new \Rdb\System\Libraries\FileSystem(PUBLIC_PATH);
             $FileSystem->createFolder($this->rootPublicFolderName);
             unset($FileSystem);
-            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
 
             // list folders and subs recursively to nested array.
             // @link https://stackoverflow.com/a/40616438/128761 Original source code.
@@ -227,6 +243,12 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 \RecursiveIteratorIterator::SELF_FIRST,
                 \RecursiveIteratorIterator::CATCH_GET_CHILD
             );
+            $RII = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterRestricted(
+                $RII,
+                PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName,
+                $this->restrictedFolder
+            );
+
             $output['list'] = [];
             $references = [&$output['list']];
             $i = 0;
@@ -243,11 +265,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                         '', 
                         $File->getPathname()
                     )
-                );
-
-                if ($FilesSubController->isRestrictedFolder($relatePath, $this->restrictedFolder)) {
-                    continue;
-                }
+                );// $relatePath will be use when rename, delete folder.
 
                 $file = [
                     'name' => $File->getFilename(),
@@ -448,7 +466,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $data['new_folder_name'] = $this->Input->patch('new_folder_name');// new-folder-name
 
             $FileSystem = new \Rdb\System\Libraries\FileSystem(PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName);
-            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
 
             // validate the form. -------------------------------------------------
             $formValidated = false;
