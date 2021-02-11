@@ -106,7 +106,7 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
      */
     public function countSearchFileInPosts(string $fileUrl, int $file_id): int
     {
-        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
         $imageSizes = $FilesSubController->getThumbnailSizes();
         unset($FilesSubController);
 
@@ -284,7 +284,7 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
         unset($Sth);
 
         if (is_object($result) && !empty($result)) {
-            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
             if (in_array(strtolower($result->file_ext), $FilesSubController->imageExtensions)) {
                 // if extension is image file.
                 $Url = new \Rdb\System\Libraries\Url($this->Container);
@@ -412,7 +412,7 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
     ): array {
         $tmpThumb = [];
         $thumbnailFullPath = $this->getFileWithFolderFullPath($row);
-        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
         $thumbnailSizes = $FilesSubController->getThumbnailSizes();
 
         if ($row->file_visibility === '0') {
@@ -615,7 +615,7 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
         if (is_array($result)) {
             $Url = new \Rdb\System\Libraries\Url($this->Container);
             $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem();
-            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
 
             foreach ($result as $index => $row) {
                 if (in_array(strtolower($row->file_ext), $FilesSubController->imageExtensions)) {
