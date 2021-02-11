@@ -195,6 +195,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
                         'link' => $urlBaseWithLang . '/admin/cms/files',
                         'linksCurrent' => [
                             $urlBase . '/admin/cms/files/edit/*',
+                            $urlBase . '/admin/cms/files/scan-unindexed',
                         ],
                     ],
                 ],
