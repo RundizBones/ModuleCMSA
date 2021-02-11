@@ -12,19 +12,21 @@ class RdbCMSAFilesScanUnindexedController {
      * Make Ajax request to start scan.
      * 
      * @private This method was called from `listenOnClickStartScan()`.
+     * @property {object} event The event object.
      * @returns {undefined}
      */
-    ajaxStartScan() {
+    ajaxStartScan(event) {
         let thisClass = this;
         const thisForm = document.getElementById('rdbcmsa-scan-unindexed-files-form');
         const submitBtn = thisForm.querySelector('button[type="submit"]');
         const listingElement = document.getElementById('rdbcmsa-unindexed-files-listing');
         const actionForm = document.getElementById('rdbcmsa-scan-unindexed-files-action-form');
+        let noUnlock = false;
 
         // reset form result placeholder
         thisForm.querySelector('.form-result-placeholder').innerHTML = '';
         // add spinner icon
-        thisForm.querySelector('.rdbcmsa-scan-status-icon-placeholder').insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
+        thisForm.querySelector('.rdbcmsa-scan-status-icon-placeholder').innerHTML = '<i class="fas fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>';
         // lock submit button
         submitBtn.disabled = true;
         // if offset is 0, reset listing
@@ -34,7 +36,7 @@ class RdbCMSAFilesScanUnindexedController {
         }
 
         let formData = new FormData(thisForm);
-        if (event.submitter) {
+        if (RdbaCommon.isset(() => event.submitter)) {
             formData.append(event.submitter.name, event.submitter.value);
         }
         formData.append(RdbCMSAFilesScanUnindexedObject.csrfName, RdbCMSAFilesScanUnindexedObject.csrfKeyPair[RdbCMSAFilesScanUnindexedObject.csrfName]);
@@ -61,6 +63,8 @@ class RdbCMSAFilesScanUnindexedController {
                 RdbCMSAFilesScanUnindexedObject.csrfKeyPair = response.csrfKeyPair;
             }
 
+            noUnlock = false;
+
             return Promise.reject(responseObject);
         })
         .then(function(responseObject) {
@@ -81,18 +85,25 @@ class RdbCMSAFilesScanUnindexedController {
                 console.log('total files: ' + scannedItems.totalFiles + ', unindexed: ' + scannedItems.totalUnIndex);
                 // set next start offset.
                 RdbCMSAFilesScanUnindexedObject.offset = (parseInt(RdbCMSAFilesScanUnindexedObject.offset) + parseInt(scannedItems.totalFiles));
+                noUnlock = true;
                 // call ajax again to scan for next offset.
-                thisClass.ajaxStartScan();
+                setTimeout(function() {
+                    thisClass.ajaxStartScan(event);
+                }, 500);
             } else {
                 // if there are no more files to display.
                 RdbCMSAFilesScanUnindexedObject.offset = 0;
+                noUnlock = false;
             }
         })
         .finally(function() {
-            // remove loading icon
-            thisForm.querySelector('.loading-icon').remove();
-            // unlock submit button
-            submitBtn.disabled = false;
+            if (noUnlock === false) {
+                // if allowed to unlock.
+                // remove loading icon
+                thisForm.querySelector('.loading-icon').remove();
+                // unlock submit button
+                submitBtn.disabled = false;
+            }
         });
     }// ajaxStartScan
 
@@ -129,7 +140,7 @@ class RdbCMSAFilesScanUnindexedController {
         thisForm.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            thisClass.ajaxStartScan();
+            thisClass.ajaxStartScan(event);
         });
     }// listenOnClickStartScan
 
