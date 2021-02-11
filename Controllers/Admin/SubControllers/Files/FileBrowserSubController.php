@@ -4,7 +4,7 @@
  */
 
 
-namespace Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers;
+namespace Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files;
 
 
 /**
