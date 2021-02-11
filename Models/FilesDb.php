@@ -11,6 +11,7 @@ namespace Rdb\Modules\RdbCMSA\Models;
  * Files DB.
  * 
  * @since 0.0.1
+ * @property-read string $tableName
  */
 class FilesDb extends \Rdb\System\Core\Models\BaseModel
 {
@@ -50,6 +51,21 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
             $this->rootPublicFolderName = $rootPublicFolderName;
         }
     }// __construct
+
+
+    /**
+     * Magic get.
+     * 
+     * @param string $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        if (property_exists($this, $name)) {
+            return $this->{$name};
+        }
+        return ;
+    }// __get
 
 
     /**
