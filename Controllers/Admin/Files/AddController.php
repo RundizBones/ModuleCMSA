@@ -103,13 +103,10 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                     $FilesDb->rootPublicFolderName = $this->rootPublicFolderName;
                     $InputUtils = new \Rdb\Modules\RdbCMSA\Libraries\InputUtils();
                     $output['insertedFileIds'] = [];
+                    $insertedArray = [];
 
                     foreach ($uploadData as $key => $item) {
-                        if (in_array(strtolower($item['extension']), $FilesSubController->imageExtensions)) {
-                            // if the extension is in one of allowed image extensions.
-                            // create thumbnail size.
-                            $FilesSubController->resizeThumbnails($item, $FileSystem);
-                        }
+                        // the image file (if uploaded) will be resize to thumbnails once all items was inserted to db.
 
                         $data = [];
                         $data['file_folder'] = $fileFolder;
@@ -119,26 +116,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                         $data['file_mime_type'] = $item['mime'];
                         $data['file_ext'] = $item['extension'];
                         $data['file_size'] = $item['size'];
-                        if (stripos($item['mime'], 'image/') !== false) {
-                            $data['file_metadata'] = json_encode(
-                                [
-                                    'image' => $FilesSubController->getImageMetadata($item['full_path_new_name']),
-                                ]
-                            );
-                        } elseif (stripos($item['mime'], 'video/') !== false) {
-                            $data['file_metadata'] = json_encode(
-                                [
-                                    'video' => $FilesSubController->getVideoMetadata($item['full_path_new_name']),
-                                    'audio' => $FilesSubController->getAudioMetadata($item['full_path_new_name']),
-                                ]
-                            );
-                        } elseif (stripos($item['mime'], 'audio/') !== false) {
-                            $data['file_metadata'] = json_encode(
-                                [
-                                    'audio' => $FilesSubController->getAudioMetadata($item['full_path_new_name']),
-                                ]
-                            );
-                        }
+                        // the metadata will be update once all items was inserted to db.
                         $data['file_media_name'] = trim($this->Input->post('file_media_name', $item['name'], FILTER_SANITIZE_STRING));
                         $data['file_media_description'] = trim($this->Input->post('file_media_description', null));
                         $data['file_media_keywords'] = trim($this->Input->post('file_media_keywords', null, FILTER_SANITIZE_STRING));
@@ -148,8 +126,18 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                             // this is to prevent the problem when query where `file_folder` = '' but the `file_folder` data is `NULL` and must be query `IS NULL` instead.
                             $data['file_folder'] = '';
                         }
-                        $output['insertedFileIds'][] = $FilesDb->add($data);
-                        unset($data);
+                        $insertId = $FilesDb->add($data);
+                        if ($insertId !== false && $insertId > 0) {
+                            $output['insertedFileIds'][] = $insertId;
+                            $insertedArray[] = [
+                                'extension' => $item['extension'],
+                                'file_id' => $insertId,
+                                'full_path_new_name' => $item['full_path_new_name'],
+                                'mime' => $item['mime'],
+                                'new_name' => $item['new_name'],
+                            ];
+                        }
+                        unset($data, $insertId);
                     }// endforeach;
                     unset($item, $key);
 
@@ -172,9 +160,14 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                 }// endif; contain error messages.
 
                 if ($uploadResult === true && empty($Upload->errorMessagesRaw)) {
+                    http_response_code(201);
                     $output['formResultStatus'] = 'success';
                     $output['formResultMessage'] = d__('rdbcmsa', 'Uploaded successfully.');
-                    http_response_code(201);
+
+                    if (isset($insertedArray)) {
+                        $this->updateMetadata($insertedArray);
+                        $this->resizeImages($insertedArray, $FileSystem);
+                    }
                 }
 
                 unset($FilesSubController, $Upload, $uploadData, $uploadResult);
@@ -196,6 +189,101 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
         unset($Csrf, $Url);
         return $this->responseAcceptType($output);
     }// doAddAction
+
+
+    /**
+     * Resize images if one of uploaded files is an image.
+     * 
+     * @param array $insertedArray The argument that was get from inserted file.
+     * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem The file system class.
+     * @throws \InvalidArgumentException Throw the error if required array keys are not exists.
+     */
+    protected function resizeImages(array $insertedArray, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem)
+    {
+        $this->validateArgument($insertedArray);
+
+        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+
+        foreach ($insertedArray as $key => $item) {
+            if (in_array(strtolower($item['extension']), $FilesSubController->imageExtensions)) {
+                // if the extension is in one of allowed image extensions.
+                // create thumbnail size.
+                $FilesSubController->resizeThumbnails($item, $FileSystem);
+            }
+        }// endforeach;
+        unset($item, $key);
+
+        unset($FilesSubController);
+    }// resizeImages
+
+
+    /**
+     * Update metadata.
+     * 
+     * @param array $insertedArray The argument that was get from inserted file.
+     * @throws \InvalidArgumentException Throw the error if required array keys are not exists.
+     */
+    protected function updateMetadata(array $insertedArray)
+    {
+        $this->validateArgument($insertedArray);
+
+        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\FilesSubController();
+        $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
+
+        foreach ($insertedArray as $key => $item) {
+            $data = [];
+
+            if (stripos($item['mime'], 'image/') !== false) {
+                $data['file_metadata'] = json_encode(
+                    [
+                        'image' => $FilesSubController->getImageMetadata($item['full_path_new_name']),
+                    ]
+                );
+            } elseif (stripos($item['mime'], 'video/') !== false) {
+                $data['file_metadata'] = json_encode(
+                    [
+                        'video' => $FilesSubController->getVideoMetadata($item['full_path_new_name']),
+                        'audio' => $FilesSubController->getAudioMetadata($item['full_path_new_name']),
+                    ]
+                );
+            } elseif (stripos($item['mime'], 'audio/') !== false) {
+                $data['file_metadata'] = json_encode(
+                    [
+                        'audio' => $FilesSubController->getAudioMetadata($item['full_path_new_name']),
+                    ]
+                );
+            }
+
+            if (!empty($data)) {
+                $FilesDb->update($data, ['file_id' => $item['file_id']]);
+            }
+        }// endforeach;
+        unset($item, $key);
+
+        unset($FilesDb, $FilesSubController);
+    }// updateMetadata
+
+
+    /**
+     * Validate required array keys in each array of the argument.
+     * 
+     * @param array $insertedArray The argument that was get from inserted file.
+     * @throws \InvalidArgumentException Throw the error if required array keys are not exists.
+     */
+    private function validateArgument(array $insertedArray)
+    {
+        foreach ($insertedArray as $key => $item) {
+            if (
+                !array_key_exists('extension', $item) ||
+                !array_key_exists('file_id', $item) ||
+                !array_key_exists('full_path_new_name', $item) ||
+                !array_key_exists('mime', $item) ||
+                !array_key_exists('new_name', $item)
+            ) {
+                throw new \InvalidArgumentException('Required array keys `extension`, `file_id`, `full_path_new_name`, `mime`, `new_name` in each array for the argument `$insertedArray`.');
+            }
+        }// endforeach;
+    }// validateArgument
 
 
 }
