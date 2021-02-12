@@ -194,11 +194,13 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
     /**
      * Resize images if one of uploaded files is an image.
      * 
+     * This method must be able to called from outside class. No protected or private.
+     * 
      * @param array $insertedArray The argument that was get from inserted file.
      * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem The file system class.
      * @throws \InvalidArgumentException Throw the error if required array keys are not exists.
      */
-    protected function resizeImages(array $insertedArray, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem)
+    public function resizeImages(array $insertedArray, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem)
     {
         $this->validateArgument($insertedArray);
 
@@ -220,10 +222,12 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
     /**
      * Update metadata.
      * 
+     * This method must be able to called from outside class. No protected or private.
+     * 
      * @param array $insertedArray The argument that was get from inserted file.
      * @throws \InvalidArgumentException Throw the error if required array keys are not exists.
      */
-    protected function updateMetadata(array $insertedArray)
+    public function updateMetadata(array $insertedArray)
     {
         $this->validateArgument($insertedArray);
 
