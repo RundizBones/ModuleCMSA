@@ -57,6 +57,12 @@ trait FilesTrait
         $output['updateFileDataRESTUrl'] = $urlAppBased . '/admin/cms/files/%file_ids%/%action%';
         $output['updateFileDataRESTMethod'] = 'PATCH';
 
+        $output['scanUnindexedUrl'] = $urlAppBased . '/admin/cms/files/scan-unindexed';
+        $output['scanUnindexedRestUrl'] = $output['scanUnindexedUrl'];
+        $output['scanUnindexedRestMethod'] = 'GET';
+        $output['scanUnindexedAddRestUrl'] = $output['scanUnindexedUrl'];
+        $output['scanUnindexedAddRestMethod'] = 'POST';
+
         // folder tasks. -------------------
         $output['getFoldersRESTUrl'] = $urlAppBased . '/admin/cms/files/folders';
         $output['getFoldersRESTMethod'] = 'GET';
@@ -70,12 +76,6 @@ trait FilesTrait
         $output['deleteFolderRESTUrl'] = $urlAppBased . '/admin/cms/files/folders';
         $output['deleteFolderRESTMethod'] = 'DELETE';
         // end folder tasks. --------------
-
-        $output['scanUnindexedUrl'] = $urlAppBased . '/admin/cms/files/scan-unindexed';
-        $output['scanUnindexedRestUrl'] = $output['scanUnindexedUrl'];
-        $output['scanUnindexedRestMethod'] = 'GET';
-        $output['scanUnindexedAddRestUrl'] = $output['scanUnindexedUrl'];
-        $output['scanUnindexedAddRestMethod'] = 'POST';
 
         unset($Url, $urlAppBased);
 

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rdbcmsa\n"
-"POT-Creation-Date: 2021-02-12 00:04+0700\n"
-"PO-Revision-Date: 2021-02-12 00:04+0700\n"
+"POT-Creation-Date: 2021-02-12 15:44+0700\n"
+"PO-Revision-Date: 2021-02-12 15:44+0700\n"
 "Last-Translator: Vee W.\n"
 "Language-Team: \n"
 "Language: th_TH\n"
@@ -57,7 +57,7 @@ msgstr "ไม่สามารถลบได้."
 #: Controllers/Admin/Categories/EditController.php:249
 #: Controllers/Admin/Files/ActionsController.php:448
 #: Controllers/Admin/Files/EditController.php:182
-#: Controllers/Admin/Files/ScanUnindexedController.php:264
+#: Controllers/Admin/Files/ScanUnindexedController.php:456
 #: Controllers/Admin/Pages/AddController.php:257 Controllers/Admin/Pages/EditController.php:278
 #: Controllers/Admin/Pages/IndexController.php:238
 #: Controllers/Admin/Posts/AddController.php:257 Controllers/Admin/Posts/EditController.php:278
@@ -164,7 +164,7 @@ msgstr[0] "ไฟล์ที่เลือกไม่ใช่รูปภา
 #: Controllers/Admin/Files/ActionsController.php:452
 #: Controllers/Admin/Files/EditController.php:186
 #: Controllers/Admin/Files/IndexController.php:214
-#: Controllers/Admin/Files/ScanUnindexedController.php:268 ModuleData/ModuleAdmin.php:84
+#: Controllers/Admin/Files/ScanUnindexedController.php:460 ModuleData/ModuleAdmin.php:84
 #: ModuleData/ModuleAdmin.php:194 Views/Admin/Files/index_v.php:23
 msgid "Files"
 msgstr "ไฟล์"
@@ -178,11 +178,11 @@ msgid "Delete file"
 msgid_plural "Delete files"
 msgstr[0] "ลบไฟล์"
 
-#: Controllers/Admin/Files/AddController.php:79
+#: Controllers/Admin/Files/AddController.php:81
 msgid "Please select the file."
 msgstr "กรุณาเลือกไฟล์."
 
-#: Controllers/Admin/Files/AddController.php:165
+#: Controllers/Admin/Files/AddController.php:167
 msgid "Uploaded successfully."
 msgstr "อัพโหลดเรียบร้อยแล้ว."
 
@@ -322,7 +322,36 @@ msgstr "เพิ่ม: %s"
 msgid "Update: %s"
 msgstr "ปรับปรุง: %s"
 
-#: Controllers/Admin/Files/ScanUnindexedController.php:223 Views/Admin/Files/index_v.php:35
+#: Controllers/Admin/Files/ScanUnindexedController.php:157
+#, php-format
+msgid "Already indexed files: %1$s."
+msgstr "ไฟล์ที่ทำดัชนีแล้ว: %1$s."
+
+#: Controllers/Admin/Files/ScanUnindexedController.php:160
+#, php-format
+msgid "Files not exists: %1$s."
+msgstr "ไฟล์ที่ไม่มีอยู่จริง: %1$s."
+
+#: Controllers/Admin/Files/ScanUnindexedController.php:168
+msgid "The file was indexed successfully."
+msgid_plural "The files was indexed successfully."
+msgstr[0] "ไฟล์ถูกทำดัชนีเรียบร้อยแล้ว."
+
+#: Controllers/Admin/Files/ScanUnindexedController.php:173
+#, php-format
+msgid "The selected files was indexed but some files are not.%1$s"
+msgstr "ไฟล์ที่เลือกถูกทำดัชนีแล้ว แต่บางไฟล์นั้นไม่ได้ทำ.%1$s"
+
+#: Controllers/Admin/Files/ScanUnindexedController.php:184
+#, php-format
+msgid "There are errors with selected files.%1$s"
+msgstr "มีข้อผิดพลาดเกี่ยวกับไฟล์ที่เลือก.%1$s"
+
+#: Controllers/Admin/Files/ScanUnindexedController.php:206
+msgid "Please select items to index."
+msgstr "กรุณาเลือกรายการที่จะทำดัชนี."
+
+#: Controllers/Admin/Files/ScanUnindexedController.php:415 Views/Admin/Files/index_v.php:35
 #: Views/Admin/Files/index_v.php:40
 msgid "Scan for unindexed files"
 msgstr "สแกนหาไฟล์ที่ไม่ได้ทำดัชนี"
@@ -802,19 +831,23 @@ msgstr "ปรับปรุง metadata"
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
-#: Views/Admin/Files/scanUnindexed_v.php:12
+#: Views/Admin/Files/scanUnindexed_v.php:13
 msgid "This can be scan for maximum %$1d files at a time."
 msgstr "นี่จะเป็นการสแกนได้มากสุด %1$d ไฟล์ต่อครั้ง."
 
-#: Views/Admin/Files/scanUnindexed_v.php:13
+#: Views/Admin/Files/scanUnindexed_v.php:14
 msgid "Start scan"
 msgstr "เริ่มสแกน"
 
-#: Views/Admin/Files/scanUnindexed_v.php:24
+#: Views/Admin/Files/scanUnindexed_v.php:19
+msgid "Scanned result"
+msgstr "ผลการสแกน"
+
+#: Views/Admin/Files/scanUnindexed_v.php:26
 msgid "Index selected items"
 msgstr "ทำดัชนีรายการที่เลือก."
 
-#: Views/Admin/Files/scanUnindexed_v.php:43
+#: Views/Admin/Files/scanUnindexed_v.php:47
 msgid "View this file."
 msgstr "ดูไฟล์นี้."
 

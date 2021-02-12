@@ -61,6 +61,8 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
 
             $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
             $FileSystem->createFolder($this->rootPublicFolderName);
+            unset($FileSystem);
+            $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName);
 
             // prepare data
             $fileFolder = str_replace(['\\', '/', DIRECTORY_SEPARATOR], '/', trim($this->Input->post('filter-file_folder', '')));

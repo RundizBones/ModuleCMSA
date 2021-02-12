@@ -28,9 +28,195 @@ class ScanUnindexedController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\Rdb
     protected $scanMaxFilesATime = 10;
 
 
-    public function doIndexAction()
+    /**
+     * Do index selected items.
+     * 
+     * @return string
+     */
+    public function doIndexAction(): string
     {
-        // @todo [rdcms] Do index selected files.
+        // processing part ----------------------------------------------------------------------------------------------------
+        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['add']);
+
+        if (session_id() === '') {
+            session_start();
+        }
+
+        $Csrf = new \Rdb\Modules\RdbAdmin\Libraries\Csrf([
+            'persistentTokenMode' => true,
+        ]);
+        $Url = new \Rdb\System\Libraries\Url($this->Container);
+        $this->Languages->getHelpers();
+
+        $output = [];
+
+        list($csrfName, $csrfValue) = $Csrf->getTokenNameValueKey(true);
+        if ($Csrf->validateToken($_POST[$csrfName], $_POST[$csrfValue])) {
+            // if validate token passed.
+            unset($_POST[$csrfName], $_POST[$csrfValue]);
+
+            if (
+                is_array($this->Input->post('realPathHash')) && 
+                isset($_POST['file_folder']) &&
+                isset($_POST['file_name']) &&
+                isset($_POST['realPath'])
+            ) {
+                // if there is at least one selected item.
+                $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container);
+                $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName);
+                $Finfo = new \finfo();
+
+                $totalFiles = count($_POST['realPathHash']);
+                $alreadyIndexed = [];
+                $fileNotExists = [];
+                $success = [];
+                $successHash = [];
+                $insertedArray = [];
+                foreach ($this->Input->post('realPathHash') as $index => $value) {
+                    // check for correct format data.
+                    if (
+                        !array_key_exists($index, $_POST['file_folder']) ||
+                        !array_key_exists($index, $_POST['file_name']) ||
+                        !array_key_exists($index, $_POST['realPath'])
+                    ) {
+                        // if incorrect POST data format.
+                        $fileNotExists[] = var_export($_POST['realPath'], true);
+                        continue;
+                    }
+
+                    // check for file exists and hash must be correct.
+                    if (
+                        !is_file($_POST['realPath'][$index]) || 
+                        sha1($_POST['realPath'][$index]) !== $value
+                    ) {
+                        // if file is not exists.
+                        $fileNotExists[] = $_POST['realPath'][$index];
+                        continue;
+                    }
+
+                    // check for file must not indexed.
+                    $result = $FilesDb->get([
+                        'file_folder' => $_POST['file_folder'][$index],
+                        'file_name' => $_POST['file_name'][$index],
+                    ]);
+                    if (is_object($result) && !empty($result)) {
+                        // if found selected item in DB.
+                        $alreadyIndexed[] = $_POST['realPath'][$index];
+                        unset($result);
+                        continue;
+                    }
+                    unset($result);
+
+                    // add selected file to db. ------------------------------------------
+                    $expFile = explode('.', $_POST['file_name'][$index]);
+                    $fileExtension = $expFile[count($expFile) - 1];
+                    unset($expFile);
+
+                    // rename the file.
+                    $safeName = $FileSystem->setWebSafeFileName($_POST['file_name'][$index]);
+                    if ($safeName === '.' . $fileExtension) {
+                        $safeName = uniqid().'-'.str_replace('.', '', microtime(true)) . '.' . $fileExtension;
+                    }
+                    $oldName = (!empty($_POST['file_folder'][$index]) ? $_POST['file_folder'][$index] . DIRECTORY_SEPARATOR : '') . $_POST['file_name'][$index];
+                    $newName = (!empty($_POST['file_folder'][$index]) ? $_POST['file_folder'][$index] . DIRECTORY_SEPARATOR : '') . $safeName;
+
+                    if ($FileSystem->rename($oldName, $newName) === true) {
+                        $data['file_folder'] = $_POST['file_folder'][$index];
+                        $data['file_visibility'] = 1;
+                        $data['file_name'] = $safeName;
+                        $data['file_original_name'] = $_POST['file_name'][$index];
+                        $data['file_mime_type'] = $Finfo->file($FileSystem->getFullPathWithRoot($newName), FILEINFO_MIME_TYPE);
+                        $data['file_ext'] = $fileExtension;
+                        $data['file_size'] = filesize($FileSystem->getFullPathWithRoot($newName));
+                        $data['file_media_name'] = strip_tags($newName);
+                        $insertId = $FilesDb->add($data);
+                        if ($insertId !== false && $insertId > 0) {
+                            $success[] = $FileSystem->getFullPathWithRoot($newName);
+                            $successHash[] = $value;
+                            $insertedArray[] = [
+                                'extension' => $data['file_ext'],
+                                'file_id' => $insertId,
+                                'full_path_new_name' => $FileSystem->getFullPathWithRoot($newName),
+                                'mime' => $data['file_mime_type'],
+                                'new_name' => $safeName,
+                            ];
+                        }
+                        unset($data, $fileExtension, $insertId);
+                    } else {
+                        $output['cannot_rename'] = true;
+                        $fileNotExists[] = $_POST['realPath'][$index];
+                    }// endif; rename successfully.
+                    unset($newName, $oldName, $safeName);
+                    // end add selected file to db. --------------------------------------
+                }// endforeach;
+                unset($FilesDb, $Finfo, $index, $value);
+
+                if (!empty($alreadyIndexed) || !empty($fileNotExists)) {
+                    $message = '';
+                    if (!empty($alreadyIndexed)) {
+                        $message .= ' ' . d__('rdbcmsa', 'Already indexed files: %1$s.', implode(', ', $alreadyIndexed));
+                    }
+                    if (!empty($fileNotExists)) {
+                        $message .= ' ' . d__('rdbcmsa', 'Files not exists: %1$s.', implode(', ', $fileNotExists));
+                    }
+                }
+
+                if (!empty($success) && empty($alreadyIndexed) && empty($fileNotExists)) {
+                    // if success only.
+                    http_response_code(201);
+                    $output['formResultStatus'] = 'success';
+                    $output['formResultMessage'] = dn__('rdbcmsa', 'The file was indexed successfully.', 'The files was indexed successfully.', $totalFiles);
+                } elseif (!empty($success) && (!empty($alreadyIndexed) || !empty($fileNotExists))) {
+                    // if success but contains error.
+                    http_response_code(201);
+                    $output['formResultStatus'] = 'warning';
+                    $output['formResultMessage'] = d__('rdbcmsa', 'The selected files was indexed but some files are not.%1$s', ($message ?? ''));
+                } else {
+                    // if errors with no success.
+                    if (!empty($alreadyIndexed) && empty($fileNotExists)) {
+                        http_response_code(409);
+                    } elseif (empty($alreadyIndexed) && !empty($fileNotExists)) {
+                        http_response_code(404);
+                    } else {
+                        http_response_code(400);
+                    }
+                    $output['formResultStatus'] = 'error';
+                    $output['formResultMessage'] = d__('rdbcmsa', 'There are errors with selected files.%1$s', ($message ?? ''));
+                }
+
+                $output['indexAllResult'] = [
+                    'alreadyIndexed' => $alreadyIndexed,
+                    'fileNotExists' => $fileNotExists,
+                    'success' => $success,
+                    'successHash' => $successHash,
+                ];
+
+                if (isset($insertedArray) && !empty($insertedArray)) {
+                    $AddController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\Files\AddController($this->Container);
+                    $AddController->updateMetadata($insertedArray);
+                    $AddController->resizeImages($insertedArray, $FileSystem);
+                    unset($AddController);
+                }
+
+                unset($alreadyIndexed, $fileNotExists, $FileSystem, $insertedArray, $message, $success, $successHash, $totalFiles);
+            } else {
+                // if there are no required POST data.
+                http_response_code(400);
+                $output['formResultStatus'] = 'error';
+                $output['formResultMessage'] = d__('rdbcmsa', 'Please select items to index.');
+            }
+        } else {
+            // if unable to validate token.
+            http_response_code(400);
+            $output['formResultStatus'] = 'error';
+            $output['formResultMessage'] = __('Unable to validate token, please try again. If this problem still occur please reload the page and try again.');
+            $output = array_merge($output, $Csrf->createToken());
+        }
+
+        unset($csrfName, $csrfValue);
+        // display, response part ---------------------------------------------------------------------------------------------
+        unset($Csrf, $Url);
+        return $this->responseAcceptType($output);
     }// doIndexAction
 
 
