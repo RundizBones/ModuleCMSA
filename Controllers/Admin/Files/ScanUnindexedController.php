@@ -120,7 +120,11 @@ class ScanUnindexedController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\Rdb
                     $oldName = (!empty($_POST['file_folder'][$index]) ? $_POST['file_folder'][$index] . DIRECTORY_SEPARATOR : '') . $_POST['file_name'][$index];
                     $newName = (!empty($_POST['file_folder'][$index]) ? $_POST['file_folder'][$index] . DIRECTORY_SEPARATOR : '') . $safeName;
 
-                    if ($FileSystem->rename($oldName, $newName) === true) {
+                    if ($oldName !== $newName) {
+                        $renameResult = $FileSystem->rename($oldName, $newName);
+                    }
+
+                    if (!isset($renameResult) || $renameResult === true) {
                         $data['file_folder'] = $_POST['file_folder'][$index];
                         $data['file_visibility'] = 1;
                         $data['file_name'] = $safeName;
@@ -144,9 +148,10 @@ class ScanUnindexedController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\Rdb
                         unset($data, $fileExtension, $insertId);
                     } else {
                         $output['cannot_rename'] = true;
+                        $output['oldName_newName'] = $oldName . ' :: ' . $newName;
                         $fileNotExists[] = $_POST['realPath'][$index];
                     }// endif; rename successfully.
-                    unset($newName, $oldName, $safeName);
+                    unset($newName, $oldName, $renameResult, $safeName);
                     // end add selected file to db. --------------------------------------
                 }// endforeach;
                 unset($FilesDb, $Finfo, $index, $value);
