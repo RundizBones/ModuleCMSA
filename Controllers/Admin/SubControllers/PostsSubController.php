@@ -439,34 +439,47 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
                 }
 
                 if (!property_exists($eachTag, 'tid')) {
-                    // if not found tid, means newly added tag to input.
-                    if ($UserPermissionsDb->checkPermission('RdbCMSA', 'RdbCMSAContentTags', ['add']) === true) {
-                        // if permission is set to allowed add new tag.
-                        // insert to DB and get its ID.
-                        $tid = $TagsDb->add([
-                            'language' => ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th'),
-                            't_type' => $this->tagType,
-                            't_name' => $eachTag->value,
-                        ]);
+                    // if not found tid, means it is possible that this is newly added tag to input or user enter exists tag without select from JS functional.
+                    // check first.
+                    $tag = $TagsDb->get([
+                        'taxonomy_term_data.language' => ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th'),
+                        't_type' => $this->tagType,
+                        't_name' => $eachTag->value,
+                    ]);
 
-                        if ($tid === false || $tid <= '0') {
-                            // failed to add new tag.
-                            if ($this->Container->has('Logger')) {
-                                /* @var $Logger \Rdb\System\Libraries\Logger */
-                                $Logger = $this->Container->get('Logger');
-                                $Logger->write('modules/cms/controllers/admin/subcontrollers/postssubcontroller', 4, 'Could not add new tag to DB. {t_name}', ['t_name' => $eachTag->value]);
-                                unset($Logger);
-                            }
-                            continue;
-                        } else {
-                            // if success to add new tag.
-                            $eachTag->tid = $tid;
-                        }// endif failed to add new tag.
-                        unset($tid);
+                    if (!empty($tag) && is_object($tag)) {
+                        $eachTag->tid = $tag->tid;
                     } else {
-                        // if permission denied to add new tag.
-                        continue;
-                    }// endif permission check for add new tag.
+                        if ($UserPermissionsDb->checkPermission('RdbCMSA', 'RdbCMSAContentTags', ['add']) === true) {
+                            // if permission is set to allowed add new tag.
+                            // insert to DB and get its ID.
+                            $tid = $TagsDb->add([
+                                'language' => ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th'),
+                                't_type' => $this->tagType,
+                                't_name' => $eachTag->value,
+                            ]);
+
+                            if ($tid === false || $tid <= '0') {
+                                // failed to add new tag.
+                                if ($this->Container->has('Logger')) {
+                                    /* @var $Logger \Rdb\System\Libraries\Logger */
+                                    $Logger = $this->Container->get('Logger');
+                                    $Logger->write('modules/cms/controllers/admin/subcontrollers/postssubcontroller', 4, 'Could not add new tag to DB. {t_name}', ['t_name' => $eachTag->value]);
+                                    unset($Logger);
+                                }
+                                continue;
+                            } else {
+                                // if success to add new tag.
+                                $eachTag->tid = $tid;
+                            }// endif failed to add new tag.
+                            unset($tid);
+                        } else {
+                            // if permission denied to add new tag.
+                            continue;
+                        }// endif permission check for add new tag.
+                    }// endif check tag name exists before add.
+
+                    unset($tag);
                 }// endif check tid in form field.
 
                 $dataTags[] = [
