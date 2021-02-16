@@ -433,6 +433,8 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         if (is_array($progTags)) {
             $TagsDb = new \Rdb\Modules\RdbCMSA\Models\TagsDb($this->Container);
             $UserPermissionsDb = new \Rdb\Modules\RdbAdmin\Models\UserPermissionsDb($this->Container);
+            $addTagPermission = $UserPermissionsDb->checkPermission('RdbGallery', 'RdbGalleryTags', ['add']);
+            unset($UserPermissionsDb);
             foreach ($progTags as $eachTag) {
                 if (!is_object($eachTag)) {
                     continue;
@@ -450,7 +452,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
                     if (!empty($tag) && is_object($tag)) {
                         $eachTag->tid = $tag->tid;
                     } else {
-                        if ($UserPermissionsDb->checkPermission('RdbCMSA', 'RdbCMSAContentTags', ['add']) === true) {
+                        if ($addTagPermission === true) {
                             // if permission is set to allowed add new tag.
                             // insert to DB and get its ID.
                             $tid = $TagsDb->add([
@@ -487,7 +489,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
                     'tid' => $eachTag->tid,
                 ];
             }// endforeach;
-            unset($eachTag, $TagsDb, $UserPermissionsDb);
+            unset($eachTag, $TagsDb);
         }
         unset($progTags);
         // end format tags data. ----------------------------
@@ -642,6 +644,8 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         if (is_array($progTags)) {
             $TagsDb = new \Rdb\Modules\RdbCMSA\Models\TagsDb($this->Container);
             $UserPermissionsDb = new \Rdb\Modules\RdbAdmin\Models\UserPermissionsDb($this->Container);
+            $addTagPermission = $UserPermissionsDb->checkPermission('RdbGallery', 'RdbGalleryTags', ['add']);
+            unset($UserPermissionsDb);
             foreach ($progTags as $eachTag) {
                 if (!is_object($eachTag)) {
                     continue;
@@ -649,7 +653,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
 
                 if (!property_exists($eachTag, 'tid')) {
                     // if not found tid, means newly added tag to input.
-                    if ($UserPermissionsDb->checkPermission('RdbCMSA', 'RdbCMSAContentTags', ['add']) === true) {
+                    if ($addTagPermission === true) {
                         // if permission is set to allowed add new tag.
                         // insert to DB and get its ID.
                         $tid = $TagsDb->add([
@@ -683,7 +687,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
                     'tid' => $eachTag->tid,
                 ];
             }// endforeach;
-            unset($eachTag, $TagsDb, $UserPermissionsDb);
+            unset($eachTag, $TagsDb);
         }
         unset($progTags);
         // end format tags data. ----------------------------
