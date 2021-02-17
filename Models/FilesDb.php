@@ -378,7 +378,7 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
     /**
      * Get file beginning path and append with data in `file_folder` column. The result will be in full path to `file_folder` but not include the file name.
      * 
-     * This method was called from `getThumbnails()` method.
+     * This method was called from `getThumbnails()`, `getFileFullPath()` methods.
      * 
      * @param \stdClass $row The result object from DB.
      * @return string Return full path with NO trailing slash or back-slash.
