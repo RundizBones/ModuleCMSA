@@ -204,7 +204,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
                     $dataCategories, 
                     [
                         'post_id' => $resultRow->post_id, 
-                        'taxonomy_term_data.t_type' => $this->categoryType,// for delete removed taxonomeis from the form.
+                        'taxonomy_term_data.t_type' => $this->categoryType,// for delete removed taxonomeis from the form. specific for categories.
                     ]
                 );
                 $output['updateCategoriesResult'] = $TaxonomyIndexDb->debugUpdate;
@@ -213,7 +213,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
                     $dataTags, 
                     [
                         'post_id' => $resultRow->post_id, 
-                        'taxonomy_term_data.t_type' => $this->tagType,// for delete removed taxonomeis from the form.
+                        'taxonomy_term_data.t_type' => $this->tagType,// for delete removed taxonomeis from the form. specific for tags.
                     ]
                 );
                 $output['updateTagsResult'] = $TaxonomyIndexDb->debugUpdate;
