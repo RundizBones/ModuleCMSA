@@ -474,6 +474,8 @@ class TaxonomyIndexDb extends \Rdb\System\Core\Models\BaseModel
             'where' => $where,
             'tidsNotIn' => $dataTi2D,
         ]);
+        unset($dataTi2D);
+
         if (isset($listItems['items']) && is_array($listItems['items'])) {
             $this->debugUpdate['removed'] = [];
             $sql = 'UPDATE `' . $this->Db->tableName('taxonomy_term_data') . '` SET `t_total` = `t_total` - 1 WHERE `tid` = :tid';
