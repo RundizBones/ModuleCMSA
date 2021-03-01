@@ -176,6 +176,7 @@ class FilesSubController
      *     'thumb100' => array(100, 100),// first array value is width, second is height.
      *     'thumb300' => array(300, 300),
      *     'thumb600' => array(600, 600),
+     *     'thumb900' => array(900, 900),
      * )
      * </pre>
      */
