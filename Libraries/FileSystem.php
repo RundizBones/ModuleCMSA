@@ -17,6 +17,28 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
 
 
     /**
+     * Get base 64 string from file name.
+     * 
+     * @link https://stackoverflow.com/a/13758760/128761 Original source code.
+     * @param string $filename The file name to get contents. This will be connect with root in constructor.
+     * @return string Return base 64 file content or empty string if not found.
+     */
+    public function getBase64File(string $filename): string
+    {
+        if (is_file($this->root . DIRECTORY_SEPARATOR . $filename)) {
+            $filePath = $this->root . DIRECTORY_SEPARATOR . $filename;
+            $Finfo = new \finfo();
+            $mimetype = $Finfo->file($filePath, FILEINFO_MIME_TYPE);
+            unset($Finfo);
+            $data = file_get_contents($filePath);
+            return 'data:' . $mimetype . ';base64,' . base64_encode($data);
+        }
+
+        return '';
+    }// getBase64File
+
+
+    /**
      * Connect with root (on constructor) and get its full path.
      * 
      * @param string $path The path that was not included in root.
