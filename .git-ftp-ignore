@@ -11,6 +11,7 @@
 .disabled
 .dist
 .dist/*
+.phpcs.xml.dist
 .wiki
 .wiki/*
 config/development/*
