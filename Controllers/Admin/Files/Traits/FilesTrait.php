@@ -77,6 +77,8 @@ trait FilesTrait
         $output['deleteFolderRESTMethod'] = 'DELETE';
         // end folder tasks. --------------
 
+        $output['viewFileFrontUrl'] = $urlAppBased . '/files/%file_id%';
+
         unset($Url, $urlAppBased);
 
         return $output;

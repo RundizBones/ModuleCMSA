@@ -121,6 +121,7 @@
                                 <span class="action"><?php echo __('ID'); ?> {{file_id}}</span>
                                 <span class="action"><a class="rdba-listpage-edit" href="{{RdbCMSAFilesCommonObject.editFileUrlBase}}/{{file_id}}"><?php echo __('Edit'); ?></a></span>
                                 <span class="action"><a href="{{#replace '%file_id%' file_id}}{{RdbCMSAFilesCommonObject.downloadFileUrl}}{{/replace}}"><?php echo d__('rdbcmsa', 'Download'); ?></a></span>
+                                <span class="action"><a href="{{#replace '%file_id%' file_id}}{{RdbCMSAFilesCommonObject.viewFileFrontUrl}}{{/replace}}" target="viewonfront"><?php echo d__('rdbcmsa', 'View'); ?></a></span>
                                 {{#if file_metadata.video}}
                                 <span class="action">{{file_metadata.video.width}}x{{file_metadata.video.height}}</span>
                                 {{/if}}
