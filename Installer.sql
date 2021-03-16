@@ -156,3 +156,12 @@ CREATE TABLE IF NOT EXISTS `%$url_aliases%` (
   PRIMARY KEY (`alias_id`),
   KEY `alias_content_id` (`alias_content_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='contain URL aliases to look up to its source or contain redirections.' AUTO_INCREMENT=1 ;
+
+
+-- translation matcher table. ------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `%$translation_matcher%` (
+  `tm_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tm_table` varchar(32) DEFAULT NULL COMMENT 'translation matcher for table. value can be just posts, taxonomy_term_data',
+  `matches` JSON DEFAULT NULL COMMENT 'the object data where key is language locale URL and its value is the table type ID. Example: `{"th": 12, "en-US": 26}`' CHECK (JSON_VALID(matches)),
+  PRIMARY KEY (`tm_id`)
+) DEFAULT CHARSET=utf8 COMMENT='contain posts and taxonomy translation matched in any post types or taxonomy types.' AUTO_INCREMENT=1 ;
