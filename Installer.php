@@ -3,11 +3,12 @@
  * RdbCMSA module.
  * 
  * Requirement: 
- * MySQL v8.0+, MariaDB v10.2.2+
+ * MySQL v8.0+, MariaDB v10.2.3+
+ *  * MariaDB v10.2.3+ for JSON functions.
  * PHP 7.1.0+
  * 
  * @package RdbCMSA
- * @version 0.0.1
+ * @version 0.0.2
  * @license http://opensource.org/licenses/MIT MIT
  */
 

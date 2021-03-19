@@ -53,6 +53,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
             'RdbCMSAPages' => ['list', 'add', 'edit', 'delete'],
             'RdbCMSAUrlAliases' => ['list', 'add', 'edit', 'delete'],
             'RdbCMSAFiles' => ['list', 'add', 'edit', 'delete'],
+            'RdbCMSATranslationMatcher' => ['list', 'match'],
         ];
     }// definePermissions
 
@@ -82,6 +83,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
         $keywords['RdbCMSAPages'] = noop__('Pages');
         $keywords['RdbCMSAUrlAliases'] = noop__('URL aliases');
         $keywords['RdbCMSAFiles'] = noop__('Files');
+        $keywords['RdbCMSATranslationMatcher'] = noop__('Translation matcher');
 
         // actions keywords
         $keywords['list'] = noop__('List items');
@@ -89,6 +91,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
         $keywords['edit'] = noop__('Edit');
         $keywords['delete'] = noop__('Delete');
         $keywords['encode_decode'] = noop__('Encode/Decode');
+        $keywords['match'] = noop__('Match');
 
         if (!empty($key)) {
             if (array_key_exists($key, $keywords)) {
@@ -196,6 +199,31 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
                         'linksCurrent' => [
                             $urlBase . '/admin/cms/files/edit/*',
                             $urlBase . '/admin/cms/files/scan-unindexed',
+                        ],
+                    ],
+                    5 => [
+                        'id' => 'rdbcmsa-contents-translationmatcher-divider1',
+                        'permission' => [
+                            ['RdbCMSATranslationMatcher', 'list', 'match'],
+                        ],
+                        'name' => '',
+                        'link' => '#',
+                        'aAttributes' => [
+                            'onclick' => 'return false;',
+                        ],
+                        'liAttributes' => [
+                            'class' => 'divider',
+                        ],
+                    ],
+                    6 => [
+                        'id' => 'rdbcmsa-translationmatcher',
+                        'permission' => [
+                            ['RdbCMSATranslationMatcher', 'list', 'match'],
+                        ],
+                        'name' => d__('rdbcmsa', 'Translation matcher'),
+                        'link' => $urlBaseWithLang . '/admin/cms/translation-matcher',
+                        'linksCurrent' => [
+                            $urlBase . '/admin/cms/translation-matcher/*',
                         ],
                     ],
                 ],
