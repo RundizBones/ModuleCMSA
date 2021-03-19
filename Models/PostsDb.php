@@ -652,7 +652,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
         }
 
         if (array_key_exists('postidsIn', $options) && is_array($options['postidsIn']) && !empty($options['postidsIn'])) {
-            // taxonomy IDs IN(..).
+            // post IDs IN(..).
             $sql .= ' AND';
 
             $postidsInPlaceholder = [];
