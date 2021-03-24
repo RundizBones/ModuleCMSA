@@ -1,5 +1,12 @@
 <?php
 /**
+ * Name: Change admin page URLs
+ * URL: https://rundiz.com
+ * Version: 0.0.2
+ * Description: Detect the correct content ID of selected language and return its URL.
+ * Author: Vee W.
+ * Author URL: http://rundiz.com
+ * 
  * @license http://opensource.org/licenses/MIT MIT
  */
 
