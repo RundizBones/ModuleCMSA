@@ -457,6 +457,7 @@ class RdbCMSATranslationMatcher extends RdbaDatatables {
         let thisClass = this;
         let thisForm = document.getElementById('rdbcmsa-translationmatcher-editing-form');
         let submitBtn = thisForm.querySelector('button[type="submit"]');
+        let ajaxSubmitting = false;
         if (thisForm) {
             thisForm.addEventListener('submit', (event) => {
                 event.preventDefault();
@@ -483,62 +484,70 @@ class RdbCMSATranslationMatcher extends RdbaDatatables {
                 formData.append(RdbCMSATranslationMatcherIndexObject.csrfName, RdbCMSATranslationMatcherIndexObject.csrfKeyPair[RdbCMSATranslationMatcherIndexObject.csrfName]);
                 formData.append(RdbCMSATranslationMatcherIndexObject.csrfValue, RdbCMSATranslationMatcherIndexObject.csrfKeyPair[RdbCMSATranslationMatcherIndexObject.csrfValue]);
 
-                // ajax submit form.
-                RdbaCommon.XHR({
-                    'url': ajaxFormUrl,
-                    'method': ajaxFormMethod,
-                    'contentType': 'application/x-www-form-urlencoded;charset=UTF-8',
-                    'data': new URLSearchParams(_.toArray(formData)).toString(),
-                    'dataType': 'json'
-                })
-                .then(function(responseObject) {
-                    // XHR success.
-                    let response = responseObject.response;
+                if (ajaxSubmitting === false) {
+                    ajaxSubmitting = true;
+                    // ajax submit form.
+                    RdbaCommon.XHR({
+                        'url': ajaxFormUrl,
+                        'method': ajaxFormMethod,
+                        'contentType': 'application/x-www-form-urlencoded;charset=UTF-8',
+                        'data': new URLSearchParams(_.toArray(formData)).toString(),
+                        'dataType': 'json'
+                    })
+                    .then(function(responseObject) {
+                        // XHR success.
+                        let response = responseObject.response;
 
-                    if (response.savedSuccess === true) {
-                        // this is opening in dialog, close the dialog and reload page.
-                        document.querySelector(thisClass.dialogIDSelector + ' [data-dismiss="dialog"]').click();
-                        // reload datatable.
-                        jQuery(thisClass.datatableIDSelector).DataTable().ajax.reload(null, false);
-                    } 
+                        if (response.savedSuccess === true) {
+                            // if saved successfully.
+                            // reset form.
+                            thisClass.resetEditingForm();
+                            // this is opening in dialog, close the dialog and reload page.
+                            document.querySelector(thisClass.dialogIDSelector + ' [data-dismiss="dialog"]').click();
+                            // reload datatable.
+                            jQuery(thisClass.datatableIDSelector).DataTable().ajax.reload(null, false);
+                        } 
 
-                    if (response && response.formResultMessage) {
-                        // if there is form result message, display it.
-                        RdbaCommon.displayAlertboxFixed(response.formResultMessage, response.formResultStatus);
-                    }
+                        if (response && response.formResultMessage) {
+                            // if there is form result message, display it.
+                            RdbaCommon.displayAlertboxFixed(response.formResultMessage, response.formResultStatus);
+                        }
 
-                    if (typeof(response) !== 'undefined' && typeof(response.csrfKeyPair) !== 'undefined') {
-                        RdbCMSATranslationMatcherIndexObject.csrfKeyPair = response.csrfKeyPair;
-                    }
+                        if (typeof(response) !== 'undefined' && typeof(response.csrfKeyPair) !== 'undefined') {
+                            RdbCMSATranslationMatcherIndexObject.csrfKeyPair = response.csrfKeyPair;
+                        }
 
-                    return Promise.resolve(responseObject);
-                }, function(error) {
-                    // prevent Uncaught (in promise) error.
-                    return Promise.reject(error);
-                })
-                .catch(function(responseObject) {
-                    // XHR failed.
-                    let response = responseObject.response;
+                        return Promise.resolve(responseObject);
+                    }, function(error) {
+                        // prevent Uncaught (in promise) error.
+                        return Promise.reject(error);
+                    })
+                    .catch(function(responseObject) {
+                        // XHR failed.
+                        let response = responseObject.response;
 
-                    if (response && response.formResultMessage) {
-                        let alertClass = RdbaCommon.getAlertClassFromStatus(response.formResultStatus);
-                        let alertBox = RdbaCommon.renderAlertHtml(alertClass, response.formResultMessage);
-                        thisForm.querySelector('.form-result-placeholder').innerHTML = alertBox;
-                    }
+                        if (response && response.formResultMessage) {
+                            let alertClass = RdbaCommon.getAlertClassFromStatus(response.formResultStatus);
+                            let alertBox = RdbaCommon.renderAlertHtml(alertClass, response.formResultMessage);
+                            thisForm.querySelector('.form-result-placeholder').innerHTML = alertBox;
+                        }
 
-                    if (typeof(response) !== 'undefined' && typeof(response.csrfKeyPair) !== 'undefined') {
-                        RdbCMSATranslationMatcherIndexObject.csrfKeyPair = response.csrfKeyPair;
-                    }
+                        if (typeof(response) !== 'undefined' && typeof(response.csrfKeyPair) !== 'undefined') {
+                            RdbCMSATranslationMatcherIndexObject.csrfKeyPair = response.csrfKeyPair;
+                        }
 
-                    return Promise.reject(responseObject);
-                })
-                .finally(function() {
-                    // remove loading icon
-                    thisForm.querySelector('.loading-icon').remove();
-                    // unlock submit button
-                    submitBtn.disabled = false;
-                });
-            });
+                        return Promise.reject(responseObject);
+                    })
+                    .finally(function() {
+                        // remove loading icon
+                        thisForm.querySelector('.loading-icon').remove();
+                        // unlock submit button
+                        submitBtn.disabled = false;
+                        // restore ajax submitting.
+                        ajaxSubmitting = false;
+                    });
+                }// endif; ajaxSubmitting
+            });// event listener
         }
     }// listenEditingFormSubmit
 
@@ -585,7 +594,6 @@ class RdbCMSATranslationMatcher extends RdbaDatatables {
                                     let option = '<option data-data_name="' + item.data_name + '" data-data_id="' + item.data_id + '" value="(' + item.data_id + ') ' + item.data_name + ' - ' + item.data_type + '"></option>';
                                     dataResultList.insertAdjacentHTML('beforeend', option);
                                 });
-                                item.focus();
                             }
                         })
                         .catch(function(responseObject) {
@@ -668,7 +676,7 @@ class RdbCMSATranslationMatcher extends RdbaDatatables {
     /**
      * Reset editing form (in dialog) to its default values.
      * 
-     * @private This method was called from `listenClickAddOpenForm()`, `listenClickEditOpenForm()`.
+     * @private This method was called from `listenClickAddOpenForm()`, `listenClickEditOpenForm()`, `listenEditingFormSubmit()`.
      * @returns {undefined}
      */
     resetEditingForm() {
