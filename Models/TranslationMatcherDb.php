@@ -338,7 +338,11 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         $Sth = $this->Db->PDO()->prepare(str_replace('%*%', 'COUNT(DISTINCT `translation_matcher`.`tm_id`) AS `total`', $sql));
         // bind whereValues
         foreach ($bindValues as $placeholder => $value) {
-            $Sth->bindValue($placeholder, $value);
+            if (is_numeric($value) && is_int($value + 0)) {
+                $Sth->bindValue($placeholder, $value, \PDO::PARAM_INT);
+            } else {
+                $Sth->bindValue($placeholder, $value);
+            }
         }// endforeach;
         unset($placeholder, $value);
         $Sth->execute();
@@ -385,7 +389,11 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         );
         // bind whereValues
         foreach ($bindValues as $placeholder => $value) {
-            $Sth->bindValue($placeholder, $value);
+            if (is_numeric($value) && is_int($value + 0)) {
+                $Sth->bindValue($placeholder, $value, \PDO::PARAM_INT);
+            } else {
+                $Sth->bindValue($placeholder, $value);
+            }
         }// endforeach;
         unset($placeholder, $value);
         $Sth->execute();
