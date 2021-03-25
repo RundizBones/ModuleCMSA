@@ -60,9 +60,9 @@ class ChangeURLs implements \Rdb\Modules\RdbAdmin\Interfaces\Plugins
         if ($this->Container->has('Plugins')) {
             /* @var $Plugins \Rdb\Modules\RdbAdmin\Libraries\Plugins */
             $Plugins = $this->Container->get('Plugins');
-            $AdminPostsURLs = new AdminPostsURLs($this->Container);
-            $Plugins->addHook('Rdb\Modules\Languages\Controllers\LanguagesController->updateAction.afterGetRedirectUrl', [$AdminPostsURLs, 'detectAdminURLs'], 10);
-            unset($AdminPostsURLs, $Plugins);
+            $AdminContentURLs = new AdminContentURLs($this->Container);
+            $Plugins->addHook('Rdb\Modules\Languages\Controllers\LanguagesController->updateAction.afterGetRedirectUrl', [$AdminContentURLs, 'detectAdminURLs'], 10);
+            unset($AdminContentURLs, $Plugins);
         }
     }// registerHooks
 
