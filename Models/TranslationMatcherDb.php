@@ -106,7 +106,9 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
     /**
      * Get a single translation matched data.
      * 
-     * @param array $where The associative array where key is column name and value is its value.
+     * @param array $where The associative array where key is column name and value is its value.<br>
+     *                          Special where array keys:<br>
+     *                          `findDataIds` (array) The array of data id to look in `matches`,<br>
      * @param array $options The associative array options. Available options keys:<br>
      *                          `getRelatedData` (bool) Set to `true` to get related data such as posts name for table name posts. (see `getRelatedData()` method.) Default is `false`.<br>
      * @return type
@@ -116,12 +118,54 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         $sql = 'SELECT * FROM `' . $this->tableName . '` AS `translation_matcher`
             WHERE 1';
 
-        $values = [];
+        $bindValues = [];
+        $bindValuesDataType = [];
+
+        if (array_key_exists('findDataIds', $where) && is_array($where['findDataIds']) && !empty($where['findDataIds'])) {
+            if ($this->Container->has('Config')) {
+                /* @var $Config \Rdb\System\Config */
+                $Config = $this->Container->get('Config');
+                $Config->setModule('');
+            } else {
+                $Config = new \Rdb\System\Config();
+            }
+            $languages = $Config->get('languages', 'language', []);
+            unset($Config);
+
+            if (is_array($languages)) {
+                $sql .= ' AND (';
+                // build placeholders.
+                $placeholders = [];
+                $i = 0;
+                foreach ($where['findDataIds'] as $data_id) {
+                    $placeholders[] = ':data_id' . $i;
+                    $bindValues[':data_id' . $i] = $data_id;
+                    $bindValuesDataType[':data_id' . $i] = \PDO::PARAM_INT;
+                    $i++;
+                }// endforeach;
+                unset($data_id);
+
+                require_once MODULE_PATH . '/RdbCMSA/Helpers/php-array.php';
+                $lastArrayKey = array_key_last($languages);
+                foreach ($languages as $languageId => $languageItems) {
+                    $sql .= ' JSON_EXTRACT(`matches`, \'$."' . $languageId . '"\') IN (' . implode(', ', $placeholders) . ')';
+                    if ($languageId !== $lastArrayKey) {
+                        $sql .= ' OR ';
+                    }
+                }// endforeach; $languages
+                unset($languageId, $languageItems, $languages, $lastArrayKey);
+                $sql .= ')';
+                unset($placeholders);
+            }// endif; is_array $languages
+        }// endif; findDataIds
+        unset($where['findDataIds']);
+
+        // generate where placeholders and values.
         $placeholders = [];
 
         $genWhereValues = $this->Db->buildPlaceholdersAndValues($where);
         if (isset($genWhereValues['values'])) {
-            $values = array_merge($values, $genWhereValues['values']);
+            $bindValues = array_merge($bindValues, $genWhereValues['values']);
         }
         if (isset($genWhereValues['placeholders'])) {
             $placeholders = array_merge($placeholders, $genWhereValues['placeholders']);
@@ -133,10 +177,14 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         $sql .= ' LIMIT 0, 1';
 
         $Sth = $this->Db->PDO()->prepare($sql);
-        foreach ($values as $placeholder => $value) {
-            $Sth->bindValue($placeholder, $value);
+        foreach ($bindValues as $placeholder => $value) {
+            if (array_key_exists($placeholder, $bindValuesDataType)) {
+                $Sth->bindValue($placeholder, $value, $bindValuesDataType[$placeholder]);
+            } else {
+                $Sth->bindValue($placeholder, $value);
+            }
         }// endforeach;
-        unset($placeholder, $sql, $value, $values);
+        unset($bindValues, $bindValuesDataType, $placeholder, $sql, $value);
 
         $Sth->execute();
         $result = $Sth->fetchObject();
@@ -254,6 +302,7 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         }
 
         $bindValues = [];
+        $bindValuesDataType = [];
         $output = [];
         $sql = 'SELECT %*% FROM `' . $this->tableName . '` AS `translation_matcher`
             WHERE 1';
@@ -284,6 +333,7 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
                 foreach ($options['findDataIds'] as $data_id) {
                     $placeholders[] = ':data_id' . $i;
                     $bindValues[':data_id' . $i] = $data_id;
+                    $bindValuesDataType[':data_id' . $i] = \PDO::PARAM_INT;
                     $i++;
                 }// endforeach;
                 unset($data_id);
@@ -338,8 +388,8 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         $Sth = $this->Db->PDO()->prepare(str_replace('%*%', 'COUNT(DISTINCT `translation_matcher`.`tm_id`) AS `total`', $sql));
         // bind whereValues
         foreach ($bindValues as $placeholder => $value) {
-            if (is_numeric($value) && is_int($value + 0)) {
-                $Sth->bindValue($placeholder, $value, \PDO::PARAM_INT);
+            if (array_key_exists($placeholder, $bindValuesDataType)) {
+                $Sth->bindValue($placeholder, $value, $bindValuesDataType[$placeholder]);
             } else {
                 $Sth->bindValue($placeholder, $value);
             }
@@ -389,8 +439,8 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         );
         // bind whereValues
         foreach ($bindValues as $placeholder => $value) {
-            if (is_numeric($value) && is_int($value + 0)) {
-                $Sth->bindValue($placeholder, $value, \PDO::PARAM_INT);
+            if (array_key_exists($placeholder, $bindValuesDataType)) {
+                $Sth->bindValue($placeholder, $value, $bindValuesDataType[$placeholder]);
             } else {
                 $Sth->bindValue($placeholder, $value);
             }
@@ -399,7 +449,7 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         $Sth->execute();
         $result = $Sth->fetchAll();
         $Sth->closeCursor();
-        unset($bindValues, $sql, $Sth);
+        unset($bindValues, $bindValuesDataType, $sql, $Sth);
 
         if (is_array($result) && isset($options['getRelatedData']) && $options['getRelatedData'] === true) {
             foreach ($result as $row) {
