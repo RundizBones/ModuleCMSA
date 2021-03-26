@@ -165,47 +165,41 @@ class AdminContentURLs
         string $removedAppBaseUrl
     ) {
         $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
-        $options = [];
-        $options['findDataIds'] = [$dataID];
-        $options['where'] = [
-            'tm_table' => $tmTable,
-        ];
-        $options['limit'] = 1;
-        $result = $TranslationMatcherDb->listItems($options);
-        unset($options, $TranslationMatcherDb);
+        $where = [];
+        $where['findDataIds'] = [$dataID];
+        $where['tm_table'] = $tmTable;
+        $result = $TranslationMatcherDb->get($where);
+        unset($TranslationMatcherDb, $where);
 
-        if (isset($result['items']) && is_array($result['items'])) {
-            foreach ($result['items'] as $row) {
-                $matches = json_decode($row->matches);
+        if (isset($result) && is_object($result) && !empty($result)) {
+            $matches = json_decode($result->matches);
 
-                if (isset($matches->{$languageID})) {
-                    $redirectUrl = $appBase . $detectedLanguageID . str_replace('/' . $dataID, '/' . $matches->{$languageID}, $removedAppBaseUrl);
+            if (isset($matches->{$languageID})) {
+                $redirectUrl = $appBase . $detectedLanguageID . str_replace('/' . $dataID, '/' . $matches->{$languageID}, $removedAppBaseUrl);
 
-                    if (isset($this->Logger)) {
-                        $this->Logger->write(
-                            $this->logChannel, 
-                            0, 
-                            'Replacing content ID.',
-                            [
-                                'redirectUrl' => $redirectUrl,
-                                'currentUrl' => $currentUrl,
-                                'defaultLanguage' => $defaultLanguage,
-                                'languageID' => $languageID,
-                                'appBase' => $appBase,
-                                'removedAppBaseURL' => $removedAppBaseUrl,
-                                'originalDataId' => $dataID,
-                                'replaceToDataId' => $matches->{$languageID},
-                                'replacedRedirectUrl' => $redirectUrl,
-                            ]
-                        );
-                    }
+                if (isset($this->Logger)) {
+                    $this->Logger->write(
+                        $this->logChannel, 
+                        0, 
+                        'Replacing content ID.',
+                        [
+                            'redirectUrl' => $redirectUrl,
+                            'currentUrl' => $currentUrl,
+                            'defaultLanguage' => $defaultLanguage,
+                            'languageID' => $languageID,
+                            'appBase' => $appBase,
+                            'removedAppBaseURL' => $removedAppBaseUrl,
+                            'originalDataId' => $dataID,
+                            'replaceToDataId' => $matches->{$languageID},
+                            'replacedRedirectUrl' => $redirectUrl,
+                        ]
+                    );
+                }
 
-                    return $redirectUrl;
-                }// endif; $matches
+                return $redirectUrl;
+            }// endif; $matches
 
-                unset($matches);
-            }// endforeach;
-            unset($row);
+            unset($matches);
         }
 
         unset($result);
