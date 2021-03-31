@@ -156,7 +156,7 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
             $this->Logger->write('modules/rdbcmsa/installer', 3, $e->getMessage());
             throw $e;
         }
-    }
+    }// uninstall
 
 
     /**

@@ -65,6 +65,79 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
 
 
     /**
+     * Delete translation matches if all data ids are empty.
+     * 
+     * This will be trying to remove selected data id in the table to empty and will be delete row if all data ids are empty.
+     * 
+     * @since 0.0.4
+     * @param string $tm_table The table to work with.
+     * @param array $dataIds The data ID to delete.
+     * @return boolean Return `true` on success, `false` on failure.
+     */
+    public function deleteIfAllEmpty(string $tm_table, array $dataIds)
+    {
+        $result = $this->listItems([
+            'where' => [
+                'tm_table' => $tm_table,
+            ],
+            'findDataIds' => $dataIds,
+        ]);
+
+        if (!isset($result['items'])) {
+            return false;
+        } elseif (!is_array($result['items'])) {
+            return false;
+        } elseif (empty($result['items'])) {
+            return true;
+        }
+
+        foreach ($result['items'] as $row) {
+            $matches = json_decode($row->matches);
+            // loop to unset its value.
+            foreach ($matches as $language => $dataId) {
+                if (in_array($dataId, $dataIds)) {
+                    // if found matched a data ID in data IDs array.
+                    // unset its value.
+                    if (is_array($matches)) {
+                        $matches[$language] = '';
+                    } elseif (is_object($matches)) {
+                        $matches->{$language} = '';
+                    }
+                }
+            }// endforeach;
+            unset($dataId, $language);
+
+            // now loop to check if it is all empty or not.
+            $allEmpty = true;
+            foreach ($matches as $language => $dataId) {
+                if ($dataId !== '' && !is_null($dataId)) {
+                    $allEmpty = false;
+                    break;
+                }
+            }// endforeach;
+            unset($dataId, $language);
+
+            if (true === $allEmpty) {
+                // if all data id are empty.
+                // delete it.
+                $this->deleteMultiple([$row->tm_id]);
+            } else {
+                // if all data id is not empty.
+                // just update.
+                $data = [];
+                $data['matches'] = json_encode($matches);
+                $this->update($data, ['tm_id' => $row->tm_id]);
+                unset($data);
+            }
+            unset($matches);
+        }// endforeach; $result['items'];
+        unset($row);
+
+        return true;
+    }// deleteIfAllEmpty
+
+
+    /**
      * Delete multiple translation matcher items.
      * 
      * @param array $tm_ids The TM IDs as array.
@@ -111,7 +184,7 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
      *                          `findDataIds` (array) The array of data id to look in `matches`,<br>
      * @param array $options The associative array options. Available options keys:<br>
      *                          `getRelatedData` (bool) Set to `true` to get related data such as posts name for table name posts. (see `getRelatedData()` method.) Default is `false`.<br>
-     * @return type
+     * @return object|false Return object, or `false` on failure.
      */
     public function get(array $where, array $options = [])
     {
@@ -138,10 +211,12 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
                 $placeholders = [];
                 $i = 0;
                 foreach ($where['findDataIds'] as $data_id) {
-                    $placeholders[] = ':data_id' . $i;
-                    $bindValues[':data_id' . $i] = $data_id;
-                    $bindValuesDataType[':data_id' . $i] = \PDO::PARAM_INT;
-                    $i++;
+                    if (is_numeric($data_id)) {
+                        $placeholders[] = ':data_id' . $i;
+                        $bindValues[':data_id' . $i] = (int) $data_id;
+                        $bindValuesDataType[':data_id' . $i] = \PDO::PARAM_INT;
+                        $i++;
+                    }
                 }// endforeach;
                 unset($data_id);
 
@@ -331,10 +406,12 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
                 $placeholders = [];
                 $i = 0;
                 foreach ($options['findDataIds'] as $data_id) {
-                    $placeholders[] = ':data_id' . $i;
-                    $bindValues[':data_id' . $i] = $data_id;
-                    $bindValuesDataType[':data_id' . $i] = \PDO::PARAM_INT;
-                    $i++;
+                    if (is_numeric($data_id)) {
+                        $placeholders[] = ':data_id' . $i;
+                        $bindValues[':data_id' . $i] = (int) $data_id;
+                        $bindValuesDataType[':data_id' . $i] = \PDO::PARAM_INT;
+                        $i++;
+                    }
                 }// endforeach;
                 unset($data_id);
 
@@ -375,7 +452,8 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
             $i = 0;
             foreach ($options['tmIdsIn'] as $tm_id) {
                 $tmIdsInPlaceholder[] = ':tmIdsIn' . $i;
-                $bindValues[':tmIdsIn' . $i] = $tm_id;
+                $bindValues[':tmIdsIn' . $i] = (int) $tm_id;
+                $bindValuesDataType[':tmIdsIn' . $i] = \PDO::PARAM_INT;
                 $i++;
             }// endforeach;
             unset($i, $tm_id);

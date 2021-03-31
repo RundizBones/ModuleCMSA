@@ -195,6 +195,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 $PDO->beginTransaction();
                 $TagsDb = new \Rdb\Modules\RdbCMSA\Models\TagsDb($this->Container);
                 $UrlAliasesDb = new \Rdb\Modules\RdbCMSA\Models\UrlAliasesDb($this->Container);
+                $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
                 $deletedItems = 0;
 
                 try {
@@ -216,8 +217,18 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                                 }
                             }
 
+                            $deleteTM = $TranslationMatcherDb->deleteIfAllEmpty('taxonomy_term_data', [$tid]);
+                            if ($deleteTM === false) {
+                                if (!isset($Logger) && $this->Container->has('Logger')) {
+                                    $Logger = $this->Container->get('Logger');
+                                }
+                                if (isset($Logger)) {
+                                    $Logger->write('modules/cms/controllers/admin/tags/actionscontroller', 2, 'The translation matchers for taxonomy id {tid} hasn\'t been delete.', ['tid' => $tid]);
+                                }
+                            }
+
                             $deletedItems++;
-                            unset($deleteResult, $deleteUrlAlias);
+                            unset($deleteResult, $deleteTM, $deleteUrlAlias);
                         }
                     }// endforeach;
                     unset($tid);
@@ -247,7 +258,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     http_response_code(500);
                 }
 
-                unset($containError, $deletedItems, $PDO, $TagsDb, $UrlAliasesDb);
+                unset($containError, $deletedItems, $PDO, $TagsDb, $TranslationMatcherDb, $UrlAliasesDb);
             }
 
             unset($formValidated);

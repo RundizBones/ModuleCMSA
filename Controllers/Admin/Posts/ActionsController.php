@@ -295,6 +295,9 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                         $UrlAliasesDb = new \Rdb\Modules\RdbCMSA\Models\UrlAliasesDb($this->Container);
                         $deleteUrlAliasesResult = $UrlAliasesDb->deleteMultiple($this->postType, $postIdsArray);
                         unset($UrlAliasesDb);
+                        $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
+                        $tmResult = $TranslationMatcherDb->deleteIfAllEmpty('posts', $postIdsArray);
+                        unset($TranslationMatcherDb);
 
                         $deleteResult = ($deletePostsResult === true && $deleteUrlAliasesResult === true);
                         unset($deletePostsResult, $deleteUrlAliasesResult);

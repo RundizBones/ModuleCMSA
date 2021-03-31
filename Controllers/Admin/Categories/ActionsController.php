@@ -190,6 +190,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 $PDO->beginTransaction();
                 $CategoriesDb = new \Rdb\Modules\RdbCMSA\Models\CategoriesDb($PDO, $this->Container);
                 $UrlAliasesDb = new \Rdb\Modules\RdbCMSA\Models\UrlAliasesDb($this->Container);
+                $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
 
                 if (isset($validateCategoryActions['listSelectedCategories']['items']) && is_array($validateCategoryActions['listSelectedCategories']['items'])) {
                     $deleteSuccess = false;
@@ -211,8 +212,18 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                                         unset($Logger);
                                     }
                                 }
+
+                                $deleteTM = $TranslationMatcherDb->deleteIfAllEmpty('taxonomy_term_data', [$row->tid]);
+                                if ($deleteTM === false) {
+                                    if (!isset($Logger) && $this->Container->has('Logger')) {
+                                        $Logger = $this->Container->get('Logger');
+                                    }
+                                    if (isset($Logger)) {
+                                        $Logger->write('modules/cms/controllers/admin/categories/actionscontroller', 2, 'The translation matchers for taxonomy id {tid} hasn\'t been delete.', ['tid' => $row->tid]);
+                                    }
+                                }
                             }
-                            unset($deleteResult, $deleteUrlAlias);
+                            unset($deleteResult, $deleteTM, $deleteUrlAlias);
                         }// endforeach;
                         unset($row);
                         $deleteSuccess = true;
@@ -245,7 +256,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     }
                 }// endif; isset tid_array
 
-                unset($CategoriesDb, $PDO, $UrlAliasesDb);
+                unset($CategoriesDb, $PDO, $TranslationMatcherDb, $UrlAliasesDb);
             }// endif; form validation passed.
 
             unset($formValidated, $validateCategoryActions);
