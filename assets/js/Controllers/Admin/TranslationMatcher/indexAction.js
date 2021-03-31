@@ -540,7 +540,10 @@ class RdbCMSATranslationMatcher extends RdbaDatatables {
                     })
                     .finally(function() {
                         // remove loading icon
-                        thisForm.querySelector('.loading-icon').remove();
+                        let loadingIcon = thisForm.querySelector('.loading-icon');
+                        if (loadingIcon) {
+                            loadingIcon.remove();
+                        }
                         // unlock submit button
                         submitBtn.disabled = false;
                         // restore ajax submitting.
