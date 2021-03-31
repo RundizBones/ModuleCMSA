@@ -8,7 +8,7 @@
  * PHP 7.1.0+
  * 
  * @package RdbCMSA
- * @version 0.0.3
+ * @version 0.0.4
  * @license http://opensource.org/licenses/MIT MIT
  */
 
