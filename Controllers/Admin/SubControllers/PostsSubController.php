@@ -159,6 +159,45 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
 
 
     /**
+     * Delete post data on DB.
+     * 
+     * @since 0.0.5
+     * @param array $postIdsArray The post IDs in 2D array.
+     * @return array Return associative array with keys:<br>
+     *          `deleteResult` (bool) Delete result. `true` if success, `false` on failure.<br>
+     *          If contain error:<br>
+     *              `errorMessage`(string) The thrown exception error message with trace as string.<br>
+     *              `errcatch`(bool) This will be set to `true` if exception was thrown and catched.<br>
+     */
+    public function deletePosts(array $postIdsArray): array
+    {
+        $output = [];
+
+        try {
+            $deletePostsResult = $this->PostsDb->deleteMultiple($postIdsArray);
+            $UrlAliasesDb = new \Rdb\Modules\RdbCMSA\Models\UrlAliasesDb($this->Container);
+            $deleteUrlAliasesResult = $UrlAliasesDb->deleteMultiple($this->postType, $postIdsArray);
+            unset($UrlAliasesDb);
+            $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
+            $tmResult = $TranslationMatcherDb->deleteIfAllEmpty('posts', $postIdsArray);
+            unset($TranslationMatcherDb);
+
+            $deleteResult = ($deletePostsResult === true && $deleteUrlAliasesResult === true && $tmResult === true);
+            unset($deletePostsResult, $deleteUrlAliasesResult, $tmResult);
+        } catch (\Exception $ex) {
+            $output['errorMessage'] = $ex->getMessage() . '<br>' . $ex->getTraceAsString();
+            $output['errcatch'] = true;
+            $deleteResult = false;
+        }
+
+        $output['deleteResult'] = $deleteResult;
+        unset($deleteResult);
+
+        return $output;
+    }// deletePosts
+
+
+    /**
      * Update post data to DB.
      * 
      * @param array $data The data for `posts` table.

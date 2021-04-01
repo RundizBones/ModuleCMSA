@@ -32,6 +32,13 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
 
     /**
+     * @since 0.0.5
+     * @var \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\PostsSubControlle
+     */
+    protected $PostsSubController;
+
+
+    /**
      * Class constructor.
      * 
      * @param \Rdb\System\Container $Container The DI container.
@@ -44,6 +51,12 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
         $this->PostsDb->postType = $this->postType;
         $this->PostsDb->categoryType = $this->categoryType;
         $this->PostsDb->tagType = $this->tagType;
+
+        $this->PostsSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\PostsSubController($this->Container);
+        $this->PostsSubController->categoryType = $this->categoryType;
+        $this->PostsSubController->postType = $this->postType;
+        $this->PostsSubController->tagType = $this->tagType;
+        $this->PostsSubController->PostsDb = $this->PostsDb;
     }// __construct
 
 
@@ -133,14 +146,8 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             // end validate the form. --------------------------------------------------------------------
 
             if ($formValidated === true) {
-                $PostsSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\PostsSubController($this->Container);
-                $PostsSubController->categoryType = $this->categoryType;
-                $PostsSubController->postType = $this->postType;
-                $PostsSubController->tagType = $this->tagType;
-                $PostsSubController->PostsDb = $this->PostsDb;
-
                 // do bulk actions (that is not permanently delete) in sub controller.
-                $bulkActionResult = $PostsSubController->bulkActionsPatch($bulkAction, $postIdsArray, $listPosts);
+                $bulkActionResult = $this->PostsSubController->bulkActionsPatch($bulkAction, $postIdsArray, $listPosts);
                 $saveResult = $bulkActionResult['saveResult'];
                 unset($bulkActionResult['saveResult']);
                 $output = array_merge($output, $bulkActionResult);
@@ -159,8 +166,6 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     }
                     http_response_code(500);
                 }
-
-                unset($PostFieldsDb);
             }// endif; $formValidated
 
             unset($bulkAction, $formValidated, $postIdsArray);
@@ -290,22 +295,12 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     // check again that all posts are validated for correct status.
                     $PDO = $this->Db->PDO();
                     $PDO->beginTransaction();
-                    try {
-                        $deletePostsResult = $this->PostsDb->deleteMultiple($postIdsArray);
-                        $UrlAliasesDb = new \Rdb\Modules\RdbCMSA\Models\UrlAliasesDb($this->Container);
-                        $deleteUrlAliasesResult = $UrlAliasesDb->deleteMultiple($this->postType, $postIdsArray);
-                        unset($UrlAliasesDb);
-                        $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
-                        $tmResult = $TranslationMatcherDb->deleteIfAllEmpty('posts', $postIdsArray);
-                        unset($TranslationMatcherDb);
 
-                        $deleteResult = ($deletePostsResult === true && $deleteUrlAliasesResult === true);
-                        unset($deletePostsResult, $deleteUrlAliasesResult);
-                    } catch (\Exception $ex) {
-                        $output['errorMessage'] = $ex->getMessage() . '<br>' . $ex->getTraceAsString();
-                        $output['errcatch'] = true;
-                        $deleteResult = false;
-                    }
+                    $outputDelete = $this->PostsSubController->deletePosts($postIdsArray);
+                    $deleteResult = ($outputDelete['deleteResult'] ?? false);
+                    unset($outputDelete['deleteResult']);
+                    $output = array_merge($output, $outputDelete);
+                    unset($outputDelete);
 
                     if ($deleteResult === true) {
                         // if successfully deleted.
