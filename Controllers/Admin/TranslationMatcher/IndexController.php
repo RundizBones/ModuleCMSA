@@ -239,7 +239,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
             }
 
             $output['total'] = count($result);
-            $output['items'] = $result;
+            $output['items'] = array_values($result);// use array_values to re-index array after some items maybe removed.
             unset($result);
         } else {
             $output['total'] = 0;
