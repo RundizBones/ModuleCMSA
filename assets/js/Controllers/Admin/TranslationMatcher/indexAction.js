@@ -609,6 +609,7 @@ class RdbCMSATranslationMatcher extends RdbaDatatables {
                             let response = responseObject.response;
 
                             console.error(responseObject);
+                            return Promise.resolve(responseObject);
                         });
                     }, 500)
                 );
