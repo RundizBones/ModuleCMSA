@@ -91,6 +91,8 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
             return true;
         }
 
+        $deleteTmIds = [];
+
         foreach ($result['items'] as $row) {
             $matches = json_decode($row->matches);
             // loop to unset its value.
@@ -119,8 +121,8 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
 
             if (true === $allEmpty) {
                 // if all data id are empty.
-                // delete it.
-                $this->deleteMultiple([$row->tm_id]);
+                // mark tm ids to delete it once.
+                $deleteTmIds[] = (int) $row->tm_id;
             } else {
                 // if all data id is not empty.
                 // just update.
@@ -132,6 +134,11 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
             unset($matches);
         }// endforeach; $result['items'];
         unset($row);
+
+        if (isset($deleteTmIds) && !empty($deleteTmIds)) {
+            $this->deleteMultiple($deleteTmIds);
+        }
+        unset($deleteTmIds);
 
         return true;
     }// deleteIfAllEmpty
