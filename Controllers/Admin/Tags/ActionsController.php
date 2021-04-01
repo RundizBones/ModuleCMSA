@@ -26,6 +26,21 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
 
     /**
+     * @var \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\TaxonomyTermDataSubController
+     */
+    protected $TaxonomyTermDataSubController;
+
+
+    public function __construct(\Rdb\System\Container $Container)
+    {
+        parent::__construct($Container);
+
+        $this->TaxonomyTermDataSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\TaxonomyTermDataSubController($Container);
+        $this->TaxonomyTermDataSubController->taxonomyType = $this->tagTaxonomyType;
+    }// __construct
+
+
+    /**
      * Do bulk actions.
      * 
      * @global array $_PATCH
@@ -193,53 +208,15 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 // if form validation passed.
                 $PDO = $this->Db->PDO();
                 $PDO->beginTransaction();
-                $TagsDb = new \Rdb\Modules\RdbCMSA\Models\TagsDb($this->Container);
-                $UrlAliasesDb = new \Rdb\Modules\RdbCMSA\Models\UrlAliasesDb($this->Container);
-                $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
-                $deletedItems = 0;
 
-                try {
-                    foreach ($output['tid_array'] as $tid) {
-                        $deleteResult = $TagsDb->delete($tid, $output['t_type']);
+                $outputDelete = $this->TaxonomyTermDataSubController->deleteTags($output['tid_array']);
+                $deleteSuccess = ($outputDelete['deleteSuccess'] ?? false);
+                $deletedItems = ($outputDelete['deletedItems'] ?? 0);
+                unset($outputDelete['deletedItems'], $outputDelete['deleteSuccess']);
+                $output = array_merge($output, $outputDelete);
+                unset($outputDelete);
 
-                        if ($deleteResult === true) {
-                            $deleteUrlAlias = $UrlAliasesDb->delete([
-                                'alias_content_type' => $output['t_type'],
-                                'alias_content_id' => $tid,
-                            ]);
-
-                            if ($deleteUrlAlias !== true) {
-                                if ($this->Container->has('Logger')) {
-                                    /* @var $Logger \Rdb\System\Libraries\Logger */
-                                    $Logger = $this->Container->get('Logger');
-                                    $Logger->write('modules/cms/controllers/admin/tags/actionscontroller', 2, 'The URL alias for taxonomy id {tid} hasn\'t been delete.', ['tid' => $tid]);
-                                    unset($Logger);
-                                }
-                            }
-
-                            $deleteTM = $TranslationMatcherDb->deleteIfAllEmpty('taxonomy_term_data', [$tid]);
-                            if ($deleteTM === false) {
-                                if (!isset($Logger) && $this->Container->has('Logger')) {
-                                    $Logger = $this->Container->get('Logger');
-                                }
-                                if (isset($Logger)) {
-                                    $Logger->write('modules/cms/controllers/admin/tags/actionscontroller', 2, 'The translation matchers for taxonomy id {tid} hasn\'t been delete.', ['tid' => $tid]);
-                                }
-                            }
-
-                            $deletedItems++;
-                            unset($deleteResult, $deleteTM, $deleteUrlAlias);
-                        }
-                    }// endforeach;
-                    unset($tid);
-                } catch (\Exception $ex) {
-                    $output['errorMessage'] = $ex->getMessage();
-                    $PDO->rollBack();
-                    $deletedItems = 0;
-                    $containError = true;
-                }// end try.
-
-                if (!isset($containError) || (isset($containError) && $containError !== true)) {
+                if ($deleteSuccess === true) {
                     $PDO->commit();
                     $output['deletedItems'] = $deletedItems;
                     $output['formResultStatus'] = 'success';
@@ -250,6 +227,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     unset($output['formResultMessage'], $output['formResultStatus']);
                     $output['redirectBack'] = $output['urls']['getTagsUrl'];
                 } else {
+                    $PDO->rollBack();
                     $output['formResultStatus'] = 'error';
                     $output['formResultMessage'] = d__('rdbcmsa', 'Unable to delete.');
                     if (isset($output['errorMessage'])) {
@@ -258,7 +236,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     http_response_code(500);
                 }
 
-                unset($containError, $deletedItems, $PDO, $TagsDb, $TranslationMatcherDb, $UrlAliasesDb);
+                unset($deletedItems, $deleteSuccess, $PDO);
             }
 
             unset($formValidated);

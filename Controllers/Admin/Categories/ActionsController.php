@@ -26,6 +26,21 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
 
     /**
+     * @var \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\TaxonomyTermDataSubController
+     */
+    protected $TaxonomyTermDataSubController;
+
+
+    public function __construct(\Rdb\System\Container $Container)
+    {
+        parent::__construct($Container);
+
+        $this->TaxonomyTermDataSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\TaxonomyTermDataSubController($Container);
+        $this->TaxonomyTermDataSubController->taxonomyType = $this->taxonomyType;
+    }// __construct
+
+
+    /**
      * Do bulk actions.
      * 
      * @global array $_PATCH
@@ -167,7 +182,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             unset($_DELETE[$csrfName], $_DELETE[$csrfValue]);
 
             // validate category and action must be selected.
-            $validateCategoryActions = $this->validateCategoryActions(
+            $validateCategoryActions = $this->TaxonomyTermDataSubController->validateCategoryActions(
                 $tids, 
                 $_DELETE['action'], 
                 ['t_type' => $output['t_type']]
@@ -189,49 +204,13 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 $PDO = $this->Db->PDO();
                 $PDO->beginTransaction();
                 $CategoriesDb = new \Rdb\Modules\RdbCMSA\Models\CategoriesDb($PDO, $this->Container);
-                $UrlAliasesDb = new \Rdb\Modules\RdbCMSA\Models\UrlAliasesDb($this->Container);
-                $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
 
                 if (isset($validateCategoryActions['listSelectedCategories']['items']) && is_array($validateCategoryActions['listSelectedCategories']['items'])) {
-                    $deleteSuccess = false;
-                    try {
-                        foreach ($validateCategoryActions['listSelectedCategories']['items'] as $row) {
-                            $deleteResult = $CategoriesDb->deleteACategory($row->tid, $output['t_type']);
-
-                            if ($deleteResult === true) {
-                                $deleteUrlAlias = $UrlAliasesDb->delete([
-                                    'alias_content_type' => $output['t_type'],
-                                    'alias_content_id' => $row->tid,
-                                ]);
-
-                                if ($deleteUrlAlias !== true) {
-                                    if ($this->Container->has('Logger')) {
-                                        /* @var $Logger \Rdb\System\Libraries\Logger */
-                                        $Logger = $this->Container->get('Logger');
-                                        $Logger->write('modules/cms/controllers/admin/categories/actionscontroller', 2, 'The URL alias for taxonomy id {tid} hasn\'t been delete.', ['tid' => $row->tid]);
-                                        unset($Logger);
-                                    }
-                                }
-
-                                $deleteTM = $TranslationMatcherDb->deleteIfAllEmpty('taxonomy_term_data', [$row->tid]);
-                                if ($deleteTM === false) {
-                                    if (!isset($Logger) && $this->Container->has('Logger')) {
-                                        $Logger = $this->Container->get('Logger');
-                                    }
-                                    if (isset($Logger)) {
-                                        $Logger->write('modules/cms/controllers/admin/categories/actionscontroller', 2, 'The translation matchers for taxonomy id {tid} hasn\'t been delete.', ['tid' => $row->tid]);
-                                    }
-                                }
-                            }
-                            unset($deleteResult, $deleteTM, $deleteUrlAlias);
-                        }// endforeach;
-                        unset($row);
-                        $deleteSuccess = true;
-                    } catch (\Exception $ex) {
-                        $output['errorMessage'] = $ex->getMessage();
-                        $PDO->rollBack();
-                        $deleteSuccess = false;
-                    }// end try.
+                    $outputDelete = $this->TaxonomyTermDataSubController->deleteCategories($validateCategoryActions['listSelectedCategories']['items']);
+                    $deleteSuccess = ($outputDelete['deleteSuccess'] ?? false);
+                    unset($outputDelete['deleteSuccess']);
+                    $output = array_merge($output, $outputDelete);
+                    unset($outputDelete);
 
                     if ($deleteSuccess === true) {
                         $PDO->commit();
@@ -247,6 +226,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                         unset($output['formResultMessage'], $output['formResultStatus']);
                         $output['redirectBack'] = $output['urls']['getCategoriesUrl'];
                     } else {
+                        $PDO->rollBack();
                         $output['formResultStatus'] = 'error';
                         $output['formResultMessage'] = d__('rdbcmsa', 'Unable to delete.');
                         if (isset($output['errorMessage'])) {
@@ -254,9 +234,11 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                         }
                         http_response_code(500);
                     }
+
+                    unset($deleteSuccess);
                 }// endif; isset tid_array
 
-                unset($CategoriesDb, $PDO, $TranslationMatcherDb, $UrlAliasesDb);
+                unset($CategoriesDb, $PDO);
             }// endif; form validation passed.
 
             unset($formValidated, $validateCategoryActions);
@@ -310,13 +292,16 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
         // validate categories and action must be selected.
         $output = array_merge(
             $output, 
-            $this->validateCategoryActions(
+            $this->TaxonomyTermDataSubController->validateCategoryActions(
                 $this->Input->get('tids'), 
                 $this->Input->get('action'),
                 ['t_type' => $output['t_type']]
             )
         );
 
+        if (isset($output['action']) && $output['action'] === 'delete') {
+            $this->checkPermission('RdbCMSA', 'RdbCMSAContentCategories', ['delete']);
+        }
 
         $urlBaseWithLang = $Url->getAppBasedPath(true);
         $output['breadcrumb'] = [
@@ -387,90 +372,6 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             return $this->Views->render('common/Admin/mainLayout_v', $output, ['viewsModule' => 'RdbAdmin']);
         }
     }// indexAction
-
-
-    /**
-     * Validate category and action.
-     * 
-     * It's validating category and action must be selected.<br>
-     * This method set http response code if contain errors.<br>
-     * This method was called from `indexAction()`, `doDeleteAction()` methods.
-     * 
-     * @param string $tids The selected category ID(s).
-     * @param string $action The selected action.
-     * @param array $validateOptions Available options:<br>
-     *                      `t_type` (string) The taxonomy type to check with get selected categories.
-     * @return array Return associative array with keys:<br>
-     *                          `action` The selected action.<br>
-     *                          `actionText` The text of selected action, for displaying.<br>
-     *                          `tids` The selected category IDs.<br>
-     *                          `tid_array` The selected category IDs as array.<br>
-     *                          `formResultStatus` (optional) If contain any error, it also send out http response code.<br>
-     *                          `formResultMessage` (optional) If contain any error, it also send out http response code.<br>
-     *                          `formValidated` The boolean value of form validation. It will be `true` if form validation passed, and will be `false` if it is not.<br>
-     *                          `listSelectedCategories` The selected categories. Its structure is `array('total' => x, 'items' => array(...))`.
-     */
-    protected function validateCategoryActions(string $tids, string $action, array $validateOptions = []): array
-    {
-        $output = [];
-
-        $output['action'] = $action;
-        $output['tids'] = $tids;
-        $expTids = explode(',', $output['tids']);
-
-        if (is_array($expTids)) {
-            $output['tid_array'] = $expTids;
-            $totalSelectedCategories = (int) count($expTids);
-        } else {
-            $output['tid_array'] = [];
-            $totalSelectedCategories = 0;
-        }
-        unset($expTids);
-
-        $formValidated = false;
-
-        // validate selected category and action. ------------------------------
-        if ($totalSelectedCategories <= 0) {
-            http_response_code(400);
-            $output['formResultStatus'] = 'error';
-            $output['formResultMessage'][] = d__('rdbcmsa', 'Please select at least one category.');
-        } else {
-            $formValidated = true;
-        }
-
-        if (empty($output['action'])) {
-            http_response_code(400);
-            $output['formResultStatus'] = 'error';
-            $output['formResultMessage'][] = __('Please select an action.');
-            $formValidated = false;
-        }
-        // end validate selected category and action. --------------------------
-
-        // set action text for display.
-        if ($output['action'] === 'delete') {
-            $this->checkPermission('RdbCMSA', 'RdbCMSAContentCategories', ['delete']);
-            $output['actionText'] = dn__('rdbcmsa', 'Delete category', 'Delete categories', $totalSelectedCategories);
-        } else {
-            $output['actionText'] = $output['action'];
-        }
-
-        $CategoriesDb = new \Rdb\Modules\RdbCMSA\Models\CategoriesDb($this->Db->PDO(), $this->Container);
-        // get selected categories.
-        $options = [];
-        $options['taxonomy_id_in'] = $output['tid_array'];
-        $options['where'] = [
-            't_type' => ($validateOptions['t_type'] ?? $this->taxonomyType),
-        ];
-        $output['listSelectedCategories'] = $CategoriesDb->listRecursive($options);
-        unset($options);
-        unset($CategoriesDb);
-
-        $output['formValidated'] = $formValidated;
-
-        unset($formValidated, $totalSelectedCategories);
-
-        return $output;
-    }// validateCategoryActions
 
 
 }
