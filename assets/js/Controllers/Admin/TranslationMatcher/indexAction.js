@@ -598,12 +598,17 @@ class RdbCMSATranslationMatcher extends RdbaDatatables {
                                     dataResultList.insertAdjacentHTML('beforeend', option);
                                 });
                             }
+
+                            return Promise.resolve(responseObject);
+                        }, function(error) {
+                            // prevent Uncaught (in promise) error.
+                            return Promise.reject(error);
                         })
                         .catch(function(responseObject) {
                             // XHR failed.
                             let response = responseObject.response;
 
-                            console.error(response);
+                            console.error(responseObject);
                         });
                     }, 500)
                 );
