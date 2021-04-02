@@ -164,11 +164,7 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
      */
     public function update()
     {
-        
     }// update
-
-
-// uninstall
 
 
 }
