@@ -26,7 +26,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
 
     /**
-     * @var \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\TaxonomyTermDataSubController
+     * @var \Rdb\Modules\RdbCMSA\Controllers\_SubControllers\TaxonomyTermDataSubController
      */
     protected $TaxonomyTermDataSubController;
 
@@ -35,7 +35,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
     {
         parent::__construct($Container);
 
-        $this->TaxonomyTermDataSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\TaxonomyTermDataSubController($Container);
+        $this->TaxonomyTermDataSubController = new \Rdb\Modules\RdbCMSA\Controllers\_SubControllers\TaxonomyTermDataSubController($Container);
         $this->TaxonomyTermDataSubController->taxonomyType = $this->tagTaxonomyType;
     }// __construct
 

@@ -4,15 +4,17 @@
  */
 
 
-namespace Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers;
+namespace Rdb\Modules\RdbCMSA\Controllers\_SubControllers;
 
 
 /**
  * Sub controller of taxonomy term data to do common jobs between different taxonomy types.
  * 
- * @since 0.0.5
+ * This class will be here, not in admin because it must be able to call from both admin and non-admin section.
+ * 
+ * @since 0.0.6
  */
-class TaxonomyTermDataSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBaseController
+class TaxonomyTermDataSubController extends \Rdb\Modules\RdbAdmin\Controllers\BaseController
 {
 
 
@@ -83,7 +85,7 @@ class TaxonomyTermDataSubController extends \Rdb\Modules\RdbAdmin\Controllers\Ad
                 $deleteUrlAlias = $UrlAliasesDb->deleteMultiple($this->taxonomyType, $tidsArray);
                 if ($deleteUrlAlias !== true) {
                     if (isset($Logger)) {
-                        $Logger->write('modules/cms/controllers/admin/subcontrollers/taxonomytermdatasubcontroller', 2, 'The URL alias for taxonomy ids {tids} haven\'t been delete.', ['tids' => $tidsArray]);
+                        $Logger->write('modules/rdbcmsa/controllers/_subcontrollers/taxonomytermdatasubcontroller', 2, 'The URL alias for taxonomy ids {tids} haven\'t been delete.', ['tids' => $tidsArray]);
                     }
                 }
                 unset($deleteUrlAlias);
@@ -92,7 +94,7 @@ class TaxonomyTermDataSubController extends \Rdb\Modules\RdbAdmin\Controllers\Ad
                 $deleteTM = $TranslationMatcherDb->deleteIfAllEmpty('taxonomy_term_data', $tidsArray);
                 if ($deleteTM === false) {
                     if (isset($Logger)) {
-                        $Logger->write('modules/cms/controllers/admin/subcontrollers/taxonomytermdatasubcontroller', 2, 'The translation matchers for taxonomy ids {tids} haven\'t been delete.', ['tids' => $tidsArray]);
+                        $Logger->write('modules/rdbcmsa/controllers/_subcontrollers/taxonomytermdatasubcontroller', 2, 'The translation matchers for taxonomy ids {tids} haven\'t been delete.', ['tids' => $tidsArray]);
                     }
                 }
                 unset($deleteTM);
@@ -115,8 +117,7 @@ class TaxonomyTermDataSubController extends \Rdb\Modules\RdbAdmin\Controllers\Ad
     /**
      * Delete selected tags and related tables.
      * 
-     * @param array $listSelectedCategories The selected categories that retrieved from `CategoriesDb->listRecursive()` or `validateCategoryActions()` method.
-     *          The value must be array that is ready to start looping (basically it must be in `['items']` array).
+     * @param array $tidsArray The selected tags IDs array.
      * @return array Return associative array with keys:<br>
      *          `deleteSuccess` (bool) Delete result. `true` if success, `false` if failure.<br>
      *          `deletedItems` (int) The number of deleted items.<br>
@@ -159,7 +160,7 @@ class TaxonomyTermDataSubController extends \Rdb\Modules\RdbAdmin\Controllers\Ad
                 $deleteUrlAlias = $UrlAliasesDb->deleteMultiple($this->taxonomyType, $tidsArrayQueueDelete);
                 if ($deleteUrlAlias !== true) {
                     if (isset($Logger)) {
-                        $Logger->write('modules/cms/controllers/admin/subcontrollers/taxonomytermdatasubcontroller', 2, 'The URL alias for taxonomy ids {tids} haven\'t been delete.', ['tids' => $tidsArrayQueueDelete]);
+                        $Logger->write('modules/rdbcmsa/controllers/_subcontrollers/taxonomytermdatasubcontroller', 2, 'The URL alias for taxonomy ids {tids} haven\'t been delete.', ['tids' => $tidsArrayQueueDelete]);
                     }
                 }
                 unset($deleteUrlAlias);
@@ -168,7 +169,7 @@ class TaxonomyTermDataSubController extends \Rdb\Modules\RdbAdmin\Controllers\Ad
                 $deleteTM = $TranslationMatcherDb->deleteIfAllEmpty('taxonomy_term_data', $tidsArrayQueueDelete);
                 if ($deleteTM === false) {
                     if (isset($Logger)) {
-                        $Logger->write('modules/cms/controllers/admin/subcontrollers/taxonomytermdatasubcontroller', 2, 'The translation matchers for taxonomy ids {tids} haven\'t been delete.', ['tids' => $tidsArrayQueueDelete]);
+                        $Logger->write('modules/rdbcmsa/controllers/_subcontrollers/taxonomytermdatasubcontroller', 2, 'The translation matchers for taxonomy ids {tids} haven\'t been delete.', ['tids' => $tidsArrayQueueDelete]);
                     }
                 }
                 unset($deleteTM);
