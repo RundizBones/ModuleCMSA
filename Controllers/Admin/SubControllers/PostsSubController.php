@@ -162,6 +162,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
      * Delete post data on DB.
      * 
      * @since 0.0.5
+     * @see \Rdb\Modules\RdbCMSA\Controllers\_SubControllers\PostsSubController::deletePosts()
      * @param array $postIdsArray The post IDs in 2D array.
      * @return array Return associative array with keys:<br>
      *          `deleteResult` (bool) Delete result. `true` if success, `false` on failure.<br>
@@ -171,29 +172,12 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
      */
     public function deletePosts(array $postIdsArray): array
     {
-        $output = [];
-
-        try {
-            $deletePostsResult = $this->PostsDb->deleteMultiple($postIdsArray);
-            $UrlAliasesDb = new \Rdb\Modules\RdbCMSA\Models\UrlAliasesDb($this->Container);
-            $deleteUrlAliasesResult = $UrlAliasesDb->deleteMultiple($this->postType, $postIdsArray);
-            unset($UrlAliasesDb);
-            $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
-            $tmResult = $TranslationMatcherDb->deleteIfAllEmpty('posts', $postIdsArray);
-            unset($TranslationMatcherDb);
-
-            $deleteResult = ($deletePostsResult === true && $deleteUrlAliasesResult === true && $tmResult === true);
-            unset($deletePostsResult, $deleteUrlAliasesResult, $tmResult);
-        } catch (\Exception $ex) {
-            $output['errorMessage'] = $ex->getMessage() . '<br>' . $ex->getTraceAsString();
-            $output['errcatch'] = true;
-            $deleteResult = false;
-        }
-
-        $output['deleteResult'] = $deleteResult;
-        unset($deleteResult);
-
-        return $output;
+        $PostsSubController = new \Rdb\Modules\RdbCMSA\Controllers\_SubControllers\PostsSubController($this->Container);
+        $PostsSubController->PostsDb = $this->PostsDb;
+        $PostsSubController->categoryType = $this->categoryType;
+        $PostsSubController->postType = $this->postType;
+        $PostsSubController->tagType = $this->tagType;
+        return $PostsSubController->deletePosts($postIdsArray);
     }// deletePosts
 
 
