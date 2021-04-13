@@ -60,12 +60,12 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
             if ($this->Container->has('Logger')) {
                 /* @var $Logger \Rdb\System\Libraries\Logger */
                 $Logger = $this->Container->get('Logger');
-                $Logger->write('modules/cms/controllers/admin/categories/categoriescontroller', 5, $e->getMessage());
+                $Logger->write('modules/cms/controllers/admin/categories/indexcontroller', 5, $e->getMessage());
                 unset($Logger);
-                $output['containsError'] = true;
-                $output['formResultStatus'] = 'error';
-                $output['formResultMessage'] = $e->getMessage();
             }
+            $output['containsError'] = true;
+            $output['formResultStatus'] = 'error';
+            $output['formResultMessage'] = $e->getMessage();
             $result = [];
         }
         unset($CategoriesDb, $options, $sortOrders);
