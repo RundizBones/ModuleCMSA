@@ -25,6 +25,13 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
     use Traits\CategoriesTrait;
 
 
+    /**
+     * Do update a category via REST API.
+     * 
+     * @global array $_PATCH
+     * @param string $tid
+     * @return string
+     */
     public function doUpdateAction($tid): string
     {
         // processing part ----------------------------------------------------------------------------------------------------
