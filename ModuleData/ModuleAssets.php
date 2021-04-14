@@ -58,12 +58,12 @@ class ModuleAssets
                     [
                         'handle' => 'tagify',
                         'file' => $publicModuleUrl . '/assets/vendor/tagify/tagify.css',
-                        'version' => '3.22.1',
+                        'version' => '3.25.0',
                     ],
                     [
                         'handle' => 'diff2html',
                         'file' => $publicModuleUrl . '/assets/vendor/diff2html/css/diff2html.min.css',
-                        'version' => '3.2.0',
+                        'version' => '3.4.3',
                     ],
                 ],
                 'js' => [
@@ -88,25 +88,25 @@ class ModuleAssets
                         'handle' => 'diff2html',
                         'file' => $publicModuleUrl . '/assets/vendor/diff2html/js/diff2html.min.js',
                         'dependency' => ['jsdiff'],
-                        'version' => '3.2.0',
+                        'version' => '3.4.3',
                     ],
                     [
                         'handle' => 'diff2html-ui',
                         'file' => $publicModuleUrl . '/assets/vendor/diff2html/js/diff2html-ui-slim.min.js',
                         'dependency' => ['diff2html'],
-                        'version' => '3.2.0',
+                        'version' => '3.4.3',
                     ],
                     // end diff, diff2html
                     [
                         'handle' => 'tagify',
                         'file' => $publicModuleUrl . '/assets/vendor/tagify/tagify.min.js',
-                        'version' => '3.22.1',
+                        'version' => '3.25.0',
                     ],
                     [
                         'handle' => 'tinymce',
                         'file' => $publicModuleUrl . '/assets/vendor/tinymce/tinymce.min.js',
                         'dependency' => ['rdta'],
-                        'version' => '5.5.1',
+                        'version' => '5.7.1',
                     ],
                     // js utilities class for this module.
                     [
