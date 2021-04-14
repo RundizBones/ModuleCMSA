@@ -56,7 +56,14 @@
                                 <span class="action"><?php echo __('ID'); ?> {{tid}}</span>
                                 <span class="action"><a class="rdba-listpage-edit" href="{{RdbCMSATagsIndexObject.editTagUrlBase}}/{{tid}}"><?php echo __('Edit'); ?></a></span>
                                 <span class="action"><?php echo d__('rdbcmsa', 'Total items'); ?> {{t_total}}</span>
-                                <span class="action"><a class="rdba-taxonomy-view" href="{{RdbCMSATagsIndexObject.baseUrl}}/taxonomies/{{t_type}}/{{tid}}"><?php echo d__('rdbcmsa', 'View'); ?></a></span>
+                                <span class="action">
+                                    <a 
+                                        class="rdba-taxonomy-view" 
+                                        href="{{#replace '%tid%' tid}}{{#replace '%t_type%' t_type}}{{RdbCMSATagsIndexObject.viewTagFrontUrl}}{{/replace}}{{/replace}}"
+                                    >
+                                        <?php echo d__('rdbcmsa', 'View'); ?>
+                                    </a>
+                                </span>
                             </div>
                         </template>
 

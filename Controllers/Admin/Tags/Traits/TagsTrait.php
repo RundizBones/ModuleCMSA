@@ -55,6 +55,10 @@ trait TagsTrait
         $output['getTagRESTUrlBase'] = $urlAppBased . '/admin/cms/tags';
         $output['getTagRESTMethod'] = 'GET';
 
+        // viewTagFrontUrl
+        // @since 0.0.6
+        $output['viewTagFrontUrl'] = $urlAppBased . '/taxonomies/%t_type%/%tid%';
+
         unset($Url, $urlAppBased);
 
         return $output;

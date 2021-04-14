@@ -78,6 +78,10 @@ class RdbCMSACategoriesIndexController extends RdbaDatatables {
                         'render': function(data, type, row, meta) {
                             let source = document.getElementById('rdba-datatables-row-actions').innerHTML;
                             let template = Handlebars.compile(source);
+                            Handlebars.registerHelper('replace', function (find, replace, options) {
+                                let string = options.fn(this);
+                                return string.replace(find, replace);
+                            });
                             row.RdbCMSACategoriesIndexObject = RdbCMSACategoriesIndexObject;
 
                             let categoryName = '';

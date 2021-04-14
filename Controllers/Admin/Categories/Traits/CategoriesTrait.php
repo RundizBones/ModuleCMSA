@@ -56,6 +56,10 @@ trait CategoriesTrait
         $output['getCategoryRESTUrlBase'] = $urlAppBased . '/admin/cms/categories';
         $output['getCategoryRESTMethod'] = 'GET';
 
+        // viewCategoryFrontUrl
+        // @since 0.0.6
+        $output['viewCategoryFrontUrl'] = $urlAppBased . '/taxonomies/%t_type%/%tid%';
+
         unset($Url, $urlAppBased);
 
         return $output;
