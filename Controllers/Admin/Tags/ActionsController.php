@@ -50,7 +50,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
     public function doActionsAction(string $tids): string
     {
         // processing part ----------------------------------------------------------------------------------------------------
-        $this->checkPermission('RdbCMSA', 'RdbCMSAContentTags', ['delete']);
+        $this->checkPermission('RdbCMSA', 'RdbCMSAContentTags', ['edit']);
 
         if (session_id() === '') {
             session_start();
