@@ -46,7 +46,13 @@
                             <div class="row-actions">
                                 <span class="action"><?php echo __('ID'); ?> {{post_id}}</span>
                                 <span class="action"><a class="rdba-listpage-edit" href="{{RdbCMSAPostsIndexObject.editPostUrlBase}}/{{post_id}}"><?php echo __('Edit'); ?></a></span>
-                                <span class="action"><a class="rdba-listpage-view" href="{{RdbCMSAPostsIndexObject.baseUrl}}/posts/{{post_type}}/{{post_id}}"><?php echo d__('rdbcmsa', 'View'); ?></a></span>
+                                <span class="action">
+                                    <a 
+                                        class="rdba-listpage-view" 
+                                        href="{{#replace '%post_id%' post_id}}{{#replace '%post_type%' post_type}}{{RdbCMSAPostsIndexObject.viewPostFrontUrl}}{{/replace}}{{/replace}}">
+                                        <?php echo d__('rdbcmsa', 'View'); ?> 
+                                    </a>
+                                </span>
                             </div>
                         </template>
 

@@ -81,6 +81,8 @@ trait PostsTrait
         $output['postBulkActionDeleteRESTUrlBase'] = $urlAppBased . '/admin/cms/posts/actions';
         $output['postBulkActionDeleteRESTMethod'] = 'DELETE';
 
+        $output['viewPostFrontUrl'] = $urlAppBased . '/posts/%post_type%/%post_id%';
+
         unset($Url, $urlAppBased);
 
         return $output;
