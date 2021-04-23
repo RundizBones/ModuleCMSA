@@ -208,7 +208,7 @@ class UrlAliasesDb extends \Rdb\System\Core\Models\BaseModel
      * 
      * @param string $url The URL to check.
      * @param string $language The language to check. This is depend on configuration file, if it use cookies then language will not be checked.
-     * @param int $editingId The editing content ID. Only require if check before update existing data.
+     * @param int $editingContentId The editing content ID. Only require if check before update existing data.
      * @param string $editingContentType The editing content type. Only require if check before update existing data.
      * @param int $editingAliasId The editing alias ID. Only set this parameter if checking for redirect because redirection data don't have "content id" and "content type".
      * @return bool Return `true` if found duplicated, `false` for not duplicated.
