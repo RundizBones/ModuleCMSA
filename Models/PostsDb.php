@@ -599,6 +599,8 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
         $sql = 'SELECT %*% FROM `' . $this->tableName . '` AS `posts`
             INNER JOIN `' . $this->tableRevisionName . '` AS `post_revision`
                 ON `posts`.`revision_id` = `post_revision`.`revision_id`
+            LEFT JOIN `' . $this->tableFieldsName . '` AS `post_fields`
+                ON `posts`.`post_id` = `post_fields`.`post_id`
             LEFT JOIN `' . $this->Db->tableName('url_aliases') . '` AS `url_aliases` 
                 ON `posts`.`post_id` = `url_aliases`.`alias_content_id` 
                 AND `posts`.`language` = `url_aliases`.`language` 
@@ -615,6 +617,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
             $sql .= ' OR `post_revision`.`revision_body_value` LIKE :search';
             $sql .= ' OR `post_revision`.`revision_body_summary` LIKE :search';
             $sql .= ' OR `post_revision`.`revision_log` LIKE :search';
+            $sql .= ' OR `post_fields`.`field_value` LIKE :search';
             $sql .= ')';
             $bindValues[':search'] = '%' . $options['search'] . '%';
         }
