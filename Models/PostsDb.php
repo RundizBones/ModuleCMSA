@@ -224,6 +224,9 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
     /**
      * Delete multiple post items.
      * 
+     * It is recommended to use `PostsSubController->deletePosts()` instead of calling this method directly.<br>
+     * See `\Rdb\Modules\RdbCMSA\Controllers\_SubControllers\PostsSubController::deletePosts()` for more details.
+     * 
      * @param array $postIdsArray The post IDs as array.
      * @return bool Return `true` on success, `false` on failure.
      */

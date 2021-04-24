@@ -159,7 +159,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
 
 
     /**
-     * Delete post data on DB.
+     * Delete post data on DB with related tables.
      * 
      * @since 0.0.5
      * @see \Rdb\Modules\RdbCMSA\Controllers\_SubControllers\PostsSubController::deletePosts()

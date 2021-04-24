@@ -59,7 +59,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\BaseControlle
 
 
     /**
-     * Delete post data on DB.
+     * Delete post data on DB with related table such as `post_fields`, `post_revision`, `taxonomy_index`, `url_aliases`, `translation_matcher` tables.
      * 
      * @param array $postIdsArray The post IDs in 2D array.
      * @return array Return associative array with keys:<br>
