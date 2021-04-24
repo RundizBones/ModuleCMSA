@@ -213,6 +213,29 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
     ): array {
         $output = [];
 
+        // prepare some data by checking before.
+        // prepare publish data.
+        if (!isset($data['post_publish_date'])) {
+            // if publish date was not set. 
+            // previously the publish date will be allowed to set if post status is set to scheduled. 
+            // see `populateEditFormDataOneToOne()` method.
+            if (isset($data['post_status']) && in_array($data['post_status'], [1, 2, 4, 6])) {
+                // if new status is published (1), scheduled (2), private (4), inherit (6)
+                $previousStatus = (int) $resultRow->post_status;
+                if (in_array($previousStatus, [0, 3])) {
+                    // if previous (currently - that is not yet updated) status is draft (0), pending (3)
+                    // set the publish date.
+                    if ($data['post_status'] == 2) {
+                        $data['post_publish_date'] = date('Y-m-d\TH:i', strtotime('+1 hours'));
+                    } else {
+                        $data['post_publish_date'] = date('Y-m-d\TH:i');
+                    }
+                    $data['post_publish_date_gmt'] = gmdate('Y-m-d\TH:i', strtotime($data['post_publish_date']));
+                }
+                unset($previousStatus);
+            }
+        }
+
         try {
             $output['saveResult'] = $this->PostsDb->update($data, $dataRevision, ['post_id' => $resultRow->post_id]);
 
@@ -585,7 +608,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
     ) {
         $data['post_name'] = trim($this->Input->patch('post_name', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         $data['post_feature_image'] = trim($this->Input->patch('post_feature_image', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-        $data['post_status'] = trim($this->Input->patch('post_status', 1, FILTER_SANITIZE_NUMBER_INT));
+        $data['post_status'] = (int) trim($this->Input->patch('post_status', 1, FILTER_SANITIZE_NUMBER_INT));
         $data['post_publish_date'] = trim($this->Input->patch('post_publish_date', null));
         if ($data['post_status'] != '2') {
             // if post status is not scheduled (2).

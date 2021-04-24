@@ -999,19 +999,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
         if (!isset($data['post_update_gmt'])) {
             $data['post_update_gmt'] = gmdate('Y-m-d H:i:s', strtotime($data['post_update']));
         }
-        if (isset($data['post_status']) && in_array($data['post_status'], [1, 2, 4])) {
-            // if post status is published (1), scheduled (2), private (4)
-            if (!isset($data['post_publish_date'])) {
-                if ($data['post_status'] == '2') {
-                    $data['post_publish_date'] = date('Y-m-d\TH:i', strtotime('+1 hours'));
-                } else {
-                    $data['post_publish_date'] = date('Y-m-d\TH:i');
-                }
-            }
-            if (!isset($data['post_publish_date_gmt'])) {
-                $data['post_publish_date_gmt'] = gmdate('Y-m-d\TH:i', strtotime($data['post_publish_date']));
-            }
-        }
+        // the publish date will be prepared on `PostsSubController->editUpdateData()` method.
         if (isset($dataRevision['user_id'])) {
             $newRevision = true;
             if (!isset($dataRevision['revision_date'])) {

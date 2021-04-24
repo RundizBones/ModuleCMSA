@@ -105,8 +105,6 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
             $dataCategories = [];
             $dataTags = [];
             $dataUrlAliases = [];
-            $dataCategories = [];
-            $dataTags = [];
 
             $PostsSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\PostsSubController($this->Container);
             $PostsSubController->categoryType = $this->categoryType;
