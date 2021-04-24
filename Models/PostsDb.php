@@ -710,8 +710,6 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
                         $orderby[] = '`posts`.`' . $sort['sort'] . '` ' . strtoupper($sort['order']);
                     }
                 }
-
-                unset($naturalSort);
             }// endforeach;
             unset($sort);
 
@@ -796,16 +794,47 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
      * 
      * @param int $post_id The post ID.
      * @param string $t_type The type of taxonomy such as 'category', 'tag'.
+     * @param array $options Additional options. @since 0.0.6.<br>
+     *                  Available options:
+     *                  `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
      * @return array Return list of taxonomies.
      */
-    protected function listRelatedTaxonomies(int $post_id, string $t_type): array
+    protected function listRelatedTaxonomies(int $post_id, string $t_type, array $options = []): array
     {
         $sql = 'SELECT * FROM `' . $this->Db->tableName('taxonomy_index') . '` AS `taxonomy_index`
             INNER JOIN `' . $this->Db->tableName('taxonomy_term_data') . '` AS `taxonomy_term_data`
                 ON `taxonomy_term_data`.`tid` = `taxonomy_index`.`tid`
             WHERE `taxonomy_index`.`post_id` = :post_id
-                AND `taxonomy_term_data`.`t_type` = :t_type
-            ORDER BY `taxonomy_index`.`index_id` ASC';
+                AND `taxonomy_term_data`.`t_type` = :t_type';
+
+        // sort and order.
+        if (array_key_exists('sortOrders', $options) && is_array($options['sortOrders']) && !empty($options['sortOrders'])) {
+            $orderby = [];
+            foreach ($options['sortOrders'] as $sort) {
+                if (
+                    is_array($sort) && 
+                    array_key_exists('sort', $sort) && 
+                    array_key_exists('order', $sort) && 
+                    in_array(strtoupper($sort['order']), $this->allowedOrders)
+                ) {
+                    if (stripos($sort['sort'], '.') !== false) {
+                        $orderby[] = $sort['sort'] . ' ' . strtoupper($sort['order']);
+                    } else {
+                        $orderby[] = '`taxonomy_index`.`' . $sort['sort'] . '` ' . strtoupper($sort['order']);
+                    }
+                }
+            }// endforeach;
+            unset($sort);
+
+            if (!empty($orderby)) {
+                $sql .= ' ORDER BY ';
+                $sql .= implode(', ', $orderby);
+            }
+            unset($orderby);
+        } else {
+            $sql .= ' ORDER BY `taxonomy_index`.`index_id` ASC';
+        }
+
         $Sth = $this->Db->PDO()->prepare($sql);
         $Sth->bindValue(':post_id', $post_id);
         $Sth->bindValue(':t_type', $t_type);
