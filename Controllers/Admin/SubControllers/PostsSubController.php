@@ -614,6 +614,11 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
             // if post status is not scheduled (2).
             // remove published date.
             unset($data['post_publish_date'], $data['post_publish_date_gmt']);
+        } else {
+            // if post status is scheduled (2).
+            if (!isset($data['post_publish_date_gmt'])) {
+                $data['post_publish_date_gmt'] = gmdate('Y-m-d\TH:i', strtotime($data['post_publish_date']));
+            }
         }
 
         $dataRevision['user_id'] = trim($this->Input->patch('user_id', $this->userSessionCookieData['user_id'], FILTER_SANITIZE_NUMBER_INT));
