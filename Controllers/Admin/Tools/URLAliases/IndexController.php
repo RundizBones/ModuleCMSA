@@ -92,6 +92,9 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
         if (isset($_GET['search']['value']) && !empty(trim($_GET['search']['value']))) {
             $options['search'] = trim($_GET['search']['value']);
         }
+        $options['where'] = [
+            'url_aliases.language' => ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th'),
+        ];
         $result = $UrlAliasesDb->listItems($options);
         unset($options, $UrlAliasesDb);
 
