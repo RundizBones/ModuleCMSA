@@ -268,6 +268,11 @@ class ScanUnindexedController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\Rdb
             $FileSystem,
             $thumbnailSizes
         );
+        $FI = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterNoOriginal(
+            $FI,
+            $FileSystem,
+            $thumbnailSizes
+        );
         unset($FileSystem, $FoldersController, $targetDir, $thumbnailSizes);
 
         $RII = new \LimitIterator($FI, $offset, $this->scanMaxFilesATime);

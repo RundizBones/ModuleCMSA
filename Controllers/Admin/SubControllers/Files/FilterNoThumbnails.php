@@ -8,7 +8,7 @@ namespace Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files;
 
 
 /**
- * Filter restricted folders and files.
+ * Filter thumbnails or the files that contain` _thumbxxx` size suffix in `thumbnailSizes` property.
  * 
  * @since 0.0.1
  */
@@ -53,17 +53,17 @@ class FilterNoThumbnails extends \FilterIterator
     public function accept(): bool
     {
         $File = $this->getInnerIterator()->current();
+        $filename = $File->getFilename();
 
         foreach ($this->thumbnailSizes as $sizeName => $dimensions) {
-            $filename = $File->getFilename();
             $removedSuffix = $this->FileSystem->removeSuffixFileName($filename, '_' . $sizeName);
             if ($removedSuffix !== $filename) {
                 unset($filename, $removedSuffix);
                 return false;
             }
-            unset($filename, $removedSuffix);
+            unset($removedSuffix);
         }// endforeach;
-        unset($dimensions, $sizeName);
+        unset($dimensions, $filename, $sizeName);
 
         return true;
     }// accept
