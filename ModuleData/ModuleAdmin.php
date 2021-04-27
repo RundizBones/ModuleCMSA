@@ -54,6 +54,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
             'RdbCMSAUrlAliases' => ['list', 'add', 'edit', 'delete'],
             'RdbCMSAFiles' => ['list', 'add', 'edit', 'delete'],
             'RdbCMSATranslationMatcher' => ['list', 'match'],
+            'RdbCMSASettings' => ['update'],
         ];
     }// definePermissions
 
@@ -84,6 +85,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
         $keywords['RdbCMSAUrlAliases'] = noop__('URL aliases');
         $keywords['RdbCMSAFiles'] = noop__('Files');
         $keywords['RdbCMSATranslationMatcher'] = noop__('Translation matcher');
+        $keywords['RdbCMSASettings'] = noop__('Settings');
 
         // actions keywords
         $keywords['list'] = noop__('List items');
@@ -92,6 +94,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
         $keywords['delete'] = noop__('Delete');
         $keywords['encode_decode'] = noop__('Encode/Decode');
         $keywords['match'] = noop__('Match');
+        $keywords['update'] = noop__('Update');
 
         if (!empty($key)) {
             if (array_key_exists($key, $keywords)) {
@@ -228,6 +231,18 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
                     ],
                 ],
             ],
+            102 => [
+                'subMenu' => [
+                    1 => [
+                        'id' => 'rdbcmsa-settings-cmsadmin-settings',
+                        'permission' => [
+                            ['RdbCMSASettings', 'update'],
+                        ],
+                        'name' => d__('rdbcmsa', 'CMS admin settings'),
+                        'link' => $urlBaseWithLang . '/admin/settings/cms',
+                    ],
+                ],
+            ],// end settings menu
             103 => [
                 'subMenu' => [
                     1 => [

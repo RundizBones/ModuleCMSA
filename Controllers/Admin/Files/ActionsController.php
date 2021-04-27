@@ -101,10 +101,17 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     try {
                         $thumbnailSizes = $FilesSubController->getThumbnailSizes();
                         foreach ($validateFileActions['listSelectedFiles']['items'] as $row) {
-                            // try to delete actual files first.
+                            // get main file.
                             $fileRelPath = $FilesDb->getFileRelatePath($row);
                             $output['deleteFilesLog'][$row->file_id]['fileRelPath'] = $fileRelPath;
                             $output['deleteFilesLog'][$row->file_id]['fileFullPath'] = $FileSystem->getFullPathWithRoot($fileRelPath);
+                            // delete original (backup) file.
+                            $originalFile = $FileSystem->getSuffixFileName($fileRelPath, '_original');
+                            $output['deleteFilesLog'][$row->file_id]['_original'] = $originalFile;
+                            if ($FileSystem->isFile($originalFile)) {
+                                $deleteResult = $FileSystem->deleteFile($originalFile);
+                                $output['deleteFilesLog'][$row->file_id]['_original' . 'IsFileAndDeleted'] = var_export($deleteResult, true);
+                            }
                             // loop delete thumbnails.
                             foreach ($thumbnailSizes as $name => list($width, $height)) {
                                 $thumbnailFile = $FileSystem->getSuffixFileName($fileRelPath, '_' . $name);
@@ -231,7 +238,15 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             // if validated token to prevent CSRF.
             unset($_PATCH[$csrfName], $_PATCH[$csrfValue]);
 
-            if ($action === 'updatemeta') {
+            if ($action === 'setwatermark') {
+                // if action is set watermark.
+                $output = array_merge($output, $this->doUpdateDataSetWatermark($file_ids, $action));
+                $output = array_merge($output, $this->doUpdateDataResizeThumbnails($file_ids, $action));
+            } elseif ($action === 'removewatermark') {
+                // if action is remove watermark.
+                $output = array_merge($output, $this->doUpdateDataRemoveWatermark($file_ids, $action));
+                $output = array_merge($output, $this->doUpdateDataResizeThumbnails($file_ids, $action));
+            } elseif ($action === 'updatemeta') {
                 // if action is update metadata.
                 $output = array_merge($output, $this->doUpdateDataUpdatemeta($file_ids, $action));
             } elseif ($action === 'updatethumbnails') {
@@ -255,6 +270,85 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
     }// doUpdateDataAction
 
 
+    /**
+     * Remove watermark.
+     * 
+     * @param string $file_ids
+     * @param string $action
+     * @return array
+     */
+    protected function doUpdateDataRemoveWatermark(string $file_ids, string $action): array
+    {
+        $output = [];
+
+        $fileIdArray = explode(',', $file_ids);
+        if (is_array($fileIdArray)) {
+            $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
+            $options = [];
+            $options['file_id_in'] = $fileIdArray;
+            $options['unlimited'] = true;
+            $options['getFileFullPath'] = true;
+            $result = $FilesDb->listItems($options);
+            unset($options);
+
+            $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
+            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
+            $FilesSubController->Container = $this->Container;
+            $applied = 0;
+            $notImageFiles = [];
+
+            if (isset($result['items']) && is_array($result['items'])) {
+                foreach ($result['items'] as $row) {
+                    if (in_array(strtolower($row->file_ext), $FilesSubController->imageExtensions)) {
+                        // if one of selected files is an image.
+                        $item = [];
+                        $item['full_path_new_name'] = $row->fileFullPath;
+                        $item['new_name'] = $row->file_name;
+                        $FilesSubController->removeWatermark($item, $FileSystem);
+                        unset($item);
+                        $applied++;
+                    } else {
+                        // if it is not an image.
+                        $output['formResultStatus'] = 'warning';
+                        $notImageFiles[] = $row->file_original_name;
+                    }
+                }// endforeach;
+                unset($row);
+            }// endif; if there is selected items.
+            unset($result);
+
+            // set output result for alert box.
+            if (!isset($output['formResultStatus'])) {
+                $output['formResultStatus'] = 'success';
+            }
+            if (!empty($notImageFiles)) {
+                $output['formResultMessage'][] = sprintf(
+                    dn__('rdbcmsa', 'The selected file is not an image. (%1$s)', 'The selected files are not images. (%1$s)', count($notImageFiles)),
+                    implode(', ', $notImageFiles)
+                );
+            }
+            if (!empty($applied)) {
+                $output['formResultMessage'][] = d__('rdbcmsa', 'Updated successfully.');
+            }
+            $output['totalResized'] = $applied;
+            http_response_code(200);
+            unset($applied, $notImageFiles);
+
+            unset($FilesDb, $FilesSubController, $FileSystem);
+        }// endif; is array fileIdArray
+        unset($fileIdArray);
+
+        return $output;
+    }// doUpdataDateRemoveWatermark
+
+
+    /**
+     * Resize thumbnails.
+     * 
+     * @param string $file_ids
+     * @param string $action
+     * @return array
+     */
     protected function doUpdateDataResizeThumbnails(string $file_ids, string $action): array
     {
         $output = [];
@@ -285,7 +379,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                         unset($item);
                         $resized++;
                     } else {
-                        // if it is not and image.
+                        // if it is not an image.
                         $output['formResultStatus'] = 'warning';
                         $notImageFiles[] = $row->file_original_name;
                     }
@@ -317,6 +411,78 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
         return $output;
     }// doUpdateDataResizeThumbnails
+
+
+    /**
+     * Set watermark.
+     * 
+     * @param string $file_ids
+     * @param string $action
+     * @return array
+     */
+    protected function doUpdateDataSetWatermark(string $file_ids, string $action): array
+    {
+        $output = [];
+
+        $fileIdArray = explode(',', $file_ids);
+        if (is_array($fileIdArray)) {
+            $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
+            $options = [];
+            $options['file_id_in'] = $fileIdArray;
+            $options['unlimited'] = true;
+            $options['getFileFullPath'] = true;
+            $result = $FilesDb->listItems($options);
+            unset($options);
+
+            $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
+            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
+            $FilesSubController->Container = $this->Container;
+            $applied = 0;
+            $notImageFiles = [];
+
+            if (isset($result['items']) && is_array($result['items'])) {
+                foreach ($result['items'] as $row) {
+                    if (in_array(strtolower($row->file_ext), $FilesSubController->imageExtensions)) {
+                        // if one of selected files is an image.
+                        $item = [];
+                        $item['full_path_new_name'] = $row->fileFullPath;
+                        $item['new_name'] = $row->file_name;
+                        $FilesSubController->setWatermark($item, $FileSystem);
+                        unset($item);
+                        $applied++;
+                    } else {
+                        // if it is not an image.
+                        $output['formResultStatus'] = 'warning';
+                        $notImageFiles[] = $row->file_original_name;
+                    }
+                }// endforeach;
+                unset($row);
+            }// endif; if there is selected items.
+            unset($result);
+
+            // set output result for alert box.
+            if (!isset($output['formResultStatus'])) {
+                $output['formResultStatus'] = 'success';
+            }
+            if (!empty($notImageFiles)) {
+                $output['formResultMessage'][] = sprintf(
+                    dn__('rdbcmsa', 'The selected file is not an image. (%1$s)', 'The selected files are not images. (%1$s)', count($notImageFiles)),
+                    implode(', ', $notImageFiles)
+                );
+            }
+            if (!empty($applied)) {
+                $output['formResultMessage'][] = d__('rdbcmsa', 'Updated successfully.');
+            }
+            $output['totalResized'] = $applied;
+            http_response_code(200);
+            unset($applied, $notImageFiles);
+
+            unset($FilesDb, $FilesSubController, $FileSystem);
+        }// endif; is array fileIdArray
+        unset($fileIdArray);
+
+        return $output;
+    }// doUpdateDataSetWatermark
 
 
     /**

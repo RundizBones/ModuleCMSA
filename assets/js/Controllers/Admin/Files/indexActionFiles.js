@@ -481,7 +481,11 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
 
                 if (formValidated === true) {
                     if (selectAction) {
-                        if (selectAction.value === 'updatemeta' || selectAction.value === 'updatethumbnails') {
+                        // @link https://stackoverflow.com/a/40195757/128761 Original source code of `indexOf()`.
+                        let updateActionsArray = ['updatemeta', 'updatethumbnails', 'setwatermark', 'removewatermark'],
+                            indexOfActions = (arr, q) => arr.findIndex(item => q.toLowerCase() === item.toLowerCase());
+
+                        if (indexOfActions(updateActionsArray, selectAction.value) >= 0) {
                             thisClass.listenFormUpdateActions(selectAction.value, fileIdsArray);
                         } else if (selectAction.value === 'delete') {
                             // if bulk action is to delete items.

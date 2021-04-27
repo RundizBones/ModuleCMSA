@@ -20,6 +20,9 @@ class FilesSubController
 {
 
 
+    use \Rdb\Modules\RdbCMSA\Controllers\Admin\Settings\CMSAdmin\Traits\SettingsCMSATrait;
+
+
     /**
      * @link https://en.wikipedia.org/wiki/HTML5_audio Reference. Click on each container to see its extensions.
      * @link https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Audio_codecs Reference. Click on each container to see its mime types.
@@ -28,6 +31,12 @@ class FilesSubController
      * @var array Audio extensions. Use extension to check instead of mime type because each extension may contain different mime types.
      */
     protected $audioExtensions = ['aac', 'flac', 'ogg', 'opus', 'mp3', 'm4a', 'wav', 'webm'];
+
+
+    /**
+     * @var \Rdb\System\Container|null
+     */
+    public $Container;
 
 
     /**
@@ -265,6 +274,70 @@ class FilesSubController
 
 
     /**
+     * Remove watermark from uploaded image. This method will be make copy of backup original uploaded image to main file.
+     * 
+     * To use this method, the `Container` property must be set.
+     * 
+     * @param array $item The associative array must contain keys:<br>
+     *                      `full_path_new_name` (string) The full path to original image file.<br>
+     *                      `new_name` (string) The file name with extension that was renamed. No slash or path or directory included.<br>
+     * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem The file system class.
+     * @throws \InvalidArgumentException Throw the errors if the required array key is not exists.
+     * @return bool Return `true` for successfully removed watermark, skipped because there is no backup file (never set watermark before).<br>
+     *                      Return `false` for otherwise.
+     */
+    public function removeWatermark(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null)
+    {
+        if (!array_key_exists('full_path_new_name', $item)) {
+            throw new \InvalidArgumentException('The array key `full_path_new_name` for full path to original image file is required.');
+        }
+        if (!array_key_exists('new_name', $item)) {
+            throw new \InvalidArgumentException('The array key `new_name` for file name with extension is required.');
+        }
+
+        if (is_null($FileSystem)) {
+            $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
+        }
+
+        if (is_object($this->Container) && $this->Container->has('Logger')) {
+            /* @var $Logger \Rdb\System\Libraries\Logger */
+            $Logger = $this->Container->get('Logger');
+        }
+
+        // get original file (backup file).
+        $originalFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($item['new_name'], '_original');
+        if (!is_file($originalFile)) {
+            // if original file (backup file) was not found.
+            // this means that it was never set watermark before.
+            return true;
+        }// endif check original file exists.
+
+        // copy to main file.
+        $copyResult = copy($originalFile, $item['full_path_new_name']);
+
+        if (true !== $copyResult) {
+            if (isset($Logger)) {
+                $Logger->write(
+                    'modules/rdbcmsa/controllers/admin/subcontrollers/files/removewatermark',
+                    3,
+                    'Unable to restore original file. {file}',
+                    [
+                        'file' => $originalFile,
+                    ]
+                );
+            }
+            unset($copyResult, $Logger, $originalFile);
+            return false;
+        }
+
+        // delete original (backup) file.
+        $deleteResult = @unlink($originalFile);
+
+        return ($copyResult === true && $deleteResult === true);
+    }// removeWatermark
+
+
+    /**
      * Resize thumbnails. If thumbnail exists, it will be overwrite.
      * 
      * @param array $item The associative array must contain keys:<br>
@@ -311,6 +384,86 @@ class FilesSubController
         unset($height, $name, $width);
         unset($Image, $imageSize);
     }// resizeThumbnails
+
+
+    /**
+     * Set watermark to uploaded image. This method will be make copy of uploaded image to append suffix `_original` before set watermark.
+     * 
+     * To use this method, the `Container` property must be set.
+     * 
+     * @param array $item The associative array must contain keys:<br>
+     *                      `full_path_new_name` (string) The full path to original image file.<br>
+     *                      `new_name` (string) The file name with extension that was renamed. No slash or path or directory included.<br>
+     * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem The file system class.
+     * @throws \InvalidArgumentException Throw the errors if the required array key is not exists.
+     * @return bool Return `true` for successfully set watermark, skipped because there is no watermark file uploaded in settings.<br>
+     *                      Return `false` for otherwise.
+     */
+    public function setWatermark(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null): bool
+    {
+        if (!array_key_exists('full_path_new_name', $item)) {
+            throw new \InvalidArgumentException('The array key `full_path_new_name` for full path to original image file is required.');
+        }
+        if (!array_key_exists('new_name', $item)) {
+            throw new \InvalidArgumentException('The array key `new_name` for file name with extension is required.');
+        }
+
+        if (is_null($FileSystem)) {
+            $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
+        }
+
+        $ConfigDb = new \Rdb\Modules\RdbAdmin\Models\ConfigDb($this->Container);
+        $watermarkFile = $ConfigDb->get('rdbcmsa_watermarkfile');
+        if (empty($watermarkFile)) {
+            return true;
+        }
+        $watermarkFile = $this->getWatermarkModuleBasePath() . DIRECTORY_SEPARATOR . $watermarkFile;
+        unset($ConfigDb);
+
+        if (is_object($this->Container) && $this->Container->has('Logger')) {
+            /* @var $Logger \Rdb\System\Libraries\Logger */
+            $Logger = $this->Container->get('Logger');
+        }
+
+        // get original file (backup file).
+        $originalFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($item['new_name'], '_original');
+        if (!is_file($originalFile)) {
+            // if original file (backup file) was not found.
+            // make backup.
+            copy($item['full_path_new_name'], $FileSystem->getSuffixFileName($item['full_path_new_name'], '_original'));
+            // get original file again.
+            $originalFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($item['new_name'], '_original');
+            if (!is_file($originalFile)) {
+                // if still unable to get original file.
+                $originalFile = false;
+                if (isset($Logger)) {
+                    $Logger->write(
+                        'modules/rdbcmsa/controllers/admin/subcontrollers/files/setwatermark', 
+                        3, 
+                        'Unable to copy original file. {file}', 
+                        [
+                            'file' => $item['full_path_new_name'],
+                        ]
+                    );
+                }// endif $Logger
+                unset($Logger, $watermarkFile);
+                return false;
+            }
+        }// endif check original file exists.
+
+        $RdbCMSAImage = new \Rdb\Modules\RdbCMSA\Libraries\Image($originalFile);
+        $Image = $RdbCMSAImage->Image;
+        unset($RdbCMSAImage);
+        $Image->png_quality = 5;
+
+        $doWatermark = $Image->watermarkImage($watermarkFile, 'center', 'middle');
+        $doResize = $Image->resize(2000, 2000);
+        $doSave = $Image->save($item['full_path_new_name']);
+        $Image->clear();
+        unset($Image, $watermarkFile);
+
+        return ($doWatermark === true && $doResize === true && $doSave === true);
+    }// setWatermark
 
 
 }// FilesSubController

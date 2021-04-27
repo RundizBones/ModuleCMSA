@@ -1,0 +1,15 @@
+/*
+CMS admin settings
+*/
+
+
+.rdbcmsa-files-dropzone {
+    border: 3px dashed #ccc;
+    padding: 10px;
+}
+
+
+.rdbcmsa-watermark-review {
+    background-image: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 100%);
+    margin-bottom: 15px;
+}

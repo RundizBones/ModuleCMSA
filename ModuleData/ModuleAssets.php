@@ -51,6 +51,7 @@ class ModuleAssets
         $ModuleAssetsUrlAliases = new ModuleAssetsUrlAliases($this->Container);
         $ModuleAssetsEncodeDecode = new ModuleAssetsEncodeDecode($this->Container);
         $ModuleAssetsTranslationMatcher = new ModuleAssetsTranslationMatcher($this->Container);
+        $ModuleAssetsSettings = new ModuleAssetsSettings($this->Container);
 
         return array_merge_recursive(
             [
@@ -123,7 +124,8 @@ class ModuleAssets
             $ModuleAssetsTaxonomies->getModuleAssets(),
             $ModuleAssetsUrlAliases->getModuleAssets(),
             $ModuleAssetsEncodeDecode->getModuleAssets(),
-            $ModuleAssetsTranslationMatcher->getModuleAssets()
+            $ModuleAssetsTranslationMatcher->getModuleAssets(),
+            $ModuleAssetsSettings->getModuleAssets()
         );// end array_merge_recursive
     }// getModuleAssets
 

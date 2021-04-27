@@ -15,6 +15,9 @@ $Rc->addGroup('/admin', function(\FastRoute\RouteCollector $Rc) {
         require 'routes-admin/routes-translation-matcher.php';
     });// /cms route group.
 
+    // routes: /settings/xxx.
+    require 'routes-admin/routes-settings.php';
+
     // routes: /tools/cms/xxx.
     require 'routes-admin/routes-tools.php';
 });// /admin route group.

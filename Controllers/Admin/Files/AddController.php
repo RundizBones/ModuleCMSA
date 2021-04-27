@@ -196,7 +196,8 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
     /**
      * Resize images if one of uploaded files is an image.
      * 
-     * This method must be able to called from outside class. No protected or private.
+     * This method must be able to called from outside class. No protected or private.<br>
+     * This method can be called for upload new files, add new files only.
      * 
      * @param array $insertedArray The argument that was get from inserted file.
      * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem The file system class.
@@ -207,10 +208,22 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
         $this->validateArgument($insertedArray);
 
         $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
+        $FilesSubController->Container = $this->Container;
 
         foreach ($insertedArray as $key => $item) {
             if (in_array(strtolower($item['extension']), $FilesSubController->imageExtensions)) {
                 // if the extension is in one of allowed image extensions.
+                // check settings for apply watermark on all new uploaded and then add watermark to uploaded image.
+                $ConfigDb = new \Rdb\Modules\RdbAdmin\Models\ConfigDb($this->Container);
+                if (
+                    $ConfigDb->get('rdbcmsa_watermarkAllNewUploaded') == '1' &&
+                    $ConfigDb->get('rdbcmsa_watermarkfile') !== ''
+                ) {
+                    // if there is uploaded watermark and setting was set to apply watermark to new uploaded.
+                    $FilesSubController->setWatermark($item, $FileSystem);
+                }
+                unset($ConfigDb);
+
                 // create thumbnail size.
                 $FilesSubController->resizeThumbnails($item, $FileSystem);
             }

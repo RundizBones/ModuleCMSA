@@ -63,6 +63,30 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
 
 
     /**
+     * Get configuration name, description, default value.
+     * 
+     * @return array
+     */
+    protected function getConfig(): array
+    {
+        $output = [
+            [
+                'name' => 'rdbcmsa_watermarkfile',
+                'desc' => 'Related path from this module to watermark file.',
+                'value' => '',
+            ],
+            [
+                'name' => 'rdbcmsa_watermarkAllNewUploaded',
+                'desc' => 'Apply watermark on all new uploaded? 0=no, 1=yes.',
+                'value' => 0,
+            ],
+        ];
+
+        return $output;
+    }// getConfig
+
+
+    /**
      * {@inheritDoc}
      */
     public function install()
@@ -107,6 +131,18 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
                 unset($eachStatement);
             }
             unset($expSql);
+
+            $ConfigDb = new \Rdb\Modules\RdbAdmin\Models\ConfigDb($this->Container);
+            foreach ($this->getConfig() as $config) {
+                $data = [];
+                $data['config_value'] = (array_key_exists('value', $config) ? $config['value'] : null);
+                $data['config_description'] = (array_key_exists('desc', $config) ? $config['desc'] : null);
+                if (array_key_exists('name', $config)) {
+                    $ConfigDb->update($data, ['config_name' => $config['name']]);
+                }
+                unset($data);
+            }// endforeach;
+            unset($config);
         } catch (\Exception $e) {
             $this->Logger->write('modules/rdbcmsa/installer', 3, $e->getMessage());
             throw $e;
@@ -152,6 +188,14 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
                 unset($table, $tables);
             }
             unset($sqlString);
+
+            // delete configurations.
+            $sql = 'DELETE FROM `' . $this->Db->tableName('config') . '` WHERE `config_name` LIKE \'rdbcmsa_%\'';
+            $Sth = $this->Db->PDO()->prepare($sql);
+            unset($sql);
+            $Sth->execute();
+            $Sth->closeCursor();
+            unset($Sth);
         } catch (\Exception $e) {
             $this->Logger->write('modules/rdbcmsa/installer', 3, $e->getMessage());
             throw $e;
@@ -164,6 +208,43 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
      */
     public function update()
     {
+        $ConfigDb = new \Rdb\Modules\RdbAdmin\Models\ConfigDb($this->Container);
+        foreach ($this->getConfig() as $config) {
+            $sql = 'SELECT * FROM `' . $this->Db->tableName('config') . '` WHERE `config_name` = :config_name';
+            $Sth = $this->Db->PDO()->prepare($sql);
+            unset($sql);
+            $Sth->bindValue(':config_name', $config['name']);
+            $Sth->execute();
+            $result = $Sth->fetchObject();
+            $Sth->closeCursor();
+            unset($Sth);
+
+            if (!is_object($result) || empty($result) || !isset($result->config_name)) {
+                // if config is not exists.
+                // insert with its default value.
+                $data = [];
+                $data['config_value'] = (array_key_exists('value', $config) ? $config['value'] : null);
+                $data['config_description'] = (array_key_exists('desc', $config) ? $config['desc'] : null);
+                if (array_key_exists('name', $config)) {
+                    $ConfigDb->update($data, ['config_name' => $config['name']]);
+                }
+                unset($data);
+            } else {
+                // if config exists.
+                // check that description is not empty.
+                if (is_object($result) && empty($result->config_description)) {
+                    // if description is empty.
+                    // update the description.
+                    $data = [];
+                    $data['config_description'] = (array_key_exists('desc', $config) ? $config['desc'] : null);
+                    $ConfigDb->update($data, ['config_name' => $config['name']]);
+                    unset($data);
+                }
+            }
+
+            unset($result);
+        }// endforeach;
+        unset($config, $ConfigDb);
     }// update
 
 
