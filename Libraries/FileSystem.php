@@ -71,6 +71,7 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
      */
     public function getFullPathWithRoot(string $path): string
     {
+        $path = $this->removeUpperPath($path);
         return $this->root . DIRECTORY_SEPARATOR . $path;
     }// getFullPathWithRoot
 
