@@ -17,6 +17,29 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
 
 
     /**
+     * Get file name with suffix.
+     * 
+     * Example: file name is `photo123.jpg`, suffix is `_thumbnail300` then it will be return `photo123_thumbnail300.jpg`.
+     * 
+     * @param string $filename The file name file extension. Can be full path or not.
+     * @param string $suffix The suffix string.
+     * @return string Return the same as `$filename` input but add suffix before file extension.
+     */
+    public function addSuffixFileName(string $filename, string $suffix): string
+    {
+        $expFilename = explode('.', $filename);
+        // set file extension.
+        $fileExt = $expFilename[count($expFilename) - 1];
+        // remove last array index
+        unset($expFilename[count($expFilename) - 1]);
+        // merge array to get file name without extension.
+        $fileNameNoExt = implode('.', $expFilename);
+
+        return $fileNameNoExt . $suffix . '.' . $fileExt;
+    }// addSuffixFileName
+
+
+    /**
      * Get base 64 string from file name.
      * 
      * @link https://stackoverflow.com/a/13758760/128761 Original source code.
@@ -25,6 +48,8 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
      */
     public function getBase64File(string $filename): string
     {
+        $filename = $this->removeUpperPath($filename);
+
         if (is_file($this->root . DIRECTORY_SEPARATOR . $filename)) {
             $filePath = $this->root . DIRECTORY_SEPARATOR . $filename;
             $Finfo = new \finfo();
@@ -53,23 +78,19 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
     /**
      * Get file name with suffix.
      * 
+     * This is an alias method of `addSuffixFileName()`.<br>
+     * This will be remove in version 1.0, please use `addSuffixFileName()` instead.
+     * 
      * Example: file name is `photo123.jpg`, suffix is `_thumbnail300` then it will be return `photo123_thumbnail300.jpg`.
      * 
+     * @todo [rdbcms] Remove this method (`getSuffixFileName`) in version 1.0.
      * @param string $filename The file name file extension. Can be full path or not.
      * @param string $suffix The suffix string.
      * @return string Return the same as `$filename` input but add suffix before file extension.
      */
     public function getSuffixFileName(string $filename, string $suffix): string
     {
-        $expFilename = explode('.', $filename);
-        // set file extension.
-        $fileExt = $expFilename[count($expFilename) - 1];
-        // remove last array index
-        unset($expFilename[count($expFilename) - 1]);
-        // merge array to get file name without extension.
-        $fileNameNoExt = implode('.', $expFilename);
-
-        return $fileNameNoExt . $suffix . '.' . $fileExt;
+        return $this->addSuffixFileName($filename, $suffix);
     }// getSuffixFileName
 
 
