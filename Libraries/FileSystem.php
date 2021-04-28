@@ -17,7 +17,7 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
 
 
     /**
-     * Get file name with suffix.
+     * Get file name with suffix or add suffix to the selected file name.
      * 
      * Example: file name is `photo123.jpg`, suffix is `_thumbnail300` then it will be return `photo123_thumbnail300.jpg`.
      * 
