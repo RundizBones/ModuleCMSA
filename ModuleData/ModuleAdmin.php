@@ -231,18 +231,6 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
                     ],
                 ],
             ],
-            102 => [
-                'subMenu' => [
-                    1 => [
-                        'id' => 'rdbcmsa-settings-cmsadmin-settings',
-                        'permission' => [
-                            ['RdbCMSASettings', 'update'],
-                        ],
-                        'name' => d__('rdbcmsa', 'CMS admin settings'),
-                        'link' => $urlBaseWithLang . '/admin/settings/cms',
-                    ],
-                ],
-            ],// end settings menu
             103 => [
                 'subMenu' => [
                     1 => [

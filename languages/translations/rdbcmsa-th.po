@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rdbcmsa\n"
-"POT-Creation-Date: 2021-04-27 13:42+0700\n"
-"PO-Revision-Date: 2021-04-27 13:42+0700\n"
+"POT-Creation-Date: 2021-04-28 11:54+0700\n"
+"PO-Revision-Date: 2021-04-28 11:54+0700\n"
 "Last-Translator: Vee W.\n"
 "Language-Team: \n"
 "Language: th_TH\n"
@@ -62,7 +62,7 @@ msgstr "ไม่สามารถลบได้."
 #: Controllers/Admin/Categories/EditController.php:256
 #: Controllers/Admin/Files/ActionsController.php:614
 #: Controllers/Admin/Files/EditController.php:182
-#: Controllers/Admin/Files/ScanUnindexedController.php:461
+#: Controllers/Admin/Files/ScanUnindexedController.php:466
 #: Controllers/Admin/Pages/AddController.php:257 Controllers/Admin/Pages/EditController.php:276
 #: Controllers/Admin/Pages/IndexController.php:238
 #: Controllers/Admin/Posts/AddController.php:257 Controllers/Admin/Posts/EditController.php:276
@@ -168,7 +168,7 @@ msgstr[0] "ไฟล์ที่เลือกไม่ใช่รูปภา
 #: Controllers/Admin/Files/ActionsController.php:618
 #: Controllers/Admin/Files/EditController.php:186
 #: Controllers/Admin/Files/IndexController.php:214
-#: Controllers/Admin/Files/ScanUnindexedController.php:465 ModuleData/ModuleAdmin.php:86
+#: Controllers/Admin/Files/ScanUnindexedController.php:470 ModuleData/ModuleAdmin.php:86
 #: ModuleData/ModuleAdmin.php:200 Views/Admin/Files/index_v.php:23
 msgid "Files"
 msgstr "ไฟล์"
@@ -203,7 +203,7 @@ msgstr "ไฟล์เบราว์เซอร์"
 #: Controllers/Admin/Posts/IndexController.php:290
 #: Controllers/Admin/Tags/ActionsController.php:194
 #: Controllers/Admin/Tags/IndexController.php:192
-#: Controllers/Admin/Tools/URLAliases/IndexController.php:185
+#: Controllers/Admin/Tools/URLAliases/IndexController.php:188
 #: Controllers/Admin/TranslationMatcher/IndexController.php:355
 msgid "Please select at least one item."
 msgstr "โปรดเลือกอย่างน้อยหนึ่งรายการ."
@@ -357,7 +357,7 @@ msgstr "มีข้อผิดพลาดเกี่ยวกับไฟล
 msgid "Please select items to index."
 msgstr "กรุณาเลือกรายการที่จะทำดัชนี."
 
-#: Controllers/Admin/Files/ScanUnindexedController.php:420 Views/Admin/Files/index_v.php:35
+#: Controllers/Admin/Files/ScanUnindexedController.php:425 Views/Admin/Files/index_v.php:35
 #: Views/Admin/Files/index_v.php:40
 msgid "Scan for unindexed files"
 msgstr "สแกนหาไฟล์ที่ไม่ได้ทำดัชนี"
@@ -460,20 +460,23 @@ msgstr "โพสต์"
 msgid "Edit post"
 msgstr "แก้ไขโพสต์"
 
-#: Controllers/Admin/Settings/CMSAdmin/IndexController.php:102 ModuleData/ModuleAdmin.php:241
+#: Controllers/Admin/Settings/CMSAdmin/IndexController.php:102
 #: Views/Admin/Settings/CMSAdmin/index_v.php:8
 msgid "CMS admin settings"
 msgstr "ตั้งค่าหน้าผู้ดูแลเนื้อหา"
 
 #: Controllers/Admin/Settings/CMSAdmin/IndexController.php:132
+#: Plugins/Settings/Hooks/RdbCMSASettings.php:70
 msgid "Are you sure to delete watermark?"
 msgstr "คุณแน่ใจหรือไม่ที่จะลบลายน้ำ?"
 
 #: Controllers/Admin/Settings/CMSAdmin/IndexController.php:133
+#: Plugins/Settings/Hooks/RdbCMSASettings.php:71
 msgid "Please choose only one file."
 msgstr "กรุณาเลือกหนึ่งไฟล์."
 
 #: Controllers/Admin/Settings/CMSAdmin/IndexController.php:134
+#: Plugins/Settings/Hooks/RdbCMSASettings.php:72
 msgid "Uploading"
 msgstr "กำลังอัพโหลด"
 
@@ -513,7 +516,7 @@ msgid "Edit a tag"
 msgstr "แก้ไขแท็ก"
 
 #: Controllers/Admin/Tools/EncodeDecode/IndexController.php:133 ModuleData/ModuleAdmin.php:82
-#: ModuleData/ModuleAdmin.php:95 ModuleData/ModuleAdmin.php:265
+#: ModuleData/ModuleAdmin.php:95 ModuleData/ModuleAdmin.php:253
 #: Views/Admin/Tools/EncodeDecode/index_v.php:23
 msgid "Encode/Decode"
 msgstr "Encode/Decode"
@@ -549,12 +552,12 @@ msgstr "ไม่พบ URL แฝงที่เลือก."
 msgid "Edit an URL alias"
 msgstr "แก้ไข URL แฝง"
 
-#: Controllers/Admin/Tools/URLAliases/IndexController.php:127 ModuleData/ModuleAdmin.php:85
-#: ModuleData/ModuleAdmin.php:253
+#: Controllers/Admin/Tools/URLAliases/IndexController.php:130 ModuleData/ModuleAdmin.php:85
+#: ModuleData/ModuleAdmin.php:241
 msgid "URL aliases"
 msgstr "URL แฝง"
 
-#: Controllers/Admin/Tools/URLAliases/IndexController.php:186
+#: Controllers/Admin/Tools/URLAliases/IndexController.php:189
 msgid "Use redirect function."
 msgstr "ใช้ฟังก์ชั่นการเปลี่ยนเส้นทาง."
 
@@ -649,6 +652,61 @@ msgstr "จับคู่"
 #: ModuleData/ModuleAdmin.php:97
 msgid "Update"
 msgstr "ปรับปรุง"
+
+#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:3
+#: Views/Admin/Settings/CMSAdmin/index_v.php:15
+msgid "Watermark"
+msgstr "ลายน้ำ"
+
+#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:6
+#: Views/Admin/Files/browser_v.php:10 Views/Admin/Files/index_v.php:24
+#: Views/Admin/Settings/CMSAdmin/index_v.php:18
+msgid "Drop the files into this area to start upload."
+msgstr "วางไฟล์ลงในพื้นที่นี้เพื่อเริ่มอัพโหลด."
+
+#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:8
+#: Views/Admin/Settings/CMSAdmin/index_v.php:20
+msgid "Choose file"
+msgstr "เลือกไฟล์"
+
+#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:13
+#: Views/Admin/Settings/CMSAdmin/index_v.php:25
+msgid "Click on choose file or drop a file here to start upload."
+msgstr "คลิกที่เลือกไฟล์หรือวางไฟล์ที่นี่เพื่อเริ่มอัพโหลด."
+
+#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:14
+#: Views/Admin/Files/browser_v.php:18 Views/Admin/Files/index_v.php:32
+#: Views/Admin/Settings/CMSAdmin/index_v.php:26
+#, php-format
+msgid "Max file size %s."
+msgstr "ขนาดไฟล์สูงสุด %s."
+
+#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:19
+#: Views/Admin/Settings/CMSAdmin/index_v.php:31
+msgid "Check this box to delete current watermark."
+msgstr "ติ๊กกล่องนี้เพื่อลบลายน้ำปัจจุบัน."
+
+#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:24
+#: Views/Admin/Files/index_v.php:165 Views/Admin/Settings/CMSAdmin/index_v.php:36
+msgid "Apply watermark"
+msgstr "นำลายน้ำไปใช้"
+
+#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:28
+#: Views/Admin/Settings/CMSAdmin/index_v.php:40
+msgid "Apply watermark on new uploaded"
+msgstr "นำลายน้ำไปใช้ในการอัพโหลดใหม่"
+
+#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:30
+#: Views/Admin/Settings/CMSAdmin/index_v.php:42
+msgid ""
+"If apply, all new uploaded images will be use this watermark otherwise you can manually "
+"apply each file."
+msgstr "ถ้านำไปใช้, การอัพโหลดภาพใหม่ทั้งหมดจะใช้ลายน้ำนี้ ถ้ามิฉะนั้นคุณสามารถกำหนดลายน้ำให้แต่ละไฟล์ได้."
+
+#: Plugins/Settings/Hooks/Views/settings_tabnav_file_v.php:1 Views/Admin/Files/index_v.php:53
+#: Views/Admin/Files/index_v.php:65
+msgid "File"
+msgstr "ไฟล์"
 
 #: Views/Admin/Categories/actions_v.php:60 Views/Admin/Files/actions_v.php:54
 msgid "Warning!"
@@ -757,11 +815,6 @@ msgstr[0] "พบใน %d โพสต์."
 msgid "The files that was linked in the posts will have status of 404 (not found error)."
 msgstr "ไฟล์ต่างๆที่ถูกเชื่อมโยงในโพสต์จะมีสถานะเป็น 404 (ไม่พบไฟล์)."
 
-#: Views/Admin/Files/browser_v.php:10 Views/Admin/Files/index_v.php:24
-#: Views/Admin/Settings/CMSAdmin/index_v.php:18
-msgid "Drop the files into this area to start upload."
-msgstr "วางไฟล์ลงในพื้นที่นี้เพื่อเริ่มอัพโหลด."
-
 #: Views/Admin/Files/browser_v.php:12 Views/Admin/Files/index_v.php:26
 msgid "Choose files"
 msgstr "เลือกไฟล์"
@@ -769,12 +822,6 @@ msgstr "เลือกไฟล์"
 #: Views/Admin/Files/browser_v.php:17 Views/Admin/Files/index_v.php:31
 msgid "Click on choose files or drop files here to start upload."
 msgstr "คลิกที่เลือกไฟล์หรือวางไฟล์ที่นี่เพื่อเริ่มอัพโหลด."
-
-#: Views/Admin/Files/browser_v.php:18 Views/Admin/Files/index_v.php:32
-#: Views/Admin/Settings/CMSAdmin/index_v.php:26
-#, php-format
-msgid "Max file size %s."
-msgstr "ขนาดไฟล์สูงสุด %s."
 
 #: Views/Admin/Files/browser_v.php:24
 msgid "Folder"
@@ -871,10 +918,6 @@ msgstr "โฟลเดอร์ใหม่"
 msgid "Reload"
 msgstr "โหลดใหม่"
 
-#: Views/Admin/Files/index_v.php:53 Views/Admin/Files/index_v.php:65
-msgid "File"
-msgstr "ไฟล์"
-
 #: Views/Admin/Files/index_v.php:54 Views/Admin/Files/index_v.php:66
 msgid "Uploader"
 msgstr "ผู้อัพโหลด"
@@ -902,10 +945,6 @@ msgstr "โฟลเดอร์ที่จะเปลี่ยนชื่อ
 #: Views/Admin/Files/index_v.php:93
 msgid "Folder name"
 msgstr "ชื่อโฟลเดอร์"
-
-#: Views/Admin/Files/index_v.php:165 Views/Admin/Settings/CMSAdmin/index_v.php:36
-msgid "Apply watermark"
-msgstr "นำลายน้ำไปใช้"
 
 #: Views/Admin/Files/index_v.php:166
 msgid "Remove watermark"
@@ -1101,32 +1140,6 @@ msgstr "ชุดการปรับปรุงที่ใช้อยู่
 #: Views/Admin/Posts/revisionHistory_v.php:53
 msgid "Rollback"
 msgstr "ย้อนกลับ"
-
-#: Views/Admin/Settings/CMSAdmin/index_v.php:15
-msgid "Watermark"
-msgstr "ลายน้ำ"
-
-#: Views/Admin/Settings/CMSAdmin/index_v.php:20
-msgid "Choose file"
-msgstr "เลือกไฟล์"
-
-#: Views/Admin/Settings/CMSAdmin/index_v.php:25
-msgid "Click on choose file or drop a file here to start upload."
-msgstr "คลิกที่เลือกไฟล์หรือวางไฟล์ที่นี่เพื่อเริ่มอัพโหลด."
-
-#: Views/Admin/Settings/CMSAdmin/index_v.php:31
-msgid "Check this box to delete current watermark."
-msgstr "ติ๊กกล่องนี้เพื่อลบลายน้ำปัจจุบัน."
-
-#: Views/Admin/Settings/CMSAdmin/index_v.php:40
-msgid "Apply watermark on new uploaded"
-msgstr "นำลายน้ำไปใช้ในการอัพโหลดใหม่"
-
-#: Views/Admin/Settings/CMSAdmin/index_v.php:42
-msgid ""
-"If apply, all new uploaded images will be use this watermark otherwise you can manually "
-"apply each file."
-msgstr "ถ้านำไปใช้, การอัพโหลดภาพใหม่ทั้งหมดจะใช้ลายน้ำนี้ ถ้ามิฉะนั้นคุณสามารถกำหนดลายน้ำให้แต่ละไฟล์ได้."
 
 #: Views/Admin/Tags/add_v.php:54 Views/Admin/Tags/edit_v.php:55
 msgid "The name will be use on address of this tag. Do not enter special characters."

@@ -60,6 +60,12 @@ class ModuleAssetsSettings
                     'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/Settings/CMSAdmin/indexAction.js',
                     'dependency' => ['rdta'],
                 ],
+                // cms admin settings for using with plugin hooks only.
+                [
+                    'handle' => 'rdbcmsaSettingsCMSAHooks',
+                    'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/Settings/CMSAdmin/SettingsCMSAHooks.js',
+                    'dependency' => ['rdta'],
+                ],
             ],
         ];
     }// getModuleAssets

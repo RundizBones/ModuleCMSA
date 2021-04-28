@@ -40,7 +40,7 @@ class UpdaterController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             session_start();
         }
 
-        $Csrf = new \Rdb\Modules\RdbAdmin\Libraries\Csrf();
+        $Csrf = new \Rdb\Modules\RdbAdmin\Libraries\Csrf(['persistentTokenMode' => true]);
         $Url = new \Rdb\System\Libraries\Url($this->Container);
         $Serializer = new \Rundiz\Serializer\Serializer();
 
