@@ -132,7 +132,7 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
         $placeholders = [];
         $i = 1;
         foreach ($imageSizes as $sizeString => $sizeArray) {
-            $bindValues[':searchthumb' . $i] = '%' . $FileSystem->getSuffixFileName($fileUrl, '_' . $sizeString) . '%';
+            $bindValues[':searchthumb' . $i] = '%' . $FileSystem->addSuffixFileName($fileUrl, '_' . $sizeString) . '%';
             $placeholders[] = '`post_revision`.`revision_body_value` LIKE :searchthumb' . $i;
             $placeholders[] = '`post_revision`.`revision_body_summary` LIKE :searchthumb' . $i;
             $i++;
@@ -434,8 +434,8 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
         if ($row->file_visibility === '0') {
             // if in storage folder.
             foreach ($thumbnailSizes as $name => list($width, $height)) {
-                if (is_file($thumbnailFullPath . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($row->file_name, '_' . $name))) {
-                    $tmpThumb[$name . 'Fullpath'] = $thumbnailFullPath . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($row->file_name, '_' . $name);
+                if (is_file($thumbnailFullPath . DIRECTORY_SEPARATOR . $FileSystem->addSuffixFileName($row->file_name, '_' . $name))) {
+                    $tmpThumb[$name . 'Fullpath'] = $thumbnailFullPath . DIRECTORY_SEPARATOR . $FileSystem->addSuffixFileName($row->file_name, '_' . $name);
                 }
             }// endforeach;
             unset($height, $name, $width);
@@ -447,16 +447,16 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
                 $thumbnailUrlPrefix .= '/' . $row->file_folder;
             }
             foreach ($thumbnailSizes as $name => list($width, $height)) {
-                if (is_file($thumbnailFullPath . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($row->file_name, '_' . $name))) {
-                    $tmpThumb[$name] = $thumbnailUrlPrefix . '/' . $FileSystem->getSuffixFileName($row->file_name, '_' . $name);
+                if (is_file($thumbnailFullPath . DIRECTORY_SEPARATOR . $FileSystem->addSuffixFileName($row->file_name, '_' . $name))) {
+                    $tmpThumb[$name] = $thumbnailUrlPrefix . '/' . $FileSystem->addSuffixFileName($row->file_name, '_' . $name);
                 }
             }// endforeach;
             unset($height, $name, $width);
         } elseif ($row->file_visibility === '2') {
             // if in custom path related from framework's root.
             foreach ($thumbnailSizes as $name => list($width, $height)) {
-                if (is_file($thumbnailFullPath . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($row->file_custom_path, '_' . $name))) {
-                    $tmpThumb[$name . 'Fullpath'] = $thumbnailFullPath . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($row->file_custom_path, '_' . $name);
+                if (is_file($thumbnailFullPath . DIRECTORY_SEPARATOR . $FileSystem->addSuffixFileName($row->file_custom_path, '_' . $name))) {
+                    $tmpThumb[$name . 'Fullpath'] = $thumbnailFullPath . DIRECTORY_SEPARATOR . $FileSystem->addSuffixFileName($row->file_custom_path, '_' . $name);
                 }
             }// endforeach;
             unset($height, $name, $width);

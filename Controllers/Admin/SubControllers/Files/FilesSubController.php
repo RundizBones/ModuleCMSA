@@ -305,7 +305,7 @@ class FilesSubController
         }
 
         // get original file (backup file).
-        $originalFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($item['new_name'], '_original');
+        $originalFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->addSuffixFileName($item['new_name'], '_original');
         if (!is_file($originalFile)) {
             // if original file (backup file) was not found.
             // this means that it was never set watermark before.
@@ -375,7 +375,7 @@ class FilesSubController
         // loop thumbnail sizes and resize.
         foreach ($thumbnailSizes as $name => list($width, $height)) {
             if ($imageSize['width'] > $width || $imageSize['height'] > $height) {
-                $saveFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($item['new_name'], '_' . $name);
+                $saveFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->addSuffixFileName($item['new_name'], '_' . $name);
                 $Image->resize($width, $height);
                 $Image->save($saveFile);
                 $Image->clear();
@@ -426,13 +426,13 @@ class FilesSubController
         }
 
         // get original file (backup file).
-        $originalFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($item['new_name'], '_original');
+        $originalFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->addSuffixFileName($item['new_name'], '_original');
         if (!is_file($originalFile)) {
             // if original file (backup file) was not found.
             // make backup.
-            copy($item['full_path_new_name'], $FileSystem->getSuffixFileName($item['full_path_new_name'], '_original'));
+            copy($item['full_path_new_name'], $FileSystem->addSuffixFileName($item['full_path_new_name'], '_original'));
             // get original file again.
-            $originalFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->getSuffixFileName($item['new_name'], '_original');
+            $originalFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->addSuffixFileName($item['new_name'], '_original');
             if (!is_file($originalFile)) {
                 // if still unable to get original file.
                 $originalFile = false;

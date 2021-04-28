@@ -106,7 +106,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                             $output['deleteFilesLog'][$row->file_id]['fileRelPath'] = $fileRelPath;
                             $output['deleteFilesLog'][$row->file_id]['fileFullPath'] = $FileSystem->getFullPathWithRoot($fileRelPath);
                             // delete original (backup) file.
-                            $originalFile = $FileSystem->getSuffixFileName($fileRelPath, '_original');
+                            $originalFile = $FileSystem->addSuffixFileName($fileRelPath, '_original');
                             $output['deleteFilesLog'][$row->file_id]['_original'] = $originalFile;
                             if ($FileSystem->isFile($originalFile)) {
                                 $deleteResult = $FileSystem->deleteFile($originalFile);
@@ -114,7 +114,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                             }
                             // loop delete thumbnails.
                             foreach ($thumbnailSizes as $name => list($width, $height)) {
-                                $thumbnailFile = $FileSystem->getSuffixFileName($fileRelPath, '_' . $name);
+                                $thumbnailFile = $FileSystem->addSuffixFileName($fileRelPath, '_' . $name);
                                 $output['deleteFilesLog'][$row->file_id]['_' . $name] = $thumbnailFile;
                                 if ($FileSystem->isFile($thumbnailFile)) {
                                     $deleteResult = $FileSystem->deleteFile($thumbnailFile);
