@@ -83,6 +83,7 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
      * 
      * Example: file name is `photo123.jpg`, suffix is `_thumbnail300` then it will be return `photo123_thumbnail300.jpg`.
      * 
+     * @deprecated 0.0.6 This will be remove on version 1.0.
      * @todo [rdbcms] Remove this method (`getSuffixFileName`) in version 1.0.
      * @param string $filename The file name file extension. Can be full path or not.
      * @param string $suffix The suffix string.
