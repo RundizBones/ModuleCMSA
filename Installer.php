@@ -7,6 +7,8 @@
  *  * MariaDB v10.2.3+ for JSON functions.
  * PHP 7.1.0+
  * 
+ * Dependency module: RdbAdmin
+ * 
  * @package RdbCMSA
  * @version 0.0.5
  * @license http://opensource.org/licenses/MIT MIT
