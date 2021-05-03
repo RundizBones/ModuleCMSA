@@ -200,6 +200,110 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
 
 
     /**
+     * Get taxonomy from selected item and fetch its parent in a line until root item.<br>
+     * Example: There are taxonomy tree like this. Root1 > 1.1 > 1.1.1 > 1.1.1.1<br>
+     * Assume that you selected at 1.1.1. So, the result will be Root1 > 1.1 > 1.1.1<br>
+     * But if you set 'skipCurrent' to true the result will be Root1 > 1.1
+     * 
+     * Warning! Even this method has options for search, custom where conditions
+     * but it is recommended that you should set the option to select only specific item.<br>
+     * This method is intended to show results from a single target.
+     * 
+     * The columns `left`, `right` must have been built before using this method, otherwise the result will be incorrect.
+     * 
+     * This method was copied from `\Rundiz\NestedSet\NestedSet->getTaxonomyWithParents()` and add `LEFT JOIN`.
+     * 
+     * @link http://mikehillyer.com/articles/managing-hierarchical-data-in-mysql/ Original source.
+     * @param array $options Available options: <br>
+     *                      `filter_taxonomy_id` (int) The filter taxonomy ID.<br>
+     *                      `search` (array) The search array format is..<br>
+     *                              `array('columns' => array('name', 'column2', 'column3'), 'searchValue' => 'search string')`<br>
+     *                      `where` (array) The custom where conditions. The array format is..<br>
+     *                              ``array('whereString' => '(`node`.`columnName` = :value1 AND `node`.`columnName2` = :value2)', 'whereValues' => array(':value1' => 'lookup value 1', ':value2' => 'lookup value2'))``<br>
+     *                              or just only `whereString`.<br>
+     *                              ``array('whereString' => '(`node`.`columnName` = \'value\'))``<br>
+     *                      `skipCurrent` (bool) Set to `true` to skip currently selected item.
+     * @return mixed Return array object of taxonomy data if found, return null if not found.
+     */
+    public function getTaxonomyWithParents(array $options = []): array
+    {
+        $sql = 'SELECT `parent`.*, `url_aliases`.*';
+        $sql .= ' FROM `' . $this->tableName . '` AS `node`,';
+        $sql .= ' `' . $this->tableName . '` AS `parent`';
+        // Add left join to allow usage of url aliases.
+        $sql .= ' LEFT JOIN `' . $this->Db->tableName('url_aliases') . '` AS `url_aliases` 
+            ON `alias_content_type` = `parent`.`t_type` 
+            AND `alias_content_id` = `parent`.`tid` 
+            AND `url_aliases`.`language` = `parent`.`language`';
+        $sql .= ' WHERE';
+        $sql .= ' `node`.`' . $this->leftColumnName . '` BETWEEN `parent`.`' . $this->leftColumnName . '` AND `parent`.`' . $this->rightColumnName . '`';
+
+        if (isset($options['filter_taxonomy_id'])) {
+            $sql .= ' AND `node`.`' . $this->idColumnName . '` = :filter_taxonomy_id';
+        }
+
+        if (
+            isset($options['search']) && 
+            is_array($options['search']) && 
+            array_key_exists('columns', $options['search']) && 
+            is_array($options['search']['columns']) && 
+            array_key_exists('searchValue', $options['search'])
+        ) {
+            $haveSearch = true;
+            $sql .= ' AND (';
+            $array_keys = array_keys($options['search']['columns']);
+            $last_array_key = array_pop($array_keys);
+            foreach ($options['search']['columns'] as $key => $column) {
+                $sql .= '`node`.`' . $column . '` LIKE :search';
+                if ($key !== $last_array_key) {
+                    $sql .= ' OR ';
+                }
+            }// endforeach;
+            unset($array_keys, $column, $key, $last_array_key);
+            $sql .= ')';
+        }
+
+        if (
+            isset($options['where']['whereString']) &&
+            is_string($options['where']['whereString'])
+        ) {
+            $sql .= ' AND ' . $options['where']['whereString'];
+        }
+
+        $sql .= ' GROUP BY `parent`.`' . $this->idColumnName . '`';
+        $sql .= ' ORDER BY `parent`.`' . $this->leftColumnName . '`';
+
+        $Sth = $this->PDO->prepare($sql);
+        if (isset($options['filter_taxonomy_id'])) {
+            $Sth->bindValue(':filter_taxonomy_id', $options['filter_taxonomy_id'], \PDO::PARAM_INT);
+        }
+        if (isset($options['search']) && is_array($options['search']) && array_key_exists('searchValue', $options['search'])) {
+            $Sth->bindValue(':search', '%'.$options['search']['searchValue'].'%', \PDO::PARAM_STR);
+        }
+        if (isset($options['where']['whereValues']) && is_array($options['where']['whereValues'])) {
+            foreach ($options['where']['whereValues'] as $placeholder => $value) {
+                $Sth->bindValue($placeholder, $value);
+            }// endforeach;
+            unset($placeholder, $value);
+        }
+        $Sth->execute();
+        $result = $Sth->fetchAll();
+        $Sth->closeCursor();
+
+        if (isset($options['skipCurrent']) && $options['skipCurrent'] === true) {
+            unset($result[count($result)-1]);
+        }
+        unset($haveSearch, $sql, $Sth);
+
+        if ($result !== false && $result !== null) {
+            return $result;
+        } else {
+            return null;
+        }
+    }// getTaxonomyWithParents
+
+
+    /**
      * List categories using MySQL v8.0+, MariaDB v10.2.2+ `RECURSIVE` statement.
      * 
      * @link http://mysqlserverteam.com/mysql-8-0-labs-recursive-common-table-expressions-in-mysql-ctes/ MySQL blog about new `RECURSIVE CTE`.
