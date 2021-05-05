@@ -540,6 +540,10 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
 
         $result = ($items[0] ?? array_shift($items));// this is important ([0]) for prevent duplicate items
 
+        if (!is_array($result)) {
+            $result = [];
+        }
+
         unset($items, $row);
         return $result;
     }// listRecursiveBuildTreeWithChildren
