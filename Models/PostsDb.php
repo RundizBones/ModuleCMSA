@@ -807,6 +807,10 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
         $sql = 'SELECT * FROM `' . $this->Db->tableName('taxonomy_index') . '` AS `taxonomy_index`
             INNER JOIN `' . $this->Db->tableName('taxonomy_term_data') . '` AS `taxonomy_term_data`
                 ON `taxonomy_term_data`.`tid` = `taxonomy_index`.`tid`
+            LEFT JOIN `' . $this->Db->tableName('url_aliases') . '` AS `url_aliases`
+                ON `taxonomy_index`.`tid` = `url_aliases`.`alias_content_id` 
+                AND `taxonomy_term_data`.`language` = `url_aliases`.`language` 
+                AND `taxonomy_term_data`.`t_type` = `url_aliases`.`alias_content_type` 
             WHERE `taxonomy_index`.`post_id` = :post_id
                 AND `taxonomy_term_data`.`t_type` = :t_type';
 
