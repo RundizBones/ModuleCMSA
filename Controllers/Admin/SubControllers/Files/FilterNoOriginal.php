@@ -40,12 +40,23 @@ class FilterNoOriginal extends \FilterIterator
      * Check whether the current element of the iterator is acceptable
      *
      * @link https://www.php.net/manual/en/filteriterator.accept.php Original doc.
-     * @return bool
+     * @return bool Return `true` if it is NOT original file.
      */
     public function accept(): bool
     {
+        if (!$this->isFile()) {
+            return false;
+        }
+
         $File = $this->getInnerIterator()->current();
         $filename = $File->getFilename();
+        $removedSuffix = $this->FileSystem->removeSuffixFileName($filename, '_original', true);
+        if ($removedSuffix !== $filename) {
+            unset($File, $filename, $removedSuffix);
+            return false;
+        }
+
+        // check again if it has just _original suffix.
         $removedSuffix = $this->FileSystem->removeSuffixFileName($filename, '_original');
         if ($removedSuffix !== $filename) {
             unset($File, $filename, $removedSuffix);

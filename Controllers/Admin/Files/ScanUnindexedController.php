@@ -270,8 +270,7 @@ class ScanUnindexedController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\Rdb
         );
         $FI = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterNoOriginal(
             $FI,
-            $FileSystem,
-            $thumbnailSizes
+            $FileSystem
         );
         unset($FileSystem, $FoldersController, $targetDir, $thumbnailSizes);
 
