@@ -38,7 +38,7 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
 
         if (true === $withDotRandomSuffix) {
             // if set to add dot random suffix.
-            // generate dot random suffix.
+            // generate dot random suffix. ( https://stackoverflow.com/a/8216031/128761 original source code. )
             $digits = 6;
             $randomSuffix = '.' . mt_rand(pow(10, $digits-1), pow(10, $digits)-1);
             unset($digits);

@@ -48,7 +48,7 @@ class FilterNoThumbnails extends \FilterIterator
      * Check whether the current element of the iterator is acceptable
      *
      * @link https://www.php.net/manual/en/filteriterator.accept.php Original doc.
-     * @return bool
+     * @return bool Return `true` if it is not thumbnail file.
      */
     public function accept(): bool
     {
