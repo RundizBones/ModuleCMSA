@@ -279,7 +279,7 @@ class FilesSubController
      * To use this method, the `Container` property must be set.
      * 
      * @param array $item The associative array must contain keys:<br>
-     *                      `full_path_new_name` (string) The full path to original image file.<br>
+     *                      `full_path_new_name` (string) The full path to main image file.<br>
      *                      `new_name` (string) The file name with extension that was renamed. No slash or path or directory included.<br>
      * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem The file system class.
      * @throws \InvalidArgumentException Throw the errors if the required array key is not exists.
@@ -289,7 +289,7 @@ class FilesSubController
     public function removeWatermark(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null)
     {
         if (!array_key_exists('full_path_new_name', $item)) {
-            throw new \InvalidArgumentException('The array key `full_path_new_name` for full path to original image file is required.');
+            throw new \InvalidArgumentException('The array key `full_path_new_name` for full path to main image file is required.');
         }
         if (!array_key_exists('new_name', $item)) {
             throw new \InvalidArgumentException('The array key `new_name` for file name with extension is required.');
@@ -304,9 +304,9 @@ class FilesSubController
             $Logger = $this->Container->get('Logger');
         }
 
-        // get original file (backup file).
-        $originalFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->addSuffixFileName($item['new_name'], '_original');
-        if (!is_file($originalFile)) {
+        // search original file (backup file).
+        $originalFile = $this->searchOriginalFile($item, $FileSystem);
+        if (false === $originalFile || !is_file($originalFile)) {
             // if original file (backup file) was not found.
             // this means that it was never set watermark before.
             return true;
@@ -341,7 +341,7 @@ class FilesSubController
      * Resize thumbnails. If thumbnail exists, it will be overwrite.
      * 
      * @param array $item The associative array must contain keys:<br>
-     *                      `full_path_new_name` (string) The full path to original image file.<br>
+     *                      `full_path_new_name` (string) The full path to main image file.<br>
      *                      `new_name` (string) The file name with extension that was renamed. No slash or path or directory included.<br>
      * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem The file system class.
      * @throws \InvalidArgumentException Throw the errors if the required array key is not exists.
@@ -349,7 +349,7 @@ class FilesSubController
     public function resizeThumbnails(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null)
     {
         if (!array_key_exists('full_path_new_name', $item)) {
-            throw new \InvalidArgumentException('The array key `full_path_new_name` for full path to original image file is required.');
+            throw new \InvalidArgumentException('The array key `full_path_new_name` for full path to main image file is required.');
         }
         if (!array_key_exists('new_name', $item)) {
             throw new \InvalidArgumentException('The array key `new_name` for file name with extension is required.');
@@ -387,12 +387,75 @@ class FilesSubController
 
 
     /**
+     * Search for original file.
+     * 
+     * @param array $item The associative array must contain keys:<br>
+     *                      `full_path_new_name` (string) The full path to main image file.<br>
+     *                      `new_name` (string) The file name with extension that was renamed. No slash or path or directory included.<br>
+     * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem The file system class.
+     * @return mixed Return original file as full path if found, return `false` if not found.
+     */
+    protected function searchOriginalFile(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null)
+    {
+        if (is_null($FileSystem)) {
+            $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
+        }
+        $FoldersController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\Files\FoldersController($this->Container);
+
+        $targetDir = dirname($item['full_path_new_name']);
+        $fileNameOnly = $FileSystem->getFileNameOnly($item['full_path_new_name']);
+        $fileExtOnly = $FileSystem->getFileExtensionOnly($item['full_path_new_name']);
+
+        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
+        $thumbnailSizes = $FilesSubController->getThumbnailSizes();
+        unset($FilesSubController);
+
+        $RDI = new \RecursiveDirectoryIterator(
+            $targetDir,
+            \FilesystemIterator::SKIP_DOTS
+        );
+        $RII = new \RecursiveIteratorIterator(
+            $RDI,
+            \RecursiveIteratorIterator::SELF_FIRST,
+            \RecursiveIteratorIterator::CATCH_GET_CHILD
+        );
+        unset($RDI);
+
+        $FI = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterRestricted(
+            $RII, 
+            $targetDir,
+            $FoldersController->restrictedFolder
+        );
+        $FI->notType = 'dir';
+        $FI = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterNoThumbnails(
+            $FI,
+            $FileSystem,
+            $thumbnailSizes
+        );
+        $FI = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterFilenameRegex(
+            $FI,
+            '/' . preg_quote($fileNameOnly) . '_original((\.[0-9]{6})*).' . $fileExtOnly . '$/'
+        );
+        unset($fileExtOnly, $fileNameOnly, $FileSystem, $FoldersController, $targetDir, $thumbnailSizes);
+
+        foreach ($FI as $filename => $File) {
+            // use $File->getFilename() for return only file name with extension.
+            return $File->getPathname();
+        }// endforeach;
+        unset($File, $filename);
+
+        return false;
+    }// searchOriginalFile
+
+
+    /**
      * Set watermark to uploaded image. This method will be make copy of uploaded image to append suffix `_original` before set watermark.
      * 
      * To use this method, the `Container` property must be set.
      * 
+     * @todo [rdbcms] copy main file to storage folder instead or use random suffix.
      * @param array $item The associative array must contain keys:<br>
-     *                      `full_path_new_name` (string) The full path to original image file.<br>
+     *                      `full_path_new_name` (string) The full path to main image file.<br>
      *                      `new_name` (string) The file name with extension that was renamed. No slash or path or directory included.<br>
      * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem The file system class.
      * @throws \InvalidArgumentException Throw the errors if the required array key is not exists.
@@ -402,7 +465,7 @@ class FilesSubController
     public function setWatermark(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null): bool
     {
         if (!array_key_exists('full_path_new_name', $item)) {
-            throw new \InvalidArgumentException('The array key `full_path_new_name` for full path to original image file is required.');
+            throw new \InvalidArgumentException('The array key `full_path_new_name` for full path to main image file is required.');
         }
         if (!array_key_exists('new_name', $item)) {
             throw new \InvalidArgumentException('The array key `new_name` for file name with extension is required.');
@@ -425,16 +488,18 @@ class FilesSubController
             $Logger = $this->Container->get('Logger');
         }
 
-        // get original file (backup file).
-        $originalFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->addSuffixFileName($item['new_name'], '_original');
-        if (!is_file($originalFile)) {
+        // search for original file (backup file).
+        $originalFile = $this->searchOriginalFile($item, $FileSystem);
+        if (false === $originalFile || !is_file($originalFile)) {
             // if original file (backup file) was not found.
+            // generate new original file for backup.
+            $originalFile = $FileSystem->addSuffixFileName($item['full_path_new_name'], '_original', true);
             // make backup.
-            copy($item['full_path_new_name'], $FileSystem->addSuffixFileName($item['full_path_new_name'], '_original'));
-            // get original file again.
-            $originalFile = dirname($item['full_path_new_name']) . DIRECTORY_SEPARATOR . $FileSystem->addSuffixFileName($item['new_name'], '_original');
-            if (!is_file($originalFile)) {
-                // if still unable to get original file.
+            copy($item['full_path_new_name'], $originalFile);
+            // search original file again (backup file).
+            $originalFile = $this->searchOriginalFile($item, $FileSystem);
+            if (false === $originalFile || !is_file($originalFile)) {
+                // if still unable to get original file (backup file).
                 $originalFile = false;
                 if (isset($Logger)) {
                     $Logger->write(
