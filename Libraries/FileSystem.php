@@ -23,9 +23,10 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
      * 
      * @param string $filename The file name file extension. Can be full path or not.
      * @param string $suffix The suffix string.
+     * @param bool $withDotRandomSuffix Set to `true` to add dot with random number before file extension. Default is `false` to not including it. This parameter is available since 0.0.6
      * @return string Return the same as `$filename` input but add suffix before file extension.
      */
-    public function addSuffixFileName(string $filename, string $suffix): string
+    public function addSuffixFileName(string $filename, string $suffix, bool $withDotRandomSuffix = false): string
     {
         $expFilename = explode('.', $filename);
         // set file extension.
@@ -35,7 +36,17 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
         // merge array to get file name without extension.
         $fileNameNoExt = implode('.', $expFilename);
 
-        return $fileNameNoExt . $suffix . '.' . $fileExt;
+        if (true === $withDotRandomSuffix) {
+            // if set to add dot random suffix.
+            // generate dot random suffix.
+            $digits = 6;
+            $randomSuffix = '.' . mt_rand(pow(10, $digits-1), pow(10, $digits)-1);
+            unset($digits);
+        } else {
+            $randomSuffix = '';
+        }
+
+        return $fileNameNoExt . $suffix . $randomSuffix . '.' . $fileExt;
     }// addSuffixFileName
 
 
@@ -103,9 +114,10 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
      * 
      * @param string $filename The file name file extension. Can be full path or not.
      * @param string $suffix The suffix string.
+     * @param bool $withDotRandomSuffix Set to `true` to use dot with random number before file extension. Default is `false` to not including it. This parameter is available since 0.0.6
      * @return string Return the original file name without suffix.
      */
-    public function removeSuffixFileName(string $filename, string $suffix): string
+    public function removeSuffixFileName(string $filename, string $suffix, bool $withDotRandomSuffix = false): string
     {
         $expFilename = explode('.', $filename);
         // set file extension.
@@ -114,8 +126,16 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
         unset($expFilename[count($expFilename) - 1]);
         // merge array to get file name without extension.
         $fileNameNoExt = implode('.', $expFilename);
+        
+        if (true === $withDotRandomSuffix) {
+            // if set to use dot random suffix.
+            $randomSuffix = '(\.[0-9]{6})';
+            unset($digits);
+        } else {
+            $randomSuffix = '';
+        }
 
-        $replaced = preg_replace('/' . preg_quote($suffix, '/') . '$/', '', $fileNameNoExt);
+        $replaced = preg_replace('/' . preg_quote($suffix, '/') . $randomSuffix . '$/', '', $fileNameNoExt);
         unset($fileNameNoExt);
 
         return $replaced . '.' . $fileExt;
