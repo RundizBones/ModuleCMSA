@@ -136,7 +136,7 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
         }
 
         $replaced = preg_replace('/' . preg_quote($suffix, '/') . $randomSuffix . '$/', '', $fileNameNoExt);
-        unset($fileNameNoExt);
+        unset($fileNameNoExt, $randomSuffix);
 
         return $replaced . '.' . $fileExt;
     }// removeSuffixFileName
