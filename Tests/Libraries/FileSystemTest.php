@@ -115,6 +115,14 @@ class FileSystemTest extends \Rdb\Tests\BaseTestCase
         $expect = 'some.file.name_1_2.jpg';
         $this->assertSame($expect, $this->FileSystem->removeSuffixFileName($fileName, '_suffix', true));
 
+        $fileName = 'some.file.name_1_2_suffix.987354.546701.jpg';
+        $expect = 'some.file.name_1_2_suffix.987354.546701.jpg';
+        $this->assertSame($expect, $this->FileSystem->removeSuffixFileName($fileName, '_suffix', true));
+
+        $fileName = 'some.file.name_1_2_suffix.jpg';
+        $expect = 'some.file.name_1_2_suffix.jpg';
+        $this->assertSame($expect, $this->FileSystem->removeSuffixFileName($fileName, '_suffix', true));
+
         $fileName = 'some.file.name_1_2.last.suffix.432198.jpg';
         $expect = 'some.file.name_1_2.last.jpg';
         $this->assertSame($expect, $this->FileSystem->removeSuffixFileName($fileName, '.suffix', true));
