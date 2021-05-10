@@ -453,7 +453,6 @@ class FilesSubController
      * 
      * To use this method, the `Container` property must be set.
      * 
-     * @todo [rdbcms] copy main file to storage folder instead or use random suffix.
      * @param array $item The associative array must contain keys:<br>
      *                      `full_path_new_name` (string) The full path to main image file.<br>
      *                      `new_name` (string) The file name with extension that was renamed. No slash or path or directory included.<br>
