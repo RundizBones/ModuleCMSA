@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS `%$posts%` (
   `post_feature_image` bigint(20) DEFAULT NULL COMMENT 'refer to files.file_id',
   `post_comment` int(1) NOT NULL DEFAULT 0 COMMENT '0=disallowed comment, 1=allowed comment',
   `post_status` int(1) NOT NULL DEFAULT 1 COMMENT '0=draft, 1=published, 2=schedule, 3=pending, 4=private, 5=trash, 6=inherit',
+  `post_position` int(9) NOT NULL DEFAULT '0' COMMENT 'position when sort/order items.',
   `post_add` datetime DEFAULT NULL COMMENT 'date/time that this post was added or created.',
   `post_add_gmt` datetime DEFAULT NULL COMMENT 'add or create date/time in GMT.',
   `post_update` datetime DEFAULT NULL COMMENT 'date/time that this post was last updated.',

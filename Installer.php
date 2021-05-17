@@ -247,6 +247,13 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
             unset($result);
         }// endforeach;
         unset($config, $ConfigDb);
+
+        // v0.0.6 ----------------------------------
+        $sql = 'ALTER TABLE `rdb_posts` ADD COLUMN IF NOT EXISTS `post_position` INT( 9 ) NOT NULL DEFAULT \'0\' COMMENT \'position when sort/order items.\' AFTER `post_status`';
+        $Sth = $this->Db->PDO()->prepare($sql);
+        $Sth->execute();
+        $Sth->closeCursor();
+        unset($sql, $Sth);
     }// update
 
 
