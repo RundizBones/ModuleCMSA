@@ -443,6 +443,59 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
 
 
     /**
+     * Get new post position on the `posts` table.
+     * 
+     * @since 0.0.6
+     * @param array $where The associative array where key is column name and value is its value.
+     * @return int Return the new position number (last position in DB +1), default is 1. If not found then return 1.
+     */
+    public function getNewPosition(array $where = []): int
+    {
+        $output = 1;
+
+        $sql = 'SELECT * FROM `' . $this->tableName . '` AS `posts` WHERE 1';
+
+        $values = [];
+        $placeholders = [];
+
+        if (!empty($where)) {
+            $genWhereValues = $this->Db->buildPlaceholdersAndValues($where);
+            if (isset($genWhereValues['values'])) {
+                $values = array_merge($values, $genWhereValues['values']);
+            }
+            if (isset($genWhereValues['placeholders'])) {
+                $placeholders = array_merge($placeholders, $genWhereValues['placeholders']);
+            }
+            unset($genWhereValues);
+
+            $sql .= ' AND ' . implode(' AND ', $placeholders);
+            unset($placeholders);
+        }
+
+        $sql .= ' ORDER BY `post_position` DESC';
+        $sql .= ' LIMIT 0, 1';
+
+        $Sth = $this->Db->PDO()->prepare($sql);
+        foreach ($values as $placeholder => $value) {
+            $Sth->bindValue($placeholder, $value);
+        }// endforeach;
+        unset($placeholder, $sql, $value, $values);
+
+        $Sth->execute();
+        $result = $Sth->fetchObject();
+        $Sth->closeCursor();
+        unset($Sth);
+
+        if (is_object($result) && !empty((array) $result)) {
+            $output = (int) ($result->post_position + 1);
+        }
+        unset($result);
+
+        return $output;
+    }// getNewPosition
+
+
+    /**
      * Get original file URL and smallest thumbnail URL.
      * 
      * @param object $files A single row result object from DB in `files` table.
