@@ -459,7 +459,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         &$dataTags = []
     ) {
         // format post_fields data. --------------------------
-        if (is_array($this->Input->post('post_fields', []))) {
+        if (empty($dataFields) && is_array($this->Input->post('post_fields', []))) {
             foreach ($this->Input->post('post_fields', []) as $index => $eachPostField) {
                 $dataFields[] = [
                     'post_id' => $post_id,
@@ -670,7 +670,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         &$dataTags = []
     ) {
         // format post_fields data. --------------------------
-        if (is_array($this->Input->patch('post_fields', []))) {
+        if (empty($dataFields) && is_array($this->Input->patch('post_fields', []))) {
             foreach ($this->Input->patch('post_fields', []) as $index => $eachPostField) {
                 $dataFields[] = [
                     'post_id' => $post_id,
