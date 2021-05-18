@@ -19,7 +19,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
     /**
      * @var array Allowed sort columns in db.
      */
-    protected $allowedSort = ['post_id', 'post_type', 'post_name', 'post_add', 'post_add_gmt', 'post_update', 'post_update_gmt', 'post_publish_date', 'post_publish_date_gmt', 'alias_url'];
+    protected $allowedSort = ['post_id', 'parent_id', 'post_type', 'language', 'post_name', 'post_comment', 'post_status', 'post_position', 'post_add', 'post_add_gmt', 'post_update', 'post_update_gmt', 'post_publish_date', 'post_publish_date_gmt', 'alias_url'];
 
 
     /**
