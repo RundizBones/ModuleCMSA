@@ -187,8 +187,8 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
      * @param array $data The data for `posts` table.
      * @param array $dataRevision The data for `post_revision` table.
      * @param array $dataFields The data for `post_fields` table.
-     * @param array $dataCategories The categories data for `taxonomy_index` table.
-     * @param array $dataTags The tags data for `taxonomy_index` table.
+     * @param array|false $dataCategories The categories data for `taxonomy_index` table. Set to `false` to skip update categories (not remove).
+     * @param array|false $dataTags The tags data for `taxonomy_index` table. Set to `false` to skip update tags (not remove).
      * @param array $dataUrlAliases The data for `url_aliases` table.
      * @param \stdClass $resultRow A post data result row of selected post ID.
      * @return array Return array with these keys.<br>
@@ -206,8 +206,8 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         array $data, 
         array $dataRevision, 
         array $dataFields, 
-        array $dataCategories, 
-        array $dataTags,
+        $dataCategories, 
+        $dataTags,
         array $dataUrlAliases,
         \stdClass $resultRow
     ): array {
@@ -248,24 +248,30 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
                 $this->populateEditFormDataOneToMany($resultRow->post_id, $dataFields, $dataCategories, $dataTags);
 
                 $TaxonomyIndexDb = new \Rdb\Modules\RdbCMSA\Models\TaxonomyIndexDb($this->Container);
-                // update category and post index.
-                $TaxonomyIndexDb->update(
-                    $dataCategories, 
-                    [
-                        'post_id' => $resultRow->post_id, 
-                        'taxonomy_term_data.t_type' => $this->categoryType,// for delete removed taxonomeis from the form. specific for categories.
-                    ]
-                );
-                $output['updateCategoriesResult'] = $TaxonomyIndexDb->debugUpdate;
-                // update tag and post index.
-                $TaxonomyIndexDb->update(
-                    $dataTags, 
-                    [
-                        'post_id' => $resultRow->post_id, 
-                        'taxonomy_term_data.t_type' => $this->tagType,// for delete removed taxonomeis from the form. specific for tags.
-                    ]
-                );
-                $output['updateTagsResult'] = $TaxonomyIndexDb->debugUpdate;
+
+                if (false !== $dataCategories) {
+                    // update category and post index.
+                    $TaxonomyIndexDb->update(
+                        $dataCategories, 
+                        [
+                            'post_id' => $resultRow->post_id, 
+                            'taxonomy_term_data.t_type' => $this->categoryType,// for delete removed taxonomeis from the form. specific for categories.
+                        ]
+                    );
+                    $output['updateCategoriesResult'] = $TaxonomyIndexDb->debugUpdate;
+                }
+
+                if (false !== $dataTags) {
+                    // update tag and post index.
+                    $TaxonomyIndexDb->update(
+                        $dataTags, 
+                        [
+                            'post_id' => $resultRow->post_id, 
+                            'taxonomy_term_data.t_type' => $this->tagType,// for delete removed taxonomeis from the form. specific for tags.
+                        ]
+                    );
+                    $output['updateTagsResult'] = $TaxonomyIndexDb->debugUpdate;
+                }
 
                 if (!empty($dataFields)) {
                     $PostFieldsDb = new \Rdb\Modules\RdbCMSA\Models\PostFieldsDb($this->Container);
@@ -443,14 +449,14 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
      * 
      * @param int $post_id The ID from `posts` table.
      * @param array $dataFields The post_fields table.
-     * @param array $dataCategories The categories field.
-     * @param array $dataTags The tags field.
+     * @param array|false $dataCategories The categories field. Set to `false` to skip populate categories.
+     * @param array|false $dataTags The tags field. Set to `false` to skip populate tags.
      */
     public function populateAddFormDataOneToMany(
         int $post_id, 
         array &$dataFields = [],
-        array &$dataCategories = [], 
-        array &$dataTags = []
+        &$dataCategories = [], 
+        &$dataTags = []
     ) {
         // format post_fields data. --------------------------
         if (is_array($this->Input->post('post_fields', []))) {
@@ -466,7 +472,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         // end format post_fields data. ---------------------
 
         // format categories data. ---------------------------
-        if (is_array($this->Input->post('prog_categories', []))) {
+        if (false !== $dataCategories && is_array($this->Input->post('prog_categories', []))) {
             foreach ($this->Input->post('prog_categories', []) as $eachTid) {
                 $dataCategories[] = [
                     'post_id' => $post_id,
@@ -479,7 +485,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
 
         // format tags data. ---------------------------------
         $progTags = json_decode($this->Input->post('prog_tags', null));
-        if (is_array($progTags)) {
+        if (false !== $dataTags && is_array($progTags)) {
             $TagsDb = new \Rdb\Modules\RdbCMSA\Models\TagsDb($this->Container);
             $UserPermissionsDb = new \Rdb\Modules\RdbAdmin\Models\UserPermissionsDb($this->Container);
             $addTagPermission = $UserPermissionsDb->checkPermission('RdbGallery', 'RdbGalleryTags', ['add']);
@@ -654,14 +660,14 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
      * 
      * @param int $post_id The ID from `posts` table.
      * @param array $dataFields The post_fields table.
-     * @param array $dataCategories The categories field.
-     * @param array $dataTags The tags field.
+     * @param array|false $dataCategories The categories field. Set to `false` to skip populate categories data.
+     * @param array|false $dataTags The tags field. Set to `false` to skip populate tags data.
      */
     public function populateEditFormDataOneToMany(
         int $post_id, 
         array &$dataFields = [],
-        array &$dataCategories = [], 
-        array &$dataTags = []
+        &$dataCategories = [], 
+        &$dataTags = []
     ) {
         // format post_fields data. --------------------------
         if (is_array($this->Input->patch('post_fields', []))) {
@@ -677,7 +683,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         // end format post_fields data. ---------------------
 
         // format categories data. ---------------------------
-        if (is_array($this->Input->patch('prog_categories', []))) {
+        if (false !== $dataCategories && is_array($this->Input->patch('prog_categories', []))) {
             foreach ($this->Input->patch('prog_categories', []) as $eachTid) {
                 $dataCategories[] = [
                     'post_id' => $post_id,
@@ -690,7 +696,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
 
         // format tags data. ---------------------------------
         $progTags = json_decode($this->Input->patch('prog_tags', null));
-        if (is_array($progTags)) {
+        if (false !== $dataTags && is_array($progTags)) {
             $TagsDb = new \Rdb\Modules\RdbCMSA\Models\TagsDb($this->Container);
             $UserPermissionsDb = new \Rdb\Modules\RdbAdmin\Models\UserPermissionsDb($this->Container);
             $addTagPermission = $UserPermissionsDb->checkPermission('RdbGallery', 'RdbGalleryTags', ['add']);
