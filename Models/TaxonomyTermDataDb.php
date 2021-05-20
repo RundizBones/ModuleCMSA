@@ -104,6 +104,7 @@ class TaxonomyTermDataDb extends \Rdb\System\Core\Models\BaseModel
      * 
      * Delete taxonomy data on taxonomy_term_data, taxonomy_fields, taxonomy_index, translation_matcher, url_aliases tables.
      * 
+     * @since 0.0.6
      * @param array $tids
      * @return bool
      */
