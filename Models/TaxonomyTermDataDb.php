@@ -100,6 +100,77 @@ class TaxonomyTermDataDb extends \Rdb\System\Core\Models\BaseModel
 
 
     /**
+     * Delete multiple items with its related tables.
+     * 
+     * Delete taxonomy data on taxonomy_term_data, taxonomy_fields, taxonomy_index, translation_matcher, url_aliases tables.
+     * 
+     * @param array $tids
+     * @return bool
+     */
+    public function deleteItemsWithRelatedTables(array $tids): bool
+    {
+        $i = 0;
+        $placeholders = [];
+        $bindValues = [];
+        $deleteResult = [];
+        foreach ($tids as $tid) {
+            $placeholders[$i] = ':tid' . $i;
+            $bindValues[$i] = $tid;
+            $i++;
+        }// endforeach;
+        unset($i, $tid);
+
+        // get the result to use them later.
+        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE `tid` IN (' . implode(', ', $placeholders) . ')';
+        $Sth = $this->Db->PDO()->prepare($sql);
+        unset($sql);
+        foreach ($bindValues as $index => $value) {
+            $Sth->bindValue($placeholders[$index], $value);
+        }// endforeach;
+        $Sth->execute();
+        $result = $Sth->fetchAll();
+        $Sth->closeCursor();
+        unset($Sth);
+
+        // delete on taxonomy_term_data, taxonomy_fields, taxonomy_index tables.
+        $sql = 'DELETE taxonomy_term_data, taxonomy_fields, taxonomy_index
+            FROM `' . $this->tableName . '` AS `taxonomy_term_data`
+            LEFT JOIN `' . $this->Db->tableName('taxonomy_fields') . '` AS `taxonomy_fields` ON `taxonomy_term_data`.`tid` = `taxonomy_fields`.`tid`
+            LEFT JOIN `' . $this->Db->tableName('taxonomy_index') . '` AS `taxonomy_index` ON `taxonomy_term_data`.`tid` = `taxonomy_index`.`tid`
+            WHERE `taxonomy_term_data`.`tid` IN (' . implode(', ', $placeholders) . ')';
+        $Sth = $this->Db->PDO()->prepare($sql);
+        unset($sql);
+        foreach ($bindValues as $index => $value) {
+            $Sth->bindValue($placeholders[$index], $value);
+        }// endforeach;
+        unset($index, $value);
+        $deleteResult[] = $Sth->execute();
+        $Sth->closeCursor();
+        unset($Sth);
+
+        // delete on translation_matcher table.
+        $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
+        $deleteResult[] = $TranslationMatcherDb->deleteIfAllEmpty('taxonomy_term_data', $tids);
+        unset($TranslationMatcherDb);
+
+        // delete on url_aliases table.
+        foreach ($result as $row) {
+            $sql = 'DELETE FROM `' . $this->Db->tableName('url_aliases') . '` WHERE `alias_content_id` = :alias_content_id AND `alias_content_type` = :alias_content_type';
+            $Sth = $this->Db->PDO()->prepare($sql);
+            unset($sql);
+            $Sth->bindValue(':alias_content_id', $row->tid, \PDO::PARAM_INT);
+            $Sth->bindValue(':alias_content_type', $row->t_type);
+            $deleteResult[] = $Sth->execute();
+            $Sth->closeCursor();
+            unset($Sth);
+        }// endforeach;
+        unset($row);
+
+        return (count(array_unique($deleteResult)) === 1 && end($deleteResult) === true);
+    }// deleteItemsWithRelatedTables
+
+
+    /**
      * Get a single taxonomy data (joined with related tables and url alias table) without its parent or children.
      * 
      * @param array $where The associative array where key is column name and value is its value.
