@@ -10,7 +10,7 @@
  * Dependency module: RdbAdmin
  * 
  * @package RdbCMSA
- * @version 0.0.5
+ * @version 0.0.6
  * @license http://opensource.org/licenses/MIT MIT
  */
 
