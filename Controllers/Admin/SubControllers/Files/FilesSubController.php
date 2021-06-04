@@ -414,6 +414,11 @@ class FilesSubController
             $targetDir,
             \FilesystemIterator::SKIP_DOTS
         );
+        // filters before \RecursiveIteratorIterator
+        $RDI = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterFilenameRegex(
+            $RDI,
+            '/' . preg_quote($fileNameOnly) . '_original((\.[0-9]{6})*).' . $fileExtOnly . '$/'
+        );
         $RII = new \RecursiveIteratorIterator(
             $RDI,
             \RecursiveIteratorIterator::SELF_FIRST,
@@ -421,6 +426,7 @@ class FilesSubController
         );
         unset($RDI);
 
+        // filters after \RecursiveIteratorIterator
         $FI = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterRestricted(
             $RII, 
             $targetDir,
@@ -431,10 +437,6 @@ class FilesSubController
             $FI,
             $FileSystem,
             $thumbnailSizes
-        );
-        $FI = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterFilenameRegex(
-            $FI,
-            '/' . preg_quote($fileNameOnly) . '_original((\.[0-9]{6})*).' . $fileExtOnly . '$/'
         );
         unset($fileExtOnly, $fileNameOnly, $FileSystem, $FoldersController, $targetDir, $thumbnailSizes);
 

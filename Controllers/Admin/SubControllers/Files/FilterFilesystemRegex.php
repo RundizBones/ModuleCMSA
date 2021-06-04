@@ -10,7 +10,7 @@ namespace Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files;
  * @link https://stackoverflow.com/a/3322641/128761 Original source code.
  * @since 0.0.6
  */
-abstract class FilterFilesystemRegex extends \RegexIterator
+abstract class FilterFilesystemRegex extends \RecursiveRegexIterator
 {
 
 
@@ -19,6 +19,8 @@ abstract class FilterFilesystemRegex extends \RegexIterator
 
     /**
      * Abstract file system regular expression filter.
+     * 
+     * These filters must be called before calling `\RecursiveIteratorIterator()` class.
      * 
      * @param \Iterator $it
      * @param string $regex

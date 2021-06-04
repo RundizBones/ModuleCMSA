@@ -30,7 +30,10 @@ class FilterRestricted extends \FilterIterator
 
 
     /**
-     * Class constructor.
+     * Filtered restricted folders and files.
+     * 
+     * Example: `new FilterRestricted($It, '/var/www', ['abc'])` Will be filter out only `/var/www/abc` and all sub directories.<br>
+     * Anything like these will NOT filtered out: `/var/www/home/abc`, `/var/www/page1/abc`.
      * 
      * @param \Iterator $iterator The Iterator class type.
      * @param string $targetDir Target base folder without trailing slash. This will be use to remove from real path and left only related path.
