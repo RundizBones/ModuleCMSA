@@ -1,0 +1,1 @@
+This folder contain files about SPL customized iterators that can be used in any project.
