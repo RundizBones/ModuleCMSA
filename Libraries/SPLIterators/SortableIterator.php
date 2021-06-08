@@ -16,6 +16,7 @@ namespace Rdb\Modules\RdbCMSA\Libraries\SPLIterators;
 /**
  * SortableIterator applies a sort on a given Iterator.
  *
+ * @since 0.0.7
  * @link https://github.com/symfony/finder/blob/5.3/Iterator/SortableIterator.php Original source code.
  * @author Fabien Potencier <fabien@symfony.com>
  */

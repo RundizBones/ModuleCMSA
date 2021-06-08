@@ -6,6 +6,8 @@ namespace Rdb\Modules\RdbCMSA\Libraries\SPLIterators;
 
 /**
  * Add custom properties to iterator object that might be lost during called to some classes.
+ * 
+ * @since 0.0.7
  */
 class CustomPropertiesIterator extends \IteratorIterator
 {
