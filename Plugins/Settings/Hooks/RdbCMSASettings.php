@@ -56,12 +56,32 @@ class RdbCMSASettings
      */
     public function addAssets(\Rdb\Modules\RdbAdmin\Libraries\Assets $Assets, array $rdbAdminAssets)
     {
+        $ModuleAssets = new \Rdb\Modules\RdbAdmin\ModuleData\ModuleAssets($this->Container);
+        $rdbadminModuleAssetsData = $ModuleAssets->getModuleAssets();
+        unset($ModuleAssets);
+
         $ModuleAssets = new \Rdb\Modules\RdbCMSA\ModuleData\ModuleAssets($this->Container);
         $moduleAssetsData = $ModuleAssets->getModuleAssets();
         unset($ModuleAssets);
 
-        $Assets->addMultipleAssets('css', ['rdbcmsaSettingsCMSA'], $moduleAssetsData);
-        $Assets->addMultipleAssets('js', ['rdbcmsaSettingsCMSAHooks'], $moduleAssetsData);
+        $Assets->addMultipleAssets(
+            'css', 
+            ['rdbcmsaSettingsCMSA'], 
+            $Assets->mergeAssetsData(
+                'css',
+                $moduleAssetsData,
+                $rdbadminModuleAssetsData
+            )
+        );
+        $Assets->addMultipleAssets(
+            'js', 
+            ['rdbcmsaSettingsCMSAHooks'], 
+            $Assets->mergeAssetsData(
+                'js',
+                $moduleAssetsData,
+                $rdbadminModuleAssetsData
+            )
+        );
         $Assets->addJsObject(
             'rdbcmsaSettingsCMSAHooks',
             'RdbCMSASettingsCMSAObject',
