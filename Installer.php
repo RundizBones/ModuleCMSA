@@ -9,6 +9,7 @@
  * 
  * Requirement: 
  * MySQL v8.0+, MariaDB v10.2.3+
+ *  * MariaDB 10.2.2 for use `WITH RECURSIVE`
  *  * For JSON functions.
  * 
  * @package RdbCMSA
