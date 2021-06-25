@@ -1,16 +1,17 @@
 <?php
 /**
- * RdbCMSA module.
+ * Module Name: RundizBones CMS Admin.
+ * Description: Content management system admin module.
+ * Requires PHP: 7.1.0
+ * Requires Modules: RdbAdmin, Languages
+ * Author: Vee W.
  * 
  * Requirement: 
  * MySQL v8.0+, MariaDB v10.2.3+
- *  * MariaDB v10.2.3+ for JSON functions.
- * PHP 7.1.0+
- * 
- * Dependency module: RdbAdmin
+ *  * For JSON functions.
  * 
  * @package RdbCMSA
- * @version 0.0.6
+ * @version 0.0.7
  * @license http://opensource.org/licenses/MIT MIT
  */
 
