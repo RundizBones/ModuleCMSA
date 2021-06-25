@@ -5,6 +5,7 @@
  * Requires PHP: 7.1.0
  * Requires Modules: RdbAdmin, Languages
  * Author: Vee W.
+ * Gettext Domain: rdbcmsa
  * 
  * Requirement: 
  * MySQL v8.0+, MariaDB v10.2.3+
