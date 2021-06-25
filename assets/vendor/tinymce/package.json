@@ -1,27 +1,27 @@
 {
-  "_from": "tinymce@latest",
-  "_id": "tinymce@5.7.1",
+  "_from": "tinymce@5.8.2",
+  "_id": "tinymce@5.8.2",
   "_inBundle": false,
-  "_integrity": "sha512-1gY8RClc734srSlkYwY0MQzmkS1j73PuPC+nYtNtrrQVPY9VNcZ4bOiRwzTbdjPPD8GOtv6BAk8Ww/H2RiqKpA==",
+  "_integrity": "sha512-qfWThBrSzbj4DoUk+lgGeDoP2GzLDSWrfvVUxf40HZhTzsG15X2nZ4N49IFqwaVgRl5AyFDtuWiEH/lCmiAcRA==",
   "_location": "/tinymce",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "version",
     "registry": true,
-    "raw": "tinymce@latest",
+    "raw": "tinymce@5.8.2",
     "name": "tinymce",
     "escapedName": "tinymce",
-    "rawSpec": "latest",
+    "rawSpec": "5.8.2",
     "saveSpec": null,
-    "fetchSpec": "latest"
+    "fetchSpec": "5.8.2"
   },
   "_requiredBy": [
     "#USER",
     "/"
   ],
-  "_resolved": "https://registry.npmjs.org/tinymce/-/tinymce-5.7.1.tgz",
-  "_shasum": "658a6fb4c7d53a8496cc00f8da33f4b8290da06d",
-  "_spec": "tinymce@latest",
+  "_resolved": "https://registry.npmjs.org/tinymce/-/tinymce-5.8.2.tgz",
+  "_shasum": "54eb8160b697796c3b52282e648d9d12b1a7399a",
+  "_spec": "tinymce@5.8.2",
   "_where": "D:\\wwwroot\\vrobot.one\\rdb\\Modules\\RdbCMSA",
   "author": {
     "name": "Tiny Technologies, Inc"
@@ -49,5 +49,5 @@
     "url": "git+https://github.com/tinymce/tinymce-dist.git"
   },
   "types": "tinymce.d.ts",
-  "version": "5.7.1"
+  "version": "5.8.2"
 }
