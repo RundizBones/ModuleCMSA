@@ -84,7 +84,7 @@ class RdbCMSAPostsCommonActions {
                 edit: {title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace'},
                 view: {title: 'View', items: 'code | visualaid visualchars visualblocks | preview fullscreen'},
                 insert: {title: 'Insert', items: 'image link media rdbcmsafilebrowser template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime'},
-                format: {title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align | forecolor backcolor | removeformat'},
+                format: {title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align lineheight | forecolor backcolor | removeformat'},
                 tools: {title: 'Tools', items: 'code wordcount'},
                 table: {title: 'Table', items: 'inserttable | cell row column | tableprops deletetable'},
                 help: {title: 'Help', items: 'help'}
@@ -94,8 +94,12 @@ class RdbCMSAPostsCommonActions {
             },
             'plugins': 'advlist anchor autosave charmap code codesample emoticons fullscreen help hr image insertdatetime link lists media nonbreaking pagebreak paste preview searchreplace table toc visualblocks visualchars wordcount',
             'rdbcmsaEditingObject': editingObject,
-            'toolbar': 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent | image rdbcmsafilebrowser',
+            'toolbar': 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | image rdbcmsafilebrowser',
             'toolbar_drawer': 'sliding',
+
+            // autosave plugins options.
+            'autosave_ask_before_unload': true,
+            'autosave_interval': '30s',
 
             // image plugins options.
             'image_advtab': true,
@@ -155,15 +159,7 @@ class RdbCMSAPostsCommonActions {
                 { text: 'Wiki markup', value: 'wiki' },
                 { text: 'YAML', value: 'yaml' },
                 { text: 'Other', value: 'none' },
-            ],
-
-            'setup': function(editor) {
-                editor.on('change', function() {
-                    // @link https://stackoverflow.com/a/2266945/128761 trigger save to make change back to textarea.
-                    // @link https://stackoverflow.com/a/24284657/128761 an example how to use trigger save.
-                    tinymce.triggerSave();
-                });
-            },// setup:
+            ]
         };// tinyMceDefaultConfig
 
         let rdbcmsaFileBrowserPlugin = '';
