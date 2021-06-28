@@ -126,6 +126,7 @@ class BrowserController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     'featuredImage' => ($output['featuredImage'] ?? false),
                     'selectImages' => ($output['selectImages'] ?? false),
                     'txtPleaseSelectAtLeastOne' => d__('rdbcmsa', 'Please select at least one item.'),
+                    'txtUploading' => __('Uploading'),
                 ], 
                     $this->getFilesUrlsMethod(),
                     $this->getUserUrlsMethods()
