@@ -432,6 +432,9 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
                 // if files exists.
                 // format .files.urls to same structure as Controllers/Admin/Files/FileBrowser/files.js
                 $files->urls = $this->getOriginalAndSmallestThumbnail($files);
+            } else {
+                // if file does not exists.
+                $files = new \stdClass();
             }
             unset($FilesDb, $Url);
         } else {

@@ -177,11 +177,20 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
     /**
      * Delete a single file.
      * 
+     * Also update `posts`.`post_feature_image` where contains selected id (if provided in `$where`) to `null`.
+     * 
      * @param array $where The associative array where its key is column name and value is its value.
      * @return bool Return PDOStatement::execute(). Return `true` on success, `false` for otherwise.
      */
     public function deleteAFile(array $where): bool
     {
+        if (isset($where['file_id'])) {
+            // if there is `file_id` key.
+            // update posts.post_feature_image where it contains this id to `null`.
+            $this->Db->update($this->Db->tableName('posts'), ['post_feature_image' => null], ['post_feature_image' => $where['file_id']]);
+        }
+
+        // delete this file id from files table.
         return $this->Db->delete($this->tableName, $where);
     }// deleteAFile
 
