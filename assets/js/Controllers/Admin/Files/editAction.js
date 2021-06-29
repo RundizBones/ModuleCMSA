@@ -39,7 +39,60 @@ class RdbCMSAFilesEditController {
             options.datatableIDSelector = '#filesListItemsTable';
         }
         this.datatableIDSelector = options.datatableIDSelector;
+
+        this.tinyMCE;
     }// constructor
+
+
+    /**
+     * Activate content editor.
+     * 
+     * The code here was copied from Modules/RdbCMSA/assets/js/Controllers/Admin/Posts/commonActions.js
+     * 
+     * @private This method was called from `ajaxGetFormData()`.
+     * @param {string} editorSelector
+     * @returns {undefined}
+     */
+    activateContentEditor(editorSelector = '#file_media_description') {
+        if (typeof(tinymce) === 'undefined') {
+            return ;
+        }
+
+        let tinyMceDefaultConfig = {
+            'selector': editorSelector,
+            'convert_urls': false,
+            'height': 400,
+            'menu': {
+                file: {title: 'Files', items: 'newdocument restoredraft | preview | print '},
+                edit: {title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace'},
+                view: {title: 'View', items: 'code | visualaid visualchars visualblocks | preview fullscreen'},
+                insert: {title: 'Insert', items: 'image link media rdbcmsafilebrowser template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime'},
+                format: {title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align lineheight | forecolor backcolor | removeformat'},
+                tools: {title: 'Tools', items: 'code wordcount'},
+                table: {title: 'Table', items: 'inserttable | cell row column | tableprops deletetable'},
+                help: {title: 'Help', items: 'help'}
+            },
+            'mobile': {
+                'menubar': true
+            },
+            'plugins': 'advlist anchor autosave charmap code codesample emoticons fullscreen help hr image insertdatetime link lists media nonbreaking pagebreak paste preview searchreplace table toc visualblocks visualchars wordcount',
+            'toolbar': 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | image rdbcmsafilebrowser',
+            'toolbar_drawer': 'sliding',
+
+            // autosave plugins options.
+            'autosave_ask_before_unload': true,
+            'autosave_interval': '30s',
+
+            // image plugins options.
+            'image_advtab': true,
+            'image_caption': true,
+            'image_title': true
+        };// tinyMceDefaultConfig
+
+        this.tinyMCE = tinymce.init(tinyMceDefaultConfig);
+
+        return this.tinyMCE;
+    }// activateContentEditor
 
 
     /**
@@ -98,100 +151,27 @@ class RdbCMSAFilesEditController {
                 }
             }
 
-            // set the data that have got via ajax to form fields.
-            for (let prop in resultRow) {
-                if (
-                    Object.prototype.hasOwnProperty.call(resultRow, prop) && 
-                    document.getElementById(prop) && 
-                    prop !== 'file_id' &&
-                    prop !== 'file_status' &&
-                    resultRow[prop] !== null
-                ) {
-                    if (prop === 'file_media_description') {
-                        // if description column, this field in html is allowed for HTML then don't unescape or the HTML elements will be messed with textarea.
-                        document.getElementById(prop).value = resultRow[prop];
-                    } else {
-                        document.getElementById(prop).value = RdbaCommon.unEscapeHtml(resultRow[prop]);
-                    }
-                }
-            }// endfor;
-
             if (resultRow) {
+                // render media (image, video, audio).
+                thisClass.ajaxGetFormRenderMedia(resultRow);
 
-                if (resultRow.file_visibility === '1') {
-                    // if in public/rdbadmin-public folder.
-                    let mediaViewsPlaceholder = document.getElementById('files-media-views-row');
-
-                    // display thumbnail. -------------------------
-                    if (RdbCMSAFilesCommonObject.imageExtensions.includes(resultRow.file_ext.toLowerCase())) {
-                        let thumbnailUrl = null;
-                        let publicUrlWithFolderPrefix;
-
-                        publicUrlWithFolderPrefix = RdbCMSAFilesCommonObject.rootPublicUrl + '/' + RdbCMSAFilesCommonObject.rootPublicFolderName;
-                        if (!_.isEmpty(resultRow.file_folder)) {
-                            publicUrlWithFolderPrefix += '/' + resultRow.file_folder;
-                        }
-
-                        if (RdbaCommon.isset(() => resultRow.thumbnails.thumb600)) {
-                            thumbnailUrl = resultRow.thumbnails.thumb600;
-                        } else if (RdbaCommon.isset(() => resultRow.thumbnails.thumb300)) {
-                            thumbnailUrl = resultRow.thumbnails.thumb300;
+                // set the data that have got via ajax to form fields.
+                for (let prop in resultRow) {
+                    if (
+                        Object.prototype.hasOwnProperty.call(resultRow, prop) && 
+                        document.getElementById(prop) && 
+                        prop !== 'file_id' &&
+                        prop !== 'file_status' &&
+                        resultRow[prop] !== null
+                    ) {
+                        if (prop === 'file_media_description') {
+                            // if description column, this field in html is allowed for HTML then don't unescape or the HTML elements will be messed with textarea.
+                            document.getElementById(prop).value = resultRow[prop];
                         } else {
-                            thumbnailUrl = publicUrlWithFolderPrefix + '/' + resultRow.file_name;
-                        }
-
-                        if (thumbnailUrl) {
-                            if (mediaViewsPlaceholder) {
-                                mediaViewsPlaceholder.innerHTML = '<a href="' + publicUrlWithFolderPrefix + '/' + resultRow.file_name + '" target="realImageFile">'
-                                    + '<img class="fluid" src="' + thumbnailUrl + '" alt="">'
-                                    + '</a>';
-                            }
+                            document.getElementById(prop).value = RdbaCommon.unEscapeHtml(resultRow[prop]);
                         }
                     }
-                    // end display thumbnail. -------------------------
-
-                    // display video player. --------------------------
-                    if (
-                        RdbCMSAFilesCommonObject.videoExtensions.includes(resultRow.file_ext.toLowerCase()) && 
-                        resultRow.file_mime_type.toLowerCase().includes('video/')
-                    ) {
-                        let publicUrlWithFolderPrefix;
-
-                        publicUrlWithFolderPrefix = RdbCMSAFilesCommonObject.rootPublicUrl + '/' + RdbCMSAFilesCommonObject.rootPublicFolderName;
-                        if (!_.isEmpty(resultRow.file_folder)) {
-                            publicUrlWithFolderPrefix += '/' + resultRow.file_folder;
-                        }
-
-                        if (mediaViewsPlaceholder) {
-                            mediaViewsPlaceholder.innerHTML = '<div class="rd-embed-responsive rd-embed-responsive16by9">'
-                                + '<video class="rd-embed-responsive-item" controls>'
-                                + '<source src="' + publicUrlWithFolderPrefix + '/' + resultRow.file_name + '">'
-                                + '</video>'
-                                + '</div>';
-                        }
-                    }
-                    // end display video player. ---------------------
-
-                    // display audio player. --------------------------
-                    if (
-                        RdbCMSAFilesCommonObject.audioExtensions.includes(resultRow.file_ext.toLowerCase()) && 
-                        resultRow.file_mime_type.toLowerCase().includes('audio/')
-                    ) {
-                        let publicUrlWithFolderPrefix;
-
-                        publicUrlWithFolderPrefix = RdbCMSAFilesCommonObject.rootPublicUrl + '/' + RdbCMSAFilesCommonObject.rootPublicFolderName;
-                        if (!_.isEmpty(resultRow.file_folder)) {
-                            publicUrlWithFolderPrefix += '/' + resultRow.file_folder;
-                        }
-
-                        if (mediaViewsPlaceholder) {
-                            mediaViewsPlaceholder.innerHTML = '<audio class="rdcmsa-files-audio-media-views" controls>'
-                                + '<source src="' + publicUrlWithFolderPrefix + '/' + resultRow.file_name + '">'
-                                + '</audio>';
-                        }
-                    }
-                    // end display audio player. ---------------------
-                }// endif; resultRow.file_visibility === '1'
+                }// endfor;
 
                 if (resultRow.file_status && resultRow.file_status === '1') {
                     document.getElementById('file_status').checked = true;
@@ -199,23 +179,26 @@ class RdbCMSAFilesEditController {
                     document.getElementById('file_status').checked = false;
                 }
 
-                // render HTML
-                thisClass.ajaxGetFormRenderHTML(resultRow);
+                // render file metadata such as link to download, video or image width and height, etc.
+                thisClass.ajaxGetFormRenderMetadata(resultRow);
+
+                // activate content editor.
+                thisClass.activateContentEditor('#file_media_description');
             }// endif resultRow
         });
     }// ajaxGetFormData
 
 
     /**
-     * Render HTML after ajax get form data.
+     * Render file metadata such as link to download, video or image width and height, etc.
      * 
      * @private This method was called from `ajaxGetFormData()` method.
      * @param {object} resultRow
      * @returns {undefined}
      */
-    ajaxGetFormRenderHTML(resultRow) {
-        let fileActionsPlaceholder = document.getElementById('files-actions-row');
-        let source = document.getElementById('files-actions-row-template').innerHTML;
+    ajaxGetFormRenderMetadata(resultRow) {
+        let fileMetadataPlaceholder = document.getElementById('files-metadata-row');
+        let source = document.getElementById('files-metadata-row-template').innerHTML;
         resultRow.RdbCMSAFilesCommonObject = RdbCMSAFilesCommonObject;
         let template = Handlebars.compile(source);
         // @link https://stackoverflow.com/questions/42245693/handlebars-js-replacing-portion-of-string replace original source code.
@@ -226,10 +209,95 @@ class RdbCMSAFilesEditController {
         
         let rendered = template(resultRow);
 
-        if (fileActionsPlaceholder) {
-            fileActionsPlaceholder.innerHTML = rendered;
+        if (fileMetadataPlaceholder) {
+            fileMetadataPlaceholder.innerHTML = rendered;
         }
-    }// ajaxGetFormRenderHTML
+    }// ajaxGetFormRenderMetadata
+
+
+    /**
+     * Render media such as image, video, audio.
+     * 
+     * @private This method was called from `ajaxGetFormData()` method.
+     * @param {object} resultRow
+     * @returns {undefined}
+     */
+    ajaxGetFormRenderMedia(resultRow) {
+        if (resultRow.file_visibility === '1') {
+            // if in public/rdbadmin-public folder.
+            let mediaViewsPlaceholder = document.getElementById('files-media-views-row');
+
+            // display thumbnail. -------------------------
+            if (RdbCMSAFilesCommonObject.imageExtensions.includes(resultRow.file_ext.toLowerCase())) {
+                let thumbnailUrl = null;
+                let publicUrlWithFolderPrefix;
+
+                publicUrlWithFolderPrefix = RdbCMSAFilesCommonObject.rootPublicUrl + '/' + RdbCMSAFilesCommonObject.rootPublicFolderName;
+                if (!_.isEmpty(resultRow.file_folder)) {
+                    publicUrlWithFolderPrefix += '/' + resultRow.file_folder;
+                }
+
+                if (RdbaCommon.isset(() => resultRow.thumbnails.thumb600)) {
+                    thumbnailUrl = resultRow.thumbnails.thumb600;
+                } else if (RdbaCommon.isset(() => resultRow.thumbnails.thumb300)) {
+                    thumbnailUrl = resultRow.thumbnails.thumb300;
+                } else {
+                    thumbnailUrl = publicUrlWithFolderPrefix + '/' + resultRow.file_name;
+                }
+
+                if (thumbnailUrl) {
+                    if (mediaViewsPlaceholder) {
+                        mediaViewsPlaceholder.innerHTML = '<a href="' + publicUrlWithFolderPrefix + '/' + resultRow.file_name + '" target="realImageFile">'
+                            + '<img class="fluid" src="' + thumbnailUrl + '" alt="">'
+                            + '</a>';
+                    }
+                }
+            }
+            // end display thumbnail. -------------------------
+
+            // display video player. --------------------------
+            if (
+                RdbCMSAFilesCommonObject.videoExtensions.includes(resultRow.file_ext.toLowerCase()) && 
+                resultRow.file_mime_type.toLowerCase().includes('video/')
+            ) {
+                let publicUrlWithFolderPrefix;
+
+                publicUrlWithFolderPrefix = RdbCMSAFilesCommonObject.rootPublicUrl + '/' + RdbCMSAFilesCommonObject.rootPublicFolderName;
+                if (!_.isEmpty(resultRow.file_folder)) {
+                    publicUrlWithFolderPrefix += '/' + resultRow.file_folder;
+                }
+
+                if (mediaViewsPlaceholder) {
+                    mediaViewsPlaceholder.innerHTML = '<div class="rd-embed-responsive rd-embed-responsive16by9">'
+                        + '<video class="rd-embed-responsive-item" controls>'
+                        + '<source src="' + publicUrlWithFolderPrefix + '/' + resultRow.file_name + '">'
+                        + '</video>'
+                        + '</div>';
+                }
+            }
+            // end display video player. ---------------------
+
+            // display audio player. --------------------------
+            if (
+                RdbCMSAFilesCommonObject.audioExtensions.includes(resultRow.file_ext.toLowerCase()) && 
+                resultRow.file_mime_type.toLowerCase().includes('audio/')
+            ) {
+                let publicUrlWithFolderPrefix;
+
+                publicUrlWithFolderPrefix = RdbCMSAFilesCommonObject.rootPublicUrl + '/' + RdbCMSAFilesCommonObject.rootPublicFolderName;
+                if (!_.isEmpty(resultRow.file_folder)) {
+                    publicUrlWithFolderPrefix += '/' + resultRow.file_folder;
+                }
+
+                if (mediaViewsPlaceholder) {
+                    mediaViewsPlaceholder.innerHTML = '<audio class="rdcmsa-files-audio-media-views" controls>'
+                        + '<source src="' + publicUrlWithFolderPrefix + '/' + resultRow.file_name + '">'
+                        + '</audio>';
+                }
+            }
+            // end display audio player. ---------------------
+        }// endif; resultRow.file_visibility === '1'
+    }// ajaxGetFormRenderMedia
 
 
     /**

@@ -25,7 +25,7 @@
                             <div class="form-result-placeholder"></div>
 
                             <div id="files-media-views-row" class="files-media-views-row rd-block-level-margin-bottom"></div>
-                            <div id="files-actions-row" class="files-actions-row rd-block-level-margin-bottom"></div>
+                            <div id="files-metadata-row" class="files-metadata-row rd-block-level-margin-bottom"></div>
                             <div class="form-group">
                                 <label class="control-label" for="file_media_name"><?php echo d__('rdbcmsa', 'Name'); ?></label>
                                 <div class="control-wrapper">
@@ -71,7 +71,7 @@
 
 
                             <!-- move inside form because it will work in dialog page. -->
-                            <template id="files-actions-row-template">
+                            <template id="files-metadata-row-template">
                                 <span class="action"><a href="{{#replace '%file_id%' file_id}}{{RdbCMSAFilesCommonObject.downloadFileUrl}}{{/replace}}"><?php echo d__('rdbcmsa', 'Download'); ?></a></span>
                                 {{#if file_metadata.video}}
                                 <span class="action">{{RdbCMSAFilesCommonObject.txtVideoDimension}}: {{file_metadata.video.width}}x{{file_metadata.video.height}}</span>

@@ -3,10 +3,10 @@
 */
 
 
-.files-actions-row {
+.files-metadata-row {
     text-align: center;
 }
-.files-actions-row > span + span::before {
+.files-metadata-row > span + span::before {
     content: ' \00a0 | \00a0 ';
 }
 

@@ -92,7 +92,7 @@ class ModuleAssetsFiles
                 [
                     'handle' => 'rdbcmsaFilesEditAction',
                     'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/Files/editAction.js',
-                    'dependency' => ['rdta', 'rdbaCommon', 'rdbaUiXhrCommonData', 'rdbcmsaCategoriesCommonActions'],
+                    'dependency' => ['rdta', 'rdbaCommon', 'rdbaUiXhrCommonData', 'rdbcmsaCategoriesCommonActions', 'tinymce'],
                     'attributes' => [
                         'class' => 'ajaxInjectJs'
                     ],
