@@ -391,12 +391,24 @@ class FilesSubController
      * 
      * @param array $item The associative array must contain keys:<br>
      *                      `full_path_new_name` (string) The full path to main image file.<br>
-     *                      `new_name` (string) The file name with extension that was renamed. No slash or path or directory included.<br>
      * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem The file system class.
-     * @return mixed Return original file as full path if found, return `false` if not found.
+     * @param array $options Associative array as options:<br>
+     *              `returnFullPath` (bool) Set to `true` to return full path if found, set to `false` to return related path if found. Default is `true`.<br>
+     *              `relateFrom` (string) To return related path, you must specify related from. Example: file location is /var/www/image/avatar/me.jpg `relateForm` is /var/www/image the result will be avatar/me.jpg.<br>
+     * @return mixed Return original file if found, return `false` if not found.
      */
-    protected function searchOriginalFile(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null)
-    {
+    public function searchOriginalFile(
+        array $item, 
+        \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null,
+        array $options = []
+    ) {
+        if (!isset($options['returnFullPath'])) {
+            $options['returnFullPath'] = true;
+        }
+        if ($options['returnFullPath'] === false && !isset($options['relateFrom'])) {
+            $options['relateFrom'] = dirname($item['full_path_new_name']);
+        }
+
         if (is_null($FileSystem)) {
             $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
         }
@@ -442,7 +454,16 @@ class FilesSubController
 
         foreach ($FI as $filename => $File) {
             // use $File->getFilename() for return only file name with extension.
-            return $File->getPathname();
+            if ($options['returnFullPath'] === false) {
+                $path = str_replace(['/', '\\', DIRECTORY_SEPARATOR], DIRECTORY_SEPARATOR, $options['relateFrom']);
+                $relatePath = str_replace($path . DIRECTORY_SEPARATOR, '', $File->getPathname());
+                unset($path);
+                $relatePath = str_replace(['/', '\\', DIRECTORY_SEPARATOR], '/', $relatePath);
+
+                return $relatePath;
+            } else {
+                return $File->getPathname();
+            }
         }// endforeach;
         unset($File, $filename);
 
