@@ -25,6 +25,9 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
     use Traits\FilesTrait;
 
 
+    use Traits\FilesActionsTrait;
+
+
     /**
      * Do delete the data in db.
      * 
@@ -94,6 +97,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
                 $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName);
                 $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
+                $FilesSubController->Container = $this->Container;
 
                 if (is_array($validateFileActions['listSelectedFiles']['items'])) {
                     $deleteSuccess = false;
@@ -106,9 +110,16 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                             $output['deleteFilesLog'][$row->file_id]['fileRelPath'] = $fileRelPath;
                             $output['deleteFilesLog'][$row->file_id]['fileFullPath'] = $FileSystem->getFullPathWithRoot($fileRelPath);
                             // delete original (backup) file.
-                            $originalFile = $FileSystem->addSuffixFileName($fileRelPath, '_original');
+                            $originalFile = $FilesSubController->searchOriginalFile(
+                                ['full_path_new_name' => $FileSystem->getFullPathWithRoot($fileRelPath)],
+                                $FileSystem,
+                                [
+                                    'returnFullPath' => false,
+                                    'relateFrom' => PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName,
+                                ]
+                            );
                             $output['deleteFilesLog'][$row->file_id]['_original'] = $originalFile;
-                            if ($FileSystem->isFile($originalFile)) {
+                            if (false !== $originalFile && $FileSystem->isFile($originalFile)) {
                                 $deleteResult = $FileSystem->deleteFile($originalFile);
                                 $output['deleteFilesLog'][$row->file_id]['_original' . 'IsFileAndDeleted'] = var_export($deleteResult, true);
                             }
@@ -573,7 +584,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
     public function indexAction(): string
     {
         // processing part ----------------------------------------------------------------------------------------------------
-        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['edit', 'delete']);
+        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['edit', 'delete', 'move']);
 
         if (session_id() === '') {
             session_start();
@@ -603,6 +614,18 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 $this->Input->get('action')
             )
         );
+
+        if (
+            isset($output['formValidated']) && 
+            $output['formValidated'] === true && 
+            $this->Input->get('action') === 'move'
+        ) {
+            // list folders for select.
+            $output['rootPublicFolder'] = $this->rootPublicFolderName;
+            $folders = $this->listFolders();
+            $output['folders'] = ($folders);
+            unset($folders);
+        }
 
         $urlBaseWithLang = $Url->getAppBasedPath(true);
         $output['breadcrumb'] = [
@@ -681,91 +704,64 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
 
     /**
-     * Validate file and action.
+     * List *rdbadmin-public* sub folders into 2D array.
      * 
-     * It's validating file and action must be selected.<br>
-     * This method set http response code if contain errors.<br>
-     * This method was called from `indexAction()`, `doDeleteAction()` methods.
-     * 
-     * @param string $file_ids The selected file ID(s).
-     * @param string $action The selected action.
-     * @return array Return associative array with keys:<br>
-     *                          `action` The selected action.<br>
-     *                          `actionText` The text of selected action, for displaying.<br>
-     *                          `file_ids` The selected file IDs.<br>
-     *                          `file_id_array` The selected file IDs as array.<br>
-     *                          `formResultStatus` (optional) If contain any error, it also send out http response code.<br>
-     *                          `formResultMessage` (optional) If contain any error, it also send out http response code.<br>
-     *                          `formValidated` The boolean value of form validation. It will be `true` if form validation passed, and will be `false` if it is not.<br>
-     *                          `listSelectedFiles` The selected files. Its structure is `array('total' => x, 'items' => array(...))`.
+     * @return array
      */
-    protected function validateFileActions(string $file_ids, string $action): array
+    protected function listFolders(): array
     {
         $output = [];
 
-        $output['action'] = $action;
-        $output['file_ids'] = $file_ids;
-        $expFileIds = explode(',', $output['file_ids']);
+        $targetDir = PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName;
 
-        if (is_array($expFileIds)) {
-            $output['file_id_array'] = $expFileIds;
-            $totalSelectedFiles = (int) count($expFileIds);
-        } else {
-            $output['file_id_array'] = [];
-            $totalSelectedFiles = 0;
-        }
-        unset($expFileIds);
+        // list folders and subs recursively to nested array.
+        // @link https://stackoverflow.com/a/40616438/128761 Original source code.
+        $RDI = new \RecursiveDirectoryIterator(
+            $targetDir,
+            \FilesystemIterator::SKIP_DOTS
+        );
+        $RII = new \RecursiveIteratorIterator(
+            $RDI,
+            \RecursiveIteratorIterator::SELF_FIRST,
+            \RecursiveIteratorIterator::CATCH_GET_CHILD
+        );
+        $RII = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterRestricted(
+            $RII,
+            $targetDir,
+            $this->restrictedFolder
+        );
 
-        $formValidated = false;
+        foreach ($RII as $filename => $File) {
+            if ($File->isFile()) {
+                continue;
+            }
 
-        // validate selected file and action. ------------------------------
-        if ($totalSelectedFiles <= 0) {
-            http_response_code(400);
-            $output['formResultStatus'] = 'error';
-            $output['formResultMessage'][] = d__('rdbcmsa', 'Please select at least one file.');
-        } else {
-            $formValidated = true;
-        }
+            $relatePath = str_replace(
+                ['/', '\\', DIRECTORY_SEPARATOR],
+                '/',
+                str_replace(
+                    $targetDir . DIRECTORY_SEPARATOR, 
+                    '', 
+                    $File->getPathname()
+                )
+            );
 
-        if (empty($output['action'])) {
-            http_response_code(400);
-            $output['formResultStatus'] = 'error';
-            $output['formResultMessage'][] = __('Please select an action.');
-            $formValidated = false;
-        }
-        // end validate selected file and action. --------------------------
+            $file = [
+                'name' => $File->getFilename(),
+                'size' => $File->getSize(),
+                'realPath' => $File->getPathname(),
+                'relatePath' => $relatePath,
+                'depth' => $RII->getDepth(),
+            ];
 
-        // set action text for display.
-        if ($output['action'] === 'delete') {
-            $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['delete']);
-            $output['actionText'] = dn__('rdbcmsa', 'Delete file', 'Delete files', $totalSelectedFiles);
-        } else {
-            $output['actionText'] = $output['action'];
-        }
+            $output[] = $file;
 
-        $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
-        // get selected files.
-        $options = [];
-        $options['file_id_in'] = $output['file_id_array'];
-        $output['listSelectedFiles'] = $FilesDb->listItems($options);
-        unset($options);
-        // populate search count the the posts.
-        if (array_key_exists('items', $output['listSelectedFiles']) && is_array($output['listSelectedFiles']['items'])) {
-            foreach ($output['listSelectedFiles']['items'] as $row) {
-                $file_id = (int) $row->file_id;
-                $fileUrl = $row->file_folder . '/' . $row->file_name;
-                $row->totalFoundInPosts = $FilesDb->countSearchFileInPosts($fileUrl, $file_id);
-            }// endforeach;
-            unset($row);
-        }
-        unset($FilesDb);
-
-        $output['formValidated'] = $formValidated;
-
-        unset($formValidated, $totalSelectedFiles);
+            unset($file, $relatePath);
+        }// endforeach;
+        unset($File, $filename, $RDI, $RII, $targetDir);
 
         return $output;
-    }// validateFileActions
+    }// listFolders
 
 
 }

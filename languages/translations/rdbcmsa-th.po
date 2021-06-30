@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rdbcmsa\n"
-"POT-Creation-Date: 2021-04-28 11:54+0700\n"
-"PO-Revision-Date: 2021-04-28 11:54+0700\n"
+"POT-Creation-Date: 2021-06-30 18:50+0700\n"
+"PO-Revision-Date: 2021-06-30 18:51+0700\n"
 "Last-Translator: Vee W.\n"
 "Language-Team: \n"
 "Language: th_TH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0\n"
 "X-Poedit-Basepath: ../..\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -25,10 +25,10 @@ msgstr ""
 
 #: Controllers/Admin/Categories/ActionsController.php:116
 #: Controllers/Admin/Categories/EditController.php:181
-#: Controllers/Admin/Files/ActionsController.php:331
-#: Controllers/Admin/Files/ActionsController.php:402
-#: Controllers/Admin/Files/ActionsController.php:474
-#: Controllers/Admin/Files/ActionsController.php:555
+#: Controllers/Admin/Files/ActionsController.php:342
+#: Controllers/Admin/Files/ActionsController.php:413
+#: Controllers/Admin/Files/ActionsController.php:485
+#: Controllers/Admin/Files/ActionsController.php:566
 #: Controllers/Admin/Files/EditController.php:106
 #: Controllers/Admin/Pages/ActionsController.php:158
 #: Controllers/Admin/Pages/EditController.php:187
@@ -45,8 +45,8 @@ msgid "Updated successfully."
 msgstr "ปรับปรุงเรียบร้อยแล้ว."
 
 #: Controllers/Admin/Categories/ActionsController.php:231
-#: Controllers/Admin/Files/ActionsController.php:165
-#: Controllers/Admin/Files/FoldersController.php:169
+#: Controllers/Admin/Files/ActionsController.php:176
+#: Controllers/Admin/Files/FoldersController.php:161
 #: Controllers/Admin/Pages/ActionsController.php:313
 #: Controllers/Admin/Pages/RevisionController.php:153
 #: Controllers/Admin/Posts/ActionsController.php:313
@@ -60,9 +60,9 @@ msgstr "ไม่สามารถลบได้."
 #: Controllers/Admin/Categories/ActionsController.php:313
 #: Controllers/Admin/Categories/AddController.php:199
 #: Controllers/Admin/Categories/EditController.php:256
-#: Controllers/Admin/Files/ActionsController.php:614
+#: Controllers/Admin/Files/ActionsController.php:637
 #: Controllers/Admin/Files/EditController.php:182
-#: Controllers/Admin/Files/ScanUnindexedController.php:466
+#: Controllers/Admin/Files/ScanUnindexedController.php:465
 #: Controllers/Admin/Pages/AddController.php:257 Controllers/Admin/Pages/EditController.php:276
 #: Controllers/Admin/Pages/IndexController.php:238
 #: Controllers/Admin/Posts/AddController.php:257 Controllers/Admin/Posts/EditController.php:276
@@ -145,7 +145,7 @@ msgid "Please select at least one category."
 msgstr "โปรดเลือกอย่างน้อยหนึ่งหมวดหมู่."
 
 #: Controllers/Admin/Categories/IndexController.php:210
-#: Controllers/Admin/Files/IndexController.php:287 Models/PostsDb.php:862
+#: Controllers/Admin/Files/IndexController.php:287 Models/PostsDb.php:922
 #: Views/Admin/Categories/add_v.php:71 Views/Admin/Categories/edit_v.php:81
 #: Views/Admin/Files/edit_v.php:61
 msgid "Published"
@@ -157,30 +157,21 @@ msgstr "เผยแพร่แล้ว"
 msgid "Unpublished"
 msgstr "ไม่เผยแพร่"
 
-#: Controllers/Admin/Files/ActionsController.php:326
-#: Controllers/Admin/Files/ActionsController.php:397
-#: Controllers/Admin/Files/ActionsController.php:469
+#: Controllers/Admin/Files/ActionsController.php:337
+#: Controllers/Admin/Files/ActionsController.php:408
+#: Controllers/Admin/Files/ActionsController.php:480
 #, php-format
 msgid "The selected file is not an image. (%1$s)"
 msgid_plural "The selected files are not images. (%1$s)"
 msgstr[0] "ไฟล์ที่เลือกไม่ใช่รูปภาพ. (%1$s)"
 
-#: Controllers/Admin/Files/ActionsController.php:618
+#: Controllers/Admin/Files/ActionsController.php:641
 #: Controllers/Admin/Files/EditController.php:186
 #: Controllers/Admin/Files/IndexController.php:214
-#: Controllers/Admin/Files/ScanUnindexedController.php:470 ModuleData/ModuleAdmin.php:86
+#: Controllers/Admin/Files/ScanUnindexedController.php:469 ModuleData/ModuleAdmin.php:86
 #: ModuleData/ModuleAdmin.php:200 Views/Admin/Files/index_v.php:23
 msgid "Files"
 msgstr "ไฟล์"
-
-#: Controllers/Admin/Files/ActionsController.php:725
-msgid "Please select at least one file."
-msgstr "โปรดเลือกอย่างน้อยหนึ่งไฟล์."
-
-#: Controllers/Admin/Files/ActionsController.php:741
-msgid "Delete file"
-msgid_plural "Delete files"
-msgstr[0] "ลบไฟล์"
 
 #: Controllers/Admin/Files/AddController.php:81
 msgid "Please select the file."
@@ -233,72 +224,72 @@ msgstr "ขนาดภาพ"
 msgid "Video dimension"
 msgstr "ขนาดวีดีโอ"
 
-#: Controllers/Admin/Files/FoldersController.php:102
-#: Controllers/Admin/Files/FoldersController.php:119
-#: Controllers/Admin/Files/FoldersController.php:361
-#: Controllers/Admin/Files/FoldersController.php:493
+#: Controllers/Admin/Files/FoldersController.php:94
+#: Controllers/Admin/Files/FoldersController.php:111
+#: Controllers/Admin/Files/FoldersController.php:353
+#: Controllers/Admin/Files/FoldersController.php:485
 msgid "Hack attempt!"
 msgstr "Hack attempt!"
 
-#: Controllers/Admin/Files/FoldersController.php:102
+#: Controllers/Admin/Files/FoldersController.php:94
 msgid "Could not delete the root folder."
 msgstr "ไม่สามารถลบโฟลเดอร์หลัก."
 
-#: Controllers/Admin/Files/FoldersController.php:111
+#: Controllers/Admin/Files/FoldersController.php:103
 msgid "Unable to delete restricted folder."
 msgstr "ไม่สามารถลบโฟลเดอร์ที่ถูกจำกัด."
 
-#: Controllers/Admin/Files/FoldersController.php:127
-#: Controllers/Admin/Files/FoldersController.php:501
+#: Controllers/Admin/Files/FoldersController.php:119
+#: Controllers/Admin/Files/FoldersController.php:493
 msgid "The selected folder is not exists, please check again."
 msgstr "โฟลเดอร์ที่ถูกเลือกไม่มีอยู่, โปรดตรวจสอบอีกครั้ง."
 
-#: Controllers/Admin/Files/FoldersController.php:145
+#: Controllers/Admin/Files/FoldersController.php:137
 #, php-format
 msgid "Unable to delete selected folder. %s"
 msgstr "ไม่สามารถลบโฟลเดอร์ที่เลือก. %s"
 
-#: Controllers/Admin/Files/FoldersController.php:351
-#: Controllers/Admin/Files/FoldersController.php:476
+#: Controllers/Admin/Files/FoldersController.php:343
+#: Controllers/Admin/Files/FoldersController.php:468
 msgid "Please enter the folder name."
 msgstr "กรุณากรอกชื่อโฟลเดอร์."
 
-#: Controllers/Admin/Files/FoldersController.php:369
+#: Controllers/Admin/Files/FoldersController.php:361
 msgid "The target location to create new folder is not exists, please check again."
 msgstr "ตำแหน่งเป้าหมายที่จะสร้างโฟลเดอร์ใหม่นั้นไม่มีอยู่, โปรดตรวจสอบอีกครั้ง."
 
-#: Controllers/Admin/Files/FoldersController.php:377
-#: Controllers/Admin/Files/FoldersController.php:509
+#: Controllers/Admin/Files/FoldersController.php:369
+#: Controllers/Admin/Files/FoldersController.php:501
 #, php-format
 msgid "Please enter valid characters for new folder name. Suggested: %s"
 msgstr "กรุณากรอกอักขระที่ถูกต้องสำหรับชื่อโฟลเดอร์. แนะนำ: %s"
 
-#: Controllers/Admin/Files/FoldersController.php:385
+#: Controllers/Admin/Files/FoldersController.php:377
 msgid "The folder name is already exists."
 msgstr "ชื่อโฟลเดอร์นี้มีอยู่แล้ว."
 
-#: Controllers/Admin/Files/FoldersController.php:396
+#: Controllers/Admin/Files/FoldersController.php:388
 msgid "New folder was created successfully."
 msgstr "โฟลเดอร์ใหม่ถูกสร้างเรียบร้อยแล้ว."
 
-#: Controllers/Admin/Files/FoldersController.php:401
+#: Controllers/Admin/Files/FoldersController.php:393
 msgid "Unable to create new folder."
 msgstr "ไม่สามารถสร้างโฟลเดอร์ใหม่."
 
-#: Controllers/Admin/Files/FoldersController.php:485
+#: Controllers/Admin/Files/FoldersController.php:477
 msgid "Unable to rename restricted folder."
 msgstr "ไม่สามารถเปลี่ยนชื่อโฟลเดอร์ที่ถูกจำกัด."
 
-#: Controllers/Admin/Files/FoldersController.php:524
+#: Controllers/Admin/Files/FoldersController.php:516
 #, php-format
 msgid "The folder name is already exists. (%s)"
 msgstr "ชื่อโฟลเดอร์นี้มีอยู่แล้ว. (%s)"
 
-#: Controllers/Admin/Files/FoldersController.php:547
+#: Controllers/Admin/Files/FoldersController.php:539
 msgid "Success."
 msgstr "สำเร็จ."
 
-#: Controllers/Admin/Files/FoldersController.php:552
+#: Controllers/Admin/Files/FoldersController.php:544
 msgid "Unable to rename folder."
 msgstr "ไม่สามารถเปลี่ยนชื่อโฟลเดอร์."
 
@@ -327,6 +318,19 @@ msgstr "เพิ่ม: %s"
 #, php-format
 msgid "Update: %s"
 msgstr "ปรับปรุง: %s"
+
+#: Controllers/Admin/Files/MoveController.php:166
+#, php-format
+msgid "Unable to move file %1$s to %2$s."
+msgstr "ไม่สามารถย้ายไฟล์ %1$s ไปยัง %2$s."
+
+#: Controllers/Admin/Files/MoveController.php:203
+msgid "Moved successfully."
+msgstr "ย้ายเรียบร้อยแล้ว."
+
+#: Controllers/Admin/Files/MoveController.php:214
+msgid "Unable to move."
+msgstr "ไม่สามารถย้ายได้."
 
 #: Controllers/Admin/Files/ScanUnindexedController.php:162
 #, php-format
@@ -357,10 +361,24 @@ msgstr "มีข้อผิดพลาดเกี่ยวกับไฟล
 msgid "Please select items to index."
 msgstr "กรุณาเลือกรายการที่จะทำดัชนี."
 
-#: Controllers/Admin/Files/ScanUnindexedController.php:425 Views/Admin/Files/index_v.php:35
+#: Controllers/Admin/Files/ScanUnindexedController.php:424 Views/Admin/Files/index_v.php:35
 #: Views/Admin/Files/index_v.php:40
 msgid "Scan for unindexed files"
 msgstr "สแกนหาไฟล์ที่ไม่ได้ทำดัชนี"
+
+#: Controllers/Admin/Files/Traits/FilesActionsTrait.php:61
+msgid "Please select at least one file."
+msgstr "โปรดเลือกอย่างน้อยหนึ่งไฟล์."
+
+#: Controllers/Admin/Files/Traits/FilesActionsTrait.php:77
+msgid "Move file"
+msgid_plural "Move files"
+msgstr[0] "ย้ายไฟล์"
+
+#: Controllers/Admin/Files/Traits/FilesActionsTrait.php:80
+msgid "Delete file"
+msgid_plural "Delete files"
+msgstr[0] "ลบไฟล์"
 
 #: Controllers/Admin/Pages/ActionsController.php:113
 #: Controllers/Admin/Pages/ActionsController.php:239
@@ -466,17 +484,17 @@ msgid "CMS admin settings"
 msgstr "ตั้งค่าหน้าผู้ดูแลเนื้อหา"
 
 #: Controllers/Admin/Settings/CMSAdmin/IndexController.php:132
-#: Plugins/Settings/Hooks/RdbCMSASettings.php:70
+#: Plugins/Settings/Hooks/RdbCMSASettings.php:90
 msgid "Are you sure to delete watermark?"
 msgstr "คุณแน่ใจหรือไม่ที่จะลบลายน้ำ?"
 
 #: Controllers/Admin/Settings/CMSAdmin/IndexController.php:133
-#: Plugins/Settings/Hooks/RdbCMSASettings.php:71
+#: Plugins/Settings/Hooks/RdbCMSASettings.php:91
 msgid "Please choose only one file."
 msgstr "กรุณาเลือกหนึ่งไฟล์."
 
 #: Controllers/Admin/Settings/CMSAdmin/IndexController.php:134
-#: Plugins/Settings/Hooks/RdbCMSASettings.php:72
+#: Plugins/Settings/Hooks/RdbCMSASettings.php:92
 msgid "Uploading"
 msgstr "กำลังอัพโหลด"
 
@@ -484,9 +502,9 @@ msgstr "กำลังอัพโหลด"
 msgid "Unable to delete watermark file."
 msgstr "ไม่สามารถลบไฟล์ลายน้ำได้."
 
-#: Controllers/Admin/SubControllers/PostsSubController.php:332
-#: Controllers/Admin/SubControllers/PostsSubController.php:369
-#: Controllers/Admin/SubControllers/PostsSubController.php:403
+#: Controllers/Admin/SubControllers/PostsSubController.php:338
+#: Controllers/Admin/SubControllers/PostsSubController.php:375
+#: Controllers/Admin/SubControllers/PostsSubController.php:409
 #: Views/Admin/Files/browser_v.php:42
 msgid "All"
 msgstr "ทั้งหมด"
@@ -600,27 +618,27 @@ msgid "Delete category"
 msgid_plural "Delete categories"
 msgstr[0] "ลบหมวดหมู่"
 
-#: Models/PostsDb.php:861
+#: Models/PostsDb.php:921
 msgid "Draft"
 msgstr "ดราฟท์"
 
-#: Models/PostsDb.php:863
+#: Models/PostsDb.php:923
 msgid "Scheduled"
 msgstr "ตั้งเวลา"
 
-#: Models/PostsDb.php:864
+#: Models/PostsDb.php:924
 msgid "Pending"
 msgstr "รอตรวจ"
 
-#: Models/PostsDb.php:865
+#: Models/PostsDb.php:925
 msgid "Private"
 msgstr "ส่วนตัว"
 
-#: Models/PostsDb.php:866
+#: Models/PostsDb.php:926
 msgid "Trash"
 msgstr "ถังขยะ"
 
-#: Models/PostsDb.php:867
+#: Models/PostsDb.php:927
 msgid "Inherit"
 msgstr "สืบทอด"
 
@@ -640,7 +658,7 @@ msgstr "เพิ่ม"
 msgid "Edit"
 msgstr "แก้ไข"
 
-#: ModuleData/ModuleAdmin.php:94 Views/Admin/Files/index_v.php:183
+#: ModuleData/ModuleAdmin.php:94 Views/Admin/Files/index_v.php:184
 #: Views/Admin/TranslationMatcher/index_v.php:165
 msgid "Delete"
 msgstr "ลบ"
@@ -653,62 +671,12 @@ msgstr "จับคู่"
 msgid "Update"
 msgstr "ปรับปรุง"
 
-#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:3
-#: Views/Admin/Settings/CMSAdmin/index_v.php:15
-msgid "Watermark"
-msgstr "ลายน้ำ"
-
-#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:6
-#: Views/Admin/Files/browser_v.php:10 Views/Admin/Files/index_v.php:24
-#: Views/Admin/Settings/CMSAdmin/index_v.php:18
-msgid "Drop the files into this area to start upload."
-msgstr "วางไฟล์ลงในพื้นที่นี้เพื่อเริ่มอัพโหลด."
-
-#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:8
-#: Views/Admin/Settings/CMSAdmin/index_v.php:20
-msgid "Choose file"
-msgstr "เลือกไฟล์"
-
-#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:13
-#: Views/Admin/Settings/CMSAdmin/index_v.php:25
-msgid "Click on choose file or drop a file here to start upload."
-msgstr "คลิกที่เลือกไฟล์หรือวางไฟล์ที่นี่เพื่อเริ่มอัพโหลด."
-
-#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:14
-#: Views/Admin/Files/browser_v.php:18 Views/Admin/Files/index_v.php:32
-#: Views/Admin/Settings/CMSAdmin/index_v.php:26
-#, php-format
-msgid "Max file size %s."
-msgstr "ขนาดไฟล์สูงสุด %s."
-
-#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:19
-#: Views/Admin/Settings/CMSAdmin/index_v.php:31
-msgid "Check this box to delete current watermark."
-msgstr "ติ๊กกล่องนี้เพื่อลบลายน้ำปัจจุบัน."
-
-#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:24
-#: Views/Admin/Files/index_v.php:165 Views/Admin/Settings/CMSAdmin/index_v.php:36
-msgid "Apply watermark"
-msgstr "นำลายน้ำไปใช้"
-
-#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:28
-#: Views/Admin/Settings/CMSAdmin/index_v.php:40
-msgid "Apply watermark on new uploaded"
-msgstr "นำลายน้ำไปใช้ในการอัพโหลดใหม่"
-
-#: Plugins/Settings/Hooks/Views/settings_tabcontent_file_v.php:30
-#: Views/Admin/Settings/CMSAdmin/index_v.php:42
-msgid ""
-"If apply, all new uploaded images will be use this watermark otherwise you can manually "
-"apply each file."
-msgstr "ถ้านำไปใช้, การอัพโหลดภาพใหม่ทั้งหมดจะใช้ลายน้ำนี้ ถ้ามิฉะนั้นคุณสามารถกำหนดลายน้ำให้แต่ละไฟล์ได้."
-
 #: Plugins/Settings/Hooks/Views/settings_tabnav_file_v.php:1 Views/Admin/Files/index_v.php:53
 #: Views/Admin/Files/index_v.php:65
 msgid "File"
 msgstr "ไฟล์"
 
-#: Views/Admin/Categories/actions_v.php:60 Views/Admin/Files/actions_v.php:54
+#: Views/Admin/Categories/actions_v.php:60 Views/Admin/Files/actions_v.php:77
 msgid "Warning!"
 msgstr "คำเตือน!"
 
@@ -805,15 +773,24 @@ msgstr "ดู"
 msgid "Update total items"
 msgstr "ปรับปรุงจำนวนรายการทั้งหมด"
 
-#: Views/Admin/Files/actions_v.php:41
+#: Views/Admin/Files/actions_v.php:38
+msgid "Target"
+msgstr "เป้าหมาย"
+
+#: Views/Admin/Files/actions_v.php:64
 #, php-format
 msgid "Found in %d post."
 msgid_plural "Found in %d posts."
 msgstr[0] "พบใน %d โพสต์."
 
-#: Views/Admin/Files/actions_v.php:55
+#: Views/Admin/Files/actions_v.php:78
 msgid "The files that was linked in the posts will have status of 404 (not found error)."
 msgstr "ไฟล์ต่างๆที่ถูกเชื่อมโยงในโพสต์จะมีสถานะเป็น 404 (ไม่พบไฟล์)."
+
+#: Views/Admin/Files/browser_v.php:10 Views/Admin/Files/index_v.php:24
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:5
+msgid "Drop the files into this area to start upload."
+msgstr "วางไฟล์ลงในพื้นที่นี้เพื่อเริ่มอัพโหลด."
 
 #: Views/Admin/Files/browser_v.php:12 Views/Admin/Files/index_v.php:26
 msgid "Choose files"
@@ -822,6 +799,12 @@ msgstr "เลือกไฟล์"
 #: Views/Admin/Files/browser_v.php:17 Views/Admin/Files/index_v.php:31
 msgid "Click on choose files or drop files here to start upload."
 msgstr "คลิกที่เลือกไฟล์หรือวางไฟล์ที่นี่เพื่อเริ่มอัพโหลด."
+
+#: Views/Admin/Files/browser_v.php:18 Views/Admin/Files/index_v.php:32
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:13
+#, php-format
+msgid "Max file size %s."
+msgstr "ขนาดไฟล์สูงสุด %s."
 
 #: Views/Admin/Files/browser_v.php:24
 msgid "Folder"
@@ -946,6 +929,10 @@ msgstr "โฟลเดอร์ที่จะเปลี่ยนชื่อ
 msgid "Folder name"
 msgstr "ชื่อโฟลเดอร์"
 
+#: Views/Admin/Files/index_v.php:165 Views/Admin/Settings/CMSAdmin/_settings_form_v.php:23
+msgid "Apply watermark"
+msgstr "นำลายน้ำไปใช้"
+
 #: Views/Admin/Files/index_v.php:166
 msgid "Remove watermark"
 msgstr "เอาลายน้ำออก"
@@ -958,7 +945,11 @@ msgstr "ปรับปรุงภาพย่อ"
 msgid "Update metadata"
 msgstr "ปรับปรุง metadata"
 
-#: Views/Admin/Files/index_v.php:182
+#: Views/Admin/Files/index_v.php:169
+msgid "Move"
+msgstr "ย้าย"
+
+#: Views/Admin/Files/index_v.php:183
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
@@ -1140,6 +1131,32 @@ msgstr "ชุดการปรับปรุงที่ใช้อยู่
 #: Views/Admin/Posts/revisionHistory_v.php:53
 msgid "Rollback"
 msgstr "ย้อนกลับ"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:2
+msgid "Watermark"
+msgstr "ลายน้ำ"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:7
+msgid "Choose file"
+msgstr "เลือกไฟล์"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:12
+msgid "Click on choose file or drop a file here to start upload."
+msgstr "คลิกที่เลือกไฟล์หรือวางไฟล์ที่นี่เพื่อเริ่มอัพโหลด."
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:18
+msgid "Check this box to delete current watermark."
+msgstr "ติ๊กกล่องนี้เพื่อลบลายน้ำปัจจุบัน."
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:27
+msgid "Apply watermark on new uploaded"
+msgstr "นำลายน้ำไปใช้ในการอัพโหลดใหม่"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:29
+msgid ""
+"If apply, all new uploaded images will be use this watermark otherwise you can manually "
+"apply each file."
+msgstr "ถ้านำไปใช้, การอัพโหลดภาพใหม่ทั้งหมดจะใช้ลายน้ำนี้ ถ้ามิฉะนั้นคุณสามารถกำหนดลายน้ำให้แต่ละไฟล์ได้."
 
 #: Views/Admin/Tags/add_v.php:54 Views/Admin/Tags/edit_v.php:55
 msgid "The name will be use on address of this tag. Do not enter special characters."

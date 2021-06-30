@@ -17,6 +17,14 @@ trait FilesTrait
 
 
     /**
+     * @var array Restricted folder name to list, delete, rename. Case insensitive.<br>
+     *                  Start by related from [public folder]/[rootPublicFolderName or default is rdbadmin-public]/.<br>
+     *                  Example: ['avatar'] means [public]/[root public folder]/avatar and everything in it will be restricted.
+     */
+    protected $restrictedFolder = ['avatar'];
+
+
+    /**
      * @var string Root public storage folder name for upload files.
      */
     protected $rootPublicFolderName = 'rdbadmin-public';
@@ -52,6 +60,8 @@ trait FilesTrait
         $output['downloadFileUrl'] = $urlAppBased . '/admin/cms/files/%file_id%/downloads';
 
         $output['actionsFilesUrl'] = $urlAppBased . '/admin/cms/files/actions';
+        $output['moveFileRESTUrl'] = $urlAppBased . '/admin/cms/files/%file_ids%/move';
+        $output['moveFileRESTMethod'] = 'POST';
         $output['deleteFileRESTUrlBase'] = $urlAppBased . '/admin/cms/files';
         $output['deleteFileRESTMethod'] = 'DELETE';
         $output['updateFileDataRESTUrl'] = $urlAppBased . '/admin/cms/files/%file_ids%/%action%';

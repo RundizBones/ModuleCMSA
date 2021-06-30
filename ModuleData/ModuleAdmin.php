@@ -52,7 +52,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
             'RdbCMSAPosts' => ['list', 'add', 'edit', 'delete'],
             'RdbCMSAPages' => ['list', 'add', 'edit', 'delete'],
             'RdbCMSAUrlAliases' => ['list', 'add', 'edit', 'delete'],
-            'RdbCMSAFiles' => ['list', 'add', 'edit', 'delete'],
+            'RdbCMSAFiles' => ['list', 'add', 'edit', 'delete', 'move'],
             'RdbCMSATranslationMatcher' => ['list', 'match'],
             'RdbCMSASettings' => ['update'],
         ];

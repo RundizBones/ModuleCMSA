@@ -487,7 +487,7 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
 
                         if (indexOfActions(updateActionsArray, selectAction.value) >= 0) {
                             thisClass.listenFormUpdateActions(selectAction.value, fileIdsArray);
-                        } else if (selectAction.value === 'delete') {
+                        } else if (selectAction.value === 'move' || selectAction.value === 'delete') {
                             // if bulk action is to delete items.
                             let ajaxUrl = RdbCMSAFilesCommonObject.actionsFilesUrl + '?file_ids=' + fileIdsArray.join(',') + '&action=' + selectAction.value;
                             thisClass.RdbaXhrDialog.ajaxOpenLinkInDialog(ajaxUrl);

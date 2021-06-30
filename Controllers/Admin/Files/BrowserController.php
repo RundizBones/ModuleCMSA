@@ -36,7 +36,7 @@ class BrowserController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
     public function indexAction(): string
     {
         // processing part ----------------------------------------------------------------------------------------------------
-        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete']);
+        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete', 'move']);
 
         if (session_id() === '') {
             session_start();

@@ -31,6 +31,29 @@
                             <input id="bulk-file_ids" type="hidden" name="file_ids" value="<?php if (isset($file_ids)) {echo htmlspecialchars($file_ids, ENT_QUOTES);} ?>">
 
                             <h3><?php if (isset($actionText)) {echo $actionText;} ?></h3>
+                            <?php 
+                            if (isset($folders) && is_array($folders)) { 
+                            ?> 
+                            <div class="form-group">
+                                <label class="control-label" for="move-target-folder"><?php echo d__('rdbcmsa', 'Target'); ?></label>
+                                <div class="form-control">
+                                    <select id="move-target-folder" name="move-target-folder">
+                                        <option value=""><?php echo htmlspecialchars($rootPublicFolder, ENT_QUOTES); ?></option>
+                                        <?php
+                                            foreach ($folders as $folder) {
+                                                echo $folder['relatePath']."\n";
+                                        ?> 
+                                        <option value="<?php echo htmlspecialchars($folder['relatePath'], ENT_QUOTES); ?>"><?php echo htmlspecialchars($rootPublicFolder . '/' . $folder['relatePath'], ENT_QUOTES); ?></option>
+                                        <?php 
+                                            }// endforeach;
+                                            unset($folder, $folders);
+                                        ?> 
+                                    </select>
+                                </div>
+                            </div>
+                            <?php
+                            }// endif; 
+                            ?> 
                             <?php if (isset($listSelectedFiles['items']) && is_array($listSelectedFiles['items']) && !empty($listSelectedFiles['items'])) { ?>
                             <ul>
                                 <?php foreach ($listSelectedFiles['items'] as $row) { ?> 

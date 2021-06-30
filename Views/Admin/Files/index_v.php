@@ -166,6 +166,7 @@
                                         <option value="removewatermark"><?php echo d__('rdbcmsa', 'Remove watermark'); ?></option>
                                         <option value="updatethumbnails"><?php echo d__('rdbcmsa', 'Update thumbnails'); ?></option>
                                         <option value="updatemeta"><?php echo d__('rdbcmsa', 'Update metadata'); ?></option>
+                                        <option value="move"><?php echo d__('rdbcmsa', 'Move'); ?></option>
                                         <option value="delete"><?php echo __('Delete'); ?></option>
                                     </select>
                                 </label>

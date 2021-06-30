@@ -36,7 +36,10 @@ class RdbCMSAFilesActionsController {
                 let formMethod = '';
 
                 let bulkAction = (thisForm.querySelector('#bulk-action') ? thisForm.querySelector('#bulk-action').value : '');
-                if (bulkAction === 'delete') {
+                if (bulkAction === 'move') {
+                    formUrl = RdbCMSAFilesCommonObject.moveFileRESTUrl.replace('%file_ids%', thisForm.querySelector('#bulk-file_ids').value);
+                    formMethod = RdbCMSAFilesCommonObject.moveFileRESTMethod;
+                } else if (bulkAction === 'delete') {
                     formUrl = RdbCMSAFilesCommonObject.deleteFileRESTUrlBase + '/' + thisForm.querySelector('#bulk-file_ids').value;
                     formMethod = RdbCMSAFilesCommonObject.deleteFileRESTMethod;
                 }

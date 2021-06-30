@@ -27,14 +27,6 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
 
     /**
-     * @var array Restricted folder name to list, delete, rename. Case insensitive.<br>
-     *                  Start by related from [public folder]/[rootPublicFolderName or default is rdbadmin-public]/.<br>
-     *                  Example: ['avatar'] means [public]/[root public folder]/avatar and everything in it will be restricted.
-     */
-    protected $restrictedFolder = ['avatar'];
-
-
-    /**
      * Magic get.
      * 
      * @param string $name
@@ -57,7 +49,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
     public function doDeleteFolderAction(): string
     {
         // processing part ----------------------------------------------------------------------------------------------------
-        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete']);
+        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete', 'move']);
 
         if (session_id() === '') {
             session_start();
@@ -202,7 +194,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
     public function doGetFoldersAction(): string
     {
         // processing part ----------------------------------------------------------------------------------------------------
-        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete']);
+        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete', 'move']);
 
         if (session_id() === '') {
             session_start();
@@ -286,7 +278,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
                 unset($file, $relatePath);
             }// endforeach;
-            unset($FilesSubController, $i, $RDI, $references, $RII, $targetDir);
+            unset($File, $filename, $FilesSubController, $i, $RDI, $references, $RII, $targetDir);
         } else {
             // if unable to validate token.
             $output['formResultStatus'] = 'error';
@@ -312,7 +304,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
     public function doNewFolderAction(): string
     {
         // processing part ----------------------------------------------------------------------------------------------------
-        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete']);
+        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete', 'move']);
 
         if (session_id() === '') {
             session_start();
@@ -430,7 +422,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
     public function doRenameFolderAction(): string
     {
         // processing part ----------------------------------------------------------------------------------------------------
-        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete']);
+        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete', 'move']);
 
         if (session_id() === '') {
             session_start();

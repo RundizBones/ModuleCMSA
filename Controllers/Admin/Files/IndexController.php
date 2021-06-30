@@ -37,7 +37,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
     public function doGetItemAction(string $file_id): string
     {
         // processing part ----------------------------------------------------------------------------------------------------
-        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'edit', 'delete']);
+        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'edit', 'delete', 'move']);
 
         $Url = new \Rdb\System\Libraries\Url($this->Container);
         $this->Languages->getHelpers();
@@ -126,7 +126,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
     public function downloadItemAction(string $file_id): string
     {
         // processing part ----------------------------------------------------------------------------------------------------
-        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete']);
+        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete', 'move']);
 
         $Url = new \Rdb\System\Libraries\Url($this->Container);
         $this->Languages->getHelpers();
@@ -197,7 +197,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
     public function indexAction(): string
     {
         // processing part ----------------------------------------------------------------------------------------------------
-        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete']);
+        $this->checkPermission('RdbCMSA', 'RdbCMSAFiles', ['list', 'add', 'edit', 'delete', 'move']);
 
         if (session_id() === '') {
             session_start();

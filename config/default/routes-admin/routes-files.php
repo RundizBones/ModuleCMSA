@@ -26,6 +26,8 @@ $Rc->addRoute('PATCH', '/files/{id:\d+}', '\\Rdb\\Modules\\RdbCMSA\\Controllers\
 $Rc->addRoute('GET', '/files/actions', '\\Rdb\\Modules\\RdbCMSA\\Controllers\\Admin\\Files\\Actions:index');
 // /admin/cms/files/xx REST API (update files data - use comma for multiple items).
 $Rc->addRoute('PATCH', '/files/{id:[0-9,]+}/{action:[a-zA-Z0-9\+_\-]+}', '\\Rdb\\Modules\\RdbCMSA\\Controllers\\Admin\\Files\\Actions:doUpdateData');
+// /admin/cms/files/xx/move REST API (move files).
+$Rc->addRoute('POST', '/files/{id:[0-9,]+}/move', '\\Rdb\\Modules\\RdbCMSA\\Controllers\\Admin\\Files\\Move:doMove');
 // /admin/cms/files/xx REST API (delete files - use comma for multiple items).
 $Rc->addRoute('DELETE', '/files/{id:[0-9,]+}', '\\Rdb\\Modules\\RdbCMSA\\Controllers\\Admin\\Files\\Actions:doDelete');
 

@@ -771,4 +771,17 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
     }// update
 
 
+    /**
+     * Update only folder name.
+     * 
+     * @param string $file_folder The new folder name. Not begins and not end with slash.
+     * @param array $where The associative array where its key is column name and value is its value.
+     * @return bool Return `true` on success update, `false` for otherwise.
+     */
+    public function updateFolderName(string $file_folder, array $where): bool
+    {
+        return $this->Db->update($this->tableName, ['file_folder' => $file_folder], $where);
+    }// updateFolderName
+
+
 }
