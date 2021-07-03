@@ -123,7 +123,7 @@ class FileSystemTest extends \Rdb\Tests\BaseTestCase
             'height' => 100,
         ];
         $this->assertSame($expect, $this->FileSystem->getImageMetadata('square-white.jpg', ['fullPath' => false]));// test real image.
-        $this->assertSame($expect, $this->FileSystem->getImageMetadata($this->targetTestDir . DIRECTORY_SEPARATOR . 'square-white.jpg'));// test real image, full path.
+        $this->assertSame($expect, $this->FileSystem->getImageMetadata($this->targetTestDir . DIRECTORY_SEPARATOR . 'square-white.jpg', ['fullPath' => true]));// test real image, full path.
     }// testGetImageMetadata
 
 
