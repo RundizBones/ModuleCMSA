@@ -59,7 +59,7 @@ class ModuleAssets
                     [
                         'handle' => 'tagify',
                         'file' => $publicModuleUrl . '/assets/vendor/tagify/tagify.css',
-                        'version' => '3.25.0',
+                        'version' => '4.3.1',
                     ],
                     [
                         'handle' => 'diff2html',
@@ -101,7 +101,7 @@ class ModuleAssets
                     [
                         'handle' => 'tagify',
                         'file' => $publicModuleUrl . '/assets/vendor/tagify/tagify.min.js',
-                        'version' => '3.25.0',
+                        'version' => '4.3.1',
                     ],
                     [
                         'handle' => 'tinymce',
