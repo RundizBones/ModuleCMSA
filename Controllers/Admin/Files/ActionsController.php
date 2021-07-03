@@ -519,7 +519,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $result = $FilesDb->listItems($options);
             unset($options);
 
-            $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
+            $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem();
             $updated = 0;
 
             if (isset($result['items']) && is_array($result['items'])) {
@@ -528,20 +528,20 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     if (stripos($row->file_mime_type, 'image/') !== false) {
                         $data['file_metadata'] = json_encode(
                             [
-                                'image' => $FilesSubController->getImageMetadata($row->fileFullPath),
+                                'image' => $FileSystem->getImageMetadata($row->fileFullPath, ['fullPath' => true]),
                             ]
                         );
                     } elseif (stripos($row->file_mime_type, 'video/') !== false) {
                         $data['file_metadata'] = json_encode(
                             [
-                                'video' => $FilesSubController->getVideoMetadata($row->fileFullPath),
-                                'audio' => $FilesSubController->getAudioMetadata($row->fileFullPath),
+                                'video' => $FileSystem->getVideoMetadata($row->fileFullPath, ['fullPath' => true]),
+                                'audio' => $FileSystem->getAudioMetadata($row->fileFullPath, ['fullPath' => true]),
                             ]
                         );
                     } elseif (stripos($row->file_mime_type, 'audio/') !== false) {
                         $data['file_metadata'] = json_encode(
                             [
-                                'audio' => $FilesSubController->getAudioMetadata($row->fileFullPath),
+                                'audio' => $FileSystem->getAudioMetadata($row->fileFullPath, ['fullPath' => true]),
                             ]
                         );
                     } else {
@@ -568,7 +568,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             http_response_code(200);
             unset($updated);
 
-            unset($FilesDb, $FilesSubController);
+            unset($FilesDb, $FileSystem);
         }// endif; is array fileIdArray
         unset($fileIdArray);
 

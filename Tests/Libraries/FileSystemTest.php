@@ -14,11 +14,37 @@ class FileSystemTest extends \Rdb\Tests\BaseTestCase
     protected $FileSystem;
 
 
+    /**
+     * @var string Path to target test folder without trailing slash.
+     */
+    protected $targetTestDir;
+
+
     public function setup()
     {
-        $this->runApp('GET', '/');
-        $this->FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(STORAGE_PATH . '/Modules/RdbCMSA/Tests');
+        $this->runApp('GET', '/');// call runApp to get constant.
+
+        $this->targetTestDir = STORAGE_PATH . '/Modules/RdbCMSA/Tests';
+
+        if (!is_dir($this->targetTestDir)) {
+            $umask = umask(0);
+            $output = mkdir($this->targetTestDir, 0755, true);
+            umask($umask);
+        }
+
+        $this->FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem($this->targetTestDir);
     }// setup
+
+
+    public function tearDown(): void
+    {
+        $this->FileSystem->deleteFolder('', true);
+        @rmdir($this->targetTestDir);
+
+        $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(STORAGE_PATH);
+        $FileSystem->deleteFolder('Modules', true);
+        unset($FileSystem);
+    }// tearDown
 
 
     public function testAddSuffixFileName()
@@ -59,6 +85,63 @@ class FileSystemTest extends \Rdb\Tests\BaseTestCase
         $expect = '/some.file.name_1_2_suffix.123456(\.[0-9]{6}).jpg/';// _suffix.[random number 6 digits]
         $this->assertRegExp($expect, $this->FileSystem->addSuffixFileName($fileName, '_suffix.123456', true));
     }// testAddSuffixFileName
+
+
+    public function testGetAudioMetadata()
+    {
+        $this->assertTrue(class_exists('\\getID3'));
+
+        $expect = [
+            'channels' => null,
+            'sample_rate' => null,
+            'format' => null,
+        ];
+        $this->assertSame($expect, $this->FileSystem->getAudioMetadata('file-not-exists.mp3'));
+
+        $this->FileSystem->writeFile('test-file.txt', 'hello');
+        $this->assertSame($expect, $this->FileSystem->getAudioMetadata('test-file.txt', ['fullPath' => false]));// test false audio.
+    }// testGetAudioMetadata
+
+
+    public function testGetImageMetadata()
+    {
+        $this->assertTrue(function_exists('getimagesize'));
+
+        $expect = [
+            'width' => null,
+            'height' => null,
+        ];
+        $this->assertSame($expect, $this->FileSystem->getImageMetadata('file-not-exists.jpg'));
+
+        $this->FileSystem->writeFile('test-file.txt', 'hello');
+        $this->assertSame($expect, $this->FileSystem->getImageMetadata('test-file.txt', ['fullPath' => false]));// test false image.
+
+        copy(__DIR__ . DIRECTORY_SEPARATOR . 'square-white.jpg', $this->targetTestDir . DIRECTORY_SEPARATOR . 'square-white.jpg');
+        $this->assertTrue($this->FileSystem->isFile('square-white.jpg'));
+        $expect = [
+            'width' => 100,
+            'height' => 100,
+        ];
+        $this->assertSame($expect, $this->FileSystem->getImageMetadata('square-white.jpg', ['fullPath' => false]));// test real image.
+        $this->assertSame($expect, $this->FileSystem->getImageMetadata($this->targetTestDir . DIRECTORY_SEPARATOR . 'square-white.jpg'));// test real image, full path.
+    }// testGetImageMetadata
+
+
+    public function testGetVideoMetadata()
+    {
+        $this->assertTrue(class_exists('\\getID3'));
+
+        $expect = [
+            'width' => null,
+            'height' => null,
+            'frame_rate' => null,
+            'format' => null,
+        ];
+        $this->assertSame($expect, $this->FileSystem->getVideoMetadata('file-not-exists.avi'));
+
+        $this->FileSystem->writeFile('test-file.txt', 'hello');
+        $this->assertSame($expect, $this->FileSystem->getVideoMetadata('test-file.txt', ['fullPath' => false]));// test false audio.
+    }// testGetVideoMetadata
 
 
     public function testRemoveSuffixFileName()

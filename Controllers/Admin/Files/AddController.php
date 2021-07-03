@@ -246,7 +246,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
     {
         $this->validateArgument($insertedArray);
 
-        $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
+        $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem();
         $FilesDb = new \Rdb\Modules\RdbCMSA\Models\FilesDb($this->Container, $this->rootPublicFolderName);
 
         foreach ($insertedArray as $key => $item) {
@@ -255,20 +255,20 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
             if (stripos($item['mime'], 'image/') !== false) {
                 $data['file_metadata'] = json_encode(
                     [
-                        'image' => $FilesSubController->getImageMetadata($item['full_path_new_name']),
+                        'image' => $FileSystem->getImageMetadata($item['full_path_new_name'], ['fullPath' => true]),
                     ]
                 );
             } elseif (stripos($item['mime'], 'video/') !== false) {
                 $data['file_metadata'] = json_encode(
                     [
-                        'video' => $FilesSubController->getVideoMetadata($item['full_path_new_name']),
-                        'audio' => $FilesSubController->getAudioMetadata($item['full_path_new_name']),
+                        'video' => $FileSystem->getVideoMetadata($item['full_path_new_name'], ['fullPath' => true]),
+                        'audio' => $FileSystem->getAudioMetadata($item['full_path_new_name'], ['fullPath' => true]),
                     ]
                 );
             } elseif (stripos($item['mime'], 'audio/') !== false) {
                 $data['file_metadata'] = json_encode(
                     [
-                        'audio' => $FilesSubController->getAudioMetadata($item['full_path_new_name']),
+                        'audio' => $FileSystem->getAudioMetadata($item['full_path_new_name'], ['fullPath' => true]),
                     ]
                 );
             }
@@ -279,7 +279,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
         }// endforeach;
         unset($item, $key);
 
-        unset($FilesDb, $FilesSubController);
+        unset($FilesDb, $FileSystem);
     }// updateMetadata
 
 
