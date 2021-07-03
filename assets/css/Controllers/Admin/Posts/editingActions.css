@@ -38,3 +38,10 @@ img.rdbcmsa-files-featuredimage,
     display: inline-block;
     max-width: 300px;
 }
+
+
+/* Diff2HTML hot fix */
+/* https://github.com/rtfpessoa/diff2html/issues/185 */
+.d2h-diff-table {
+    position: relative;
+}

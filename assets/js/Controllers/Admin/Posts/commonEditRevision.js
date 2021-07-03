@@ -420,24 +420,6 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
                         'method': thisClass.editingObject.actionViewSourceRESTMethod,
                         'dataType': 'json'
                     })
-                    .catch(function(responseObject) {
-                        // XHR failed.
-                        let response = responseObject.response;
-                        console.error(responseObject);
-
-                        if (response && response.formResultMessage) {
-                            RDTAAlertDialog.alert({
-                                'type': 'danger',
-                                'text': response.formResultMessage
-                            });
-                        }
-
-                        if (typeof(response) !== 'undefined' && typeof(response.csrfKeyPair) !== 'undefined') {
-                            thisClass.editingObject.csrfKeyPair = response.csrfKeyPair;
-                        }
-
-                        return Promise.reject(responseObject);
-                    })
                     .then(function(responseObject) {
                         // XHR success.
                         let response = responseObject.response;
@@ -477,7 +459,14 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
 
                                     // render diff in pretty result using "diff2html".
                                     let targetRender = thisDialogBody.querySelector('.' + prop + '-diff');
-                                    let diff2HtmlConfig = { drawFileList: false, matching: 'lines', highlight: true, outputFormat: 'side-by-side' };
+                                    let diff2HtmlConfig = {
+                                        diffMaxChanges: 200,
+                                        drawFileList: false, 
+                                        fileContentToggle: false,
+                                        highlight: true, 
+                                        matching: 'lines', 
+                                        outputFormat: 'side-by-side'
+                                    };
                                     let diff2HtmlUi = new Diff2HtmlUI(targetRender, thisDiff, diff2HtmlConfig);
                                     diff2HtmlUi.synchronisedScroll();
                                     diff2HtmlUi.draw();
@@ -490,6 +479,24 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
                         }
 
                         return Promise.resolve(responseObject);
+                    })
+                    .catch(function(responseObject) {
+                        // XHR failed.
+                        let response = responseObject.response;
+                        console.error(responseObject);
+
+                        if (response && response.formResultMessage) {
+                            RDTAAlertDialog.alert({
+                                'type': 'danger',
+                                'text': response.formResultMessage
+                            });
+                        }
+
+                        if (typeof(response) !== 'undefined' && typeof(response.csrfKeyPair) !== 'undefined') {
+                            thisClass.editingObject.csrfKeyPair = response.csrfKeyPair;
+                        }
+
+                        return Promise.reject(responseObject);
                     })
                     .finally(function() {
                         // remove loading icon
