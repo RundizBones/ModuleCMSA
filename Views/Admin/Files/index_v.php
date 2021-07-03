@@ -124,6 +124,11 @@
                                 <span class="action"><a href="{{#replace '%file_id%' file_id}}{{RdbCMSAFilesCommonObject.viewFileFrontUrl}}{{/replace}}" target="viewonfront"><?php echo d__('rdbcmsa', 'View'); ?></a></span>
                                 {{#if file_metadata.video}}
                                 <span class="action">{{file_metadata.video.width}}x{{file_metadata.video.height}}</span>
+                                {{#if file_metadata.video.duration}}
+                                <span class="action"><?php echo d__('rdbcmsa', 'Duration'); ?>: {{file_metadata.video.duration}}</span>
+                                {{/if}}
+                                {{else if file_metadata.audio}}
+                                <span class="action"><?php echo d__('rdbcmsa', 'Duration'); ?>: {{file_metadata.audio.duration}}</span>
                                 {{/if}}
                                 {{#if file_metadata.image}}
                                 <span class="action">{{file_metadata.image.width}}x{{file_metadata.image.height}}</span>

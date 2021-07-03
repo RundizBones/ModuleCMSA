@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rdbcmsa\n"
-"POT-Creation-Date: 2021-06-30 18:50+0700\n"
-"PO-Revision-Date: 2021-06-30 18:51+0700\n"
+"POT-Creation-Date: 2021-07-03 14:17+0700\n"
+"PO-Revision-Date: 2021-07-03 14:17+0700\n"
 "Last-Translator: Vee W.\n"
 "Language-Team: \n"
 "Language: th_TH\n"
@@ -319,16 +319,16 @@ msgstr "เพิ่ม: %s"
 msgid "Update: %s"
 msgstr "ปรับปรุง: %s"
 
-#: Controllers/Admin/Files/MoveController.php:166
+#: Controllers/Admin/Files/MoveController.php:181
 #, php-format
 msgid "Unable to move file %1$s to %2$s."
 msgstr "ไม่สามารถย้ายไฟล์ %1$s ไปยัง %2$s."
 
-#: Controllers/Admin/Files/MoveController.php:203
+#: Controllers/Admin/Files/MoveController.php:234
 msgid "Moved successfully."
 msgstr "ย้ายเรียบร้อยแล้ว."
 
-#: Controllers/Admin/Files/MoveController.php:214
+#: Controllers/Admin/Files/MoveController.php:245
 msgid "Unable to move."
 msgstr "ไม่สามารถย้ายได้."
 
@@ -658,7 +658,7 @@ msgstr "เพิ่ม"
 msgid "Edit"
 msgstr "แก้ไข"
 
-#: ModuleData/ModuleAdmin.php:94 Views/Admin/Files/index_v.php:184
+#: ModuleData/ModuleAdmin.php:94 Views/Admin/Files/index_v.php:187
 #: Views/Admin/TranslationMatcher/index_v.php:165
 msgid "Delete"
 msgstr "ลบ"
@@ -929,27 +929,31 @@ msgstr "โฟลเดอร์ที่จะเปลี่ยนชื่อ
 msgid "Folder name"
 msgstr "ชื่อโฟลเดอร์"
 
-#: Views/Admin/Files/index_v.php:165 Views/Admin/Settings/CMSAdmin/_settings_form_v.php:23
+#: Views/Admin/Files/index_v.php:129
+msgid "Duration"
+msgstr "ระยะเวลา"
+
+#: Views/Admin/Files/index_v.php:168 Views/Admin/Settings/CMSAdmin/_settings_form_v.php:23
 msgid "Apply watermark"
 msgstr "นำลายน้ำไปใช้"
 
-#: Views/Admin/Files/index_v.php:166
+#: Views/Admin/Files/index_v.php:169
 msgid "Remove watermark"
 msgstr "เอาลายน้ำออก"
 
-#: Views/Admin/Files/index_v.php:167
+#: Views/Admin/Files/index_v.php:170
 msgid "Update thumbnails"
 msgstr "ปรับปรุงภาพย่อ"
 
-#: Views/Admin/Files/index_v.php:168
+#: Views/Admin/Files/index_v.php:171
 msgid "Update metadata"
 msgstr "ปรับปรุง metadata"
 
-#: Views/Admin/Files/index_v.php:169
+#: Views/Admin/Files/index_v.php:172
 msgid "Move"
 msgstr "ย้าย"
 
-#: Views/Admin/Files/index_v.php:183
+#: Views/Admin/Files/index_v.php:186
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
