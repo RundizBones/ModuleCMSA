@@ -61,26 +61,6 @@ class FileSystemTest extends \Rdb\Tests\BaseTestCase
     }// testAddSuffixFileName
 
 
-    public function testGetBase64File()
-    {
-        $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(MODULE_PATH . DIRECTORY_SEPARATOR . 'RdbCMSA' . DIRECTORY_SEPARATOR . 'Tests');
-        $this->assertStringContainsString(';base64,', $FileSystem->getBase64File('phpunit.php'));
-        $this->assertStringContainsString(';base64,', $FileSystem->getBase64File('../phpunit.php'));
-        $this->assertSame('', $FileSystem->getBase64File('phpunit-not-exists.php'));
-        unset($FileSystem);
-    }// testGetBase64File
-
-
-    public function testGetFullPathWithRoot()
-    {
-        $rootPath = MODULE_PATH . DIRECTORY_SEPARATOR . 'RdbCMSA' . DIRECTORY_SEPARATOR . 'Tests';
-        $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem($rootPath);
-        $this->assertSame($rootPath . DIRECTORY_SEPARATOR . 'abc.txt', $FileSystem->getFullPathWithRoot('abc.txt'));
-        $this->assertSame($rootPath . DIRECTORY_SEPARATOR . 'abc.txt', $FileSystem->getFullPathWithRoot('../abc.txt'));
-        unset($FileSystem, $rootPath);
-    }// testGetFullPathWithRoot
-
-
     public function testRemoveSuffixFileName()
     {
         $fileName = '/path/to/some.file_thumb300.jpg';
