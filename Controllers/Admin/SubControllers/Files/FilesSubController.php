@@ -78,7 +78,7 @@ class FilesSubController
      * 
      * @link https://stackoverflow.com/a/41433276/128761 Original source code.
      * @deprecated 0.0.8 Use this method from `Rdb\Modules\RdbCMSA\Libraries\FileSystem` class instead. This will be remove on version 1.0.
-     * @todo [rdbcms] Remove this method (`getSuffixFileName`) in version 1.0.
+     * @todo [rdbcms] Remove this method (`formatDuration`) in version 1.0.
      * @param string $duration The duration.
      * @return string Return formatted duration.
      */
@@ -103,7 +103,7 @@ class FilesSubController
      * Get audio metadata.
      * 
      * @deprecated 0.0.8 Use this method from `Rdb\Modules\RdbCMSA\Libraries\FileSystem` class instead. This will be remove on version 1.0.
-     * @todo [rdbcms] Remove this method (`getSuffixFileName`) in version 1.0.
+     * @todo [rdbcms] Remove this method (`getAudioMetadata`) in version 1.0.
      * @param string $file File path.
      * @return array Return array with these index.<br>
      *                      `width`<br>
@@ -151,7 +151,7 @@ class FilesSubController
      * Get image metadata (such as width, height).
      * 
      * @deprecated 0.0.8 Use this method from `Rdb\Modules\RdbCMSA\Libraries\FileSystem` class instead. This will be remove on version 1.0.
-     * @todo [rdbcms] Remove this method (`getSuffixFileName`) in version 1.0.
+     * @todo [rdbcms] Remove this method (`getImageMetadata`) in version 1.0.
      * @param string $file File path.
      * @return array Return array with `width` and `height` indexes.
      */
@@ -210,7 +210,7 @@ class FilesSubController
      * Get video metadata (such as width, height, etc).
      * 
      * @deprecated 0.0.8 Use this method from `Rdb\Modules\RdbCMSA\Libraries\FileSystem` class instead. This will be remove on version 1.0.
-     * @todo [rdbcms] Remove this method (`getSuffixFileName`) in version 1.0.
+     * @todo [rdbcms] Remove this method (`getVideoMetadata`) in version 1.0.
      * @param string $file File path.
      * @return array Return array with these index.<br>
      *                      `width`<br>
