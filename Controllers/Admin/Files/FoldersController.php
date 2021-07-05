@@ -11,7 +11,7 @@ namespace Rdb\Modules\RdbCMSA\Controllers\Admin\Files;
  * Folders management controller.
  * 
  * @since 0.0.1
- * @property-read array $restrictedFolder See `Rdb\Modules\RdbCMSA\Controllers\Admin\Files\FoldersController->restrictedFolder` property for more details.
+ * @property-read array $restrictedFolder See `Rdb\Modules\RdbCMSA\Controllers\Admin\Files\Traits\FilesTrait->restrictedFolder` property for more details.
  */
 class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBaseController
 {
