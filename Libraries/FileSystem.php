@@ -17,6 +17,12 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
 
 
     /**
+     * @var int Total number of digits that will be use in add and remove suffix.
+     */
+    protected $randomSuffixNumberDigits = 6;
+
+
+    /**
      * Get file name with suffix or add suffix to the selected file name.
      * 
      * Example: file name is `photo123.jpg`, suffix is `_thumbnail300` then it will be return `photo123_thumbnail300.jpg`.
@@ -39,9 +45,7 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
         if (true === $withDotRandomSuffix) {
             // if set to add dot random suffix.
             // generate dot random suffix. ( https://stackoverflow.com/a/8216031/128761 original source code. )
-            $digits = 6;
-            $randomSuffix = '.' . mt_rand(pow(10, $digits-1), pow(10, $digits)-1);
-            unset($digits);
+            $randomSuffix = '.' . mt_rand(pow(10, $this->randomSuffixNumberDigits-1), pow(10, $this->randomSuffixNumberDigits)-1);
         } else {
             $randomSuffix = '';
         }
@@ -270,7 +274,7 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
         
         if (true === $withDotRandomSuffix) {
             // if set to use dot random suffix.
-            $randomSuffix = '(\.[0-9]{6})';
+            $randomSuffix = '(\.[0-9]{' . $this->randomSuffixNumberDigits . '})';
             unset($digits);
         } else {
             $randomSuffix = '';
