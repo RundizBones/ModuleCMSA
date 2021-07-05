@@ -1,6 +1,7 @@
 <?php
 /**
  * @license http://opensource.org/licenses/MIT MIT
+ * @deprecated since 0.0.8
  */
 
 
@@ -10,6 +11,8 @@ namespace Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files;
 /**
  * Filter restricted folders and files.
  * 
+ * @deprecated since 0.0.8 Use `\Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterRestricted` class instead.
+ * @todo [rdbcms] Remove this class (`Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterRestricted`) in version 1.0.
  * @since 0.0.1
  */
 class FilterRestricted extends \FilterIterator
@@ -35,6 +38,7 @@ class FilterRestricted extends \FilterIterator
      * Example: `new FilterRestricted($It, '/var/www', ['abc'])` Will be filter out only `/var/www/abc` and all sub directories.<br>
      * Anything like these will NOT filtered out: `/var/www/home/abc`, `/var/www/page1/abc`.
      * 
+     * @deprecated since 0.0.8 Use `\Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterRestricted` class instead.
      * @param \Iterator $iterator The Iterator class type.
      * @param string $targetDir Target base folder without trailing slash. This will be use to remove from real path and left only related path.
      * @param array $filter The restricted files or folders.
@@ -52,6 +56,7 @@ class FilterRestricted extends \FilterIterator
      * Check whether the current element of the iterator is acceptable
      *
      * @link https://www.php.net/manual/en/filteriterator.accept.php Original doc.
+     * @deprecated since 0.0.8 Use `\Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterRestricted` class instead.
      * @return bool
      */
     public function accept(): bool
@@ -100,6 +105,7 @@ class FilterRestricted extends \FilterIterator
     /**
      * Check if folder specified is in restricted folder. Case insensitive.
      * 
+     * @deprecated since 0.0.8 Use `\Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterRestricted` class instead.
      * @param string $folderToAct The folder to check. Related from target.
      * @param array $restrictedFolders The restricted folders.
      * @return bool Return `true` if restricted, `false` for not.

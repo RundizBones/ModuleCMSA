@@ -286,6 +286,8 @@ class FilesSubController
      * 
      * To use this method, the `Container` property must be set.
      * 
+     * @deprecated 0.0.8 Use this method from `\Rdb\Modules\RdbCMSA\Libraries\Image` class instead. This will be remove on version 1.0.
+     * @todo [rdbcms] Remove this method (`removeWatermark`) in version 1.0.
      * @param array $item The associative array must contain keys:<br>
      *                      `full_path_new_name` (string) The full path to main image file.<br>
      *                      `new_name` (string) The file name with extension that was renamed. No slash or path or directory included.<br>
@@ -313,12 +315,15 @@ class FilesSubController
         }
 
         // search original file (backup file).
-        $originalFile = $this->searchOriginalFile($item, $FileSystem);
+        $Image = new \Rdb\Modules\RdbCMSA\Libraries\Image('');
+        $Image->Container = $this->Container;
+        $originalFile = $Image->searchOriginalFile($item['full_path_new_name']);
         if (false === $originalFile || !is_file($originalFile)) {
             // if original file (backup file) was not found.
             // this means that it was never set watermark before.
             return true;
         }// endif check original file exists.
+        unset($Image);
 
         // copy to main file.
         $copyResult = copy($originalFile, $item['full_path_new_name']);
@@ -348,6 +353,8 @@ class FilesSubController
     /**
      * Resize thumbnails. If thumbnail exists, it will be overwrite.
      * 
+     * @deprecated 0.0.8 Use this method from `\Rdb\Modules\RdbCMSA\Libraries\Image` class instead. This will be remove on version 1.0.
+     * @todo [rdbcms] Remove this method (`resizeThumbnails`) in version 1.0.
      * @param array $item The associative array must contain keys:<br>
      *                      `full_path_new_name` (string) The full path to main image file.<br>
      *                      `new_name` (string) The file name with extension that was renamed. No slash or path or directory included.<br>
@@ -397,6 +404,8 @@ class FilesSubController
     /**
      * Search for original file.
      * 
+     * @deprecated 0.0.8 Use this method from `\Rdb\Modules\RdbCMSA\Libraries\Image` class instead. This will be remove on version 1.0.
+     * @todo [rdbcms] Remove this method (`searchOriginalFile`) in version 1.0.
      * @param array $item The associative array must contain keys:<br>
      *                      `full_path_new_name` (string) The full path to main image file.<br>
      * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem The file system class.
@@ -447,7 +456,7 @@ class FilesSubController
         unset($RDI);
 
         // filters after \RecursiveIteratorIterator
-        $FI = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterRestricted(
+        $FI = new \Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterRestricted(
             $RII, 
             $targetDir,
             $FoldersController->restrictedFolder
@@ -484,6 +493,8 @@ class FilesSubController
      * 
      * To use this method, the `Container` property must be set.
      * 
+     * @deprecated 0.0.8 Use this method from `\Rdb\Modules\RdbCMSA\Libraries\Image` class instead. This will be remove on version 1.0.
+     * @todo [rdbcms] Remove this method (`setWatermark`) in version 1.0.
      * @param array $item The associative array must contain keys:<br>
      *                      `full_path_new_name` (string) The full path to main image file.<br>
      *                      `new_name` (string) The file name with extension that was renamed. No slash or path or directory included.<br>
@@ -519,7 +530,9 @@ class FilesSubController
         }
 
         // search for original file (backup file).
-        $originalFile = $this->searchOriginalFile($item, $FileSystem);
+        $Image = new \Rdb\Modules\RdbCMSA\Libraries\Image('');
+        $Image->Container = $this->Container;
+        $originalFile = $Image->searchOriginalFile($item['full_path_new_name']);
         if (false === $originalFile || !is_file($originalFile)) {
             // if original file (backup file) was not found.
             // generate new original file for backup.
@@ -527,7 +540,7 @@ class FilesSubController
             // make backup.
             copy($item['full_path_new_name'], $originalFile);
             // search original file again (backup file).
-            $originalFile = $this->searchOriginalFile($item, $FileSystem);
+            $originalFile = $Image->searchOriginalFile($item['full_path_new_name']);
             if (false === $originalFile || !is_file($originalFile)) {
                 // if still unable to get original file (backup file).
                 $originalFile = false;
@@ -545,6 +558,7 @@ class FilesSubController
                 return false;
             }
         }// endif check original file exists.
+        unset($Image);
 
         $RdbCMSAImage = new \Rdb\Modules\RdbCMSA\Libraries\Image($originalFile);
         $Image = $RdbCMSAImage->Image;

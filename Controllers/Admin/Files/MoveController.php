@@ -99,6 +99,8 @@ class MoveController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
                     $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
                     $FilesSubController->Container = $this->Container;
                     $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName);
+                    $Image = new \Rdb\Modules\RdbCMSA\Libraries\Image('');
+                    $Image->Container = $this->Container;
                     $output['moveFilesLog'] = [];
                     $publicRootUrl = $Url->getDomainProtocol() . $Url->getPublicUrl() . '/' . $this->rootPublicFolderName;
 
@@ -137,9 +139,8 @@ class MoveController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
                             $fileSetToMove[] = $fileRelPath;
 
                             // search original file.
-                            $originalFile = $FilesSubController->searchOriginalFile(
-                                ['full_path_new_name' => $FileSystem->getFullPathWithRoot($fileRelPath)],
-                                $FileSystem,
+                            $originalFile = $Image->searchOriginalFile(
+                                $FileSystem->getFullPathWithRoot($fileRelPath),
                                 [
                                     'returnFullPath' => false,
                                     'relateFrom' => PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName,
@@ -219,7 +220,7 @@ class MoveController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
                         $moveSuccess = false;
                     }// endtry;
 
-                    unset($FilesDb, $FilesSubController, $FileSystem, $PDO, $publicRootUrl);
+                    unset($FilesDb, $FilesSubController, $FileSystem, $Image, $PDO, $publicRootUrl);
 
                     if (isset($moveSuccess) && $moveSuccess === true) {
                         // if moved success.

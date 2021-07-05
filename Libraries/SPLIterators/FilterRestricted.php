@@ -4,13 +4,13 @@
  */
 
 
-namespace Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files;
+namespace Rdb\Modules\RdbCMSA\Libraries\SPLIterators;
 
 
 /**
  * Filter restricted folders and files.
  * 
- * @since 0.0.1
+ * @since 0.0.8 Moved from `\Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterRestricted`.
  */
 class FilterRestricted extends \FilterIterator
 {

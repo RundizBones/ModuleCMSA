@@ -98,6 +98,8 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName);
                 $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
                 $FilesSubController->Container = $this->Container;
+                $Image = new \Rdb\Modules\RdbCMSA\Libraries\Image('');
+                $Image->Container = $this->Container;
 
                 if (is_array($validateFileActions['listSelectedFiles']['items'])) {
                     $deleteSuccess = false;
@@ -110,9 +112,8 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                             $output['deleteFilesLog'][$row->file_id]['fileRelPath'] = $fileRelPath;
                             $output['deleteFilesLog'][$row->file_id]['fileFullPath'] = $FileSystem->getFullPathWithRoot($fileRelPath);
                             // delete original (backup) file.
-                            $originalFile = $FilesSubController->searchOriginalFile(
-                                ['full_path_new_name' => $FileSystem->getFullPathWithRoot($fileRelPath)],
-                                $FileSystem,
+                            $originalFile = $Image->searchOriginalFile(
+                                $FileSystem->getFullPathWithRoot($fileRelPath),
                                 [
                                     'returnFullPath' => false,
                                     'relateFrom' => PUBLIC_PATH . DIRECTORY_SEPARATOR . $this->rootPublicFolderName,
@@ -181,7 +182,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     }
                 }// endif; $validateFileActions['listSelectedFiles']['items']
 
-                unset($FilesDb, $FilesSubController, $FileSystem, $PDO);
+                unset($FilesDb, $FilesSubController, $FileSystem, $Image, $PDO);
             }// endif; form validation passed.
 
             unset($formValidated, $validateFileActions);
@@ -302,9 +303,10 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $result = $FilesDb->listItems($options);
             unset($options);
 
-            $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
             $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
             $FilesSubController->Container = $this->Container;
+            $Image = new \Rdb\Modules\RdbCMSA\Libraries\Image('');
+            $Image->Container = $this->Container;
             $applied = 0;
             $notImageFiles = [];
 
@@ -312,11 +314,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 foreach ($result['items'] as $row) {
                     if (in_array(strtolower($row->file_ext), $FilesSubController->imageExtensions)) {
                         // if one of selected files is an image.
-                        $item = [];
-                        $item['full_path_new_name'] = $row->fileFullPath;
-                        $item['new_name'] = $row->file_name;
-                        $FilesSubController->removeWatermark($item, $FileSystem);
-                        unset($item);
+                        $Image->removeWatermark($row->fileFullPath);
                         $applied++;
                     } else {
                         // if it is not an image.
@@ -345,7 +343,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             http_response_code(200);
             unset($applied, $notImageFiles);
 
-            unset($FilesDb, $FilesSubController, $FileSystem);
+            unset($FilesDb, $FilesSubController, $Image);
         }// endif; is array fileIdArray
         unset($fileIdArray);
 
@@ -376,6 +374,8 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
             $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
             $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
+            $Image = new \Rdb\Modules\RdbCMSA\Libraries\Image('');
+            $Image->Container = $this->Container;
             $resized = 0;
             $notImageFiles = [];
 
@@ -383,11 +383,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 foreach ($result['items'] as $row) {
                     if (in_array(strtolower($row->file_ext), $FilesSubController->imageExtensions)) {
                         // if one of selected files is an image.
-                        $item = [];
-                        $item['full_path_new_name'] = $row->fileFullPath;
-                        $item['new_name'] = $row->file_name;
-                        $FilesSubController->resizeThumbnails($item, $FileSystem);
-                        unset($item);
+                        $Image->resizeThumbnails($row->fileFullPath);
                         $resized++;
                     } else {
                         // if it is not an image.
@@ -416,7 +412,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             http_response_code(200);
             unset($notImageFiles, $resized);
 
-            unset($FilesDb, $FilesSubController, $FileSystem);
+            unset($FilesDb, $FilesSubController, $FileSystem, $Image);
         }// endif; is array fileIdArray
         unset($fileIdArray);
 
@@ -448,6 +444,8 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
             $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
             $FilesSubController->Container = $this->Container;
+            $Image = new \Rdb\Modules\RdbCMSA\Libraries\Image('');
+            $Image->Container = $this->Container;
             $applied = 0;
             $notImageFiles = [];
 
@@ -455,11 +453,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 foreach ($result['items'] as $row) {
                     if (in_array(strtolower($row->file_ext), $FilesSubController->imageExtensions)) {
                         // if one of selected files is an image.
-                        $item = [];
-                        $item['full_path_new_name'] = $row->fileFullPath;
-                        $item['new_name'] = $row->file_name;
-                        $FilesSubController->setWatermark($item, $FileSystem);
-                        unset($item);
+                        $Image->setWatermark($row->fileFullPath);
                         $applied++;
                     } else {
                         // if it is not an image.
@@ -488,7 +482,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             http_response_code(200);
             unset($applied, $notImageFiles);
 
-            unset($FilesDb, $FilesSubController, $FileSystem);
+            unset($FilesDb, $FilesSubController, $FileSystem, $Image);
         }// endif; is array fileIdArray
         unset($fileIdArray);
 
@@ -725,7 +719,7 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             \RecursiveIteratorIterator::SELF_FIRST,
             \RecursiveIteratorIterator::CATCH_GET_CHILD
         );
-        $RII = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterRestricted(
+        $RII = new \Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterRestricted(
             $RII,
             $targetDir,
             $this->restrictedFolder

@@ -209,6 +209,8 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
 
         $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
         $FilesSubController->Container = $this->Container;
+        $Image = new \Rdb\Modules\RdbCMSA\Libraries\Image('');
+        $Image->Container = $this->Container;
 
         foreach ($insertedArray as $key => $item) {
             if (in_array(strtolower($item['extension']), $FilesSubController->imageExtensions)) {
@@ -220,17 +222,17 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                     $ConfigDb->get('rdbcmsa_watermarkfile') !== ''
                 ) {
                     // if there is uploaded watermark and setting was set to apply watermark to new uploaded.
-                    $FilesSubController->setWatermark($item, $FileSystem);
+                    $Image->setWatermark($item['full_path_new_name']);
                 }
                 unset($ConfigDb);
 
                 // create thumbnail size.
-                $FilesSubController->resizeThumbnails($item, $FileSystem);
+                $Image->resizeThumbnails($item['full_path_new_name']);
             }
         }// endforeach;
         unset($item, $key);
 
-        unset($FilesSubController);
+        unset($FilesSubController, $Image);
     }// resizeImages
 
 

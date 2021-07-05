@@ -257,7 +257,7 @@ class ScanUnindexedController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\Rdb
         );
         unset($RDI);
 
-        $FI = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterRestricted(
+        $FI = new \Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterRestricted(
             $RII, 
             $targetDir,
             $FoldersController->restrictedFolder

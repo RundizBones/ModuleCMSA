@@ -236,7 +236,7 @@ class FoldersController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                 \RecursiveIteratorIterator::SELF_FIRST,
                 \RecursiveIteratorIterator::CATCH_GET_CHILD
             );
-            $RII = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterRestricted(
+            $RII = new \Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterRestricted(
                 $RII,
                 $targetDir,
                 $this->restrictedFolder
