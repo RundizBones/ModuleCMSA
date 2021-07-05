@@ -1,19 +1,16 @@
 <?php
 /**
  * @license http://opensource.org/licenses/MIT MIT
- * @deprecated since 0.0.8
  */
 
 
-namespace Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files;
+namespace Rdb\Modules\RdbCMSA\Libraries\SPLIterators;
 
 
 /**
  * Filter thumbnails or the files that contain` _thumbxxx` size suffix in `thumbnailSizes` property.
  * 
- * @deprecated since 0.0.8 Use `\Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterNoThumbnails` class instead.
- * @todo [rdbcms] Remove this class (`Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterNoThumbnails`) in version 1.0.
- * @since 0.0.1
+ * @since 0.0.8 Moved from `\Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterNoThumbnails`.
  */
 class FilterNoThumbnails extends \FilterIterator
 {
@@ -34,7 +31,6 @@ class FilterNoThumbnails extends \FilterIterator
     /**
      * Class constructor.
      * 
-     * @deprecated since 0.0.8
      * @param \Iterator $iterator The Iterator class type.
      * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem
      * @param array $thumbnailSizes The thumbnail sizes that have got from `\Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController->getThumbnailSizes()`.
@@ -52,7 +48,6 @@ class FilterNoThumbnails extends \FilterIterator
      * Check whether the current element of the iterator is acceptable
      *
      * @link https://www.php.net/manual/en/filteriterator.accept.php Original doc.
-     * @deprecated since 0.0.8
      * @return bool Return `true` if it is not thumbnail file.
      */
     public function accept(): bool

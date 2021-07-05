@@ -263,12 +263,12 @@ class ScanUnindexedController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\Rdb
             $FoldersController->restrictedFolder
         );
         $FI->notType = 'dir';
-        $FI = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterNoThumbnails(
+        $FI = new \Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterNoThumbnails(
             $FI,
             $FileSystem,
             $thumbnailSizes
         );
-        $FI = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterNoOriginal(
+        $FI = new \Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterNoOriginal(
             $FI,
             $FileSystem
         );

@@ -270,7 +270,7 @@ class Image
         );
 
         // filters before \RecursiveIteratorIterator
-        $RDI = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterFilenameRegex(
+        $RDI = new SPLIterators\FilterFilenameRegex(
             $RDI,
             '/' . preg_quote($fileNameOnly) . '_original((\.[0-9]{6})*).' . $fileExtOnly . '$/'
         );
@@ -291,7 +291,7 @@ class Image
             );
             $RII->notType = 'dir';
         }
-        $RII = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterNoThumbnails(
+        $RII = new SPLIterators\FilterNoThumbnails(
             $RII,
             $FileSystem,
             $thumbnailSizes

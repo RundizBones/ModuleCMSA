@@ -1,19 +1,16 @@
 <?php
 /**
  * @license http://opensource.org/licenses/MIT MIT
- * @deprecated since 0.0.8
  */
 
 
-namespace Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files;
+namespace Rdb\Modules\RdbCMSA\Libraries\SPLIterators;
 
 
 /**
  * Filter original (backup) file or the file that contain `_original` suffix.
  * 
- * @deprecated since 0.0.8 Use `\Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterNoOriginal` class instead.
- * @todo [rdbcms] Remove this class (`Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterNoOriginal`) in version 1.0.
- * @since 0.0.6
+ * @since 0.0.8 Moved from `\Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterNoOriginal`.
  */
 class FilterNoOriginal extends \FilterIterator
 {
@@ -28,7 +25,6 @@ class FilterNoOriginal extends \FilterIterator
     /**
      * Class constructor.
      * 
-     * @deprecated since 0.0.8
      * @param \Iterator $iterator The Iterator class type.
      * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem
      */
@@ -44,7 +40,6 @@ class FilterNoOriginal extends \FilterIterator
      * Check whether the current element of the iterator is acceptable
      *
      * @link https://www.php.net/manual/en/filteriterator.accept.php Original doc.
-     * @deprecated since 0.0.8
      * @return bool Return `true` if it is NOT original file.
      */
     public function accept(): bool

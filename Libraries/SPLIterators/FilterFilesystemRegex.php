@@ -1,20 +1,17 @@
 <?php
 /**
  * @license http://opensource.org/licenses/MIT MIT
- * @deprecated since 0.0.8
  */
 
 
-namespace Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files;
+namespace Rdb\Modules\RdbCMSA\Libraries\SPLIterators;
 
 
 /**
  * Abstract file system regular expression filter.
  * 
  * @link https://stackoverflow.com/a/3322641/128761 Original source code.
- * @deprecated since 0.0.8 Use `\Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterFilesystemRegex` class instead.
- * @todo [rdbcms] Remove this class (`Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterFilesystemRegex`) in version 1.0.
- * @since 0.0.6
+ * @since 0.0.8 Moved from `\Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterFilesystemRegex`.
  */
 abstract class FilterFilesystemRegex extends \RecursiveRegexIterator
 {
@@ -28,7 +25,6 @@ abstract class FilterFilesystemRegex extends \RecursiveRegexIterator
      * 
      * These filters must be called before calling `\RecursiveIteratorIterator()` class.
      * 
-     * @deprecated since 0.0.8
      * @param \Iterator $it
      * @param string $regex
      */
