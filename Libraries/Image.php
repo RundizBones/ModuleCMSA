@@ -413,8 +413,8 @@ class Image
         $Image->png_quality = (isset($options['png_quality']) && is_int($options['png_quality']) ? $options['png_quality'] : 5);
         unset($originalFile);
 
-        $doWatermark = $Image->watermarkImage($watermarkFile, 'center', 'middle');
         $doResize = $Image->resize(2000, 2000);
+        $doWatermark = $Image->watermarkImage($watermarkFile, 'center', 'middle');
         $doSave = $Image->save($file);
         $Image->clear();
         unset($watermarkFile);
