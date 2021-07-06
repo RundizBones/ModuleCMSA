@@ -180,8 +180,11 @@ class Image
      * 
      * @since 0.0.8
      * @param string $file The full path to main image file.
+     * @param array $options The associative array options:<br>
+     *              `jpg_quality` (int) Jpeg image quality. From 0 (lowest) to 100 (best). Default is 80.<br>
+     *              `png_quality` (int) PNG image quality. From 0 (no compression) to 9 (lowest). Default is 5.<br>
      */
-    public function resizeThumbnails(string $file)
+    public function resizeThumbnails(string $file, array $options = [])
     {
         $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
 
@@ -190,8 +193,8 @@ class Image
         $Image = $this->Image;
 
         // set jpg, png quality
-        $Image->jpg_quality = 80;
-        $Image->png_quality = 5;
+        $Image->jpg_quality = (isset($options['jpg_quality']) && is_int($options['jpg_quality']) ? $options['jpg_quality'] : 80);
+        $Image->png_quality = (isset($options['png_quality']) && is_int($options['png_quality']) ? $options['png_quality'] : 5);
 
         // get image size for calculation and thumbnail sizes for resize.
         $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
@@ -334,6 +337,8 @@ class Image
      * @param array $options Associative array as options:<br>
      *              `moduleBasePath` (string) The module base path where watermark file is located at. Default is empty to use this module.<br>
      *              `restrictedFolder` (array) Set custom restricted folder names to array. For more description please read on `\Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterRestricted->__construct()`. For default, it is using restricted it `FilesTrait`.<br>
+     *              `jpg_quality` (int) Jpeg image quality. From 0 (lowest) to 100 (best). Default is 80.<br>
+     *              `png_quality` (int) PNG image quality. From 0 (no compression) to 9 (lowest). Default is 5.<br>
      * @return bool Return `true` for successfully set watermark, skipped because there is no watermark file uploaded in settings.<br>
      *                      Return `false` for otherwise.
      */
@@ -392,7 +397,8 @@ class Image
 
         $this->init($originalFile);
         $Image = $this->Image;
-        $Image->png_quality = 5;
+        $Image->jpg_quality = (isset($options['jpg_quality']) && is_int($options['jpg_quality']) ? $options['jpg_quality'] : 80);
+        $Image->png_quality = (isset($options['png_quality']) && is_int($options['png_quality']) ? $options['png_quality'] : 5);
         unset($originalFile);
 
         $doWatermark = $Image->watermarkImage($watermarkFile, 'center', 'middle');
