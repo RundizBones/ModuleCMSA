@@ -115,6 +115,7 @@ class Image
      *              but it is not original uploaded file that was created before apply watermark.<br>
      * @param array $options Associative array as options:<br>
      *              `restrictedFolder` (array) Set custom restricted folder names to array. For more description please read on `\Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterRestricted->__construct()`. For default, it is using restricted it `FilesTrait`.<br>
+     *              `deleteOriginal` (bool) Set to `true` to delete original file, `false` to not delete original file. Default is `true`.<br>
      * @return bool Return `true` for successfully removed watermark, skipped because there is no backup file (never set watermark before).<br>
      *                      Return `false` for otherwise.
      */
@@ -154,21 +155,27 @@ class Image
         }
 
         // only successfully copied file process can goes here.
-        // delete original (backup) file.
-        $deleteResult = @unlink($originalFile);
+        if (!isset($options['deleteOriginal']) || $options['deleteOriginal'] === true) {
+            // if delete original
+            // delete original (backup) file.
+            $deleteResult = @unlink($originalFile);
 
-        if (true !== $deleteResult) {
-            if (isset($Logger)) {
-                $Logger->write(
-                    'modules/rdbcmsa/libraries/image/removewatermark',
-                    2,
-                    'Unable to delete original file. {file}',
-                    [
-                        'file' => $originalFile,
-                    ]
-                );
+            if (true !== $deleteResult) {
+                if (isset($Logger)) {
+                    $Logger->write(
+                        'modules/rdbcmsa/libraries/image/removewatermark',
+                        2,
+                        'Unable to delete original file. {file}',
+                        [
+                            'file' => $originalFile,
+                        ]
+                    );
+                }
             }
-        }
+        } else {
+            // if not delete original
+            $deleteResult = true;
+        }// endif delete original
         unset($Logger, $originalFile);
 
         return ($copyResult === true && $deleteResult === true);
