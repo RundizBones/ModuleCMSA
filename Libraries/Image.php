@@ -241,6 +241,11 @@ class Image
         if (!$this->Container instanceof \Rdb\System\Container) {
             throw new \RuntimeException('The property `Container` must be set.');
         }
+
+        if (!is_file($file)) {
+            // if file was not found.
+            return false;
+        }
         
         if (!isset($options['returnFullPath'])) {
             $options['returnFullPath'] = true;
