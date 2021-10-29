@@ -71,7 +71,11 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
                     if ($data['direction'] === 'encode') {
                         $output['result'] = base64_encode($data['originalString']);
                     } else {
-                        $output['result'] = base64_decode($data['originalString']);
+                        $result = base64_decode($data['originalString'], true);
+                        if (false !== $result && false !== json_encode($result)) {
+                            $output['result'] = $result;
+                        }
+                        unset($result);
                     }
                 } elseif ($data['useFunction'] === 'rawurlencode_rawurldecode') {
                     if ($data['direction'] === 'encode') {
