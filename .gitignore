@@ -1,4 +1,5 @@
 .backup
+.backupper.json
 .disabled
 .dist
 .phpcs.report.txt

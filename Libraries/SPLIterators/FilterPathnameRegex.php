@@ -8,15 +8,14 @@ namespace Rdb\Modules\RdbCMSA\Libraries\SPLIterators;
 
 
 /**
- * Directory name filter using regular expression.
+ * Path name filter using regular expression.
  * 
- * NOT directory = reject,
- * IS directory = must match regular expression pattern.
+ * Files and directories full path name must match regular expression.
  * 
  * @link https://stackoverflow.com/a/3322641/128761 Original source code.
  * @since 0.0.8 Moved from `\Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilterDirnameRegex`.
  */
-class FilterDirnameRegex extends FilterFilesystemRegex
+class FilterPathnameRegex extends FilterFilesystemRegex
 {
 
 
@@ -25,7 +24,7 @@ class FilterDirnameRegex extends FilterFilesystemRegex
      */
     public function accept() {
         return (
-            ! $this->isDir() || preg_match($this->regex, $this->getFilename())
+            preg_match($this->regex, $this->getPathname())
         );
     }// accept
 
