@@ -10,7 +10,7 @@
                             <form id="rdbcmsa-scan-unindexed-files-form" class="rd-form rd-block-level-margin-bottom" method="get">
                                 <div class="form-result-placeholder"></div>
 
-                                <p class="form-description"><?php echo d__('rdbcmsa', 'This can be scan for maximum %$1d files at a time.', $scanMaxFilesATime); ?></p>
+                                <p class="form-description"><?php echo sprintf(d__('rdbcmsa', 'This can be scan for maximum %$1d files at a time.'), $scanMaxFilesATime); ?></p>
                                 <button class="rd-button info" type="submit" name="action" value="start-scan"><i class="fas fa-search"></i> <?php echo d__('rdbcmsa', 'Start scan'); ?></button>
                                 <span class="rdbcmsa-scan-status-icon-placeholder"></span>
                             </form>

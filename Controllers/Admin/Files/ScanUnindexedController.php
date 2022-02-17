@@ -159,10 +159,10 @@ class ScanUnindexedController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\Rdb
                 if (!empty($alreadyIndexed) || !empty($fileNotExists)) {
                     $message = '';
                     if (!empty($alreadyIndexed)) {
-                        $message .= ' ' . d__('rdbcmsa', 'Already indexed files: %1$s.', implode(', ', $alreadyIndexed));
+                        $message .= ' ' . sprintf(d__('rdbcmsa', 'Already indexed files: %1$s.'), implode(', ', $alreadyIndexed));
                     }
                     if (!empty($fileNotExists)) {
-                        $message .= ' ' . d__('rdbcmsa', 'Files not exists: %1$s.', implode(', ', $fileNotExists));
+                        $message .= ' ' . sprintf(d__('rdbcmsa', 'Files not exists: %1$s.'), implode(', ', $fileNotExists));
                     }
                 }
 
@@ -175,7 +175,7 @@ class ScanUnindexedController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\Rdb
                     // if success but contains error.
                     http_response_code(201);
                     $output['formResultStatus'] = 'warning';
-                    $output['formResultMessage'] = d__('rdbcmsa', 'The selected files was indexed but some files are not.%1$s', ($message ?? ''));
+                    $output['formResultMessage'] = sprintf(d__('rdbcmsa', 'The selected files was indexed but some files are not.%1$s'), ($message ?? ''));
                 } else {
                     // if errors with no success.
                     if (!empty($alreadyIndexed) && empty($fileNotExists)) {
@@ -186,7 +186,7 @@ class ScanUnindexedController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\Rdb
                         http_response_code(400);
                     }
                     $output['formResultStatus'] = 'error';
-                    $output['formResultMessage'] = d__('rdbcmsa', 'There are errors with selected files.%1$s', ($message ?? ''));
+                    $output['formResultMessage'] = sprintf(d__('rdbcmsa', 'There are errors with selected files.%1$s'), ($message ?? ''));
                 }
 
                 $output['indexAllResult'] = [
