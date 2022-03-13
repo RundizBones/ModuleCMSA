@@ -1,6 +1,6 @@
 {
     "name": "rundizbones-cms",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "description": "The CMS admin module for Rundizbones framework. Required RdbAdmin module to work.",
     "main": "gulpfile.js",
     "author": "Vee W.",
