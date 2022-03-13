@@ -210,7 +210,7 @@ class RdbCMSASettings {
                 inputFileElement = event.target;// force get new data.
 
                 // add loading icon.
-                uploadStatusPlaceholder.innerHTML = '&nbsp;<i class="fas fa-spinner fa-pulse loading-icon"></i> ' + RdbCMSASettingsCMSAObject.txtUploading;
+                uploadStatusPlaceholder.innerHTML = '&nbsp;<i class="fa-solid fa-spinner fa-pulse loading-icon"></i> ' + RdbCMSASettingsCMSAObject.txtUploading;
 
                 let formData = new FormData();
                 formData.append(RdbCMSASettingsCMSAObject.csrfName, RdbCMSASettingsCMSAObject.csrfKeyPair[RdbCMSASettingsCMSAObject.csrfName]);
@@ -310,7 +310,7 @@ class RdbCMSASettings {
                 // reset form result placeholder
                 settingsForm.querySelector('.form-result-placeholder').innerHTML = '';
                 // add spinner icon
-                settingsForm.querySelector('.submit-button-row .submit-button-wrapper').insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
+                settingsForm.querySelector('.submit-button-row .submit-button-wrapper').insertAdjacentHTML('beforeend', '<i class="fa-solid fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
                 // lock submit button
                 settingsForm.querySelector('.rdba-submit-button').setAttribute('disabled', 'disabled');
 

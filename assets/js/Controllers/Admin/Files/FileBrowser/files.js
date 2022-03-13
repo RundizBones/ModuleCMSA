@@ -895,7 +895,7 @@ class RdbCMSAFilesFileBrowserFiles {
                 let selectedFolder = document.getElementById('rdbcmsa-files-filter-folder');
 
                 // add loading icon.
-                uploadStatusPlaceholder.innerHTML = '&nbsp;<i class="fas fa-spinner fa-pulse loading-icon"></i> ' + RdbCMSAFilesCommonObject.txtUploading;
+                uploadStatusPlaceholder.innerHTML = '&nbsp;<i class="fa-solid fa-spinner fa-pulse loading-icon"></i> ' + RdbCMSAFilesCommonObject.txtUploading;
 
                 let formData = new FormData();
                 formData.append(RdbCMSAFilesCommonObject.csrfName, RdbCMSAFilesCommonObject.csrfKeyPair[RdbCMSAFilesCommonObject.csrfName]);

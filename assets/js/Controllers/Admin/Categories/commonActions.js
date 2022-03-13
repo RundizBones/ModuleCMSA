@@ -177,7 +177,7 @@ class RdbCMSACategoriesCommonActions {
         let submitBtn = editingForm.querySelector('button[type="submit"]');
         let parentCategorySelectbox = editingForm.querySelector('#parent_id');
         // add spinner icon
-        editingForm.querySelector('.action-status-placeholder').insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
+        editingForm.querySelector('.action-status-placeholder').insertAdjacentHTML('beforeend', '<i class="fa-solid fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
         // lock submit button.
         submitBtn.disabled = true;
 

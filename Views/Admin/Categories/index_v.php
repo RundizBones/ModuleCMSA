@@ -7,7 +7,7 @@
                         <h1 class="rdba-page-content-header">
                             <?php echo $pageTitle; ?> 
                             <a class="rd-button rdba-listpage-addnew" href="<?php echo $urls['addCategoryUrl']; ?>">
-                                <i class="fas fa-circle-plus"></i> <?php echo __('Add'); ?>
+                                <i class="fa-solid fa-circle-plus"></i> <?php echo __('Add'); ?>
                             </a>
                         </h1>
 
@@ -44,7 +44,7 @@
                                 <div class="rd-dialog-header">
                                     <h4 id="rdbcmsa-contents-categories-dialog-label" class="rd-dialog-title"></h4>
                                     <button class="rd-dialog-close" type="button" aria-label="Close" data-dismiss="dialog">
-                                        <i class="fas fa-xmark" aria-hidden="true"></i>
+                                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                                     </button>
                                 </div>
                                 <div class="rd-dialog-body">
@@ -79,7 +79,7 @@
                                 <div class="rd-button-group">
                                     <button id="rdba-datatables-filter-button" class="rdba-datatables-filter-button rd-button" type="button"><?php echo __('Filter'); ?></button>
                                     <button class="rd-button dropdown-toggler" type="button" data-placement="bottom right">
-                                        <i class="fas fa-caret-down"></i>
+                                        <i class="fa-solid fa-caret-down"></i>
                                         <span class="sr-only"><?php echo __('More'); ?></span>
                                     </button>
                                     <ul class="rd-dropdown">

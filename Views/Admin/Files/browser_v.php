@@ -9,7 +9,7 @@
                                 <!--upload row-->
                                 <div id="rdbcmsa-files-dropzone" class="rdbcmsa-files-dropzone rd-content-level-margin-bottom" title="<?php echo esc_d__('rdbcmsa', 'Drop the files into this area to start upload.'); ?>">
                                     <span id="rdbcmsa-files-choose-files-button" class="rd-button info rd-inputfile" tabindex="0">
-                                        <span class="label"><i class="fas fa-file-arrow-up"></i> <?php echo d__('rdbcmsa', 'Choose files'); ?></span>
+                                        <span class="label"><i class="fa-solid fa-file-arrow-up"></i> <?php echo d__('rdbcmsa', 'Choose files'); ?></span>
                                         <input id="files_inputfiles" type="file" name="files_inputfiles" tabindex="-1" multiple="multiple">
                                     </span>
                                     <span id="rdbcmsa-files-upload-status-placeholder"></span>
@@ -173,7 +173,7 @@
                                         </div>
                                         {{else}}
                                         <a href="{{#getPublicUrlWithFolderPrefix this}}{{/getPublicUrlWithFolderPrefix}}/{{file_name}}" target="realFile">
-                                            <i class="far fa-file rdbcmsa-files-generic-file-icon"></i>
+                                            <i class="fa-regular fa-file rdbcmsa-files-generic-file-icon"></i>
                                         </a>
                                         {{/isImage}}
                                         <label class="rdbcmsa-files-file-name">

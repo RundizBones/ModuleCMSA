@@ -52,7 +52,7 @@
                                             <div id="post_feature_image-wrapper">
                                                 <div id="post_feature_image-preview"></div>
                                                 <button id="post_feature_image-openbrowser" type="button" title="<?php echo esc_d__('rdbcmsa', 'Browse an image'); ?>" data-toggle="dialog" data-target="#dialog-image-browser">
-                                                    <i class="fas fa-image"></i> 
+                                                    <i class="fa-solid fa-image"></i> 
                                                     <span class="screen-reader-only"><?php echo d__('rdbcmsa', 'Browse an image'); ?></span>
                                                 </button>
                                             </div>
@@ -66,7 +66,7 @@
                                         <div class="form-group">
                                             <label class="control-label"><?php echo d__('rdbcmsa', 'Categories'); ?></label>
                                             <div class="control-wrapper">
-                                                <p><i class="fas fa-spinner fa-pulse"></i> <?php echo d__('rdbcmsa', 'Loading, please wait.'); ?></p>
+                                                <p><i class="fa-solid fa-spinner fa-pulse"></i> <?php echo d__('rdbcmsa', 'Loading, please wait.'); ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -195,7 +195,7 @@
                                         <div class="rd-button-group">
                                             <button class="rd-button primary rdba-submit-button" type="submit" name="prog_save_command" value="save"><?php echo __('Save'); ?><span id="prog-current-post_status"></span></button>
                                             <?php if (isset($editPost) && $editPost === true) { ?> 
-                                            <button class="rd-button primary dropdown-toggler" type="button"><i class="fas fa-caret-down"></i></button>
+                                            <button class="rd-button primary dropdown-toggler" type="button"><i class="fa-solid fa-caret-down"></i></button>
                                             <ul class="rd-dropdown">
                                                 <li><button type="submit" name="prog_save_command" value="save_stay"><?php echo esc_d__('rdbcmsa', 'Save & stay'); ?></button></li>
                                             </ul>
@@ -213,7 +213,7 @@
                                 <div class="rd-dialog-header">
                                     <h4 class="rd-dialog-title"><?php echo d__('rdbcmsa', 'Featured image'); ?></h4>
                                     <button class="rd-dialog-close" type="button" aria-label="<?php echo esc_d__('rdbcmsa', 'Close'); ?>" data-dismiss="dialog">
-                                        <i class="fas fa-xmark" aria-hidden="true"></i>
+                                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
                                     </button>
                                 </div>
                                 <div class="rd-dialog-body">

@@ -11,7 +11,7 @@
                                 <div class="form-result-placeholder"></div>
 
                                 <p class="form-description"><?php echo sprintf(d__('rdbcmsa', 'This can be scan for maximum %$1d files at a time.'), $scanMaxFilesATime); ?></p>
-                                <button class="rd-button info" type="submit" name="action" value="start-scan"><i class="fas fa-magnifying-glass"></i> <?php echo d__('rdbcmsa', 'Start scan'); ?></button>
+                                <button class="rd-button info" type="submit" name="action" value="start-scan"><i class="fa-solid fa-magnifying-glass"></i> <?php echo d__('rdbcmsa', 'Start scan'); ?></button>
                                 <span class="rdbcmsa-scan-status-icon-placeholder"></span>
                             </form>
 

@@ -32,7 +32,7 @@ class RdbCMSAToolsEncodeDecodeIndexController {
                 let submitBtn = thisForm.querySelector('button[type="submit"]');
 
                 // add spinner icon
-                thisForm.querySelector('.submit-button-row .control-wrapper').insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
+                thisForm.querySelector('.submit-button-row .control-wrapper').insertAdjacentHTML('beforeend', '<i class="fa-solid fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
                 // lock submit button
                 submitBtn.disabled = true;
 

@@ -259,7 +259,7 @@ class RdbCMSAToolsURLAliasesIndexController extends RdbaDatatables {
                 // reset form result placeholder
                 thisForm.querySelector('.form-result-placeholder').innerHTML = '';
                 // add spinner icon
-                thisForm.querySelector('.action-status-placeholder').insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
+                thisForm.querySelector('.action-status-placeholder').insertAdjacentHTML('beforeend', '<i class="fa-solid fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
                 // lock submit button
                 submitBtn.disabled = true;
 

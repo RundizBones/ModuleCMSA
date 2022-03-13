@@ -125,11 +125,11 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
                                 if (row.file_visibility === '1') {
                                     html += '<a class="rdbcmsa-files-image-thumbnail-link" href="' + publicUrlWithFolderPrefix + '/' + row.file_name + '" target="realImageFile">';
                                 }
-                                let iconClass = 'far fa-file';
+                                let iconClass = 'fa-regular fa-file';
                                 if (row.file_mime_type.toLowerCase().includes('video/')) {
-                                    iconClass = 'far fa-file-video';
+                                    iconClass = 'fa-regular fa-file-video';
                                 } else if (row.file_mime_type.toLowerCase().includes('audio/')) {
-                                    iconClass = 'far fa-file-audio';
+                                    iconClass = 'fa-regular fa-file-audio';
                                 }
                                 html += '<i class="' + iconClass + ' fa-6x"></i>';
                                 if (row.file_visibility === '1') {
@@ -352,7 +352,7 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
                 let selectedFolder = document.getElementById('rdbcmsa-files-filter-folder');
 
                 // add loading icon.
-                uploadStatusPlaceholder.innerHTML = '&nbsp;<i class="fas fa-spinner fa-pulse loading-icon"></i> ' + RdbCMSAFilesCommonObject.txtUploading;
+                uploadStatusPlaceholder.innerHTML = '&nbsp;<i class="fa-solid fa-spinner fa-pulse loading-icon"></i> ' + RdbCMSAFilesCommonObject.txtUploading;
 
                 let formData = new FormData();
                 formData.append(RdbCMSAFilesCommonObject.csrfName, RdbCMSAFilesCommonObject.csrfKeyPair[RdbCMSAFilesCommonObject.csrfName]);
@@ -520,7 +520,7 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
         // reset form result placeholder
         thisForm.querySelector('.form-result-placeholder').innerHTML = '';
         // add spinner icon
-        thisForm.querySelector('.action-status-placeholder').insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
+        thisForm.querySelector('.action-status-placeholder').insertAdjacentHTML('beforeend', '<i class="fa-solid fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
         // lock submit button
         submitBtn.disabled = true;
 

@@ -230,7 +230,7 @@ class SettingsCMSAHooks {
                 inputFileElement = event.target;// force get new data.
 
                 // add loading icon.
-                uploadStatusPlaceholder.innerHTML = '&nbsp;<i class="fas fa-spinner fa-pulse loading-icon"></i> ' + RdbCMSASettingsCMSAObject.txtUploading;
+                uploadStatusPlaceholder.innerHTML = '&nbsp;<i class="fa-solid fa-spinner fa-pulse loading-icon"></i> ' + RdbCMSASettingsCMSAObject.txtUploading;
 
                 let formData = new FormData();
                 formData.append(RdbaSettings.csrfName, RdbaSettings.csrfKeyPair[RdbaSettings.csrfName]);

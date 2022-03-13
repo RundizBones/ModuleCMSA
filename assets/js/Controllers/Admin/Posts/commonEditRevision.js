@@ -248,7 +248,7 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
         let submitBtn = thisForm.querySelector(this.revisionHistoryBulkActionButtonSelector);
 
         // add spinner icon
-        thisForm.querySelector('.action-status-placeholder').insertAdjacentHTML('beforeend', '<i class="fas fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
+        thisForm.querySelector('.action-status-placeholder').insertAdjacentHTML('beforeend', '<i class="fa-solid fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
         // lock submit button
         submitBtn.disabled = true;
 
@@ -410,7 +410,7 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
                     // if contain data-revision_id="xxx"
 
                     // add spinner icon
-                    thisActionLink.insertAdjacentHTML('beforeend', ' <i class="fas fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
+                    thisActionLink.insertAdjacentHTML('beforeend', ' <i class="fa-solid fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
 
                     // start working action link.
                     RdbaCommon.XHR({
@@ -565,7 +565,7 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
 
                         if (linkData && linkData.revision_id) {
                             // add spinner icon
-                            thisActionLink.insertAdjacentHTML('beforeend', ' <i class="fas fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
+                            thisActionLink.insertAdjacentHTML('beforeend', ' <i class="fa-solid fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>');
 
                             let formData = new FormData();
                             formData.append(thisClass.editingObject.csrfName, thisClass.editingObject.csrfKeyPair[thisClass.editingObject.csrfName]);

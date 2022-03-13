@@ -32,7 +32,7 @@ class RdbCMSAFilesScanUnindexedController {
         // reset form result placeholder
         thisForm.querySelector('.form-result-placeholder').innerHTML = '';
         // add spinner icon
-        thisForm.querySelector('.rdbcmsa-scan-status-icon-placeholder').innerHTML = '<i class="fas fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>';
+        thisForm.querySelector('.rdbcmsa-scan-status-icon-placeholder').innerHTML = '<i class="fa-solid fa-spinner fa-pulse fa-fw loading-icon" aria-hidden="true"></i>';
         // lock submit button
         thisClass.disableSubmitButtons();
         // if offset is 0, reset listing
@@ -167,7 +167,7 @@ class RdbCMSAFilesScanUnindexedController {
             // reset form result placeholder
             thisForm.querySelector('.form-action-result-placeholder').innerHTML = '';
             // add spinner icon
-            thisForm.querySelector('.rdbcmsa-unindexed-files-action-status-icon-placeholder').innerHTML = '<i class="fas fa-spinner fa-pulse fa-fw action-loading-icon" aria-hidden="true"></i>';
+            thisForm.querySelector('.rdbcmsa-unindexed-files-action-status-icon-placeholder').innerHTML = '<i class="fa-solid fa-spinner fa-pulse fa-fw action-loading-icon" aria-hidden="true"></i>';
             // lock submit button
             thisClass.disableSubmitButtons();
 
