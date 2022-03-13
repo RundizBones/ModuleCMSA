@@ -12,10 +12,10 @@
 	],
 	"homepage": "http://www.tinymce.com",
 	"ignore": [
-		"README.md",
+		"readme.md",
 		"composer.json",
 		"package.json",
 		".npmignore",
-		"CHANGELOG.md"
+		"changelog.txt"
 	]
 }
