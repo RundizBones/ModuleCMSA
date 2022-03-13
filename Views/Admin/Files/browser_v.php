@@ -9,7 +9,7 @@
                                 <!--upload row-->
                                 <div id="rdbcmsa-files-dropzone" class="rdbcmsa-files-dropzone rd-content-level-margin-bottom" title="<?php echo esc_d__('rdbcmsa', 'Drop the files into this area to start upload.'); ?>">
                                     <span id="rdbcmsa-files-choose-files-button" class="rd-button info rd-inputfile" tabindex="0">
-                                        <span class="label"><i class="fas fa-file-upload"></i> <?php echo d__('rdbcmsa', 'Choose files'); ?></span>
+                                        <span class="label"><i class="fas fa-file-arrow-up"></i> <?php echo d__('rdbcmsa', 'Choose files'); ?></span>
                                         <input id="files_inputfiles" type="file" name="files_inputfiles" tabindex="-1" multiple="multiple">
                                     </span>
                                     <span id="rdbcmsa-files-upload-status-placeholder"></span>

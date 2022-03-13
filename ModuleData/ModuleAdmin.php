@@ -138,7 +138,7 @@ class ModuleAdmin implements \Rdb\Modules\RdbAdmin\Interfaces\ModuleAdmin
         return [
             5 => [
                 'id' => 'rdbcmsa-contents-menu',
-                'icon' => 'fas fa-file-alt fa-fw',
+                'icon' => 'fas fa-file-lines fa-fw',
                 'name' => d__('rdbcmsa', 'Contents'),
                 'link' => $urlBaseWithLang . '/admin/cms/posts',
                 'liAttributes' => [

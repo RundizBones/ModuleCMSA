@@ -27,7 +27,7 @@
         <div class="rd-dialog-header">
             <h4 id="rdbcmsa-posts-compare-dialog-label" class="rd-dialog-title"><?php echo d__('rdbcmsa', 'Compare'); ?></h4>
             <button class="rd-dialog-close" type="button" aria-label="Close" data-dismiss="dialog">
-                <i class="fas fa-times" aria-hidden="true"></i>
+                <i class="fas fa-xmark" aria-hidden="true"></i>
             </button>
         </div>
         <div class="rd-dialog-body">

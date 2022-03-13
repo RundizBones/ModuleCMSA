@@ -7,7 +7,7 @@
                         <h1 class="rdba-page-content-header">
                             <?php echo $pageTitle; ?> 
                             <a class="rd-button rdba-listpage-addnew" href="<?php echo $urls['addTagUrl']; ?>">
-                                <i class="fas fa-plus-circle"></i> <?php echo __('Add'); ?>
+                                <i class="fas fa-circle-plus"></i> <?php echo __('Add'); ?>
                             </a>
                         </h1>
 
@@ -42,7 +42,7 @@
                                 <div class="rd-dialog-header">
                                     <h4 id="tags-editing-dialog-label" class="rd-dialog-title"></h4>
                                     <button class="rd-dialog-close" type="button" aria-label="Close" data-dismiss="dialog">
-                                        <i class="fas fa-times" aria-hidden="true"></i>
+                                        <i class="fas fa-xmark" aria-hidden="true"></i>
                                     </button>
                                 </div>
                                 <div class="rd-dialog-body">

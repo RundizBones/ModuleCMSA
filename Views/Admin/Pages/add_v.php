@@ -186,7 +186,7 @@
                                 <div class="rd-dialog-header">
                                     <h4 class="rd-dialog-title"><?php echo d__('rdbcmsa', 'Featured image'); ?></h4>
                                     <button class="rd-dialog-close" type="button" aria-label="<?php echo esc_d__('rdbcmsa', 'Close'); ?>" data-dismiss="dialog">
-                                        <i class="fas fa-times" aria-hidden="true"></i>
+                                        <i class="fas fa-xmark" aria-hidden="true"></i>
                                     </button>
                                 </div>
                                 <div class="rd-dialog-body">

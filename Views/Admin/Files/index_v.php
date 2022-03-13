@@ -10,7 +10,7 @@
                                     <?php echo d__('rdbcmsa', 'Folders'); ?>&nbsp;
                                     <div class="rd-button-group">
                                         <button id="rdbcmsa-files-new-folder" class="rd-button" type="button" title="<?php echo esc_d__('rdbcmsa', 'New folder'); ?>"><i class="fas fa-folder-plus"></i></button>
-                                        <button id="rdbcmsa-files-reload-folder" class="rd-button" type="button" title="<?php echo esc_d__('rdbcmsa', 'Reload'); ?>" onclick="RdbCMSAFilesIndexControllerFolders.reloadFolders();"><i class="reload-icon fas fa-sync-alt"></i></button>
+                                        <button id="rdbcmsa-files-reload-folder" class="rd-button" type="button" title="<?php echo esc_d__('rdbcmsa', 'Reload'); ?>" onclick="RdbCMSAFilesIndexControllerFolders.reloadFolders();"><i class="reload-icon fas fa-rotate"></i></button>
                                     </div>
                                 </h2>
                                 <ul id="rdbcmsa-files-folders-list-container" class="rdbcmsa-files-folders-list-container">
@@ -23,7 +23,7 @@
                                     <?php echo d__('rdbcmsa', 'Files'); ?> 
                                     <div id="rdbcmsa-files-dropzone" class="rdbcmsa-files-dropzone" title="<?php echo esc_d__('rdbcmsa', 'Drop the files into this area to start upload.'); ?>">
                                         <span id="rdbcmsa-files-choose-files-button" class="rd-button info rd-inputfile rdbcmsa-button-upload-file" tabindex="0">
-                                            <span class="label"><i class="fas fa-file-upload"></i> <?php echo d__('rdbcmsa', 'Choose files'); ?></span>
+                                            <span class="label"><i class="fas fa-file-arrow-up"></i> <?php echo d__('rdbcmsa', 'Choose files'); ?></span>
                                             <input id="files_inputfiles" type="file" name="files_inputfiles" tabindex="-1" multiple="multiple">
                                         </span>
                                         <span id="rdbcmsa-files-upload-status-placeholder"></span>
@@ -34,8 +34,8 @@
                                     </div><!--.rdbcmsa-files-dropzone-->
                                     <a class="rd-button rdbcmsa-scan-unindex-files-button" href="<?php echo $urls['scanUnindexedUrl']; ?>" title="<?php echo esc_d__('rdbcmsa', 'Scan for unindexed files'); ?>">
                                         <span class="rdbcmsa-scan-icon-stack">
-                                            <i class="far fa-list-alt"></i>
-                                            <i class="fas fa-search rdbcmsa-scan-icon-search"></i>
+                                            <i class="far fa-rectangle-list"></i>
+                                            <i class="fas fa-magnifying-glass rdbcmsa-scan-icon-search"></i>
                                         </span>
                                         <span class="hidden-over-xs"><?php echo d__('rdbcmsa', 'Scan for unindexed files'); ?></span>
                                     </a>
@@ -81,7 +81,7 @@
                                 <div class="rd-dialog-header">
                                     <h4 id="rdbcmsa-folder-name-dialog-label" class="rd-dialog-title"></h4>
                                     <button class="rd-dialog-close" type="button" aria-label="Close" data-dismiss="dialog">
-                                        <i class="fas fa-times" aria-hidden="true"></i>
+                                        <i class="fas fa-xmark" aria-hidden="true"></i>
                                     </button>
                                 </div>
                                 <div class="rd-dialog-body">
@@ -106,7 +106,7 @@
                                 <div class="rd-dialog-header">
                                     <h4 id="rdbcmsa-files-editing-dialog-label" class="rd-dialog-title"></h4>
                                     <button class="rd-dialog-close" type="button" aria-label="Close" data-dismiss="dialog">
-                                        <i class="fas fa-times" aria-hidden="true"></i>
+                                        <i class="fas fa-xmark" aria-hidden="true"></i>
                                     </button>
                                 </div>
                                 <div class="rd-dialog-body">
@@ -186,7 +186,7 @@
                                     <a class="rdbcmsa-files-folders-list-link" data-folderrelpath="{{relatePath}}" data-foldername="{{name}}">{{name}}</a>
                                     <div class="rd-button-group rdbcmsa-files-folder-commands">
                                         <button class="rd-button tiny rdbcmsa-files-rename-folder" data-folderrelpath="{{relatePath}}" data-foldername="{{name}}" title="<?php echo esc_d__('rdbcmsa', 'Rename'); ?>"><i class="fas fa-pen"></i></button>
-                                        <button class="rd-button tiny rdbcmsa-files-delete-folder" data-folderrelpath="{{relatePath}}" data-foldername="{{name}}" title="<?php echo esc_d__('rdbcmsa', 'Delete'); ?>"><i class="fas fa-times"></i></button>
+                                        <button class="rd-button tiny rdbcmsa-files-delete-folder" data-folderrelpath="{{relatePath}}" data-foldername="{{name}}" title="<?php echo esc_d__('rdbcmsa', 'Delete'); ?>"><i class="fas fa-xmark"></i></button>
                                     </div>
                                     {{#if children}}
                                     <ul>

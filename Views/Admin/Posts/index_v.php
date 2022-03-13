@@ -7,7 +7,7 @@
                         <h1 class="rdba-page-content-header">
                             <?php echo $pageTitle; ?> 
                             <a class="rd-button rdba-listpage-addnew" href="<?php echo $urls['addPostUrl']; ?>">
-                                <i class="fas fa-plus-circle"></i> <?php echo __('Add'); ?>
+                                <i class="fas fa-circle-plus"></i> <?php echo __('Add'); ?>
                             </a>
                         </h1>
 
