@@ -83,7 +83,7 @@ class RdbCMSAPostsCommonActions {
                 file: {title: 'Files', items: 'newdocument restoredraft | preview | print '},
                 edit: {title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace'},
                 view: {title: 'View', items: 'code | visualaid visualchars visualblocks | preview fullscreen'},
-                insert: {title: 'Insert', items: 'image link media rdbcmsafilebrowser template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime'},
+                insert: {title: 'Insert', items: 'image link media rdbcmsafilebrowser template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor | insertdatetime'},
                 format: {title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | formats blockformats fontformats fontsizes align lineheight | forecolor backcolor | removeformat'},
                 tools: {title: 'Tools', items: 'code wordcount'},
                 table: {title: 'Table', items: 'inserttable | cell row column | tableprops deletetable'},
@@ -92,10 +92,10 @@ class RdbCMSAPostsCommonActions {
             'mobile': {
                 'menubar': true
             },
-            'plugins': 'advlist anchor autosave charmap code codesample emoticons fullscreen help hr image insertdatetime link lists media nonbreaking pagebreak paste preview searchreplace table toc visualblocks visualchars wordcount',
+            'plugins': 'advlist anchor autosave charmap code codesample emoticons fullscreen help hr image insertdatetime link lists media nonbreaking pagebreak paste preview searchreplace table visualblocks visualchars wordcount',
             'rdbcmsaEditingObject': editingObject,
             'toolbar': 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | image rdbcmsafilebrowser',
-            'toolbar_drawer': 'sliding',
+            'toolbar_mode': 'sliding',
 
             // autosave plugins options.
             'autosave_ask_before_unload': true,
