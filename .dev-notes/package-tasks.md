@@ -38,4 +38,4 @@ Update the version number on these files.
 ## Before publish or commit.
 * Update version number in **Installer.php** file.
 * Run update version number again from the command in section **Update version number of packages**.
-* Run `npm run pack && npm run pack -- --development` to write version from **Installer.php** to **package.json** and pack files to zip.
+* Run external pack command `rdbdev pack --module framework --packDev --packProd` to pack files and folders into a zip file.
