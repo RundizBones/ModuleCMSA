@@ -10,7 +10,6 @@ const {series, parallel, src, dest, watch} = require('gulp');
 const fs = require('fs');
 const copyNodeModules = require('./copyNodeModules');
 const copyAssets = require('./copyAssets');
-const pack = require('./pack');
 const versionWriter = require('./versionWriter');
 const path = require('path');
 
@@ -93,8 +92,3 @@ exports.watch = function() {
         )
     )
 };
-
-
-exports.pack = series(
-    pack.pack
-);
