@@ -59,8 +59,8 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
             $dataUrlAliases = [];
             $data['parent_id'] = trim($this->Input->post('parent_id', 0, FILTER_SANITIZE_NUMBER_INT));
             $data['t_type'] = $this->taxonomyType;
-            $data['t_name'] = trim($this->Input->post('t_name', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-            $data['t_description'] = trim($this->Input->post('t_description', null));
+            $data['t_name'] = trim($this->Input->post('t_name', '', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+            $data['t_description'] = trim($this->Input->post('t_description'));
             $data['t_status'] = trim($this->Input->post('t_status', 0, FILTER_SANITIZE_NUMBER_INT));
             // set null if empty.
             $InputUtils = new \Rdb\Modules\RdbCMSA\Libraries\InputUtils();

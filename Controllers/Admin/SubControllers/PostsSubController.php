@@ -566,10 +566,10 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         $data['user_id'] = trim($this->Input->post('user_id', $this->userSessionCookieData['user_id'], FILTER_SANITIZE_NUMBER_INT));
         $data['post_type'] = $this->postType;
         $data['language'] = ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th');
-        $data['post_name'] = trim($this->Input->post('post_name', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-        $data['post_feature_image'] = trim($this->Input->post('post_feature_image', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $data['post_name'] = trim($this->Input->post('post_name', '', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $data['post_feature_image'] = trim($this->Input->post('post_feature_image', '', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         $data['post_status'] = trim($this->Input->post('post_status', 1, FILTER_SANITIZE_NUMBER_INT));
-        $data['post_publish_date'] = trim($this->Input->post('post_publish_date', null));
+        $data['post_publish_date'] = trim($this->Input->post('post_publish_date'));
         if ($data['post_status'] != '2') {
             // if post status is not scheduled (2).
             // remove published date.
@@ -577,10 +577,10 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         }
 
         $dataRevision['user_id'] = $data['user_id'];
-        $dataRevision['revision_head_value'] = trim($this->Input->post('revision_head_value', null));
+        $dataRevision['revision_head_value'] = trim($this->Input->post('revision_head_value'));
         $dataRevision['revision_body_value'] = $this->Input->post('revision_body_value', null);
         $dataRevision['revision_body_summary'] = $this->Input->post('revision_body_summary', null);
-        $dataRevision['revision_log'] = trim($this->Input->post('revision_log', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $dataRevision['revision_log'] = trim($this->Input->post('revision_log', '', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         $enableRevision = trim($this->Input->post('prog_enable_revision', 0, FILTER_SANITIZE_NUMBER_INT));
         if ($enableRevision != '1') {
             // if revision checkbox is not enabled.
@@ -615,10 +615,10 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         array &$dataRevision = [], 
         array &$dataUrlAliases = []
     ) {
-        $data['post_name'] = trim($this->Input->patch('post_name', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-        $data['post_feature_image'] = trim($this->Input->patch('post_feature_image', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $data['post_name'] = trim($this->Input->patch('post_name', '', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $data['post_feature_image'] = trim($this->Input->patch('post_feature_image', '', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         $data['post_status'] = (int) trim($this->Input->patch('post_status', 1, FILTER_SANITIZE_NUMBER_INT));
-        $data['post_publish_date'] = trim($this->Input->patch('post_publish_date', null));
+        $data['post_publish_date'] = trim($this->Input->patch('post_publish_date', ''));
         if ($data['post_status'] != '2') {
             // if post status is not scheduled (2).
             // remove published date.
@@ -626,10 +626,10 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         }
 
         $dataRevision['user_id'] = trim($this->Input->patch('user_id', $this->userSessionCookieData['user_id'], FILTER_SANITIZE_NUMBER_INT));
-        $dataRevision['revision_head_value'] = trim($this->Input->patch('revision_head_value', null));
+        $dataRevision['revision_head_value'] = trim($this->Input->patch('revision_head_value', ''));
         $dataRevision['revision_body_value'] = $this->Input->patch('revision_body_value', null);
         $dataRevision['revision_body_summary'] = $this->Input->patch('revision_body_summary', null);
-        $dataRevision['revision_log'] = trim($this->Input->patch('revision_log', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+        $dataRevision['revision_log'] = trim($this->Input->patch('revision_log', '', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
         $enableRevision = trim($this->Input->patch('prog_enable_revision', 0, FILTER_SANITIZE_NUMBER_INT));
         if ($enableRevision != '1') {
             // if revision checkbox is not enabled.

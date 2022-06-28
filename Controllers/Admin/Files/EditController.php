@@ -65,9 +65,9 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
 
             // prepare data for checking.
             $data = [];
-            $data['file_media_name'] = trim($this->Input->patch('file_media_name', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
+            $data['file_media_name'] = trim($this->Input->patch('file_media_name', '', FILTER_SANITIZE_FULL_SPECIAL_CHARS));
             $data['file_media_description'] = trim($this->Input->patch('file_media_description'));
-            $data['file_media_keywords'] = trim($this->Input->patch('file_media_keywords', null, FILTER_SANITIZE_STRING));
+            $data['file_media_keywords'] = htmlspecialchars(trim($this->Input->patch('file_media_keywords', '')), ENT_QUOTES);
             $data['file_status'] = $this->Input->patch('file_status', 0, FILTER_SANITIZE_NUMBER_INT);
             // set null if empty.
             $InputUtils = new \Rdb\Modules\RdbCMSA\Libraries\InputUtils();

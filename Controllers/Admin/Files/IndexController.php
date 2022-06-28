@@ -93,14 +93,14 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
         }
         $options['where'] = [
             'file_visibility' => 1,
-            'file_folder' => $this->Input->get('filter-file_folder', '', FILTER_SANITIZE_STRING),
+            'file_folder' => strip_tags($this->Input->get('filter-file_folder')),
         ];
         $filterFileStatus = trim($this->Input->get('filter-file_status', '', FILTER_SANITIZE_NUMBER_INT));
         if (is_numeric($filterFileStatus)) {
             $options['where']['file_status'] = $filterFileStatus;
         }
         unset($filterFileStatus);
-        $filterMime = trim($this->Input->get('filter-mimetype', '', FILTER_SANITIZE_STRING));
+        $filterMime = strip_tags(trim($this->Input->get('filter-mimetype')));
         if (!empty($filterMime)) {
             $options['filterMime'] = $filterMime;
         }

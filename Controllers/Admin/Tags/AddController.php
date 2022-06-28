@@ -60,7 +60,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
             $dataUrlAliases = [];
             $data['t_type'] = $this->tagTaxonomyType;
             $data['t_name'] = trim($this->Input->post('t_name', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-            $data['t_description'] = trim($this->Input->post('t_description', null));
+            $data['t_description'] = trim($this->Input->post('t_description'));
             // set null if empty.
             $InputUtils = new \Rdb\Modules\RdbCMSA\Libraries\InputUtils();
             $data = $InputUtils->setEmptyScalarToNull($data);

@@ -68,7 +68,7 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
             $data = [];
             $dataUrlAliases = [];
             $data['t_name'] = trim($this->Input->patch('t_name', null, FILTER_SANITIZE_FULL_SPECIAL_CHARS));
-            $data['t_description'] = trim($this->Input->patch('t_description', null));
+            $data['t_description'] = trim($this->Input->patch('t_description'));
             $dataUrlAliases['alias_url'] = $this->Input->patch('alias_url', null);
 
             // set null if empty.
