@@ -13,7 +13,7 @@
  *  * For JSON functions.
  * 
  * @package RdbCMSA
- * @version 0.0.11
+ * @version 0.0.12
  * @license http://opensource.org/licenses/MIT MIT
  */
 
