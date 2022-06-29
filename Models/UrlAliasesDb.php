@@ -446,7 +446,7 @@ class UrlAliasesDb extends \Rdb\System\Core\Models\BaseModel
         }
 
         // remove some data to prevent change.
-        unset($data['language'], $data['alias_content_type'], $data['alias_content_id']);
+        unset($data['language']);
 
         $Url = new \Rdb\System\Libraries\Url($this->Container);
         if (!isset($data['alias_url_encoded'])) {
