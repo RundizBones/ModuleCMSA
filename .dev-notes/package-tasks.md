@@ -15,7 +15,7 @@ This should be run every time before start modify the files.
 ## Update packages.
 * Run the command `npm outdated` for listing outdated packages.
 * Run the command `npm update` to update packages or `npm install [packagename]@latest` to install latest for major version.
-* Run the command `npm run build` to do following tasks.
+* Run the command `npm run build -- --public="/path/to/framework/public"` to do following tasks.
  * Delete **assets** folders.<br>
  * Copy packages from **node_modules** to **assets** folders.<br>
  * Bundle package files.<br>
@@ -33,9 +33,9 @@ Update the version number on these files.
 * Update assets version at **ModuleData/ModuleAssets.php** inside `getModuleAssets()`method.
 
 ## Editing files.
-* Run the command `npm run watch` to automatic copy asset files from **assets** to **public/** folder.
+* Run the command `npm run watch -- --public="/path/to/framework/public"` to automatic copy asset files from **assets** to **public/** folder.
 
 ## Before publish or commit.
 * Update version number in **Installer.php** file.
 * Run update version number again from the command in section **Update version number of packages**.
-* Run external pack command `rdbdev pack --module RdbCMSA --packDev --packProd` to pack files and folders into a zip file.
+* Run external pack command `rdbdev pack --module RdbCMSA --packtype=dev prod` to pack files and folders into a zip file.

@@ -1,0 +1,93 @@
+{
+    "moduleName": "RdbCMSA",
+    "moduleAssetsDir": "Modules/RdbCMSA/assets",
+    "clean": {
+        "targets": [
+            {
+                "patterns": "assets/vendor",
+                "options": {
+                }
+            }
+        ],
+        "publicModuleAssets": true
+    },
+    "copyNodePackages": [
+        {
+            "patterns": "node_modules/ace-builds/src-min-noconflict/**",
+            "destination": "assets/vendor/ace-builds"
+        },
+        {
+            "patterns": "node_modules/ace-builds/LICENSE*",
+            "rename": "ace-builds-license.txt",
+            "destination": "assets/vendor/ace-builds"
+        },
+        {
+            "patterns": "node_modules/diff/dist/**",
+            "destination": "assets/vendor/diff"
+        },
+
+        {
+            "patterns": "node_modules/diff/LICENSE*",
+            "rename": "diff-license.txt",
+            "destination": "assets/vendor/diff"
+        },
+        {
+            "patterns": "node_modules/diff2html/bundles/**",
+            "destination": "assets/vendor/diff2html"
+        },
+
+        {
+            "patterns": "node_modules/diff2html/LICENSE*",
+            "destination": "assets/vendor/diff2html"
+        },
+        {
+            "patterns": "node_modules/@yaireo/tagify/dist/**",
+            "destination": "assets/vendor/tagify"
+        },
+
+        {
+            "patterns": "node_modules/@yaireo/tagify/LICENSE*",
+            "destination": "assets/vendor/tagify"
+        },
+
+        {
+            "patterns": "node_modules/tinymce/**",
+            "destination": "assets/vendor/tinymce"
+        }
+    ],
+    "copyAssetsToPublic": true,
+    "writeVersions": [
+        {
+            "nodePackage": "ace-builds",
+            "phpHandlesRegex": [
+                "ace-builds",
+                "ace-ext-[\\w\\d\\-_]+"
+            ]
+        },
+        {
+            "nodePackage": "@yaireo/tagify",
+            "phpHandlesRegex": [
+                "tagify"
+            ]
+        },
+        {
+            "nodePackage": "diff2html",
+            "phpHandlesRegex": [
+                "diff2html",
+                "diff2html-ui"
+            ]
+        },
+        {
+            "nodePackage": "diff",
+            "phpHandlesRegex": [
+                "jsdiff"
+            ]
+        },
+        {
+            "nodePackage": "tinymce",
+            "phpHandlesRegex": [
+                "tinymce"
+            ]
+        }
+    ]
+}
