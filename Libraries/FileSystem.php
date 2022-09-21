@@ -89,10 +89,10 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
      * @param array $options Associative array keys:<br>
      *                  `fullPath` (bool) Set to `false` to connect path with root in constructor, set to `true` to use full path. Default is `false`.<br>
      * @return array Return array with these index.<br>
-     *                      `width`<br>
-     *                      `height`<br>
-     *                      `frame_rate`<br>
+     *                      `channels`<br>
+     *                      `sample_rate`<br>
      *                      `format`<br>
+     *                      `duration`<br>
      */
     public function getAudioMetadata(string $file, array $options = []): array
     {
@@ -100,6 +100,7 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
             'channels' => null,
             'sample_rate' => null,
             'format' => null,
+            'duration' => null,
         ];
 
         if (!isset($options['fullPath']) || $options['fullPath'] === false) {
@@ -187,6 +188,7 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
      *                      `height`<br>
      *                      `frame_rate`<br>
      *                      `format`<br>
+     *                      `duration`<br>
      */
     public function getVideoMetadata(string $file, array $options = []): array
     {
@@ -195,6 +197,7 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
             'height' => null,
             'frame_rate' => null,
             'format' => null,
+            'duration' => null,
         ];
 
         if (!isset($options['fullPath']) || $options['fullPath'] === false) {
