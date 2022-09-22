@@ -19,6 +19,11 @@ img.rdbcmsa-files-featuredimage,
 }
 
 
+.tagify {
+    width: 100%;
+}
+
+
 #categories-form-fields .each-category {
     margin-bottom: .625rem;
 }
