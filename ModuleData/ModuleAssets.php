@@ -72,12 +72,12 @@ class ModuleAssets
                     [
                         'handle' => 'ace-builds',
                         'file' => $publicModuleUrl . '/assets/vendor/ace-builds/ace.js',
-                        'version' => '1.10.1',
+                        'version' => '1.11.0',
                     ],
                     [
                         'handle' => 'ace-ext-modelist',
                         'file' => $publicModuleUrl . '/assets/vendor/ace-builds/ext-modelist.js',
-                        'version' => '1.10.1',
+                        'version' => '1.11.0',
                     ],
                     // diff, diff2html
                     [
