@@ -158,68 +158,8 @@ class SettingsCMSAHooks {
      */
     listenFileUpload() {
         let thisClass = this;
-        let dropzoneId = 'rdbcmsa-files-dropzone';
-        const dropZoneClassName = 'rdbcmsa-files-dropzone';
         let inputFileId = 'rdbcmsa_watermarkfile';
         let inputFileElement = document.querySelector('#' + inputFileId);
-
-        function getClosestElement(closestElement, thisTarget) {
-            if (typeof(thisTarget.tagName) !== 'undefined') {
-                // if currently drag enter target have tag name.
-                // then it can use .closest() without errors.
-                closestElement = thisTarget.closest('.' + dropZoneClassName);
-            }
-            if (closestElement === null && thisTarget.parentElement) {
-                closestElement = thisTarget.parentElement.closest('.' + dropZoneClassName);
-            }
-
-            return closestElement;
-        }// getClosestElement
-
-        // prevent drag & drop image file outside drop zone. --------------------------------------------------
-        function preventDragEnter(event) {
-            event.preventDefault();// prevent redirect page to show dropped image.
-
-            let thisTarget = event.target;
-            let closestElement = null;
-            closestElement = getClosestElement(closestElement, thisTarget);
-
-            if (closestElement === '' || closestElement === null) {
-                event.dataTransfer.effectAllowed = 'none';
-                event.dataTransfer.dropEffect = 'none';
-            }
-        }// preventDragEnter
-
-        window.addEventListener('dragenter', preventDragEnter, false);
-        window.addEventListener('dragover', preventDragEnter);
-        // end prevent drag & drop image file outside drop zone. ---------------------------------------------
-
-        window.addEventListener('drop', function(event) {
-            event.preventDefault();
-
-            let thisTarget = event.target;
-            let closestElement = null;
-            closestElement = getClosestElement(closestElement, thisTarget);
-
-            if (event.dataTransfer.files.length > 1) {
-                RDTAAlertDialog.alert({
-                    'type': 'error',
-                    'text': RdbCMSASettingsCMSAObject.txtPleaseChooseOneFile
-                });
-                closestElement = null;
-            }
-
-            if (closestElement !== '' && closestElement !== null) {
-                // if dropped in drop zone or input file.
-                inputFileElement = closestElement.querySelector('#' + inputFileId);// always call this, not use declared on the top to force get new data.
-                inputFileElement.files = event.dataTransfer.files;
-                inputFileElement.dispatchEvent(new Event('change', { 'bubbles': true }));
-            } else {
-                // if not dropped in drop zone and input file.
-                event.dataTransfer.effectAllowed = 'none';
-                event.dataTransfer.dropEffect = 'none';
-            }
-        });
 
         if (inputFileElement) {
             let uploadStatusPlaceholder = document.getElementById('rdbcmsa-files-upload-status-placeholder');
@@ -228,6 +168,21 @@ class SettingsCMSAHooks {
                 event.preventDefault();
 
                 inputFileElement = event.target;// force get new data.
+                if (inputFileElement.getAttribute('id') !== inputFileId) {
+                    // if not matched input file id for RdbCMSA watermark file.
+                    // not working here.
+                    return ;
+                }
+
+                if (inputFileElement.files.length > 1) {
+                    // if too many files were selected.
+                    // alert and stop working here.
+                    RDTAAlertDialog.alert({
+                        'type': 'error',
+                        'text': RdbCMSASettingsCMSAObject.txtPleaseChooseOneFile
+                    });
+                    return ;
+                }
 
                 // add loading icon.
                 uploadStatusPlaceholder.innerHTML = '&nbsp;<i class="fa-solid fa-spinner fa-pulse loading-icon"></i> ' + RdbCMSASettingsCMSAObject.txtUploading;

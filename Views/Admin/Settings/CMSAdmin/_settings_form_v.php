@@ -2,7 +2,7 @@
     <label class="control-label" for="rdbcmsa_watermarkfile"><?php echo d__('rdbcmsa', 'Watermark'); ?></label>
     <div class="control-wrapper">
         <div id="current-watermark-review"></div>
-        <div id="rdbcmsa-files-dropzone" class="rdbcmsa-files-dropzone" title="<?php echo esc_d__('rdbcmsa', 'Drop the files into this area to start upload.'); ?>">
+        <div id="rdbcmsa-files-dropzone" class="rdbcmsa-files-dropzone rdbadmin-file-dropzone" title="<?php echo esc_d__('rdbcmsa', 'Drop the files into this area to start upload.'); ?>">
             <span id="rdbcmsa-files-choose-files-button" class="rd-button info rd-inputfile rdbcmsa-button-upload-file" tabindex="0">
                 <span class="label"><i class="fa-solid fa-file-arrow-up"></i> <?php echo d__('rdbcmsa', 'Choose file'); ?></span>
                 <input id="rdbcmsa_watermarkfile" type="file" name="rdbcmsa_watermarkfile" tabindex="-1" accept=".gif,.png">
