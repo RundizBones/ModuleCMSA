@@ -21,7 +21,7 @@ trait FilesTrait
      *                  Start by related from [public folder]/[rootPublicFolderName or default is rdbadmin-public]/.<br>
      *                  Example: ['avatar'] means [public]/[root public folder]/avatar and everything in it will be restricted.
      */
-    protected $restrictedFolder = ['avatar'];
+    protected $restrictedFolder = ['avatar', 'favicon'];
 
 
     /**
