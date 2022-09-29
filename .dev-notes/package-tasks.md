@@ -15,7 +15,7 @@ This should be run every time before start modify the files.
 ## Update packages.
 * Run the command `npm outdated` for listing outdated packages.
 * Run the command `npm update` to update packages or `npm install [packagename]@latest` to install latest for major version.
-* Run the command `npm run build -- --public="/path/to/framework/public"` to do following tasks.
+* Run the external command `rdbdev assets build --module=RdbCMSA` to do following tasks.
  * Delete **assets** folders.<br>
  * Copy packages from **node_modules** to **assets** folders.<br>
  * Bundle package files.<br>
@@ -23,7 +23,7 @@ This should be run every time before start modify the files.
 
 ### Update version number of packages.
 #### Automatic update.
-* Run the command `npm run writeVersions` to write the packages version into **ModuleData/ModuleAssets.php** file.
+* Run the external command `rdbdev assets writeVersions --module=RdbCMSA` to write the packages version into **ModuleData/ModuleAssets.php** file.
 * Open files in **ModuleData/ModuleAssets.php**, **.backup/ModuleData/ModuleAssets.backupxxx.php** where xxx is the date/time of running command.<br>
     Then compare these 2 files to make sure that only version number just changed, otherwise incorrect PHP syntax may cause the website error.
 
@@ -33,7 +33,7 @@ Update the version number on these files.
 * Update assets version at **ModuleData/ModuleAssets.php** inside `getModuleAssets()`method.
 
 ## Editing files.
-* Run the command `npm run watch -- --public="/path/to/framework/public"` to automatic copy asset files from **assets** to **public/** folder.
+* Run the external command `rdbdev watch assets --module=RdbCMSA` to automatic copy asset files from **assets** to **public/** folder.
 
 ## Before publish or commit.
 * Update version number in **Installer.php** file.
