@@ -42,6 +42,10 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
             siteTimezone = 'Asia/Bangkok';
         }
 
+        if (RdbCMSAFilesCommonObject.debug === true) {
+            console.log('Loading files.');
+        }
+
         $.when(uiXhrCommonData)// uiXhrCommonData is variable from /assets/js/Controllers/Admin/UI/XhrCommonDataController/indexAction.js file
         .done(function() {
             let dataTable = $(thisClass.datatableIDSelector).DataTable({
@@ -211,6 +215,10 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
 
             // datatables events
             dataTable.on('xhr.dt', function(e, settings, json, xhr) {
+                if (RdbCMSAFilesCommonObject.debug === true) {
+                    console.log('Responded from list files.');
+                }
+
                 if (addedCustomResultControls === false) {
                     // if it was not added custom result controls yet.
                     // set additional data.

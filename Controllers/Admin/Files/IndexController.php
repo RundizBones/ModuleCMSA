@@ -270,6 +270,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
                     'csrfName' => $output['csrfName'],
                     'csrfValue' => $output['csrfValue'],
                     'csrfKeyPair' => $output['csrfKeyPair'],
+                    'debug' => (defined('APP_ENV') && APP_ENV === 'development' ? true : false),
                     'audioExtensions' => $FilesSubController->audioExtensions,
                     'imageExtensions' => $FilesSubController->imageExtensions,
                     'videoExtensions' => $FilesSubController->videoExtensions,

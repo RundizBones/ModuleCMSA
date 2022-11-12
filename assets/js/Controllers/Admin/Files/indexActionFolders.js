@@ -426,6 +426,10 @@ class RdbCMSAFilesIndexControllerFolders {
             }
         }
 
+        if (RdbCMSAFilesCommonObject.debug === true) {
+            console.log('Reloading folders.');
+        }
+
         let queryString = RdbCMSAFilesCommonObject.csrfName + '=' + RdbCMSAFilesCommonObject.csrfKeyPair[RdbCMSAFilesCommonObject.csrfName]
         + '&' + RdbCMSAFilesCommonObject.csrfValue + '=' + RdbCMSAFilesCommonObject.csrfKeyPair[RdbCMSAFilesCommonObject.csrfValue]
 
@@ -455,6 +459,10 @@ class RdbCMSAFilesIndexControllerFolders {
         .then(function(responseObject) {
             // XHR success.
             let response = responseObject.response;
+
+            if (RdbCMSAFilesCommonObject.debug === true) {
+                console.log('Responded from reload folders.');
+            }
 
             // reload list.
             if (typeof(response.list) !== 'undefined' && folderListElement) {
