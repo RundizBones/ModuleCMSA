@@ -40,8 +40,8 @@ class RdbCMSAFilesFileBrowserFolders {
         let thisClass = new RdbCMSAFilesFileBrowserFolders();
         let folderListElement = document.querySelector(thisClass.folderListSelector);
 
-        let queryString = RdbCMSAFilesCommonObject.csrfName + '=' + RdbCMSAFilesCommonObject.csrfKeyPair[RdbCMSAFilesCommonObject.csrfName]
-        + '&' + RdbCMSAFilesCommonObject.csrfValue + '=' + RdbCMSAFilesCommonObject.csrfKeyPair[RdbCMSAFilesCommonObject.csrfValue]
+        let queryString = RdbCMSAFilesCommonObject.csrfName + '=' + encodeURIComponent(RdbCMSAFilesCommonObject.csrfKeyPair[RdbCMSAFilesCommonObject.csrfName])
+        + '&' + RdbCMSAFilesCommonObject.csrfValue + '=' + encodeURIComponent(RdbCMSAFilesCommonObject.csrfKeyPair[RdbCMSAFilesCommonObject.csrfValue]);
 
         RdbaCommon.XHR({
             'url': RdbCMSAFilesCommonObject.getFoldersRESTUrl + '?' + queryString,
