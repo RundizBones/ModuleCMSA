@@ -58,7 +58,7 @@ class FilterRestricted extends \FilterIterator
     {
         $File = $this->getInnerIterator()->current();
 
-        $splitNotTypes = explode('|', $this->notType);
+        $splitNotTypes = explode('|', (is_scalar($this->notType) ? $this->notType : ''));
         foreach ($splitNotTypes as $notType) {
             if ($notType === 'dir') {
                 if ($File->isDir()) {
