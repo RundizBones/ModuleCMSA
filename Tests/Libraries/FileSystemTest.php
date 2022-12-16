@@ -95,6 +95,7 @@ class FileSystemTest extends \Rdb\Tests\BaseTestCase
             'channels' => null,
             'sample_rate' => null,
             'format' => null,
+            'duration' => null,
         ];
         $this->assertSame($expect, $this->FileSystem->getAudioMetadata('file-not-exists.mp3'));
 
@@ -136,6 +137,7 @@ class FileSystemTest extends \Rdb\Tests\BaseTestCase
             'height' => null,
             'frame_rate' => null,
             'format' => null,
+            'duration' => null,
         ];
         $this->assertSame($expect, $this->FileSystem->getVideoMetadata('file-not-exists.avi'));
 
