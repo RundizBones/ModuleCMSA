@@ -446,7 +446,7 @@ class FilesSubController
         // filters before \RecursiveIteratorIterator
         $RDI = new \Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterFilenameRegex(
             $RDI,
-            '/' . preg_quote($fileNameOnly) . '_original((\.[0-9]{6})*).' . $fileExtOnly . '$/'
+            '/' . preg_quote($fileNameOnly, '/') . '_original((\.[0-9]{6})*).' . $fileExtOnly . '$/'
         );
         $RII = new \RecursiveIteratorIterator(
             $RDI,
