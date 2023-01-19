@@ -22,7 +22,7 @@ class FilterPathnameRegex extends FilterFilesystemRegex
     /**
      * Filter directories against the regex
      */
-    public function accept() {
+    public function accept(): bool {
         return (
             preg_match($this->regex, $this->getPathname())
         );

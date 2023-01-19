@@ -23,7 +23,7 @@ class FilterFilenameRegex extends FilterFilesystemRegex
     /**
      * Filter files against the regex
      */
-    public function accept() {
+    public function accept(): bool {
         return (
             ! $this->isFile() || preg_match($this->regex, $this->getFilename())
         );
