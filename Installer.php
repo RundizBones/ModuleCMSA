@@ -2,7 +2,7 @@
 /**
  * Module Name: RundizBones CMS Admin.
  * Description: Content management system admin module.
- * Requires PHP: 7.1.0
+ * Requires PHP: 7.4.0
  * Requires Modules: RdbAdmin, Languages
  * Author: Vee W.
  * Gettext Domain: rdbcmsa
