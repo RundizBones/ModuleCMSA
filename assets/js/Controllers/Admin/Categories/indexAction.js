@@ -119,7 +119,12 @@ class RdbCMSACategoriesIndexController extends RdbaDatatables {
                                 return RdbCMSACategoriesIndexObject.txtUnpublished;
                             }
                         }
-                    }
+                    },
+                    {
+                        'data': 't_total',
+                        'orderable': false,
+                        'targets': 7,
+                    },
                 ],
                 'dom': thisClass.datatablesDOM,
                 'fixedHeader': true,

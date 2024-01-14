@@ -22,6 +22,7 @@
                                         <th class="column-primary" data-priority="1"><?php echo d__('rdbcmsa', 'Name'); ?></th>
                                         <th><?php echo d__('rdbcmsa', 'Description'); ?></th>
                                         <th><?php echo d__('rdbcmsa', 'URL'); ?></th>
+                                        <th><?php echo d__('rdbcmsa', 'Count'); ?></th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -32,6 +33,7 @@
                                         <th class="column-primary" data-priority="1"><?php echo d__('rdbcmsa', 'Name'); ?></th>
                                         <th><?php echo d__('rdbcmsa', 'Description'); ?></th>
                                         <th><?php echo d__('rdbcmsa', 'URL'); ?></th>
+                                        <th><?php echo d__('rdbcmsa', 'Count'); ?></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -55,7 +57,6 @@
                             <div class="row-actions">
                                 <span class="action"><?php echo __('ID'); ?> {{tid}}</span>
                                 <span class="action"><a class="rdba-listpage-edit" href="{{RdbCMSATagsIndexObject.editTagUrlBase}}/{{tid}}"><?php echo __('Edit'); ?></a></span>
-                                <span class="action"><?php echo d__('rdbcmsa', 'Total items'); ?> {{t_total}}</span>
                                 <span class="action">
                                     <a 
                                         class="rdba-taxonomy-view" 

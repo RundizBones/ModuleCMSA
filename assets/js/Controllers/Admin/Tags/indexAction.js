@@ -98,7 +98,12 @@ class RdbCMSATagsIndexController extends RdbaDatatables {
                     {
                         'data': 'alias_url',
                         'targets': 5
-                    }
+                    },
+                    {
+                        'data': 't_total',
+                        'orderable': true,
+                        'targets': 6,
+                    },
                 ],
                 'dom': thisClass.datatablesDOM,
                 'fixedHeader': true,

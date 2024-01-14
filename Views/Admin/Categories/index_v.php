@@ -23,6 +23,7 @@
                                         <th><?php echo d__('rdbcmsa', 'Description'); ?></th>
                                         <th><?php echo d__('rdbcmsa', 'URL'); ?></th>
                                         <th><?php echo d__('rdbcmsa', 'Status'); ?></th>
+                                        <th><?php echo d__('rdbcmsa', 'Count'); ?></th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -34,6 +35,7 @@
                                         <th><?php echo d__('rdbcmsa', 'Description'); ?></th>
                                         <th><?php echo d__('rdbcmsa', 'URL'); ?></th>
                                         <th><?php echo d__('rdbcmsa', 'Status'); ?></th>
+                                        <th><?php echo d__('rdbcmsa', 'Count'); ?></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -58,7 +60,6 @@
                                 <span class="action"><?php echo __('ID'); ?> {{tid}}</span>
                                 <span class="action"><a class="rdba-listpage-edit" href="{{RdbCMSACategoriesIndexObject.editCategoryUrlBase}}/{{tid}}"><?php echo __('Edit'); ?></a></span> 
                                 <span class="action"><?php echo d__('rdbcmsa', 'Position'); ?> {{t_position}}</span>
-                                <span class="action"><?php echo d__('rdbcmsa', 'Total items'); ?> {{t_total}}</span>
                                 <span class="action">
                                     <a 
                                         class="rdba-taxonomy-view" 
