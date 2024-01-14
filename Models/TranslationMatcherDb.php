@@ -29,6 +29,12 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
 
 
     /**
+     * @var null|array The result that have got from calling `isIdsExists()` method. This result can be empty array if found nothing but if `null` means that method is never called.
+     */
+    protected $isIdsExistsResult;
+
+
+    /**
      * @var string The `translation_matcher` table name.
      */
     protected $tableName;
@@ -358,8 +364,63 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
 
 
     /**
+     * Check if current language of selected id is empty.
+     * 
+     * @since 0.0.14
+     * @param int $id The selected ID.
+     * @param string $tmTable The table name in column `tm_table`.
+     * @param string $currentLanguage Language to check. Leave empty to auto get current language. Default is empty string.
+     * @return bool Return `true` if empty, `false` if not.
+     */
+    public function isCurrentLangEmpty(int $id, string $tmTable, string $currentLanguage = ''): bool
+    {
+        if ($this->isIdsExists([$id], $tmTable) === false) {
+            // if id is not exists. this means empty, yes.
+            return true;
+        }
+
+        if (empty(trim($currentLanguage))) {
+            $currentLanguage = ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? null);
+            if (empty($currentLanguage)) {
+                if ($this->Container->has('Config')) {
+                    /* @var $Config \Rdb\System\Config */
+                    $Config = $this->Container->get('Config');
+                    $Config->setModule('');
+                } else {
+                    $Config = new \Rdb\System\Config();
+                }
+                $currentLanguage = $Config->getDefaultLanguage();
+                unset($Config);
+            }
+        }// endif; current language argument is empty.
+
+        $tmResults = $this->isIdsExistsResult;
+
+        foreach ($tmResults as $tmResultRow) {
+            if (isset($tmResultRow->matches)) {
+                $matchesJSO = json_decode($tmResultRow->matches);
+                if (is_object($matchesJSO)) {
+                    foreach ($matchesJSO as $languageId => $dataId) {
+                        if ($currentLanguage === $languageId && !empty($dataId)) {
+                            // if current language is found in DB and its value is not empty.
+                            return false;
+                        }
+                    }// endforeach;
+                    unset($dataId, $languageId);
+                }// endif; $matchesJSO is object.
+                unset($matchesJSO);
+            }
+        }// endforeach;
+        unset($tmResultRow);
+
+        return true;
+    }// isCurrentLangEmpty
+
+
+    /**
      * Check if any of specify IDs exists on DB.
      * 
+     * @since 0.0.14
      * @param array $ids The indexed array of IDs to check. Any must not exists, if one exists then it will be return `false`.
      * @param string $tm_table The table in `tm_table` column to check.
      * @return bool Return `true` if not exists, `false` if exists.
@@ -375,25 +436,13 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         $tmResult = $this->listItems($options);
         unset($options);
 
-        if (isset($tmResult['items']) && is_array($tmResult['items'])) {
-            foreach ($tmResult['items'] as $eachTm) {
-                $jsonMatches = json_decode($eachTm->matches);
-                foreach ($ids as $index => $data_id) {
-                    foreach ($jsonMatches as $check_languageId => $check_data_id) {
-                        if (intval($data_id) === intval($check_data_id)) {
-                            // if found matched exists in db.
-                            return true;
-                        }// endif;
-                    }// endforeach;
-                    unset($check_data_id, $check_languageId);
-                }// endforeach;
-                unset($data_id, $index);
-                unset($jsonMatches);
-            }// endforeach;
-            unset($eachTm);
-        }// endif;
-        unset($tmResult);
+        if (isset($tmResult['total']) && $tmResult['total'] > 0) {
+            // if found matched exists in db.
+            $this->isIdsExistsResult = ($tmResult['items'] ?? []);
+            return true;
+        }
 
+        $this->isIdsExistsResult = [];
         return false;
     }// isIdsExists
 
