@@ -71,47 +71,21 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
 
             if (true === $formValidated) {
                 // find that adding id must not exists in db.
-                $options['findDataIds'] = [];
+                $findDataIds = [];
                 foreach ($data['matches'] as $languageId => $data_id) {
                     if (!empty($data_id)) {
-                        $options['findDataIds'][] = (int) $data_id;
+                        $findDataIds[] = (int) $data_id;
                     }
                 }// endforeach;
                 unset($data_id, $languageId);
-                $options['where'] = [
-                    'tm_table' => $data['tm_table'],
-                ];
-                $options['unlimited'] = true;
-                if (!empty($options['findDataIds'])) {
-                    $tmResult = $TranslationMatcherDb->listItems($options);
-                }
-                unset($options);
-
-                if (isset($tmResult['items']) && is_array($tmResult['items'])) {
-                    foreach ($tmResult['items'] as $eachTm) {
-                        $jsonMatches = json_decode($eachTm->matches);
-                        foreach ($data['matches'] as $languageId => $data_id) {
-                            foreach ($jsonMatches as $check_languageId => $check_data_id) {
-                                if ($data_id == $check_data_id) {
-                                    // if found matched exists in db.
-                                    $formValidated = false;
-                                    $output['formResultStatus'] = 'error';
-                                    $output['formResultMessage'][] = d__('rdbcmsa', 'The data you had entered is already exists.');
-                                    http_response_code(400);
-                                    if (defined('APP_ENV') && APP_ENV === 'development') {
-                                        $output['debug']['found-data_id'] = $check_data_id;
-                                        $output['debug']['check-duplication-matches'] = $jsonMatches;
-                                    }
-                                    break 3;
-                                }
-                            }// endforeach;
-                            unset($check_data_id, $check_languageId);
-                        }// endforeach; $data['matches']
-                        unset($data_id, $languageId);
-                    }// endforeach;
-                    unset($eachTm);
-                }
-                unset($tmResult);
+                $tmTable = $data['tm_table'];
+                if ($TranslationMatcherDb->isIdsExists($findDataIds, $tmTable) === true) {
+                    $formValidated = false;
+                    $output['formResultStatus'] = 'error';
+                    $output['formResultMessage'][] = d__('rdbcmsa', 'The data you had entered is already exists.');
+                    http_response_code(400);
+                }// endif;
+                unset($findDataIds, $tmTable);
             }
             // end validate the form. --------------------------------------------------------------------
 

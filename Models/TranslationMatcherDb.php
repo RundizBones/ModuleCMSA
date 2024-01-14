@@ -192,9 +192,14 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
      * @param array $options The associative array options. Available options keys:<br>
      *                          `getRelatedData` (bool) Set to `true` to get related data such as posts name for table name posts. (see `getRelatedData()` method.) Default is `false`.<br>
      * @return object|false Return object, or `false` on failure.
+     * @throws \InvalidArgumentException Throw the exception if argument is invalid.
      */
     public function get(array $where, array $options = [])
     {
+        if (isset($where['findDataIds']) && !is_array($where['findDataIds'])) {
+            throw new \InvalidArgumentException('The argument `$where[\'formDataIds\']` must be array, ' . gettype($where['findDataIds']) . ' given.');
+        }
+
         $sql = 'SELECT * FROM `' . $this->tableName . '` AS `translation_matcher`
             WHERE 1';
 
@@ -350,6 +355,47 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
 
         return $resultData;
     }// getRelatedData
+
+
+    /**
+     * Check if any of specify IDs exists on DB.
+     * 
+     * @param array $ids The indexed array of IDs to check. Any must not exists, if one exists then it will be return `false`.
+     * @param string $tm_table The table in `tm_table` column to check.
+     * @return bool Return `true` if not exists, `false` if exists.
+     */
+    public function isIdsExists(array $ids, string $tm_table): bool
+    {
+        $options = [];
+        $options['findDataIds'] = $ids;
+        $options['where'] = [
+            'tm_table' => $tm_table,
+        ];
+        $options['unlimited'] = true;
+        $tmResult = $this->listItems($options);
+        unset($options);
+
+        if (isset($tmResult['items']) && is_array($tmResult['items'])) {
+            foreach ($tmResult['items'] as $eachTm) {
+                $jsonMatches = json_decode($eachTm->matches);
+                foreach ($ids as $index => $data_id) {
+                    foreach ($jsonMatches as $check_languageId => $check_data_id) {
+                        if (intval($data_id) === intval($check_data_id)) {
+                            // if found matched exists in db.
+                            return true;
+                        }// endif;
+                    }// endforeach;
+                    unset($check_data_id, $check_languageId);
+                }// endforeach;
+                unset($data_id, $index);
+                unset($jsonMatches);
+            }// endforeach;
+            unset($eachTm);
+        }// endif;
+        unset($tmResult);
+
+        return false;
+    }// isIdsExists
 
 
     /**
