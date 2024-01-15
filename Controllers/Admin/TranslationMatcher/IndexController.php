@@ -187,18 +187,15 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
                 // if edit mode.
                 // remove duplicated result in db except selected tm_id. ----
                 // build data ids to look in db.
-                $options['findDataIds'] = [];
+                $findDataIds = [];
                 foreach ($result as $row) {
-                    $options['findDataIds'][] = (int) $row->data_id;
+                    $findDataIds[] = (int) $row->data_id;
                 }// endforeach;
                 unset($row);
-                $options['where'] = [
-                    'tm_table' => $tmTable,
-                    'tm_id' => '!= ' . $tmId,// except this tm_id.
+                $TranslationMatcherDb->isIdsExistsButNotInTmID($tmId, $findDataIds, $tmTable);
+                $tmResult = [
+                    'items' => $TranslationMatcherDb->isIdsExistsResult
                 ];
-                $options['unlimited'] = true;
-                $tmResult = $TranslationMatcherDb->listItems($options);// look in db.
-                unset($options);
 
                 $this->removeExistsDataFromResult($result, $tmResult);
                 unset($tmResult);
