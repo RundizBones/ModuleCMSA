@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rdbcmsa\n"
-"POT-Creation-Date: 2024-01-15 11:17+0700\n"
-"PO-Revision-Date: 2024-01-15 11:17+0700\n"
+"POT-Creation-Date: 2024-01-15 15:06+0700\n"
+"PO-Revision-Date: 2024-01-15 15:07+0700\n"
 "Last-Translator: Vee W.\n"
 "Language-Team: \n"
 "Language: th_TH\n"
@@ -58,7 +58,7 @@ msgid "Unable to delete."
 msgstr "ไม่สามารถลบได้."
 
 #: Controllers/Admin/Categories/ActionsController.php:313
-#: Controllers/Admin/Categories/AddController.php:250
+#: Controllers/Admin/Categories/AddController.php:249
 #: Controllers/Admin/Categories/EditController.php:256
 #: Controllers/Admin/Files/ActionsController.php:631
 #: Controllers/Admin/Files/EditController.php:182
@@ -66,15 +66,15 @@ msgstr "ไม่สามารถลบได้."
 #: Controllers/Admin/Pages/AddController.php:257 Controllers/Admin/Pages/EditController.php:276
 #: Controllers/Admin/Pages/IndexController.php:238
 #: Controllers/Admin/Posts/AddController.php:257 Controllers/Admin/Posts/EditController.php:276
-#: Controllers/Admin/Posts/IndexController.php:240 Controllers/Admin/Tags/AddController.php:198
+#: Controllers/Admin/Posts/IndexController.php:240 Controllers/Admin/Tags/AddController.php:248
 #: Controllers/Admin/Tags/EditController.php:228 ModuleData/ModuleAdmin.php:142
 msgid "Contents"
 msgstr "เนื้อหา"
 
 #: Controllers/Admin/Categories/ActionsController.php:317
-#: Controllers/Admin/Categories/AddController.php:254
+#: Controllers/Admin/Categories/AddController.php:253
 #: Controllers/Admin/Categories/EditController.php:260
-#: Controllers/Admin/Categories/IndexController.php:226 ModuleData/ModuleAdmin.php:80
+#: Controllers/Admin/Categories/IndexController.php:167 ModuleData/ModuleAdmin.php:80
 #: ModuleData/ModuleAdmin.php:165 Views/Admin/Posts/add_v.php:67
 #: Views/Admin/Posts/index_v.php:24 Views/Admin/Posts/index_v.php:36
 msgid "Categories"
@@ -82,7 +82,7 @@ msgstr "หมวดหมู่"
 
 #: Controllers/Admin/Categories/AddController.php:84
 #: Controllers/Admin/Categories/EditController.php:100
-#: Controllers/Admin/Tags/AddController.php:82 Controllers/Admin/Tags/EditController.php:98
+#: Controllers/Admin/Tags/AddController.php:83 Controllers/Admin/Tags/EditController.php:98
 msgid "Please enter the name."
 msgstr "กรุณากรอกชื่อ."
 
@@ -90,42 +90,45 @@ msgstr "กรุณากรอกชื่อ."
 #: Controllers/Admin/Categories/EditController.php:117
 #: Controllers/Admin/Pages/AddController.php:129 Controllers/Admin/Pages/EditController.php:152
 #: Controllers/Admin/Posts/AddController.php:129 Controllers/Admin/Posts/EditController.php:152
-#: Controllers/Admin/Tags/AddController.php:95 Controllers/Admin/Tags/EditController.php:115
+#: Controllers/Admin/Tags/AddController.php:96 Controllers/Admin/Tags/EditController.php:115
 #: Controllers/Admin/Tools/URLAliases/AddController.php:112
 #: Controllers/Admin/Tools/URLAliases/EditController.php:136
 msgid "The URL is already exists."
 msgstr "URL นี้มีอยู่แล้ว."
 
 #: Controllers/Admin/Categories/AddController.php:116
+#: Controllers/Admin/Tags/AddController.php:115
 msgid "Invalid translation matcher from source ID."
 msgstr "ค่าไอดีจากแหล่งที่มาจากการจับคู่การแปลภาษาไม่ถูกต้อง."
 
 #: Controllers/Admin/Categories/AddController.php:126
+#: Controllers/Admin/Tags/AddController.php:125
 msgid "Could not found the ID from source."
 msgstr "ไม่พบ ID จากแหล่งที่มา."
 
 #: Controllers/Admin/Categories/AddController.php:138
+#: Controllers/Admin/Tags/AddController.php:137
 msgid "The translation you are trying to match is already exists."
 msgstr "การแปลภาษาที่คุณพยายามจะจับคู่นั้นมีข้อมูลอยู่แล้ว."
 
-#: Controllers/Admin/Categories/AddController.php:176
+#: Controllers/Admin/Categories/AddController.php:175
 #: Controllers/Admin/Pages/AddController.php:181 Controllers/Admin/Posts/AddController.php:181
-#: Controllers/Admin/Tags/AddController.php:125
+#: Controllers/Admin/Tags/AddController.php:174
 #: Controllers/Admin/Tools/URLAliases/AddController.php:136
 #: Controllers/Admin/TranslationMatcher/AddController.php:104
 msgid "Added successfully."
 msgstr "เพิ่มเรียบร้อยแล้ว."
 
-#: Controllers/Admin/Categories/AddController.php:184
+#: Controllers/Admin/Categories/AddController.php:183
 msgid "Unable to add new category."
 msgstr "ไม่สามารถเพิ่มหมวดหมู่."
 
-#: Controllers/Admin/Categories/AddController.php:232
+#: Controllers/Admin/Categories/AddController.php:231
 msgid "Add a category"
 msgstr "เพิ่มหมวดหมู่"
 
 #: Controllers/Admin/Categories/EditController.php:92
-#: Controllers/Admin/Categories/IndexController.php:131
+#: Controllers/Admin/Categories/IndexController.php:134
 msgid "Not found selected category."
 msgstr "ไม่พบหมวดหมู่ที่เลือก."
 
@@ -151,19 +154,19 @@ msgstr "ไม่สามารถปรับปรุงได้."
 msgid "Edit a category"
 msgstr "แก้ไขหมวดหมู่"
 
-#: Controllers/Admin/Categories/IndexController.php:292
+#: Controllers/Admin/Categories/IndexController.php:233
 #: Controllers/_SubControllers/TaxonomyTermDataSubController.php:236
 msgid "Please select at least one category."
 msgstr "โปรดเลือกอย่างน้อยหนึ่งหมวดหมู่."
 
-#: Controllers/Admin/Categories/IndexController.php:293
+#: Controllers/Admin/Categories/IndexController.php:234
 #: Controllers/Admin/Files/IndexController.php:288 Models/PostsDb.php:922
 #: Views/Admin/Categories/add_v.php:71 Views/Admin/Categories/edit_v.php:81
 #: Views/Admin/Files/edit_v.php:61
 msgid "Published"
 msgstr "เผยแพร่แล้ว"
 
-#: Controllers/Admin/Categories/IndexController.php:294
+#: Controllers/Admin/Categories/IndexController.php:235
 #: Controllers/Admin/Files/IndexController.php:289 Views/Admin/Categories/add_v.php:70
 #: Views/Admin/Categories/edit_v.php:80
 msgid "Unpublished"
@@ -205,7 +208,7 @@ msgstr "ไฟล์เบราว์เซอร์"
 #: Controllers/Admin/Posts/EditController.php:331
 #: Controllers/Admin/Posts/IndexController.php:290
 #: Controllers/Admin/Tags/ActionsController.php:194
-#: Controllers/Admin/Tags/IndexController.php:192
+#: Controllers/Admin/Tags/IndexController.php:216
 #: Controllers/Admin/Tools/URLAliases/IndexController.php:188
 #: Controllers/Admin/TranslationMatcher/IndexController.php:319
 msgid "Please select at least one item."
@@ -521,22 +524,22 @@ msgstr "ไม่สามารถลบไฟล์ลายน้ำได้
 msgid "All"
 msgstr "ทั้งหมด"
 
-#: Controllers/Admin/Tags/AddController.php:133
+#: Controllers/Admin/Tags/AddController.php:182
 msgid "Unable to add new tag."
 msgstr "ไม่สามารถเพิ่มแท็กใหม่."
 
-#: Controllers/Admin/Tags/AddController.php:180
+#: Controllers/Admin/Tags/AddController.php:230
 msgid "Add a tag"
 msgstr "เพิ่มแท็ก"
 
-#: Controllers/Admin/Tags/AddController.php:202 Controllers/Admin/Tags/EditController.php:232
-#: Controllers/Admin/Tags/IndexController.php:131 ModuleData/ModuleAdmin.php:81
+#: Controllers/Admin/Tags/AddController.php:252 Controllers/Admin/Tags/EditController.php:232
+#: Controllers/Admin/Tags/IndexController.php:155 ModuleData/ModuleAdmin.php:81
 #: ModuleData/ModuleAdmin.php:177 Views/Admin/Posts/add_v.php:75
 #: Views/Admin/Posts/index_v.php:25 Views/Admin/Posts/index_v.php:37
 msgid "Tags"
 msgstr "แท็ก"
 
-#: Controllers/Admin/Tags/EditController.php:90 Controllers/Admin/Tags/IndexController.php:57
+#: Controllers/Admin/Tags/EditController.php:90 Controllers/Admin/Tags/IndexController.php:60
 #: Controllers/Admin/Tools/URLAliases/IndexController.php:57
 msgid "Not found selected tag."
 msgstr "ไม่พบแท็กที่เลือก."
@@ -666,6 +669,7 @@ msgid "Add"
 msgstr "เพิ่ม"
 
 #: ModuleData/ModuleAdmin.php:93 Views/Admin/Categories/index_v.php:82
+#: Views/Admin/Tags/index_v.php:79
 msgid "Edit"
 msgstr "แก้ไข"
 
@@ -785,11 +789,11 @@ msgstr "จำนวน"
 msgid "View"
 msgstr "ดู"
 
-#: Views/Admin/Categories/index_v.php:79
+#: Views/Admin/Categories/index_v.php:79 Views/Admin/Tags/index_v.php:76
 msgid "Add a translation"
 msgstr "เพิ่มการแปล"
 
-#: Views/Admin/Categories/index_v.php:121 Views/Admin/Tags/index_v.php:103
+#: Views/Admin/Categories/index_v.php:121 Views/Admin/Tags/index_v.php:118
 msgid "Update total items"
 msgstr "ปรับปรุงจำนวนรายการทั้งหมด"
 

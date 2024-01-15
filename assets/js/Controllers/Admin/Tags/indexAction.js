@@ -80,7 +80,22 @@ class RdbCMSATagsIndexController extends RdbaDatatables {
                                 let string = options.fn(this);
                                 return string.replace(find, replace);
                             });
+                            Handlebars.registerHelper('replaceBaseUrl', function (replace, options) {
+                                const re = new RegExp('^(' + RdbaUIXhrCommonData.urls.baseUrlRaw + ')', 'i');
+                                let string = options.fn(this);
+                                return string.replace(re, RdbaUIXhrCommonData.urls.baseUrl + '/' + replace);
+                            });
+                            Handlebars.registerHelper('ifeq', function (a, b, options) {
+                                if (a == b) { return options.fn(this); }
+                                return options.inverse(this);
+                            });
+                            Handlebars.registerHelper('ifnoteq', function (a, b, options) {
+                                if (a != b) { return options.fn(this); }
+                                return options.inverse(this);
+                            });
+
                             row.RdbCMSATagsIndexObject = RdbCMSATagsIndexObject;
+                            row.RdbaUIXhrCommonData = RdbaUIXhrCommonData;
 
                             let html = '<a class="rdba-listpage-edit" href="' + RdbCMSATagsIndexObject.editTagUrlBase + '/' + row.tid + '">' + RdbaCommon.escapeHtml(data) + '</a>'
                                 + template(row);

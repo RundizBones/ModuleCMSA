@@ -139,7 +139,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                         http_response_code(400);
                         $formValidated = false;
                 }
-            }// endif; form validated
+            }// endif; form validated for translation matcher.
             // end validate the form. --------------------------------------------------------------------
 
             if (isset($formValidated) && $formValidated === true) {
@@ -168,7 +168,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                             $tmData['tmTable']
                         );
                         unset($tmData);
-                    }
+                    }// endif; there is translation matcher data to be add.
 
                     $output['tid'] = $tid;
                     $output['formResultStatus'] = 'success';

@@ -65,6 +65,21 @@
                                         <?php echo d__('rdbcmsa', 'View'); ?>
                                     </a>
                                 </span>
+                                <br>
+                                {{#each languages}}
+                                <span class="action">
+                                    {{@key}}: 
+                                    {{#ifnoteq @key ../RdbaUIXhrCommonData.currentLanguage}}
+                                        {{#if id}}
+                                        <a href="{{#replaceBaseUrl @key}}{{../RdbCMSATagsIndexObject.editTagUrlBase}}{{/replaceBaseUrl}}/{{id}}" title="{{data.data_name}}"><i class="fa-solid fa-pen fontawesome-icon"></i></a>
+                                        {{else}}
+                                        <a href="{{#replaceBaseUrl @key}}{{../RdbCMSATagsIndexObject.addTagUrl}}?translation-matcher_from-tid={{../tid}}{{/replaceBaseUrl}}" title="<?php echo esc_d__('rdbcmsa', 'Add a translation'); ?>" data-current-tid="{{../tid}}" data-language-id="{{@key}}"><i class="fa-solid fa-plus fontawesome-icon"></i></a>
+                                        {{/if}}
+                                    {{else}}
+                                    <a class="rdba-listpage-edit" href="{{../RdbCMSATagsIndexObject.editTagUrlBase}}/{{../tid}}" title="<?php echo esc__('Edit'); ?>"><i class="fa-solid fa-pen fontawesome-icon"></i></a>
+                                    {{/ifnoteq}}
+                                </span>
+                                {{/each}}
                             </div>
                         </template>
 

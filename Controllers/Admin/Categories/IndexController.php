@@ -25,6 +25,9 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
     use Traits\CategoriesTrait;
 
 
+    use \Rdb\Modules\RdbCMSA\Controllers\Admin\TranslationMatcher\Traits\TranslationMatcherTrait;
+
+
     /**
      * Get categories data.
      * 
@@ -71,7 +74,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
 
             if (isset($result['items']) && is_iterable($result['items'])) {
                 foreach ($result['items'] as $row) {
-                    $row->languages = $this->getLanguagesAndTranslationMatched($row, $languages, $TranslationMatcherDb);
+                    $row->languages = $this->getLanguagesAndTranslationMatchedTaxtermdata($row, $languages, $TranslationMatcherDb);
                 }// endforeach;
                 unset($row);
             }
@@ -138,68 +141,6 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
         // display, response part ---------------------------------------------------------------------------------------------
         return $this->responseAcceptType($output);
     }// doGetDataAction
-
-
-    /**
-     * Get languages and its translation matched in the DB.
-     * 
-     * This method was called from `doGetCategories()`.
-     * 
-     * @since 0.0.14
-     * @param object $row A result row object.
-     * @param array $languages Languages from config file.
-     * @param \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb $TranslationMatcherDb The translation matcher model class.
-     * @return array Return associative array.<pre>
-     * array(
-     *     'th' => array(
-     *         // the data in here will be available if exists only.
-     *         'id' => 12,// the data ID that matched in `matches` column DB.
-     *         'data' => array(
-     *             'data_type' => 'xxx',// the data type of the table in `tm_table` column. Example 'category', 'tag'.
-     *             'data_name' => 'xxxyyy',// the data name of the table in `tm_table` column.
-     *         ),
-     *     ),
-     *     // ... en-US and so on
-     * )
-     * </pre>
-     */
-    protected function getLanguagesAndTranslationMatched($row, array $languages, \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb $TranslationMatcherDb): array
-    {
-        $output = [];
-        foreach ($languages as $languageId => $languageItems) {
-            $TmatchResult = $TranslationMatcherDb->get(
-                [
-                    'findDataIds' => [$row->tid], 
-                    'tm_table' => 'taxonomy_term_data',
-                ],
-                [
-                    'getRelatedData' => true,
-                ]
-            );
-            $output[$languageId] = [];
-
-            if (isset($TmatchResult->matches)) {
-                $matchesJSO = json_decode($TmatchResult->matches);
-                if (isset($matchesJSO->{$languageId})) {
-                    $matchedTranslatedID = $matchesJSO->{$languageId};
-                    if (isset($matchesJSO->{'data_id' . $matchedTranslatedID})) {
-                        $matchedData = $matchesJSO->{'data_id' . $matchedTranslatedID};
-                        $output[$languageId] = [
-                            'id' => $matchedTranslatedID,
-                            'data' => $matchedData,
-                            'tm_table' => $TmatchResult->tm_table,
-                        ];
-                    }
-                    unset($matchedData, $matchedTranslatedID);
-                }
-                unset($matchesJSO);
-            }
-            unset($TmatchResult);
-        }// endforeach;
-        unset($languageId, $languageItems);
-
-        return $output;
-    }// getLanguagesAndTranslationMatched
 
 
     /**

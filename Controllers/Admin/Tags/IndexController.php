@@ -25,6 +25,9 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
     use Traits\TagsTrait;
 
 
+    use \Rdb\Modules\RdbCMSA\Controllers\Admin\TranslationMatcher\Traits\TranslationMatcherTrait;
+
+
     /**
      * Get an item.
      * 
@@ -98,6 +101,27 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
         ];
         $result = $TagsDb->listItems($options);
         unset($options, $TagsDb);
+
+        // do additional task(s) to the data that retrieved. ----------
+        if ($this->Container->has('Config')) {
+            /* @var $Config \Rdb\System\Config */
+            $Config = $this->Container->get('Config');
+            $Config->setModule('');
+        } else {
+            $Config = new \Rdb\System\Config();
+        }
+        $languages = $Config->get('languages', 'language', []);
+        unset($Config);
+        $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
+
+        if (isset($result['items']) && is_iterable($result['items'])) {
+            foreach ($result['items'] as $row) {
+                $row->languages = $this->getLanguagesAndTranslationMatchedTaxtermdata($row, $languages, $TranslationMatcherDb);
+            }// endforeach;
+            unset($row);
+        }
+        unset($languages, $TranslationMatcherDb);
+        // end do additional task(s) to the data that retrieved. ------
 
         $output['draw'] = $this->Input->get('draw', 1, FILTER_SANITIZE_NUMBER_INT);
         $output['recordsTotal'] = ($result['total'] ?? 0);

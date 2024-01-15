@@ -74,6 +74,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
 
             $TagsDb = new \Rdb\Modules\RdbCMSA\Models\TagsDb($this->Container);
             $UrlAliasesDb = new \Rdb\Modules\RdbCMSA\Models\UrlAliasesDb($this->Container);
+            $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
 
             // validate the form. -------------------------------------------------------------------------
             $formValidated = false;
@@ -102,6 +103,42 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                 }
                 unset($isDuplicated);
             }
+
+            if ($formValidated === true && !empty($_POST['translation-matcher_from-tid'])) {
+                // if there is data to create new translation from source ID.
+                $tmData = [];
+                $tmData['fromTid'] = $this->Input->post('translation-matcher_from-tid', '', FILTER_SANITIZE_NUMBER_INT);
+                $tmData['tmTable'] = 'taxonomy_term_data';
+
+                if (!is_numeric($tmData['fromTid'])) {
+                    $output['formResultStatus'] = 'error';
+                    $output['formResultMessage'][] = d__('rdbcmsa', 'Invalid translation matcher from source ID.');
+                    http_response_code(400);
+                    $formValidated = false;
+                }// endif; check from tid
+
+                if ($formValidated === true) {
+                    $TaxonomyTermDataDb = new \Rdb\Modules\RdbCMSA\Models\TaxonomyTermDataDb($this->Container);
+                    $fromTidResult = $TaxonomyTermDataDb->get(['tid' => intval($tmData['fromTid'])]);
+                    if (empty($fromTidResult) || $fromTidResult === false) {
+                        $output['formResultStatus'] = 'error';
+                        $output['formResultMessage'][] = d__('rdbcmsa', 'Could not found the ID from source.');
+                        http_response_code(404);
+                        $formValidated = false;
+                    } else {
+                        $tmData['fromTidLanguage'] = $fromTidResult->language;
+                    }
+                    unset($fromTidResult, $TaxonomyTermDataDb);
+                }
+
+                if ($formValidated === true && $TranslationMatcherDb->isCurrentLangEmpty(intval($tmData['fromTid']), $tmData['tmTable']) === false) {
+                        // if current language of selected id is not empty.
+                        $output['formResultStatus'] = 'error';
+                        $output['formResultMessage'][] = d__('rdbcmsa', 'The translation you are trying to match is already exists.');
+                        http_response_code(400);
+                        $formValidated = false;
+                }
+            }// endif; form validated for translation matcher.
             // end validate the form. --------------------------------------------------------------------
 
             if (isset($formValidated) && $formValidated === true) {
@@ -120,6 +157,18 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                 }
 
                 if ($tid !== false && $tid > '0') {
+                    // if add success.
+                    if (isset($tmData)) {
+                        // if there is translation matcher functional here.
+                        // try to add or update the new id of current language with the id from previous (link clicked).
+                        $output['addTranslationResult'] = $TranslationMatcherDb->addUpdateWithSource(
+                            [$tmData['fromTidLanguage'] => $tmData['fromTid']], 
+                            [$_SERVER['RUNDIZBONES_LANGUAGE'] => $tid], 
+                            $tmData['tmTable']
+                        );
+                        unset($tmData);
+                    }// endif; there is translation matcher data to be add.
+
                     $output['tid'] = $tid;
                     $output['formResultStatus'] = 'success';
                     $output['formResultMessage'] = d__('rdbcmsa', 'Added successfully.');
@@ -139,7 +188,8 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                 unset($tid);
             }
 
-            unset($data, $formValidated, $TagsDb, $UrlAliasesDb);
+            unset($data, $dataUrlAliases, $formValidated, $tmData);
+            unset($TranslationMatcherDb, $TagsDb, $UrlAliasesDb);
         } else {
             // if unable to validate token.
             $output['formResultStatus'] = 'error';
@@ -158,7 +208,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
 
 
     /**
-     * Add page action.
+     * Add a tag page.
      * 
      * @return string
      */
