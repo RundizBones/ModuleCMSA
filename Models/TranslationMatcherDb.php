@@ -11,6 +11,8 @@ namespace Rdb\Modules\RdbCMSA\Models;
  * Translation matcher model.
  * 
  * @since 0.0.2
+ * @property-read null|array $isIdsExistsResult The result that have got from calling `isIdsExists()` method. This result can be empty array if found nothing but if `null` means that method is never called.
+ * @property-read string $tableName The `translation_matcher` table name.
  */
 class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
 {
@@ -46,6 +48,21 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
 
         $this->tableName = $this->Db->tableName('translation_matcher');
     }// __construct
+
+
+    /**
+     * Magic get
+     * 
+     * @param string $name The property name.
+     */
+    public function __get(string $name)
+    {
+        $allowedAccessProps = ['isIdsExistsResult', 'tableName'];
+
+        if (in_array($name, $allowedAccessProps) && property_exists($this, $name)) {
+            return $this->{$name};
+        }
+    }// __get
 
 
     /**
@@ -374,10 +391,13 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
      */
     public function isCurrentLangEmpty(int $id, string $tmTable, string $currentLanguage = ''): bool
     {
-        if ($this->isIdsExists([$id], $tmTable) === false) {
-            // if id is not exists. this means empty, yes.
-            return true;
-        }
+        if (is_null($this->isIdsExistsResult)) {
+            // if `isIdsExistsResult` is null (never check before).
+            if ($this->isIdsExists([$id], $tmTable) === false) {
+                // if id is not exists. this means empty, yes.
+                return true;
+            }
+        }// endif; isIdsExistsResult is null.
 
         if (empty(trim($currentLanguage))) {
             $currentLanguage = ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? null);
@@ -419,6 +439,8 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
 
     /**
      * Check if any of specify IDs exists on DB.
+     * 
+     * This will be set the searched IDs exists result in `isIdsExistsResult` class's property.
      * 
      * @since 0.0.14
      * @param array $ids The indexed array of IDs to check. Any must not exists, if one exists then it will be return `false`.

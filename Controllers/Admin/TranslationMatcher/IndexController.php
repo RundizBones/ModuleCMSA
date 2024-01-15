@@ -169,35 +169,17 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
                 // if add mode.
                 // remove duplicated result in db. -------------------------
                 // build data ids to look in db.
-                $options['findDataIds'] = [];
+                $findDataIds = [];
                 foreach ($result as $row) {
-                    $options['findDataIds'][] = (int) $row->data_id;
+                    $findDataIds[] = (int) $row->data_id;
                 }// endforeach;
                 unset($row);
-                $options['where'] = [
-                    'tm_table' => $tmTable,
-                ];
-                $options['unlimited'] = true;
-                $tmResult = $TranslationMatcherDb->listItems($options);// look in db.
-                unset($options);
+                $TranslationMatcherDb->isIdsExists($findDataIds, $tmTable);
+                $tmResult = $TranslationMatcherDb->isIdsExistsResult;
+                $tmResult['items'] = $tmResult;
+                unset($findDataIds);
 
-                if (isset($tmResult['items']) && is_array($tmResult['items'])) {
-                    foreach ($tmResult['items'] as $eachTm) {
-                        $jsonMatches = json_decode($eachTm->matches);
-                        foreach ($result as $resultIndex => $row) {
-                            foreach ($jsonMatches as $languageId => $data_id) {
-                                if (!empty($data_id) && $data_id == $row->data_id) {
-                                    // if found matched exists in db.
-                                    // removed data that exists in db.
-                                    unset($result[$resultIndex]);
-                                }
-                            }// endforeach;
-                            unset($data_id, $languageId);
-                        }// endforeach; $result
-                        unset($jsonMatches, $resultIndex, $row);
-                    }// endforeach;
-                    unset($eachTm);
-                }
+                $this->removeExistsDataFromResult($result, $tmResult);
                 unset($tmResult);
                 // end remove duplicated result in db. ------------------------
             } elseif (strtolower($editingMode) === 'edit' && !empty($tmId)) {
@@ -217,23 +199,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
                 $tmResult = $TranslationMatcherDb->listItems($options);// look in db.
                 unset($options);
 
-                if (isset($tmResult['items']) && is_array($tmResult['items'])) {
-                    foreach ($tmResult['items'] as $eachTm) {
-                        $jsonMatches = json_decode($eachTm->matches);
-                        foreach ($result as $resultIndex => $row) {
-                            foreach ($jsonMatches as $languageId => $data_id) {
-                                if (!empty($data_id) && $data_id == $row->data_id) {
-                                    // if found matched exists in db.
-                                    // removed data that exists in db.
-                                    unset($result[$resultIndex]);
-                                }
-                            }// endforeach;
-                            unset($data_id, $languageId);
-                        }// endforeach; $result
-                        unset($jsonMatches, $resultIndex, $row);
-                    }// endforeach;
-                    unset($eachTm);
-                }
+                $this->removeExistsDataFromResult($result, $tmResult);
                 unset($tmResult);
                 // end remove duplicated result in db except selected tm_id. --
             }
@@ -369,6 +335,37 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
             return $this->Views->render('common/Admin/mainLayout_v', $output, ['viewsModule' => 'RdbAdmin']);
         }
     }// indexAction
+
+
+    /**
+     * Remove exists data from `$result` if found matched exists in `$tmResult`.
+     * 
+     * This method was called from `doSearchEditingAction()`.
+     * 
+     * @since 0.0.14
+     * @param array $result The raw data result to be remove if exists in `$tmResult`. This variable will be alter.
+     * @param array $tmResult The searched translation matcher result.
+     */
+    protected function removeExistsDataFromResult(array &$result, array $tmResult)
+    {
+        if (isset($tmResult['items']) && is_array($tmResult['items'])) {
+            foreach ($tmResult['items'] as $eachTm) {
+                $jsonMatches = json_decode($eachTm->matches);
+                foreach ($result as $resultIndex => $row) {
+                    foreach ($jsonMatches as $languageId => $data_id) {
+                        if (!empty($data_id) && $data_id == $row->data_id) {
+                            // if found matched exists in db.
+                            // removed data that exists in db.
+                            unset($result[$resultIndex]);
+                        }
+                    }// endforeach;
+                    unset($data_id, $languageId);
+                }// endforeach; $result
+                unset($jsonMatches, $resultIndex, $row);
+            }// endforeach;
+            unset($eachTm);
+        }
+    }// removeExistsDataFromResult
 
 
 }
