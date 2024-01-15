@@ -175,8 +175,9 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
                 }// endforeach;
                 unset($row);
                 $TranslationMatcherDb->isIdsExists($findDataIds, $tmTable);
-                $tmResult = $TranslationMatcherDb->isIdsExistsResult;
-                $tmResult['items'] = $tmResult;
+                $tmResult = [
+                    'items' => $TranslationMatcherDb->isIdsExistsResult
+                ];
                 unset($findDataIds);
 
                 $this->removeExistsDataFromResult($result, $tmResult);

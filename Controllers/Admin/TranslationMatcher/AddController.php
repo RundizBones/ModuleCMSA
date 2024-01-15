@@ -78,14 +78,12 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                     }
                 }// endforeach;
                 unset($data_id, $languageId);
-                $tmTable = $data['tm_table'];
-                if ($TranslationMatcherDb->isIdsExists($findDataIds, $tmTable) === true) {
-                    $formValidated = false;
-                    $output['formResultStatus'] = 'error';
-                    $output['formResultMessage'][] = d__('rdbcmsa', 'The data you had entered is already exists.');
-                    http_response_code(400);
-                }// endif;
-                unset($findDataIds, $tmTable);
+                $TranslationMatcherDb->isIdsExists($findDataIds, $data['tm_table']);
+                $tmResult = [
+                    'items' => $TranslationMatcherDb->isIdsExistsResult
+                ];
+                $output = array_merge($output, $this->validateIsIdExistsLang($tmResult, $data['matches'], $formValidated));
+                unset($findDataIds, $tmResult);
             }
             // end validate the form. --------------------------------------------------------------------
 

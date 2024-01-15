@@ -11,7 +11,7 @@ namespace Rdb\Modules\RdbCMSA\Models;
  * Translation matcher model.
  * 
  * @since 0.0.2
- * @property-read null|array $isIdsExistsResult The result that have got from calling `isIdsExists()` method. This result can be empty array if found nothing but if `null` means that method is never called.
+ * @property-read null|array $isIdsExistsResult The result that have got from calling `isIdsExists()`, `isIdsExistsButNotInTmID()` methods. This result can be empty array if found nothing but if `null` means that method is never called.
  * @property-read string $tableName The `translation_matcher` table name.
  */
 class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
@@ -31,7 +31,7 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
 
 
     /**
-     * @var null|array The result that have got from calling `isIdsExists()` method. This result can be empty array if found nothing but if `null` means that method is never called.
+     * @var null|array The result that have got from calling `isIdsExists()`, `isIdsExistsButNotInTmID()` methods. This result can be empty array if found nothing but if `null` means that method is never called.
      */
     protected $isIdsExistsResult;
 
@@ -445,10 +445,15 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
      * @since 0.0.14
      * @param array $ids The indexed array of IDs to check. Any must not exists, if one exists then it will be return `false`.
      * @param string $tm_table The table in `tm_table` column to check.
-     * @return bool Return `true` if not exists, `false` if exists.
+     * @return bool Return `true` if not exists, `false` if exists. If `$ids` is empty then return `false`.
      */
     public function isIdsExists(array $ids, string $tm_table): bool
     {
+        if (empty($ids)) {
+            $this->isIdsExistsResult = [];
+            return false;
+        }
+
         $options = [];
         $options['findDataIds'] = $ids;
         $options['where'] = [
@@ -467,6 +472,45 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         $this->isIdsExistsResult = [];
         return false;
     }// isIdsExists
+
+
+    /**
+     * Check if any of specify IDs exists on DB but not in certain translation matcher ID.
+     * 
+     * This will be set the searched IDs exists result in `isIdsExistsResult` class's property.
+     * 
+     * @since 0.0.14
+     * @param int $tm_id Translation matcher ID to exclude in search where the specified `$ids` must not in this `tm_id` row.
+     * @param array $ids The indexed array of IDs to check. Any must not exists, if one exists then it will be return `false`.
+     * @param string $tm_table The table in `tm_table` column to check.
+     * @return bool Return `true` if not exists, `false` if exists. If `$ids` is empty then return `false`.
+     */
+    public function isIdsExistsButNotInTmID(int $tm_id, array $ids, string $tm_table): bool
+    {
+        if (empty($ids)) {
+            $this->isIdsExistsResult = [];
+            return false;
+        }
+
+        $options = [];
+        $options['findDataIds'] = $ids;
+        $options['where'] = [
+            'tm_table' => $tm_table,
+            'tm_id' => '!= ' . $tm_id,
+        ];
+        $options['unlimited'] = true;
+        $tmResult = $this->listItems($options);
+        unset($options);
+
+        if (isset($tmResult['total']) && $tmResult['total'] > 0) {
+            // if found matched exists in db.
+            $this->isIdsExistsResult = ($tmResult['items'] ?? []);
+            return true;
+        }
+
+        $this->isIdsExistsResult = [];
+        return false;
+    }// isIdsExistsButNotInTmID
 
 
     /**
