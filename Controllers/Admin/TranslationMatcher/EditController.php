@@ -100,7 +100,7 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
                 unset($data_id, $languageId);
                 $TranslationMatcherDb->isIdsExistsButNotInTmID($tm_id, $findDataIds, $data['tm_table']);
                 $tmResult = [
-                    'items' => $TranslationMatcherDb->isIdsExistsResult
+                    'items' => $TranslationMatcherDb->isIdsExistsButNotInTmIDResult
                 ];
                 $output = array_merge($output, $this->validateIsIdExistsLang($tmResult, $data['matches'], $formValidated));
                 unset($findDataIds, $tmResult);

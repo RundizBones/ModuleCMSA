@@ -75,6 +75,11 @@ class RdbCMSACategoriesAddController {
                 submitBtn.disabled = true;
 
                 let formData = new FormData(thisForm);
+                const urlParams = new URLSearchParams(window.location.search);
+                const fromTid = urlParams.get('translation-matcher_from-tid');
+                if (!isNaN(fromTid) && !isNaN(parseFloat(fromTid))) {
+                    formData.append('translation-matcher_from-tid', fromTid);
+                }
 
                 RdbaCommon.XHR({
                     'url': RdbCMSACategoriesIndexObject.addCategoryRESTUrl,

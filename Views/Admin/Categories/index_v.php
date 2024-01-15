@@ -55,7 +55,7 @@
                         </div><!--.rd-dialog-modal-->
 
 
-                        <template id="rdba-datatables-row-actions">
+                        <script id="rdba-datatables-row-actions" type="text/x-handlebars-template">
                             <div class="row-actions">
                                 <span class="action"><?php echo __('ID'); ?> {{tid}}</span>
                                 <span class="action"><a class="rdba-listpage-edit" href="{{RdbCMSACategoriesIndexObject.editCategoryUrlBase}}/{{tid}}"><?php echo __('Edit'); ?></a></span> 
@@ -68,8 +68,23 @@
                                         <?php echo d__('rdbcmsa', 'View'); ?>
                                     </a>
                                 </span>
+                                <br>
+                                {{#each languages}}
+                                <span class="action">
+                                    {{@key}}: 
+                                    {{#ifnoteq @key ../RdbaUIXhrCommonData.currentLanguage}}
+                                        {{#if id}}
+                                        <a href="{{#replaceBaseUrl @key}}{{../RdbCMSACategoriesIndexObject.editCategoryUrlBase}}{{/replaceBaseUrl}}/{{id}}" title="{{data.data_name}}"><i class="fa-solid fa-pen fontawesome-icon"></i></a>
+                                        {{else}}
+                                        <a href="{{#replaceBaseUrl @key}}{{../RdbCMSACategoriesIndexObject.addCategoryUrl}}?translation-matcher_from-tid={{../tid}}{{/replaceBaseUrl}}" title="<?php echo esc_d__('rdbcmsa', 'Add a translation'); ?>" data-current-tid="{{../tid}}" data-language-id="{{@key}}"><i class="fa-solid fa-plus fontawesome-icon"></i></a>
+                                        {{/if}}
+                                    {{else}}
+                                    <a class="rdba-listpage-edit" href="{{../RdbCMSACategoriesIndexObject.editCategoryUrlBase}}/{{../tid}}" title="<?php echo esc__('Edit'); ?>"><i class="fa-solid fa-pen fontawesome-icon"></i></a>
+                                    {{/ifnoteq}}
+                                </span>
+                                {{/each}}
                             </div>
-                        </template>
+                        </script>
 
                         <template id="rdba-datatables-result-controls">
                             <div class="col-xs-12 col-sm-6">

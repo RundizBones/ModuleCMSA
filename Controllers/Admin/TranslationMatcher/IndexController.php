@@ -194,7 +194,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
                 unset($row);
                 $TranslationMatcherDb->isIdsExistsButNotInTmID($tmId, $findDataIds, $tmTable);
                 $tmResult = [
-                    'items' => $TranslationMatcherDb->isIdsExistsResult
+                    'items' => $TranslationMatcherDb->isIdsExistsButNotInTmIDResult
                 ];
 
                 $this->removeExistsDataFromResult($result, $tmResult);

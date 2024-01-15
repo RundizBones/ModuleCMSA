@@ -172,10 +172,14 @@ class RdbCMSATranslationMatcher extends RdbaDatatables {
                             let jsonMatches = JSON.parse(data);
                             if (jsonMatches[languageId]) {
                                 let data_id = jsonMatches[languageId];
-                                return '(' + data_id + ') '
-                                    + jsonMatches['data_id' + data_id].data_name + ' '
-                                    + '<small><em> &mdash; ' + jsonMatches['data_id' + data_id].data_type + '</em></small> '
-                                ;
+                                let output = '(' + data_id + ') ';
+                                if (typeof(jsonMatches['data_id' + data_id]?.data_name) !== 'undefined') {
+                                    output += jsonMatches['data_id' + data_id]?.data_name;
+                                }
+                                if (typeof(jsonMatches['data_id' + data_id]?.data_type) !== 'undefined') {
+                                    output += ' <small><em> &mdash; ' + jsonMatches['data_id' + data_id]?.data_type + '</em></small>';
+                                }
+                                return output;
                             } else {
                                 return '';
                             }
@@ -423,7 +427,7 @@ class RdbCMSATranslationMatcher extends RdbaDatatables {
                                 let thisDataId = matches[languageId];
                                 inputDataId.value = thisDataId;
                                 let matchesDataId = matches['data_id' + thisDataId];
-                                inputDataDisplay.value = '(' + thisDataId + ') ' + matchesDataId.data_name + ' - ' + matchesDataId.data_type;
+                                inputDataDisplay.value = '(' + thisDataId + ') ' + matchesDataId?.data_name + ' - ' + matchesDataId?.data_type;
                             }
                         }// endfor;
                     }, function(error) {

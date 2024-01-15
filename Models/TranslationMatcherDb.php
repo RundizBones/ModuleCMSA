@@ -11,7 +11,8 @@ namespace Rdb\Modules\RdbCMSA\Models;
  * Translation matcher model.
  * 
  * @since 0.0.2
- * @property-read null|array $isIdsExistsResult The result that have got from calling `isIdsExists()`, `isIdsExistsButNotInTmID()` methods. This result can be empty array if found nothing but if `null` means that method is never called.
+ * @property-read null|array $isIdsExistsResult The result that have got from calling `isIdsExists()` method. This result can be empty array if found nothing but if `null` means that method is never called.
+ * @property-read null|array $isIdsExistsButNotInTmIDResult The result that have got from calling `isIdsExistsButNotInTmID()` method. This result can be empty array if found nothing but if `null` means that method is never called.
  * @property-read string $tableName The `translation_matcher` table name.
  */
 class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
@@ -31,9 +32,15 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
 
 
     /**
-     * @var null|array The result that have got from calling `isIdsExists()`, `isIdsExistsButNotInTmID()` methods. This result can be empty array if found nothing but if `null` means that method is never called.
+     * @var null|array The result that have got from calling `isIdsExists()` method. This result can be empty array if found nothing but if `null` means that method is never called.
      */
     protected $isIdsExistsResult;
+
+
+    /**
+     * @var null|array The result that have got from calling `isIdsExistsButNotInTmID()` method. This result can be empty array if found nothing but if `null` means that method is never called.
+     */
+    protected $isIdsExistsButNotInTmIDResult;
 
 
     /**
@@ -57,7 +64,7 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
      */
     public function __get(string $name)
     {
-        $allowedAccessProps = ['isIdsExistsResult', 'tableName'];
+        $allowedAccessProps = ['isIdsExistsResult', 'isIdsExistsButNotInTmIDResult', 'tableName'];
 
         if (in_array($name, $allowedAccessProps) && property_exists($this, $name)) {
             return $this->{$name};
@@ -85,6 +92,128 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         }
         return false;
     }// add
+
+
+    /**
+     * Add translation matcher id between source data and new data.
+     * 
+     * If source data is not exists then it will be use add source data and new translation data.<br>
+     * If source data exists then it will be use update the existing source data with new translation data.
+     * 
+     * This method does not update existing data where contain the same language locale URL with input new data (`$newData`).
+     * 
+     * @since 0.0.14
+     * @param array $fromData The source data. Value is associative array.
+     * <pre>
+     * array(
+     *      'lang' => 'id',
+     * );
+     * </pre>
+     *      The `lang` array key is language locale URL. The `id` is source data ID.
+     * @param array $newData The new data. Value is associative array.
+     * <pre>
+     * array(
+     *      'lang' => 'id',
+     * );
+     * </pre>
+     *      The `lang` array key is language locale URL. The `id` is new data ID.
+     * @param string $tm_table The data to use in `tm_table` column.
+     * @return mixed Return inserted ID if it use `add()` method.
+     * @throws \InvalidArgumentException Throw exception if argument format in invalid.
+     */
+    public function addUpdateWithSource(array $fromData, array $newData, string $tm_table)
+    {
+        // check associative array for both source and new data.
+        if (array_is_list($fromData)) {
+            throw new \InvalidArgumentException('The argument `$fromData` must be associative array.');
+        }
+        if (array_is_list($newData)) {
+            throw new \InvalidArgumentException('The argument `$newData` must be associative array.');
+        }
+
+        if (is_null($this->isIdsExistsResult)) {
+            // if there is no result of checking source ids not exists.
+            $this->isIdsExists(array_values($fromData), $tm_table);
+        }
+        $searchTmSourceResult = $this->isIdsExistsResult;
+
+        if ($this->Container->has('Config')) {
+            /* @var $Config \Rdb\System\Config */
+            $Config = $this->Container->get('Config');
+            $Config->setModule('');
+        } else {
+            $Config = new \Rdb\System\Config();
+        }
+        $languages = $Config->get('languages', 'language', []);
+        unset($Config);
+
+        if (empty($searchTmSourceResult)) {
+            // if there is nothing at all.
+            // setup data for insert.
+            $data = [
+                'tm_table' => $tm_table,
+                'matches' => [],
+            ];
+
+            // build languages array to data.
+            foreach ($languages as $languageId => $languageItems) {
+                $data['matches'][$languageId] = '';
+                if ($languageId === key($fromData)) {
+                    $data['matches'][$languageId] = $fromData[$languageId];
+                } elseif ($languageId === key($newData)) {
+                    $data['matches'][$languageId] = $newData[$languageId];
+                }
+            }// endforeach;
+            unset($languageId, $languageItems, $languages);
+
+            unset($searchTmSourceResult);
+            // insert
+            return $this->add($data);
+        } else {
+            $updated = 0;
+            foreach ($searchTmSourceResult as $searchRow) {
+                $jsonMatches = json_decode($searchRow->matches);
+
+                // check and fill all missing language locale URL. ----------------------
+                $languageIdsDb = array_keys(get_object_vars($jsonMatches));
+                $languagesConfig = array_keys($languages);
+                $missedLanguageIds = array_merge(array_diff($languageIdsDb, $languagesConfig), array_diff($languagesConfig, $languageIdsDb));
+                unset($languageIdsDb, $languagesConfig);
+
+                // found missing language locale URL, fill them.
+                foreach ($missedLanguageIds as $missedLanguageId) {
+                    $jsonMatches->{$missedLanguageId} = '';
+                }// endforeach;
+                unset($missedLanguageId, $missedLanguageIds);
+                // end check and fill all missing language locale URL. ------------------
+
+                // prepare data for update.
+                $data = [
+                    'matches' => [],
+                ];
+                foreach ($jsonMatches as $resultLanguageId => $resultDataId) {
+                    $data['matches'][$resultLanguageId] = strval($resultDataId);
+                    if ($resultLanguageId === key($newData) && empty($resultDataId)) {
+                        // if same language locale URL and data from DB is empty.
+                        $data['matches'][$resultLanguageId] = strval($newData[$resultLanguageId]);
+                    }
+                }// endforeach;
+                unset($resultDataId, $resultLanguageId);
+
+                // do the update data.
+                $updateResult = $this->update($data, ['tm_id' => $searchRow->tm_id]);
+                if (true === $updateResult) {
+                    ++$updated;
+                }
+
+                unset($data, $jsonMatches, $updateResult);
+            }// endforeach;
+            unset($searchRow, $searchTmSourceResult);
+
+            unset($languages);
+            return $updated;
+        }
+    }// addUpdateWithSource
 
 
     /**
@@ -431,7 +560,7 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
                 unset($matchesJSO);
             }
         }// endforeach;
-        unset($tmResultRow);
+        unset($tmResultRow, $tmResults);
 
         return true;
     }// isCurrentLangEmpty
@@ -488,7 +617,7 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
     public function isIdsExistsButNotInTmID(int $tm_id, array $ids, string $tm_table): bool
     {
         if (empty($ids)) {
-            $this->isIdsExistsResult = [];
+            $this->isIdsExistsButNotInTmIDResult = [];
             return false;
         }
 
@@ -504,11 +633,11 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
 
         if (isset($tmResult['total']) && $tmResult['total'] > 0) {
             // if found matched exists in db.
-            $this->isIdsExistsResult = ($tmResult['items'] ?? []);
+            $this->isIdsExistsButNotInTmIDResult = ($tmResult['items'] ?? []);
             return true;
         }
 
-        $this->isIdsExistsResult = [];
+        $this->isIdsExistsButNotInTmIDResult = [];
         return false;
     }// isIdsExistsButNotInTmID
 
