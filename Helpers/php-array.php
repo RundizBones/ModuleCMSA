@@ -13,7 +13,7 @@ if (!function_exists('array_is_list')) {
      * @link https://www.php.net/manual/en/function.array-is-list.php#127044 Original source code.
      * @link https://www.php.net/manual/en/function.array-is-list.php PHP document.
      * @link https://3v4l.org/paaK1 Benchmark result.
-     * @param array $arr The array being evaluated.
+     * @param array $array The array being evaluated.
      * @return bool Returns `true` if array is a list, `false` otherwise.
      */
     function array_is_list(array $array): bool
