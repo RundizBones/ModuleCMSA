@@ -84,7 +84,6 @@ class RdbCMSAFilesScanUnindexedController {
                 let template = Handlebars.compile(source);
                 listingElement.insertAdjacentHTML('beforeend', template(scannedItems));
             }
-            // end testing.
 
             if (scannedItems.totalFiles > 0) {
                 // if there still are files to display.
