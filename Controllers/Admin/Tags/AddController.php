@@ -104,10 +104,10 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                 unset($isDuplicated);
             }
 
-            if ($formValidated === true && !empty($_POST['translation-matcher_from-tid'])) {
+            if ($formValidated === true && !empty($_POST['translation-matcher-from-tid'])) {
                 // if there is data to create new translation from source ID.
                 $tmData = [];
-                $tmData['fromTid'] = $this->Input->post('translation-matcher_from-tid', '', FILTER_SANITIZE_NUMBER_INT);
+                $tmData['fromTid'] = $this->Input->post('translation-matcher-from-tid', '', FILTER_SANITIZE_NUMBER_INT);
                 $tmData['tmTable'] = 'taxonomy_term_data';
 
                 if (!is_numeric($tmData['fromTid'])) {

@@ -17,14 +17,18 @@ trait TranslationMatcherTrait
 
 
     /**
-     * Get languages and its translation matched for `taxonomy_term_data` table in the DB.
+     * Get languages and its translation matched.
      * 
-     * This method was called from `doGetCategories()`.
+     * This method was called from controllers.
      * 
      * @since 0.0.14
      * @param object $row A result row object.
      * @param array $languages Languages from config file.
      * @param \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb $TranslationMatcherDb The translation matcher model class.
+     * @param string $tmTable The value for column `tm_table` to check in the `translation_matcher` table. Default value is 'taxonomy_term_data'.
+     * @param string $relatedTableColumnIdName The column ID name of related table in `tm_table` column.<br>
+     *      For example: the table `taxonomy_term_data` has column ID named `tid`.<br>
+     *      This value will be use with `$row` argument. Default value is 'tid'.
      * @return array Return associative array.<pre>
      * array(
      *     'th' => array(
@@ -39,17 +43,19 @@ trait TranslationMatcherTrait
      * )
      * </pre>
      */
-    protected function getLanguagesAndTranslationMatchedTaxtermdata(
+    protected function getLanguagesAndTranslationMatched(
         $row, 
         array $languages, 
-        \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb $TranslationMatcherDb
+        \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb $TranslationMatcherDb,
+        string $tmTable = 'taxonomy_term_data',
+        string $relatedTableColumnIdName = 'tid'
     ): array {
         $output = [];
         foreach ($languages as $languageId => $languageItems) {
             $TmatchResult = $TranslationMatcherDb->get(
                 [
-                    'findDataIds' => [$row->tid], 
-                    'tm_table' => 'taxonomy_term_data',
+                    'findDataIds' => [$row->{$relatedTableColumnIdName}], 
+                    'tm_table' => $tmTable,
                 ],
                 [
                     'getRelatedData' => true,
@@ -78,7 +84,7 @@ trait TranslationMatcherTrait
         unset($languageId, $languageItems);
 
         return $output;
-    }// getLanguagesAndTranslationMatchedTaxtermdata
+    }// getLanguagesAndTranslationMatched
 
 
     /**

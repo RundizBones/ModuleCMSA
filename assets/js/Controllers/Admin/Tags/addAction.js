@@ -75,11 +75,11 @@ class RdbCMSATagsAddController {
                 submitBtn.disabled = true;
 
                 let formData = new FormData(thisForm);
-                const urlParams = new URLSearchParams(window.location.search);
                 // check if there is translation matcher to add then set the source id. ----------
-                const fromTid = urlParams.get('translation-matcher_from-tid');
+                const urlParams = new URLSearchParams(window.location.search);
+                const fromTid = urlParams.get('translation-matcher-from-tid');
                 if (!isNaN(fromTid) && !isNaN(parseFloat(fromTid))) {
-                    formData.append('translation-matcher_from-tid', fromTid);
+                    formData.append('translation-matcher-from-tid', fromTid);
                 }
                 // end check if there is translation matcher to add then set the source id. ------
 
