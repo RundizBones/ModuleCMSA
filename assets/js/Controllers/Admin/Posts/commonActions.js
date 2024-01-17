@@ -613,6 +613,13 @@ class RdbCMSAPostsCommonActions {
                 if (event.submitter && event.submitter.name && event.submitter.value) {
                     formData.append(event.submitter.name, event.submitter.value);
                 }
+                // check if there is translation matcher to add then set the source id. ----------
+                const urlParams = new URLSearchParams(window.location.search);
+                const fromPostId = urlParams.get('translation-matcher-from_post_id');
+                if (!isNaN(fromPostId) && !isNaN(parseFloat(fromPostId))) {
+                    formData.append('translation-matcher-from_post_id', fromPostId);
+                }
+                // end check if there is translation matcher to add then set the source id. ------
 
                 RdbaCommon.XHR({
                     'url': ajaxURL,
