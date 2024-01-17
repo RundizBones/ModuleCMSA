@@ -615,9 +615,9 @@ class RdbCMSAPostsCommonActions {
                 }
                 // check if there is translation matcher to add then set the source id. ----------
                 const urlParams = new URLSearchParams(window.location.search);
-                const fromPostId = urlParams.get('translation-matcher-from_post_id');
+                const fromPostId = urlParams.get('translation-matcher-from-post_id');
                 if (!isNaN(fromPostId) && !isNaN(parseFloat(fromPostId))) {
-                    formData.append('translation-matcher-from_post_id', fromPostId);
+                    formData.append('translation-matcher-from-post_id', fromPostId);
                 }
                 // end check if there is translation matcher to add then set the source id. ------
 

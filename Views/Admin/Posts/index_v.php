@@ -61,7 +61,7 @@
                                         {{#if id}}
                                         <a href="{{#replaceBaseUrl @key}}{{../RdbCMSAPostsIndexObject.editPostUrlBase}}{{/replaceBaseUrl}}/{{id}}" title="{{data.data_name}}"><i class="fa-solid fa-pen fontawesome-icon"></i></a>
                                         {{else}}
-                                        <a href="{{#replaceBaseUrl @key}}{{../RdbCMSAPostsIndexObject.addPostUrl}}?translation-matcher-from_post_id={{../post_id}}{{/replaceBaseUrl}}" title="<?php echo esc_d__('rdbcmsa', 'Add a translation'); ?>" data-current-tid="{{../tid}}" data-language-id="{{@key}}"><i class="fa-solid fa-plus fontawesome-icon"></i></a>
+                                        <a href="{{#replaceBaseUrl @key}}{{../RdbCMSAPostsIndexObject.addPostUrl}}?translation-matcher-from-post_id={{../post_id}}{{/replaceBaseUrl}}" title="<?php echo esc_d__('rdbcmsa', 'Add a translation'); ?>" data-current-tid="{{../tid}}" data-language-id="{{@key}}"><i class="fa-solid fa-plus fontawesome-icon"></i></a>
                                         {{/if}}
                                     {{else}}
                                     <a class="rdba-listpage-edit" href="{{../RdbCMSAPostsIndexObject.editPostUrlBase}}/{{../post_id}}" title="<?php echo esc__('Edit'); ?>"><i class="fa-solid fa-pen fontawesome-icon"></i></a>

@@ -101,6 +101,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
             $PostsSubController->populateAddFormDataOneToOne($data, $dataRevision, $dataUrlAliases);
 
             $UrlAliasesDb = new \Rdb\Modules\RdbCMSA\Models\UrlAliasesDb($this->Container);
+            $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
 
             // validate the form. -------------------------------------------------------------------------
             $formValidated = false;
@@ -136,6 +137,42 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                 }
                 unset($isDuplicated);
             }
+
+            if ($formValidated === true && !empty($_POST['translation-matcher-from-post_id'])) {
+                // if there is data to create new translation from source ID.
+                $tmData = [];
+                $tmData['fromPostId'] = $this->Input->post('translation-matcher-from-post_id', '', FILTER_SANITIZE_NUMBER_INT);
+                $tmData['tmTable'] = 'posts';
+
+                if (!is_numeric($tmData['fromPostId'])) {
+                    $output['formResultStatus'] = 'error';
+                    $output['formResultMessage'][] = d__('rdbcmsa', 'Invalid translation matcher from source ID.');
+                    http_response_code(400);
+                    $formValidated = false;
+                }// endif; check from tid
+
+                if ($formValidated === true) {
+                    $PostsDb = new \Rdb\Modules\RdbCMSA\Models\PostsDb($this->Container);
+                    $fromPostIdResult = $PostsDb->get(['posts.post_id' => intval($tmData['fromPostId'])]);
+                    if (empty($fromPostIdResult) || $fromPostIdResult === false) {
+                        $output['formResultStatus'] = 'error';
+                        $output['formResultMessage'][] = d__('rdbcmsa', 'Could not found the ID from source.');
+                        http_response_code(404);
+                        $formValidated = false;
+                    } else {
+                        $tmData['fromPostIdLanguage'] = $fromPostIdResult->language;
+                    }
+                    unset($fromPostIdResult, $PostsDb);
+                }
+
+                if ($formValidated === true && $TranslationMatcherDb->isCurrentLangEmpty(intval($tmData['fromPostId']), $tmData['tmTable']) === false) {
+                        // if current language of selected id is not empty.
+                        $output['formResultStatus'] = 'error';
+                        $output['formResultMessage'][] = d__('rdbcmsa', 'The translation you are trying to match is already exists.');
+                        http_response_code(400);
+                        $formValidated = false;
+                }
+            }// endif; form validated for translation matcher.
             // end validate the form. --------------------------------------------------------------------
 
             if (isset($formValidated) && $formValidated === true) {
@@ -167,6 +204,17 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                         }
 
                         unset($TaxonomyIndexDb);
+
+                        if (isset($tmData)) {
+                            // if there is translation matcher functional here.
+                            // try to add or update the new id of current language with the id from previous (link clicked).
+                            $output['addTranslationResult'] = $TranslationMatcherDb->addUpdateWithSource(
+                                [$tmData['fromPostIdLanguage'] => $tmData['fromPostId']], 
+                                [$_SERVER['RUNDIZBONES_LANGUAGE'] => $post_id], 
+                                $tmData['tmTable']
+                            );
+                            unset($tmData);
+                        }// endif; there is translation matcher data to be add.
                     }
                 } catch (\Exception $ex) {
                     $output['errorMessage'] = $ex->getMessage();
@@ -196,7 +244,9 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                 unset($PDO);
             }
 
-            unset($data, $dataCategories, $dataFields, $dataRevision, $dataTags, $PostsSubController, $UrlAliasesDb);
+            unset($data, $dataCategories, $dataFields, $dataRevision, $dataTags, $tmData);
+            unset($PostsSubController);
+            unset($TranslationMatcherDb, $UrlAliasesDb);
         } else {
             // if unable to validate token.
             $output['formResultStatus'] = 'error';
