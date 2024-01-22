@@ -75,15 +75,15 @@ class FileSystemTest extends \Rdb\Tests\BaseTestCase
 
         $fileName = 'some.file.name_1_2.jpg';
         $expect = '/some.file.name_1_2_suffix(\.[0-9]{6}).jpg/';// _suffix.[random number 6 digits]
-        $this->assertRegExp($expect, $this->FileSystem->addSuffixFileName($fileName, '_suffix', true));
+        $this->assertTrue(preg_match($expect, $this->FileSystem->addSuffixFileName($fileName, '_suffix', true)) !== false);
 
         $fileName = 'some.file.name_1_2.last.jpg';
         $expect = '/some.file.name_1_2.last.suffix(\.[0-9]{6}).jpg/';// _suffix.[random number 6 digits]
-        $this->assertRegExp($expect, $this->FileSystem->addSuffixFileName($fileName, '.suffix', true));
+        $this->assertTrue(preg_match($expect, $this->FileSystem->addSuffixFileName($fileName, '.suffix', true)) !== false);
 
         $fileName = 'some.file.name_1_2.jpg';
         $expect = '/some.file.name_1_2_suffix.123456(\.[0-9]{6}).jpg/';// _suffix.[random number 6 digits]
-        $this->assertRegExp($expect, $this->FileSystem->addSuffixFileName($fileName, '_suffix.123456', true));
+        $this->assertTrue(preg_match($expect, $this->FileSystem->addSuffixFileName($fileName, '_suffix.123456', true)) !== false);
     }// testAddSuffixFileName
 
 
