@@ -20,7 +20,7 @@ class FileSystemTest extends \Rdb\Tests\BaseTestCase
     protected $targetTestDir;
 
 
-    public function setup()
+    public function setup(): void
     {
         $this->runApp('GET', '/');// call runApp to get constant.
 

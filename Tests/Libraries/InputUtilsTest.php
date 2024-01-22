@@ -14,7 +14,7 @@ class InputUtilsTest extends \Rdb\Tests\BaseTestCase
     protected $InputUtils;
 
 
-    public function setup()
+    public function setup(): void
     {
         $this->InputUtils = new \Rdb\Modules\RdbCMSA\Libraries\InputUtils();
     }// setup
@@ -36,8 +36,11 @@ class InputUtilsTest extends \Rdb\Tests\BaseTestCase
             'height' => '0',
             'address' => null,
         ];
-        $this->assertSame($assert, $this->InputUtils->setEmptyScalarToNull($array));
-        $this->assertArraySubset($assert, $this->InputUtils->setEmptyScalarToNull($array));
+        $result = $this->InputUtils->setEmptyScalarToNull($array);
+        $this->assertSame($assert, $result);
+        $this->assertTrue(
+            empty(array_diff_key($assert, $result)) && empty(array_diff_key($result, $assert))
+        );
     }// testSetEmptyScalarToNull
 
 

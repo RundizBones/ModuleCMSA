@@ -39,7 +39,7 @@ class ImageTest extends \Rdb\Tests\BaseTestCase
     }// copyTestMiniImage
 
 
-    public function setup()
+    public function setup(): void
     {
         $this->runApp('GET', '/');// call runApp to get constant.
 

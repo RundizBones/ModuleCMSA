@@ -101,7 +101,7 @@ class UrlAliasesDbTest extends \Rdb\Tests\BaseTestCase
     }// connectDb
 
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (is_file($this->backupFile)) {
             $this->markTestIncomplete(
@@ -176,7 +176,7 @@ class UrlAliasesDbTest extends \Rdb\Tests\BaseTestCase
     }// setUp
 
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // restore db table from file.
         // check command exists.

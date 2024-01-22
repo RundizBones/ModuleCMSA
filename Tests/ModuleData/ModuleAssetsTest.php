@@ -8,7 +8,7 @@ class ModuleAssetsTest extends \Rdb\Tests\BaseTestCase
 {
 
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->runApp('get', '/');
         $this->Container = $this->RdbApp->getContainer();
