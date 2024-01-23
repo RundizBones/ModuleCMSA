@@ -215,8 +215,11 @@ class ActionsController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
                     if ($deleteSuccess === true) {
                         $PDO->commit();
                         $CategoriesDb->rebuild([
-                            'whereString' => 't_type = :t_type',
-                            'whereValues' => [':t_type' => $output['t_type']],
+                            'whereString' => '`language` = :language AND `t_type` = :t_type',
+                            'whereValues' => [
+                                ':language' => ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th'), 
+                                ':t_type' => $output['t_type'],
+                            ],
                         ]);
                         $output['formResultStatus'] = 'success';
                         $output['formResultMessage'] = __('Deleted successfully.');

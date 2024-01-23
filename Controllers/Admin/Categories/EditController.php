@@ -166,8 +166,11 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
                             $UrlAliasesDb->addOrUpdate($dataUrlAliases, ['alias_content_type' => $categoryRow->t_type, 'alias_content_id' => $tid]);
                         }
                         $CategoriesDb->rebuild([
-                            'whereString' => '`t_type` = :t_type',
-                            'whereValues' => [':t_type' => $categoryRow->t_type],
+                            'whereString' => '`language` = :language AND `t_type` = :t_type',
+                            'whereValues' => [
+                                ':language' => $categoryRow->language,
+                                ':t_type' => $categoryRow->t_type,
+                            ],
                         ]);
                     }
                 } catch (\Exception $ex) {
