@@ -60,6 +60,9 @@
                                 <span class="action"><?php echo __('ID'); ?> {{tid}}</span>
                                 <span class="action"><a class="rdba-listpage-edit" href="{{RdbCMSACategoriesIndexObject.editCategoryUrlBase}}/{{tid}}"><?php echo __('Edit'); ?></a></span> 
                                 <span class="action"><?php echo d__('rdbcmsa', 'Position'); ?> {{t_position}}</span>
+                                <!--
+                                t_left:{{t_left}} ; t_right:{{t_right}} ;
+                                -->
                                 <span class="action">
                                     <a 
                                         class="rdba-taxonomy-view" 
