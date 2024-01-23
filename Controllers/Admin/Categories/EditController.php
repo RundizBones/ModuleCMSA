@@ -139,8 +139,11 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
                     $data['t_position'] = $CategoriesDb->getNewPosition(
                         $data['parent_id'], 
                         [
-                            'whereString' => 't_type = :t_type',
-                            'whereValues' => [':t_type' => $categoryRow->t_type],
+                            'whereString' => '`language` = :language AND `t_type` = :t_type',
+                            'whereValues' => [
+                                ':language' => $categoryRow->language,
+                                ':t_type' => $categoryRow->t_type,
+                            ],
                         ]
                     );
                 }

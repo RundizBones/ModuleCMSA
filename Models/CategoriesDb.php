@@ -70,8 +70,11 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
         if (isset($data['parent_id']) && isset($data['t_type'])) {
             // if there is parent_id and type, get the new position.
             $where = [
-                'whereString' => '`t_type` = :t_type',
-                'whereValues' => [':t_type' => $data['t_type']],
+                'whereString' => '`language` = :language AND `t_type` = :t_type',
+                'whereValues' => [
+                    ':language' => ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th'),
+                    ':t_type' => $data['t_type'],
+                ],
             ];
             $data['t_position'] = $this->getNewPosition($data['parent_id'], $where);
         }

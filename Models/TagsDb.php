@@ -32,8 +32,11 @@ class TagsDb extends TaxonomyTermDataDb
         if (isset($data['t_type'])) {
             // if there is type, get the new position.
             $where = [
-                'whereString' => '`t_type` = :t_type',
-                'whereValues' => [':t_type' => $data['t_type']],
+                'whereString' => '`language` = :language AND `t_type` = :t_type',
+                'whereValues' => [
+                    ':language' => ($data['language'] ?? ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th')),
+                    ':t_type' => $data['t_type'],
+                ],
             ];
             $data['t_position'] = $this->getNewPosition(0, $where);
         } else {
