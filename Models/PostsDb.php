@@ -523,6 +523,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
             is_array($files->thumbnails) && 
             !empty($files->thumbnails)
         ) {
+            $urls->thumbnails = $files->thumbnails;
             foreach ($files->thumbnails as $key => $thumbnail) {
                 $urls->thumbnail = $thumbnail;
                 break;
