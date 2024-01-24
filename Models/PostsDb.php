@@ -620,22 +620,40 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
      * List posts.
      * 
      * @param array $options The associative array options. Available options keys:<br>
-     *                          `search` (string) the search term,<br>
-     *                          `where` (array) the where conditions where key is column name and value is its value,<br>
-     *                          `tidsIn` (array) the taxonomy IDs to use in the sql command `WHERE IN (...)`<br>
-     *                          `postidsIn` (array) the post IDs to use in the sql command `WHERE IN (...)`<br>
-     *                          `isPublished` (bool) Set to `true` to list for published, schedule and already on time.<br>
-     *                          `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
-     *                          `unlimited` (bool) set to `true` to show unlimited items, unset or set to `false` to show limited items,<br>
-     *                          `limit` (int) limit items per page. maximum is 1000,<br>
-     *                          `offset` (int) offset or start at record. 0 is first record,<br>
-     *                          `skipPostFields` (bool) Skip retrieve `post_fields`table or not. Default is `true` means skip it, `false` means do not skip it.<br>
-     *                          `skipCategories` (bool) Skip retrieve categories or not. Default is `false` means do not skip, `true` means skip it.,<br>
-     *                          `skipTags` (bool) Skip retrieve tags or not. Default is `false` means do not skip, `true` means skip it.,<br>
+     *              `cache` (bool) Set to `true` to cache the query. Default is `false`.<br>
+     *              `cacheExpires` (int) Set number of TTL. Default is 10 minutes (number in seconds).<br>
+     *              `search` (string) the search term,<br>
+     *              `where` (array) the where conditions where key is column name and value is its value,<br>
+     *              `tidsIn` (array) the taxonomy IDs to use in the sql command `WHERE IN (...)`<br>
+     *              `postidsIn` (array) the post IDs to use in the sql command `WHERE IN (...)`<br>
+     *              `isPublished` (bool) Set to `true` to list for published, schedule and already on time.<br>
+     *              `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
+     *              `unlimited` (bool) set to `true` to show unlimited items, unset or set to `false` to show limited items,<br>
+     *              `limit` (int) limit items per page. maximum is 1000,<br>
+     *              `offset` (int) offset or start at record. 0 is first record,<br>
+     *              `skipPostFields` (bool) Skip retrieve `post_fields`table or not. Default is `true` means skip it, `false` means do not skip it.<br>
+     *              `skipCategories` (bool) Skip retrieve categories or not. Default is `false` means do not skip, `true` means skip it.,<br>
+     *              `skipTags` (bool) Skip retrieve tags or not. Default is `false` means do not skip, `true` means skip it.,<br>
      * @return array Return associative array with `total` and `items` in keys.
      */
     public function listItems(array $options = []): array
     {
+        if (isset($options['cache']) && true === $options['cache']) {
+            $Cache = (new \Rdb\Modules\RdbAdmin\Libraries\Cache(
+                $this->Container,
+                [
+                    'cachePath' => STORAGE_PATH . '/cache/Modules/RdbCMSA/Models/PostsDb',
+                ]
+            ))->getCacheObject();
+            $cacheKey = __FUNCTION__ . '_' . md5(json_encode($options));
+            $cacheExpires = ($options['cacheExpires'] ?? (10 * 60));// default cache is 10 minutes.
+
+            if ($Cache->has($cacheKey)) {
+                unset($cacheExpires);
+                return $Cache->get($cacheKey);
+            }
+        }
+
         // prepare options and check if incorrect.
         if (!isset($options['offset']) || !is_numeric($options['offset'])) {
             $options['offset'] = 0;
@@ -844,6 +862,12 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
         $output['items'] = $result;
 
         unset($result);
+
+        if (isset($Cache) && isset($cacheKey) && isset($cacheExpires)) {
+            $Cache->set($cacheKey, $output, $cacheExpires);
+            unset($Cache, $cacheExpires, $cacheKey);
+        }
+
         return $output;
     }// listItems
 

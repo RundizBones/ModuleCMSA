@@ -504,6 +504,7 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
             $Cache->set($cacheKey, $output, $cacheExpires);
             unset($Cache, $cacheExpires, $cacheKey);
         }
+
         return $output;
     }// listRecursive
 
