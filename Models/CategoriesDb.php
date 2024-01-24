@@ -312,15 +312,17 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
      * @link http://mysqlserverteam.com/mysql-8-0-labs-recursive-common-table-expressions-in-mysql-ctes/ MySQL blog about new `RECURSIVE CTE`.
      * @link https://mariadb.com/kb/en/recursive-common-table-expressions-overview/ MariaDB user manual about `RECURSIVE CTE`.
      * @param array $options Available options:
-     *                          `search` (string) the search term,<br>
-     *                          `taxonomy_id_in` (array) The taxonomy ID to look with `IN()` MySQL function.<br>
-     *                              The array values must be integer, example `array(1,3,4,5)`.<br>
-     *                          `where` (array) the where conditions where key is column name and value is its value,<br>
-     *                          `unlimited` (bool) set to `true` to show unlimited items, unset or set to `false` to show limited items,<br>
-     *                          `limit` (int) limit items per page. maximum is 1000,<br>
-     *                          `offset` (int) offset or start at record. 0 is first record,<br>
-     *                          `list_flatten` (bool) Set to `true` to list the result flatten.<br>
-     *                          `skipTaxonomyFields` (bool) Skip retrieve `taxonomy_fields`table or not. Default is `true` means skip it, `false` means do not skip it.<br>
+     *              `cache` (bool) Set to `true` to cache the query. Default is `false`.<br>
+     *              `cacheExpires` (int) Set number of TTL. Default is 10 minutes (number in seconds).<br>
+     *              `search` (string) the search term,<br>
+     *              `taxonomy_id_in` (array) The taxonomy ID to look with `IN()` MySQL function.<br>
+     *                  The array values must be integer, example `array(1,3,4,5)`.<br>
+     *              `where` (array) the where conditions where key is column name and value is its value,<br>
+     *              `unlimited` (bool) set to `true` to show unlimited items, unset or set to `false` to show limited items,<br>
+     *              `limit` (int) limit items per page. maximum is 1000,<br>
+     *              `offset` (int) offset or start at record. 0 is first record,<br>
+     *              `list_flatten` (bool) Set to `true` to list the result flatten.<br>
+     *              `skipTaxonomyFields` (bool) Skip retrieve `taxonomy_fields`table or not. Default is `true` means skip it, `false` means do not skip it.<br>
      * @return array Return array with `total` and `items` in keys.
      */
     public function listRecursive(array $options = []): array
@@ -337,6 +339,23 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
             )
             SELECT * FROM `taxonomy` ORDER BY `t_left` ASC
         */
+
+        if (isset($options['cache']) && true === $options['cache']) {
+            $Cache = (new \Rdb\Modules\RdbAdmin\Libraries\Cache(
+                $this->Container,
+                [
+                    'cachePath' => STORAGE_PATH . '/cache/Modules/RdbCMSA/Models/CategoriesDb',
+                ]
+            ))->getCacheObject();
+            $cacheKey = __FUNCTION__ . '_' . md5(json_encode($options));
+            $cacheExpires = ($options['cacheExpires'] ?? (10 * 60));// default cache is 10 minutes.
+
+            if ($Cache->has($cacheKey)) {
+                unset($cacheExpires);
+                return $Cache->get($cacheKey);
+            }
+        }
+
         // prepare options and check if incorrect.
         if (!isset($options['offset']) || !is_numeric($options['offset'])) {
             $options['offset'] = 0;
@@ -480,6 +499,11 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
         $output['items'] = $result;
 
         unset($result);
+
+        if (isset($Cache) && isset($cacheKey) && isset($cacheExpires)) {
+            $Cache->set($cacheKey, $output, $cacheExpires);
+            unset($Cache, $cacheExpires, $cacheKey);
+        }
         return $output;
     }// listRecursive
 
