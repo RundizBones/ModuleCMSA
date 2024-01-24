@@ -419,13 +419,14 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
     /**
      * Get URLs of featured image.
      * 
-     * @param object $result The result object from DB that must contain `post_feature_image` column property.
+     * This method was called from `get()`.
+     * 
+     * @param object $result A single result row object from DB that must contain `post_feature_image` column property.
      * @return \stdClass Return new file stdClass
      */
     protected function getFeaturedImageDataAndURLs(\stdClass $result): \stdClass
     {
         $FilesDb = new FilesDb($this->Container);
-        $Url = new \Rdb\System\Libraries\Url($this->Container);
         if (!empty($result->post_feature_image)) {
             $files = $FilesDb->get(['file_id' => $result->post_feature_image]);
             if (is_object($files)) {
@@ -437,13 +438,68 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
                 // if file does not exists.
                 $files = new \stdClass();
             }
-            unset($FilesDb, $Url);
+            unset($FilesDb);
         } else {
             $files = new \stdClass();
         }
 
         return $files;
     }// getFeaturedImageDataAndURLs
+
+
+    /**
+     * Get URLs of featured image from multiple post IDs.
+     * 
+     * This method was called from `listItems()`.
+     * 
+     * @since 0.0.14
+     * @param array $postIds Associative array where key is post ID and value is data in DB column `posts`.`post_feature_image`. Example:<pre>
+     *              array(
+     *                  2 => 15,
+     *                  3 => 16,
+     *              );
+     * </pre>
+     * @return array Return modified value of the `postIds` where its value will becomes a result row of data in DB table `files` or if not found then it will be empty object.
+     */
+    protected function getFeaturedImageDataAndURLsFromPosts(array $postIds): array
+    {
+        $FilesDb = new FilesDb($this->Container);
+        $options = [
+            'file_id_in' => array_values($postIds),
+            'unlimited' => true,
+        ];
+        $result = $FilesDb->listItems($options);
+        unset($options);
+        unset($FilesDb);
+
+        foreach ($postIds as $post_id => $file_id) {
+            $post_id = intval($post_id);
+            $foundFile = false;
+            if (isset($result['items']) && is_iterable($result['items'])) {
+                foreach ($result['items'] as $resultIndex => $fileRow) {
+                    if (intval($fileRow->file_id) === intval($file_id)) {
+                        $foundFile = true;
+                        unset($result['items'][$resultIndex]);
+                        break;
+                    }
+                }// endforeach;
+                unset($resultIndex);
+            }// endif; there is result from search files.
+
+            if (true === $foundFile) {
+                $postIds[$post_id] = $fileRow;
+                $postIds[$post_id]->urls = $this->getOriginalAndSmallestThumbnail($fileRow);
+                $postIds[$post_id]->urls->thumbnails = $fileRow->thumbnails;
+            } else {
+                $postIds[$post_id] = new \stdClass();
+            }// endif; found files.
+            unset($fileRow, $foundFile);
+        }// endforeach;
+        unset($file_id, $post_id);
+
+        unset($result);
+        return $postIds;
+    }// getFeaturedImageDataAndURLsFromPosts
 
 
     /**
@@ -825,12 +881,35 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
         unset($bindValues, $sql, $Sth);
 
         if (is_array($result)) {
+            $filesPosts = [];
+            $postIds = [];
+            // loop set post IDs to retrieve all at once from tables.--------------
+            foreach ($result as $key => $row) {
+                $filesPosts[(int) $row->post_id] = ($row->post_feature_image > 0 ? $row->post_feature_image : null);
+                $postIds[] = (int) $row->post_id;
+            }// endforeach;
+            unset($key, $row);
+            // end loop set post IDs to retrieve all at once from tables.----------
+
+            // retrieve data related to post all at once to save DB query. -----------
+            $filesPosts = $this->getFeaturedImageDataAndURLsFromPosts($filesPosts);
+            if (!isset($options['skipCategories']) || (isset($options['skipCategories']) && $options['skipCategories'] === false)) {
+                // get related categories.
+                $relatedCategories = $this->listRelatedTaxonomiesFromPosts($postIds, $this->categoryType);
+            }// endif;
+            if (!isset($options['skipTags']) || (isset($options['skipTags']) && $options['skipTags'] === false)) {
+                // get related tags.
+                $relatedTags = $this->listRelatedTaxonomiesFromPosts($postIds, $this->tagType);
+            }
+            // end retrieve data related to post all at once to save DB query. -------
+            unset($postIds);
+
             // loop get related categories and tags and maybe do other things.
             $PostFieldsDb = new PostFieldsDb($this->Container);
             foreach ($result as $key => $row) {
                 // get status text.
                 $result[$key]->post_statusText = $this->getStatusText((int) $row->post_status);
-                $result[$key]->files = $this->getFeaturedImageDataAndURLs($row);
+                $result[$key]->files = ($filesPosts[intval($row->post_id)] ?? new \stdClass());
 
                 if (isset($options['skipPostFields']) && $options['skipPostFields'] === false) {
                     // get post fields.
@@ -849,15 +928,16 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
 
                 if (!isset($options['skipCategories']) || (isset($options['skipCategories']) && $options['skipCategories'] === false)) {
                     // get related categories.
-                    $result[$key]->categories = $this->listRelatedTaxonomies((int) $row->post_id, $this->categoryType);
+                    $result[$key]->categories = ($relatedCategories[intval($row->post_id)] ?? []);
                 }
 
                 if (!isset($options['skipTags']) || (isset($options['skipTags']) && $options['skipTags'] === false)) {
                     // get related tags.
-                    $result[$key]->tags = $this->listRelatedTaxonomies((int) $row->post_id, $this->tagType);
+                    $result[$key]->tags = ($relatedTags[intval($row->post_id)] ?? []);
                 }
             }// endforeach;
             unset($key, $PostFieldsDb, $row);
+            unset($filesPosts, $relatedCategories, $relatedTags);
         }// endif $result
 
         $output['items'] = $result;
@@ -875,6 +955,8 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
 
     /**
      * List related taxonomies with selected post ID on specified taxonomy type.
+     * 
+     * This method was called from `get()`.
      * 
      * @param int $post_id The post ID.
      * @param string $t_type The type of taxonomy such as 'category', 'tag'.
@@ -929,10 +1011,121 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
         $Sth->execute();
         $result = $Sth->fetchAll();
         $Sth->closeCursor();
-        unset($Sth);
+        unset($sql, $Sth);
 
         return (is_array($result) ? $result : []);
     }// listRelatedTaxonomies
+
+
+    /**
+     * List related taxonomies with selected post IDs on specified taxonomy type.
+     * 
+     * This will be retrieve all taxonomies from multiple post IDs at once.
+     * 
+     * This method was called from `listItems()`.
+     * 
+     * @since 0.0.14
+     * @param array $postIds An indexed array contain post IDs.
+     * @param string $t_type The type of taxonomy such as 'category', 'tag'.
+     * @param array $options Additional options. @since 0.0.6.<br>
+     *                  Available options:
+     *                  `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
+     * @return array Return associative array where each key is `post_id` and its value is taxonomy result array and each taxonomy result array contains taxonomy row data object.
+     */
+    protected function listRelatedTaxonomiesFromPosts(array $postIds, string $t_type, array $options = []): array
+    {
+        // build bind values and placeholders. ----------------
+        $bindValues = [
+            ':t_type' => $t_type,
+        ];
+        $postIdsInPlaceholder = [];
+        $i = 0;
+        foreach ($postIds as $post_id) {
+            $postIdsInPlaceholder[] = ':postIdsIn' . $i;
+            $bindValues[':postIdsIn' . $i] = intval($post_id);
+            ++$i;
+        }// endforeach;
+        unset($i, $post_id);
+        // end build bind values and placeholders. ------------
+
+        $sql = 'SELECT * FROM `' . $this->Db->tableName('taxonomy_index') . '` AS `taxonomy_index`
+            INNER JOIN `' . $this->Db->tableName('taxonomy_term_data') . '` AS `taxonomy_term_data`
+                ON `taxonomy_term_data`.`tid` = `taxonomy_index`.`tid`
+            LEFT JOIN `' . $this->Db->tableName('url_aliases') . '` AS `url_aliases`
+                ON `taxonomy_index`.`tid` = `url_aliases`.`alias_content_id` 
+                AND `taxonomy_term_data`.`language` = `url_aliases`.`language` 
+                AND `taxonomy_term_data`.`t_type` = `url_aliases`.`alias_content_type` 
+            WHERE `taxonomy_index`.`post_id` IN (' . implode(', ', $postIdsInPlaceholder) . ')
+                AND `taxonomy_term_data`.`t_type` = :t_type';
+
+        // sort and order.
+        if (array_key_exists('sortOrders', $options) && is_array($options['sortOrders']) && !empty($options['sortOrders'])) {
+            $orderby = [];
+            foreach ($options['sortOrders'] as $sort) {
+                if (
+                    is_array($sort) && 
+                    array_key_exists('sort', $sort) && 
+                    array_key_exists('order', $sort) && 
+                    in_array(strtoupper($sort['order']), $this->allowedOrders)
+                ) {
+                    if (stripos($sort['sort'], '.') !== false) {
+                        $orderby[] = $sort['sort'] . ' ' . strtoupper($sort['order']);
+                    } else {
+                        $orderby[] = '`taxonomy_index`.`' . $sort['sort'] . '` ' . strtoupper($sort['order']);
+                    }
+                }
+            }// endforeach;
+            unset($sort);
+
+            if (!empty($orderby)) {
+                $sql .= ' ORDER BY ';
+                $sql .= implode(', ', $orderby);
+            }
+            unset($orderby);
+        } else {
+            $sql .= ' ORDER BY `taxonomy_index`.`index_id` ASC';
+        }
+
+        $Sth = $this->Db->PDO()->prepare($sql);
+        // bind whereValues
+        foreach ($bindValues as $placeholder => $value) {
+            $Sth->bindValue($placeholder, $value);
+        }// endforeach;
+        unset($placeholder, $postIdsInPlaceholder, $value);
+        // end bind values
+        $Sth->execute();
+        $result = $Sth->fetchAll();
+        $Sth->closeCursor();
+        unset($bindValues, $sql, $Sth);
+
+        if (is_iterable($result)) {
+            $newResult = [];
+            foreach ($postIds as $post_id) {
+                $post_id = intval($post_id);
+                $found = false;
+                $tmpTaxonomyResultForAPost = [];
+                foreach ($result as $resultIndex => $row) {
+                    if (intval($row->post_id) === $post_id) {
+                        $tmpTaxonomyResultForAPost[] = $row;
+                        unset($result[$resultIndex]);
+                        $found = true;
+                    }
+                }// endforeach;
+                unset($resultIndex);
+
+                if (true === $found) {
+                    $newResult[$post_id] = $tmpTaxonomyResultForAPost;
+                } else {
+                    $newResult[$post_id] = [];
+                }
+                unset($found, $tmpTaxonomyResultForAPost);
+            }// endforeach; post IDs.
+            unset($post_id, $row);
+        }// endif;
+        //unset($result);
+
+        return ($newResult ?? []);
+    }// listRelatedTaxonomiesFromPosts
 
 
     /**
