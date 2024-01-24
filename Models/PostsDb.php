@@ -432,6 +432,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
                 // if files exists.
                 // format .files.urls to same structure as Controllers/Admin/Files/FileBrowser/files.js
                 $files->urls = $this->getOriginalAndSmallestThumbnail($files);
+                $files->urls->thumbnails = $files->thumbnails;
             } else {
                 // if file does not exists.
                 $files = new \stdClass();
@@ -523,7 +524,6 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
             is_array($files->thumbnails) && 
             !empty($files->thumbnails)
         ) {
-            $urls->thumbnails = $files->thumbnails;
             foreach ($files->thumbnails as $key => $thumbnail) {
                 $urls->thumbnail = $thumbnail;
                 break;
