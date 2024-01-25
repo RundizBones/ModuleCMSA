@@ -433,7 +433,6 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
                 // if files exists.
                 // format .files.urls to same structure as Controllers/Admin/Files/FileBrowser/files.js
                 $files->urls = $this->getOriginalAndSmallestThumbnail($files);
-                $files->urls->thumbnails = $files->thumbnails;
             } else {
                 // if file does not exists.
                 $files = new \stdClass();
@@ -489,7 +488,6 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
             if (true === $foundFile) {
                 $postIds[$post_id] = $fileRow;
                 $postIds[$post_id]->urls = $this->getOriginalAndSmallestThumbnail($fileRow);
-                $postIds[$post_id]->urls->thumbnails = $fileRow->thumbnails;
             } else {
                 $postIds[$post_id] = new \stdClass();
             }// endif; found files.
