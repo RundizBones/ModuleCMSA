@@ -179,7 +179,6 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
         $result = $this->PostsDb->listItems($options);
         unset($options);
 
-        
         // do additional task(s) to the data that retrieved. ----------
         if ($this->Container->has('Config')) {
             /* @var $Config \Rdb\System\Config */
