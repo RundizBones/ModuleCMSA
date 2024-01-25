@@ -878,7 +878,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
         $Sth->closeCursor();
         unset($bindValues, $sql, $Sth);
 
-        if (is_array($result)) {
+        if (is_array($result) && !empty($result)) {
             $filesPosts = [];
             $postIds = [];
             // loop set post IDs to retrieve all at once from tables.--------------
