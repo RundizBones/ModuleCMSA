@@ -304,6 +304,18 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
      */
     public function deleteMultiple(array $tm_ids): bool
     {
+        /*
+         * PluginHook: Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb->deleteMultiple.beforeDelete
+         * PluginHookDescription: Hook on before delete multiple translation matcher IDs.
+         * PluginHookParam: <br>
+         *      array $tm_ids The translation matcher IDs array.
+         * PluginHookSince: 0.0.15
+         */
+        /* @var $Plugins \Rdb\Modules\RdbAdmin\Libraries\Plugins */
+        $Plugins = $this->Container->get('Plugins');
+        $Plugins->doHook(__CLASS__.'->'.__FUNCTION__.'.beforeDelete', [$tm_ids]);
+        unset($Plugins);
+
         $values = [];
         $tmIdsPlaceholder = [];
         $i = 0;
