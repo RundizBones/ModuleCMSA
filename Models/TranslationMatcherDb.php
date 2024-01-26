@@ -879,6 +879,18 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         $this->debugUpdate['updateResult'] = $updateResult;
 
         if ($updateResult === true) {
+            /*
+             * PluginHook: Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb->update.success
+             * PluginHookDescription: Hook on update translation matcher succeeded.
+             * PluginHookParam: <br>
+             *      array $data The associative array where key is column name and value is its value of `translation_matcher` DB table. This is the array that use for update.<br>
+             *      array $where The same value as `$data` but this is the array that use for search conditions before update.
+             * PluginHookSince: 0.0.15
+             */
+            /* @var $Plugins \Rdb\Modules\RdbAdmin\Libraries\Plugins */
+            $Plugins = $this->Container->get('Plugins');
+            $Plugins->doHook(__CLASS__.'->'.__FUNCTION__.'.success', [$data, $where]);
+            unset($Plugins);
             return true;
         }
 
