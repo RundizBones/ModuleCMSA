@@ -110,16 +110,16 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
             if (isset($formValidated) && $formValidated === true) {
                 try {
                     /*
-                    * PluginHook: Rdb\Modules\RdbCMSA\Controllers\Admin\TranslationMatcher\EditController->doUpdateAction.beforeUpdate
-                    * PluginHookDescription: Hook on update translation matcher succeeded.
-                    * PluginHookParam: <br>
-                    *      object|false $result The result row of fetched data from `translation_matcher` table where the ID is editing translation.
-                    * PluginHookSince: 0.0.15
-                    */
-                   /* @var $Plugins \Rdb\Modules\RdbAdmin\Libraries\Plugins */
-                   $Plugins = $this->Container->get('Plugins');
-                   $Plugins->doHook(__CLASS__.'->'.__FUNCTION__.'.beforeUpdate', [$result]);
-                   unset($Plugins);
+                     * PluginHook: Rdb\Modules\RdbCMSA\Controllers\Admin\TranslationMatcher\EditController->doUpdateAction.beforeUpdate
+                     * PluginHookDescription: Hook on update translation matcher succeeded.
+                     * PluginHookParam: <br>
+                     *      object|false $result The result row of fetched data from `translation_matcher` table where the ID is editing translation.
+                     * PluginHookSince: 0.0.15
+                     */
+                    /* @var $Plugins \Rdb\Modules\RdbAdmin\Libraries\Plugins */
+                    $Plugins = $this->Container->get('Plugins');
+                    $Plugins->doHook(__CLASS__.'->'.__FUNCTION__.'.beforeUpdate', [$result]);
+                    unset($Plugins);
 
                     $saveResult = $TranslationMatcherDb->update($data, ['tm_id' => $tm_id]);
                 } catch (\Exception $ex) {
