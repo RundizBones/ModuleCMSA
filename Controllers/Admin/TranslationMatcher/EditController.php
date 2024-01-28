@@ -114,7 +114,7 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
                      * PluginHookDescription: Hook on update translation matcher succeeded.
                      * PluginHookParam: <br>
                      *      object|false $result The result row of fetched data from `translation_matcher` table where the ID is editing translation.
-                     * PluginHookSince: 0.0.15
+                     * PluginHookSince: 0.0.14
                      */
                     /* @var $Plugins \Rdb\Modules\RdbAdmin\Libraries\Plugins */
                     $Plugins = $this->Container->get('Plugins');
