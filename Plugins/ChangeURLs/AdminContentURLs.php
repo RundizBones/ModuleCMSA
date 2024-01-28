@@ -222,7 +222,7 @@ class AdminContentURLs
              * PluginHook: Rdb\Modules\RdbCMSA\Plugins\ChangeURLs\AdminContentURLs->detectAdminURLs.urlSegmentPostTypes
              * PluginHookDescription: Retrieve additional URL segment of editing post types that uses `posts` table. Example for pages: `admin/cms/pages/edit/nnn` so, `pages` is in here.
              * PluginHookParam: 
-             *              `$urlSegmentPostTypes` contain 2D array of available post types: `posts`, `pages`.
+             *              array $urlSegmentPostTypes contain 2D array of available post types: `posts`, `pages`.
              * PluginHookReturn: Expect return array.
              * PluginHookSince: 0.0.3
              */
@@ -255,7 +255,7 @@ class AdminContentURLs
              * PluginHook: Rdb\Modules\RdbCMSA\Plugins\ChangeURLs\AdminContentURLs->detectAdminURLs.urlSegmentTaxonomyTypes
              * PluginHookDescription: Retrieve additional URL segment of editing taxonomy types that uses `taxonomy_term_data` table. Example for pages: `admin/cms/categories/edit/nnn` so, `categories` is in here.
              * PluginHookParam: 
-             *              `$urlSegmentTaxonomyTypes` contain 2D array of available taxonomy types: `categories`, `tags`.
+             *              array $urlSegmentTaxonomyTypes contain 2D array of available taxonomy types: `categories`, `tags`.
              * PluginHookReturn: Expect return array.
              * PluginHookSince: 0.0.3
              */
