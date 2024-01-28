@@ -17,6 +17,9 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
 {
 
 
+    use Traits\CommonModelTrait;
+
+
     /**
      * @var array Allowed sort columns in db.
      */
@@ -269,7 +272,7 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
      * 
      * @param array $where The associative array where key is column name and value is its value.
      * @param array $options Available options:<br>
-     *                          `getFileFullPath` (bool) Set to `true` to get file's full path. Default is `false` or do not get it.<br>
+     *              `getFileFullPath` (bool) Set to `true` to get file's full path. Default is `false` or do not get it.<br>
      * @return mixed Return object if result was found, return `empty`, `null`, `false` if it was not found.
      */
     public function get(array $where = [], array $options = [])
@@ -480,21 +483,34 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
      * List files in DB.
      * 
      * @param array $options The associative array options. Available options keys:<br>
-     *                          `search` (string) the search term,<br>
-     *                          `file_id_in` (array) The file ID to look with `IN()` MySQL function.<br>
-     *                              The array values must be integer, example `array(1,3,4,5)`.<br>
-     *                          `where` (array) the where conditions where key is column name and value is its value,<br>
-     *                          `filterMime` (string) the mime type to filter. Example: `image/` will include `image/gif`, `image/jpeg`, and so on.<br>
-     *                          `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
-     *                              If the `sort` key is `_field()` then it will be use `FIELD(column, x, x)` where column is the `file_id_in`.<br>
-     *                          `unlimited` (bool) set to `true` to show unlimited items, unset or set to `false` to show limited items,<br>
-     *                          `limit` (int) limit items per page. maximum is 1000,<br>
-     *                          `offset` (int) offset or start at record. 0 is first record,<br>
-     *                          `getFileFullPath` (bool) Set to `true` to get file's full path. Default is `false` or do not get it.<br>
+     *              `cache` (bool) Set to `true` to be able to cache the query by plugins. Default is `false`.<br>
+     *              `search` (string) the search term,<br>
+     *              `file_id_in` (array) The file ID to look with `IN()` MySQL function.<br>
+     *                  The array values must be integer, example `array(1,3,4,5)`.<br>
+     *              `where` (array) the where conditions where key is column name and value is its value,<br>
+     *              `filterMime` (string) the mime type to filter. Example: `image/` will include `image/gif`, `image/jpeg`, and so on.<br>
+     *              `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
+     *                  If the `sort` key is `_field()` then it will be use `FIELD(column, x, x)` where column is the `file_id_in`.<br>
+     *              `unlimited` (bool) set to `true` to show unlimited items, unset or set to `false` to show limited items,<br>
+     *              `limit` (int) limit items per page. maximum is 1000,<br>
+     *              `offset` (int) offset or start at record. 0 is first record,<br>
+     *              `getFileFullPath` (bool) Set to `true` to get file's full path. Default is `false` or do not get it.<br>
      * @return array Return associative array with `total` and `items` in keys.
      */
     public function listItems(array $options = []): array
     {
+         if (isset($options['cache']) && true === $options['cache']) {
+            // if there is an option to get/set cache.
+            $cacheArgs = func_get_args();
+            $cacheResult = $this->cmtGetCacheListItems($cacheArgs);
+
+            if (!is_null($cacheResult)) {
+                // if found cached result.
+                unset($cacheArgs);
+                return $cacheResult;
+            }// endif;
+        }// endif; there is cache option.
+
         // prepare options and check if incorrect.
         if (!isset($options['offset']) || !is_numeric($options['offset'])) {
             $options['offset'] = 0;
@@ -599,8 +615,6 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
                 ) {
                     $orderby[] = 'FIELD(`files`.`file_id`, ' . implode(', ', $fileIdsInPlaceholder) . ')';
                 }
-
-                unset($naturalSort);
             }// endforeach;
             unset($sort);
 
@@ -670,6 +684,13 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
         $output['items'] = $result;
 
         unset($result);
+
+        if (isset($options['cache']) && true === $options['cache'] && isset($cacheArgs)) {
+            // if there is an option to allow to set/get cache.
+            $this->cmtSetCacheListItems($cacheArgs, $output);
+            unset($cacheArgs);
+        }// endif; there is cache option.
+
         return $output;
     }// listItems
 

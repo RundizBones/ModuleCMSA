@@ -16,6 +16,9 @@ class PostRevisionDb extends \Rdb\System\Core\Models\BaseModel
 {
 
 
+    use Traits\CommonModelTrait;
+
+
     /**
      * @var array Allowed sort columns in db.
      */
@@ -95,15 +98,28 @@ class PostRevisionDb extends \Rdb\System\Core\Models\BaseModel
      * List post revisions.
      * 
      * @param array $options The associative array options. Available options keys:<br>
-     *                          `where` (array) the where conditions where key is column name and value is its value,<br>
-     *                          `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
-     *                          `unlimited` (bool) set to `true` to show unlimited items, unset or set to `false` to show limited items,<br>
-     *                          `limit` (int) limit items per page. maximum is 1000,<br>
-     *                          `offset` (int) offset or start at record. 0 is first record,<br>
+     *              `cache` (bool) Set to `true` to be able to cache the query by plugins. Default is `false`.<br>
+     *              `where` (array) the where conditions where key is column name and value is its value,<br>
+     *              `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
+     *              `unlimited` (bool) set to `true` to show unlimited items, unset or set to `false` to show limited items,<br>
+     *              `limit` (int) limit items per page. maximum is 1000,<br>
+     *              `offset` (int) offset or start at record. 0 is first record,<br>
      * @return array Return associative array with `total` and `items` in keys.
      */
     public function listItems(array $options = []): array
     {
+        if (isset($options['cache']) && true === $options['cache']) {
+            // if there is an option to get/set cache.
+            $cacheArgs = func_get_args();
+            $cacheResult = $this->cmtGetCacheListItems($cacheArgs);
+
+            if (!is_null($cacheResult)) {
+                // if found cached result.
+                unset($cacheArgs);
+                return $cacheResult;
+            }// endif;
+        }// endif; there is cache option.
+
         // prepare options and check if incorrect.
         if (!isset($options['offset']) || !is_numeric($options['offset'])) {
             $options['offset'] = 0;
@@ -205,6 +221,13 @@ class PostRevisionDb extends \Rdb\System\Core\Models\BaseModel
         $output['items'] = $result;
 
         unset($result);
+
+        if (isset($options['cache']) && true === $options['cache'] && isset($cacheArgs)) {
+            // if there is an option to allow to set/get cache.
+            $this->cmtSetCacheListItems($cacheArgs, $output);
+            unset($cacheArgs);
+        }// endif; there is cache option.
+
         return $output;
     }// listItems
 

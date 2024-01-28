@@ -16,6 +16,9 @@ class TagsDb extends TaxonomyTermDataDb
 {
 
 
+    use Traits\CommonModelTrait;
+
+
     /**
      * Add a tag data.
      * 
@@ -98,8 +101,7 @@ class TagsDb extends TaxonomyTermDataDb
      * List tags.
      * 
      * @param array $options The associative array options. Available options keys:<br>
-     *              `cache` (bool) Set to `true` to cache the query. Default is `false`.<br>
-     *              `cacheExpires` (int) Set number of TTL. Default is 10 minutes (number in seconds).<br>
+     *              `cache` (bool) Set to `true` to be able to cache the query by plugins. Default is `false`.<br>
      *              `search` (string) the search term,<br>
      *              `where` (array) the where conditions where key is column name and value is its value,<br>
      *              `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
@@ -111,20 +113,16 @@ class TagsDb extends TaxonomyTermDataDb
     public function listItems(array $options = []): array
     {
         if (isset($options['cache']) && true === $options['cache']) {
-            $Cache = (new \Rdb\Modules\RdbAdmin\Libraries\Cache(
-                $this->Container,
-                [
-                    'cachePath' => STORAGE_PATH . '/cache/Modules/RdbCMSA/Models/TagsDb',
-                ]
-            ))->getCacheObject();
-            $cacheKey = __FUNCTION__ . '_' . md5(json_encode($options));
-            $cacheExpires = ($options['cacheExpires'] ?? (10 * 60));// default cache is 10 minutes.
+            // if there is an option to get/set cache.
+            $cacheArgs = func_get_args();
+            $cacheResult = $this->cmtGetCacheListItems($cacheArgs);
 
-            if ($Cache->has($cacheKey)) {
-                unset($cacheExpires);
-                return $Cache->get($cacheKey);
-            }
-        }
+            if (!is_null($cacheResult)) {
+                // if found cached result.
+                unset($cacheArgs);
+                return $cacheResult;
+            }// endif;
+        }// endif; there is cache option.
 
         // prepare options and check if incorrect.
         if (!isset($options['offset']) || !is_numeric($options['offset'])) {
@@ -235,10 +233,11 @@ class TagsDb extends TaxonomyTermDataDb
 
         unset($result);
 
-        if (isset($Cache) && isset($cacheKey) && isset($cacheExpires)) {
-            $Cache->set($cacheKey, $output, $cacheExpires);
-            unset($Cache, $cacheExpires, $cacheKey);
-        }
+        if (isset($options['cache']) && true === $options['cache'] && isset($cacheArgs)) {
+            // if there is an option to allow to set/get cache.
+            $this->cmtSetCacheListItems($cacheArgs, $output);
+            unset($cacheArgs);
+        }// endif; there is cache option.
 
         return $output;
     }// listItems

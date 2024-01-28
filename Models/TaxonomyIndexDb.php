@@ -16,6 +16,9 @@ class TaxonomyIndexDb extends \Rdb\System\Core\Models\BaseModel
 {
 
 
+    use Traits\CommonModelTrait;
+
+
     /**
      * @var array Contain update debug info.
      */
@@ -322,14 +325,27 @@ class TaxonomyIndexDb extends \Rdb\System\Core\Models\BaseModel
      * List items.
      * 
      * @param array $options The associative array options. Available options keys:<br>
-     *                          `where` (array) the where conditions where key is column name and value is its value,<br>
-     *                          `tidsIn` (array) the taxonomy IDs to use in the sql command `WHERE IN (...)`<br>
-     *                          `tidsNotIn` (array) the taxonomy IDs to use in the sql command `WHERE NOT IN (...)`<br>
-     *                          `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
+     *              `cache` (bool) Set to `true` to be able to cache the query by plugins. Default is `false`.<br>
+     *              `where` (array) the where conditions where key is column name and value is its value,<br>
+     *              `tidsIn` (array) the taxonomy IDs to use in the sql command `WHERE IN (...)`<br>
+     *              `tidsNotIn` (array) the taxonomy IDs to use in the sql command `WHERE NOT IN (...)`<br>
+     *              `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
      * @return array Return associative array with `total` and `items` in keys.
      */
     public function listItems(array $options = []): array
     {
+        if (isset($options['cache']) && true === $options['cache']) {
+            // if there is an option to get/set cache.
+            $cacheArgs = func_get_args();
+            $cacheResult = $this->cmtGetCacheListItems($cacheArgs);
+
+            if (!is_null($cacheResult)) {
+                // if found cached result.
+                unset($cacheArgs);
+                return $cacheResult;
+            }// endif;
+        }// endif; there is cache option.
+
         $bindValues = [];
         $output = [];
         $sql = 'SELECT %*% FROM `' . $this->tableName . '` AS `taxonomy_index`
@@ -427,6 +443,12 @@ class TaxonomyIndexDb extends \Rdb\System\Core\Models\BaseModel
         $output['total'] = count($output['items']);
         $Sth->closeCursor();
         unset($bindValues, $sql, $Sth);
+
+        if (isset($options['cache']) && true === $options['cache'] && isset($cacheArgs)) {
+            // if there is an option to allow to set/get cache.
+            $this->cmtSetCacheListItems($cacheArgs, $output);
+            unset($cacheArgs);
+        }// endif; there is cache option.
 
         return $output;
     }// listItems

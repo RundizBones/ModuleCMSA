@@ -16,6 +16,9 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
 {
 
 
+    use Traits\CommonModelTrait;
+
+
     /**
      * @var \Rdb\System\Container
      */
@@ -312,8 +315,7 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
      * @link http://mysqlserverteam.com/mysql-8-0-labs-recursive-common-table-expressions-in-mysql-ctes/ MySQL blog about new `RECURSIVE CTE`.
      * @link https://mariadb.com/kb/en/recursive-common-table-expressions-overview/ MariaDB user manual about `RECURSIVE CTE`.
      * @param array $options Available options:
-     *              `cache` (bool) Set to `true` to cache the query. Default is `false`.<br>
-     *              `cacheExpires` (int) Set number of TTL. Default is 10 minutes (number in seconds).<br>
+     *              `cache` (bool) Set to `true` to be able to cache the query by plugins. Default is `false`.<br>
      *              `search` (string) the search term,<br>
      *              `taxonomy_id_in` (array) The taxonomy ID to look with `IN()` MySQL function.<br>
      *                  The array values must be integer, example `array(1,3,4,5)`.<br>
@@ -341,20 +343,16 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
         */
 
         if (isset($options['cache']) && true === $options['cache']) {
-            $Cache = (new \Rdb\Modules\RdbAdmin\Libraries\Cache(
-                $this->Container,
-                [
-                    'cachePath' => STORAGE_PATH . '/cache/Modules/RdbCMSA/Models/CategoriesDb',
-                ]
-            ))->getCacheObject();
-            $cacheKey = __FUNCTION__ . '_' . md5(json_encode($options));
-            $cacheExpires = ($options['cacheExpires'] ?? (10 * 60));// default cache is 10 minutes.
+            // if there is an option to get/set cache.
+            $cacheArgs = func_get_args();
+            $cacheResult = $this->cmtGetCacheListItems($cacheArgs);
 
-            if ($Cache->has($cacheKey)) {
-                unset($cacheExpires);
-                return $Cache->get($cacheKey);
-            }
-        }
+            if (!is_null($cacheResult)) {
+                // if found cached result.
+                unset($cacheArgs);
+                return $cacheResult;
+            }// endif;
+        }// endif; there is cache option.
 
         // prepare options and check if incorrect.
         if (!isset($options['offset']) || !is_numeric($options['offset'])) {
@@ -500,10 +498,11 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
 
         unset($result);
 
-        if (isset($Cache) && isset($cacheKey) && isset($cacheExpires)) {
-            $Cache->set($cacheKey, $output, $cacheExpires);
-            unset($Cache, $cacheExpires, $cacheKey);
-        }
+        if (isset($options['cache']) && true === $options['cache'] && isset($cacheArgs)) {
+            // if there is an option to allow to set/get cache.
+            $this->cmtSetCacheListItems($cacheArgs, $output);
+            unset($cacheArgs);
+        }// endif; there is cache option.
 
         return $output;
     }// listRecursive

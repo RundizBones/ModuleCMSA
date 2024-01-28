@@ -19,6 +19,9 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
 {
 
 
+    use Traits\CommonModelTrait;
+
+
     /**
      * @var array Allowed sort columns in db.
      */
@@ -309,7 +312,7 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
          * PluginHookDescription: Hook on before delete multiple translation matcher IDs.
          * PluginHookParam: <br>
          *      array $tm_ids The translation matcher IDs array.
-         * PluginHookSince: 0.0.15
+         * PluginHookSince: 0.0.14
          */
         /* @var $Plugins \Rdb\Modules\RdbAdmin\Libraries\Plugins */
         $Plugins = $this->Container->get('Plugins');
@@ -351,10 +354,10 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
      * Get a single translation matched data.
      * 
      * @param array $where The associative array where key is column name and value is its value.<br>
-     *                          Special where array keys:<br>
-     *                          `findDataIds` (array) The array of data id to look in `matches`,<br>
+     *              Special where array keys:<br>
+     *              `findDataIds` (array) The array of data id to look in `matches`,<br>
      * @param array $options The associative array options. Available options keys:<br>
-     *                          `getRelatedData` (bool) Set to `true` to get related data such as posts name for table name posts. (see `getRelatedData()` method.) Default is `false`.<br>
+     *              `getRelatedData` (bool) Set to `true` to get related data such as posts name for table name posts. (see `getRelatedData()` method.) Default is `false`.<br>
      * @return object|false Return object, or `false` on failure.
      * @throws \InvalidArgumentException Throw the exception if argument is invalid.
      */
@@ -658,19 +661,32 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
      * List items.
      * 
      * @param array $options The associative array options. Available options keys:<br>
-     *                          `search` (string) the search term,<br>
-     *                          `findDataIds` (array) The array of data id to look in `matches`,<br>
-     *                          `where` (array) the where conditions where key is column name and value is its value,<br>
-     *                          `tmIdsIn` (array) the translation matcher IDs to look in the sql command `WHERE IN (...),<br>
-     *                          `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
-     *                          `unlimited` (bool) set to `true` to show unlimited items, unset or set to `false` to show limited items,<br>
-     *                          `limit` (int) limit items per page. maximum is 1000,<br>
-     *                          `offset` (int) offset or start at record. 0 is first record,<br>
-     *                          `getRelatedData` (bool) Set to `true` to get related data such as posts name for table name posts. (see `getRelatedData()` method.) Default is `false`.<br>
+     *              `cache` (bool) Set to `true` to be able to cache the query by plugins. Default is `false`.<br>
+     *              `search` (string) the search term,<br>
+     *              `findDataIds` (array) The array of data id to look in `matches`,<br>
+     *              `where` (array) the where conditions where key is column name and value is its value,<br>
+     *              `tmIdsIn` (array) the translation matcher IDs to look in the sql command `WHERE IN (...),<br>
+     *              `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
+     *              `unlimited` (bool) set to `true` to show unlimited items, unset or set to `false` to show limited items,<br>
+     *              `limit` (int) limit items per page. maximum is 1000,<br>
+     *              `offset` (int) offset or start at record. 0 is first record,<br>
+     *              `getRelatedData` (bool) Set to `true` to get related data such as posts name for table name posts. (see `getRelatedData()` method.) Default is `false`.<br>
      * @return array Return associative array with `total` and `items` in keys.
      */
     public function listItems(array $options): array
     {
+        if (isset($options['cache']) && true === $options['cache']) {
+            // if there is an option to get/set cache.
+            $cacheArgs = func_get_args();
+            $cacheResult = $this->cmtGetCacheListItems($cacheArgs);
+
+            if (!is_null($cacheResult)) {
+                // if found cached result.
+                unset($cacheArgs);
+                return $cacheResult;
+            }// endif;
+        }// endif; there is cache option.
+
         // prepare options and check if incorrect.
         if (!isset($options['offset']) || !is_numeric($options['offset'])) {
             $options['offset'] = 0;
@@ -864,6 +880,13 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         $output['items'] = $result;
 
         unset($result);
+
+        if (isset($options['cache']) && true === $options['cache'] && isset($cacheArgs)) {
+            // if there is an option to allow to set/get cache.
+            $this->cmtSetCacheListItems($cacheArgs, $output);
+            unset($cacheArgs);
+        }// endif; there is cache option.
+
         return $output;
     }// listItems
 
@@ -897,7 +920,7 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
              * PluginHookParam: <br>
              *      array $data The associative array where key is column name and value is its value of `translation_matcher` DB table. This is the array that use for update.<br>
              *      array $where The same value as `$data` but this is the array that use for search conditions before update.
-             * PluginHookSince: 0.0.15
+             * PluginHookSince: 0.0.14
              */
             /* @var $Plugins \Rdb\Modules\RdbAdmin\Libraries\Plugins */
             $Plugins = $this->Container->get('Plugins');
