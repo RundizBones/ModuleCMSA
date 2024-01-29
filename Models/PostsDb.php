@@ -698,6 +698,11 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
         if (isset($options['cache']) && true === $options['cache']) {
             // if there is an option to get/set cache.
             $cacheArgs = func_get_args();
+            $cacheArgs['_progProperties'] = [
+                'categoryType' => $this->categoryType,
+                'postType' => $this->postType,
+                'tagType' => $this->tagType,
+            ];
             $cacheResult = $this->cmtGetCacheListItems($cacheArgs);
 
             if (!is_null($cacheResult)) {
