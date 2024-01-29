@@ -314,7 +314,7 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
      * 
      * @link http://mysqlserverteam.com/mysql-8-0-labs-recursive-common-table-expressions-in-mysql-ctes/ MySQL blog about new `RECURSIVE CTE`.
      * @link https://mariadb.com/kb/en/recursive-common-table-expressions-overview/ MariaDB user manual about `RECURSIVE CTE`.
-     * @param array $options Available options:
+     * @param array $options Available options:<br>
      *              `cache` (bool) Set to `true` to be able to cache the query by plugins. Default is `false`.<br>
      *              `search` (string) the search term,<br>
      *              `taxonomy_id_in` (array) The taxonomy ID to look with `IN()` MySQL function.<br>
