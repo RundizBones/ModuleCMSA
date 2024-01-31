@@ -695,7 +695,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         // end format categories data. ----------------------
 
         // format tags data. ---------------------------------
-        $progTags = json_decode($this->Input->patch('prog_tags', null));
+        $progTags = json_decode($this->Input->patch('prog_tags', ''));
         if (false !== $dataTags && is_array($progTags)) {
             $TagsDb = new \Rdb\Modules\RdbCMSA\Models\TagsDb($this->Container);
             $UserPermissionsDb = new \Rdb\Modules\RdbAdmin\Models\UserPermissionsDb($this->Container);
