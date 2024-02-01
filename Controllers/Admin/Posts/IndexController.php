@@ -193,7 +193,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
 
         if (isset($result['items']) && is_iterable($result['items'])) {
             foreach ($result['items'] as $row) {
-                $row->languages = $this->getLanguagesAndTranslationMatched($row->post_id, $languages, $TranslationMatcherDb, 'posts');
+                $row->languages = $this->getLanguagesAndTranslationMatched(intval($row->post_id), $languages, $TranslationMatcherDb, 'posts');
             }// endforeach;
             unset($row);
         }
