@@ -22,13 +22,10 @@ trait TranslationMatcherTrait
      * This method was called from controllers.
      * 
      * @since 0.0.14
-     * @param object $row A result row object.
+     * @param int $objectId The object ID that may stored in column `matches` of `translation_matcher` table.
      * @param array $languages Languages from config file.
      * @param \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb $TranslationMatcherDb The translation matcher model class.
      * @param string $tmTable The value for column `tm_table` to check in the `translation_matcher` table. Default value is 'taxonomy_term_data'.
-     * @param string $relatedTableColumnIdName The column ID name of related table in `tm_table` column.<br>
-     *      For example: the table `taxonomy_term_data` has column ID named `tid`.<br>
-     *      This value will be use with `$row` argument. Default value is 'tid'.
      * @return array Return associative array.<pre>
      * array(
      *     'th' => array(
@@ -44,17 +41,16 @@ trait TranslationMatcherTrait
      * </pre>
      */
     protected function getLanguagesAndTranslationMatched(
-        $row, 
+        int $objectId, 
         array $languages, 
         \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb $TranslationMatcherDb,
-        string $tmTable = 'taxonomy_term_data',
-        string $relatedTableColumnIdName = 'tid'
+        string $tmTable = 'taxonomy_term_data'
     ): array {
         $output = [];
         foreach ($languages as $languageId => $languageItems) {
             $TmatchResult = $TranslationMatcherDb->get(
                 [
-                    'findDataIds' => [$row->{$relatedTableColumnIdName}], 
+                    'findDataIds' => [$objectId], 
                     'tm_table' => $tmTable,
                 ],
                 [
