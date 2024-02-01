@@ -81,6 +81,20 @@ class PostFieldsDb extends \Rdb\System\Core\Models\BaseModel
 
 
     /**
+     * List multiple posts fields.
+     * 
+     * @since 0.0.14
+     * @param array $postIds The multiple pos IDs to search in.
+     * @param string $field_name Meta field name. If this field is empty then it will get all fields that matched post IDs.
+     * @return array Return associative array where key is each object ID in the `$objectIds` and its result will be the same as we get from `getFields()` method with `$field_name` parameter.
+     */
+    public function listPostsFields(array $postIds, string $field_name = ''): array
+    {
+        return $this->listObjectsFields($postIds, $field_name);
+    }// listPostsFields
+
+
+    /**
      * Update post field.
      * 
      * If data is not exists then it will be call add data automatically.

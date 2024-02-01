@@ -882,6 +882,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
         unset($bindValues, $sql, $Sth);
 
         if (is_array($result) && !empty($result)) {
+            $PostFieldsDb = new PostFieldsDb($this->Container);
             $filesPosts = [];
             $postIds = [];
             // loop set post IDs to retrieve all at once from tables.--------------
@@ -902,11 +903,13 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
                 // get related tags.
                 $relatedTags = $this->listRelatedTaxonomiesFromPosts($postIds, $this->tagType);
             }
+            if (isset($options['skipPostFields']) && $options['skipPostFields'] === false) {
+                $postsFields = $PostFieldsDb->listPostsFields($postIds);
+            }
             // end retrieve data related to post all at once to save DB query. -------
             unset($postIds);
 
             // loop get related categories and tags and maybe do other things.
-            $PostFieldsDb = new PostFieldsDb($this->Container);
             foreach ($result as $key => $row) {
                 // get status text.
                 $result[$key]->post_statusText = $this->getStatusText((int) $row->post_status);
@@ -914,7 +917,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
 
                 if (isset($options['skipPostFields']) && $options['skipPostFields'] === false) {
                     // get post fields.
-                    $postFieldsResults = $PostFieldsDb->get($row->post_id);
+                    $postFieldsResults = ($postsFields[intval($row->post_id)] ?? []);
                     $postFields = [];
                     if (is_array($postFieldsResults)) {
                         foreach ($postFieldsResults as $eachField) {
@@ -938,7 +941,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
                 }
             }// endforeach;
             unset($key, $PostFieldsDb, $row);
-            unset($filesPosts, $relatedCategories, $relatedTags);
+            unset($filesPosts, $postsFields, $relatedCategories, $relatedTags);
         }// endif $result
 
         $output['items'] = $result;
