@@ -73,10 +73,28 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
             $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
 
             if (isset($result['items']) && is_iterable($result['items'])) {
+                // build object IDs to retrieve all related data at once. ------------
+                $tids = [];
                 foreach ($result['items'] as $row) {
-                    $row->languages = $this->getLanguagesAndTranslationMatched(intval($row->tid), $languages, $TranslationMatcherDb);
+                    $tids[] = $row->tid;
                 }// endforeach;
                 unset($row);
+                // end build object IDs to retrieve all related data at once. -------
+
+                // retrieve all related data at once. ----------------------------------
+                $tmResults = $this->getLanguagesAndTranslationMatchedMultipleObjects($tids, $languages, $TranslationMatcherDb);
+                unset($tids);
+                // end retrieve all related data at once. -----------------------------
+
+                foreach ($result['items'] as $row) {
+                    if (array_key_exists(intval($row->tid), $tmResults)) {
+                        $row->languages = $tmResults[intval($row->tid)];
+                    } else {
+                        $row->languages = [];
+                    }
+                }// endforeach;
+                unset($row);
+                unset($tmResults);
             }
             unset($languages, $TranslationMatcherDb);
             // end do additional task(s) to the data that retrieved. ------
