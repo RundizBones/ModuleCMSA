@@ -199,8 +199,6 @@ class TagsDb extends TaxonomyTermDataDb
                         $orderby[] = '`taxonomy_term_data`.`' . $sort['sort'] . '` ' . strtoupper($sort['order']);
                     }
                 }
-
-                unset($naturalSort);
             }// endforeach;
             unset($sort);
 
