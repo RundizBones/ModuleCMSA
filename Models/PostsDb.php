@@ -887,7 +887,9 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
             $postIds = [];
             // loop set post IDs to retrieve all at once from tables.--------------
             foreach ($result as $key => $row) {
-                $filesPosts[(int) $row->post_id] = ($row->post_feature_image > 0 ? $row->post_feature_image : null);
+                if (property_exists($row, 'post_feature_image') && is_numeric($row->post_feature_image)) {
+                    $filesPosts[(int) $row->post_id] = $row->post_feature_image;
+                }
                 $postIds[] = (int) $row->post_id;
             }// endforeach;
             unset($key, $row);

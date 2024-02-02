@@ -114,7 +114,7 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
         unset($Config);
         $TranslationMatcherDb = new \Rdb\Modules\RdbCMSA\Models\TranslationMatcherDb($this->Container);
 
-        if (isset($result['items']) && is_iterable($result['items'])) {
+        if (isset($result['items']) && is_iterable($result['items']) && !empty($result['items'])) {
             // build object IDs to retrieve all related data at once. ------------
             $tids = [];
             foreach ($result['items'] as $row) {
