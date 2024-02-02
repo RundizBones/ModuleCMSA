@@ -124,6 +124,7 @@ trait TranslationMatcherTrait
             'where' => [
                 'tm_table' => $tmTable,
             ],
+            'unlimited' => true,
             'getRelatedData' => true,
         ]);
         $tmatchResults = ($tmatchResults['items'] ?? []);
@@ -175,7 +176,7 @@ trait TranslationMatcherTrait
         unset($tmatchResults);
 
         return $output;
-    }// getLanguagesAndTranslationMatched
+    }// getLanguagesAndTranslationMatchedMultipleObjects
 
 
     /**
