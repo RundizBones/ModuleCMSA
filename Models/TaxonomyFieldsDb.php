@@ -56,10 +56,10 @@ class TaxonomyFieldsDb extends \Rdb\System\Core\Models\BaseModel
      * @param int $tid The taxonomy ID.
      * @return bool Return `true` on success, `false` for otherwise.
      */
-    public function deleteAllPostFields(int $tid): bool
+    public function deleteAllTaxonomyFields(int $tid): bool
     {
         return $this->deleteAllFieldsData($tid);
-    }// deleteAllPostFields
+    }// deleteAllTaxonomyFields
 
 
     /**
@@ -78,6 +78,20 @@ class TaxonomyFieldsDb extends \Rdb\System\Core\Models\BaseModel
 
         return $this->getFields($tid, $field_name);
     }// get
+
+
+    /**
+     * List multiple taxonomy fields.
+     * 
+     * @since 0.0.14
+     * @param array $tids The multiple taxonomy IDs to search in.
+     * @param string $field_name Meta field name. If this field is empty then it will get all fields that matched taxonomy IDs.
+     * @return array Return associative array where key is each object ID in the `$objectIds` and its result will be the same as we get from `getFields()` method with `$field_name` parameter.
+     */
+    public function listMultipleTaxonomyFields(array $tids, string $field_name = ''): array
+    {
+        return $this->listObjectsFields($tids, $field_name);
+    }// listMultipleTaxonomyFields
 
 
     /**
@@ -103,7 +117,7 @@ class TaxonomyFieldsDb extends \Rdb\System\Core\Models\BaseModel
      * 
      * If data is not exists then it will be call add data automatically.
      * 
-     * @see \Rdb\Modules\RdbCMSA\Models\PostFields::update() for more details that its attributes will be array keys.
+     * @see \Rdb\Modules\RdbCMSA\Models\TaxonomyFieldsDb::update() for more details that its attributes will be array keys.
      * @param array $data The array format must be..<pre>
      * array(
      *     array(

@@ -117,7 +117,7 @@ class PostFieldsDb extends \Rdb\System\Core\Models\BaseModel
      * 
      * If data is not exists then it will be call add data automatically.
      * 
-     * @see \Rdb\Modules\RdbCMSA\Models\PostFields::update() for more details that its attributes will be array keys.
+     * @see \Rdb\Modules\RdbCMSA\Models\PostFieldsDb::update() for more details that its attributes will be array keys.
      * @param array $data The array format must be..<pre>
      * array(
      *     array(

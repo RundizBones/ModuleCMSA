@@ -464,9 +464,24 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
 
         if (!empty($result) && is_array($result)) {
             $TaxonomyFieldsDb = new TaxonomyFieldsDb($this->Container);
+            $tids = [];
+            // loop set taxonomy IDs to retrieve all at once from tables.--------------
+            foreach ($result as $key => $row) {
+                $tids[] = (int) $row->tid;
+            }// endforeach;
+            unset($key, $row);
+            // end loop set taxonomy IDs to retrieve all at once from tables.----------
+
+            // retrieve data related to taxonomy all at once to save DB query. -----------
+            if (isset($options['skipTaxonomyFields']) && $options['skipTaxonomyFields'] === false) {
+                $taxonomiesFields = $TaxonomyFieldsDb->listMultipleTaxonomyFields($tids);
+            }
+            // end retrieve data related to taxonomy all at once to save DB query. -------
+            unset($tids);
+
             foreach ($result as $row) {
                 if (isset($options['skipTaxonomyFields']) && $options['skipTaxonomyFields'] === false) {
-                    $taxonomyFieldsResults = $TaxonomyFieldsDb->get($row->tid);
+                    $taxonomyFieldsResults = ($taxonomiesFields[intval($row->tid)] ?? []);
                     $taxonomyFields = [];
                     if (is_array($taxonomyFieldsResults)) {
                         foreach ($taxonomyFieldsResults as $eachField) {
