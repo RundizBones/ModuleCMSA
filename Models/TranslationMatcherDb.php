@@ -525,6 +525,51 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
 
 
     /**
+     * Get related data where the data IDs from multiple translation matcher rows.
+     * 
+     * @since 0.0.14
+     * @param array $multipleTmDataIds The associative array where each key is `tm_table` column's value. Example:<pre>
+     *     array(
+     *         'posts' => array(
+     *             12, 15, 16, // ... These are data IDs of `posts` table.
+     *         ),
+     *         'taxonomy_term_data' => array(
+     *             // ...
+     *         ),
+     *     )
+     * </pre>
+     * @return array Return associative array where each key is `tm_table` column's value. Example:<pre>
+     *     array(
+     *         'posts' => array(
+     *             12 => // result row of selected related data (object) ,
+     *             // ...
+     *         ),
+     *         'taxonomy_term_data' => array(
+     *             // ...
+     *         ),
+     *     )
+     * </pre>
+     */
+    protected function getRelatedDataFromMultipleTranslationMatcherRows(array $multipleTmDataIds): array
+    {
+        $results = [];
+
+        foreach ($multipleTmDataIds as $tm_table => $dataIds) {
+            $results[$tm_table] = [];
+            $relResult = $this->getRelatedData($dataIds, $tm_table);
+
+            foreach ($relResult as $relRow) {
+                $results[$tm_table][intval($relRow->data_id)] = $relRow;
+            }// endforeach;
+            unset($relResult, $relRow);
+        }// endforeach;
+        unset($dataIds, $tm_table);
+
+        return $results;
+    }// getRelatedDataFromMultipleTranslationMatcherRows
+
+
+    /**
      * Check if current language of selected id is empty.
      * 
      * @since 0.0.14
@@ -854,28 +899,65 @@ class TranslationMatcherDb extends \Rdb\System\Core\Models\BaseModel
         $Sth->closeCursor();
         unset($bindValues, $bindValuesDataType, $sql, $Sth);
 
-        if (is_array($result) && isset($options['getRelatedData']) && $options['getRelatedData'] === true) {
+        if (is_array($result) && !empty($result)) {
+            $multiTmDataIds = [];
+            // loop set translation matcher IDs to retrieve all at once from tables.--------------
             foreach ($result as $row) {
-                $matches = json_decode($row->matches, true);
-                $dataIds = array_filter(array_values($matches));
-
-                $resultData = $this->getRelatedData($dataIds, $row->tm_table);
-                if (is_array($resultData)) {
-                    foreach ($resultData as $rowData) {
-                        $matches['data_id' . $rowData->data_id] = [
-                            'data_type' => $rowData->data_type,
-                            'data_name' => $rowData->data_name,
-                        ];
-                    }// endforeach;
-                    unset($rowData);
-                }
-                unset($resultData);
-
-                $row->matches = json_encode($matches);
-                unset($matches);
+                if (isset($options['getRelatedData']) && $options['getRelatedData'] === true) {
+                    // if there is get related data option.
+                    $matches = json_decode($row->matches, true);
+                    $dataIds = array_filter(array_values($matches));
+                    if (!array_key_exists($row->tm_table, $multiTmDataIds)) {
+                        $multiTmDataIds[$row->tm_table] = [];
+                    }
+                    array_push($multiTmDataIds[$row->tm_table], ...$dataIds);
+                    unset($dataIds, $matches);
+                } else {
+                    // if there is no get related data option.
+                    // currently, there is nothing to do here at all.
+                    break;
+                }// endif; there is get related data option.
             }// endforeach;
             unset($row);
-        }
+            // end loop set translation matcher IDs to retrieve all at once from tables.---------
+
+            // retrieve data related to translation matcher, all at once to save DB query. -----------
+            if (isset($options['getRelatedData']) && $options['getRelatedData'] === true) {
+                $relatedDataMultiple = $this->getRelatedDataFromMultipleTranslationMatcherRows($multiTmDataIds);
+            }
+            unset($multiTmDataIds);
+            // end retrieve data related to translation matcher, all at once to save DB query. ------
+
+            foreach ($result as $index => $row) {
+                if (isset($options['getRelatedData']) && $options['getRelatedData'] === true) {
+                    // if there is get related data option.
+                    $matches = json_decode($row->matches, true);
+                    $dataIds = array_filter(array_values($matches));
+
+                    foreach ($dataIds as $dataId) {
+                        if (isset($relatedDataMultiple[$row->tm_table][intval($dataId)])) {
+                            $relatedDataRow = $relatedDataMultiple[$row->tm_table][intval($dataId)];
+                            $matches['data_id' . $dataId] = [
+                                'data_type' => $relatedDataRow->data_type,
+                                'data_name' => $relatedDataRow->data_name,
+                            ];
+                            unset($relatedDataRow);
+                        } else {
+                            $matches['data_id' . $dataId] = [];
+                        }
+                    }// endforeach;
+                    unset($dataId);
+
+                    $result[$index]->matches = json_encode($matches);
+                    unset($dataIds, $matches);
+                } else {
+                    // if there is no get related data option.
+                    // currently, there is nothing to do here at all.
+                    break;
+                }// endif;
+            }// endforeach;
+            unset($index, $row);
+        }// endif; result is array and not empty
 
         $output['items'] = $result;
 
