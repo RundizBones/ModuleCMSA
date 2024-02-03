@@ -275,7 +275,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
 
                 if (!empty($dataFields)) {
                     $PostFieldsDb = new \Rdb\Modules\RdbCMSA\Models\PostFieldsDb($this->Container);
-                    $PostFieldsDb->updateMultiple($dataFields);
+                    $PostFieldsDb->updateMultiple((int) $resultRow->post_id, $dataFields);
                     unset($PostFieldsDb);
                 }
 
@@ -461,11 +461,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         // format post_fields data. --------------------------
         if (empty($dataFields) && is_array($this->Input->post('post_fields', []))) {
             foreach ($this->Input->post('post_fields', []) as $index => $eachPostField) {
-                $dataFields[] = [
-                    'post_id' => $post_id,
-                    'field_name' => $index,
-                    'field_value' => $eachPostField,
-                ];
+                $dataFields[$index] = $eachPostField;
             }// endforeach;
             unset($eachPostField, $index);
         }
@@ -672,11 +668,7 @@ class PostsSubController extends \Rdb\Modules\RdbAdmin\Controllers\Admin\AdminBa
         // format post_fields data. --------------------------
         if (empty($dataFields) && is_array($this->Input->patch('post_fields', []))) {
             foreach ($this->Input->patch('post_fields', []) as $index => $eachPostField) {
-                $dataFields[] = [
-                    'post_id' => $post_id,
-                    'field_name' => $index,
-                    'field_value' => $eachPostField,
-                ];
+                $dataFields[$index] = $eachPostField;
             }// endforeach;
             unset($eachPostField, $index);
         }

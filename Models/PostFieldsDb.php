@@ -113,10 +113,47 @@ class PostFieldsDb extends \Rdb\System\Core\Models\BaseModel
 
 
     /**
+     * Update or insert multiple post fields at once.
+     * 
+     * If data is not exists in DB then it will be insert.
+     * 
+     * @param int $post_id The post ID.
+     * @param array $data Associative array where key is match `field_name` column and value is match `field_value` column. Example:<pre>
+     * array(
+     *     'field_name1' => 'field value1',
+     *     'field_name2' => 'field value2',
+     *     // ...
+     * )
+     * </pre>
+     * @param bool $updateFieldDescription Set to `true` to update/insert field description. Default is `true`.
+     * @return bool Return `true` if update or insert completed, return `false` for otherwise.
+     */
+    public function updateMultiple($post_id, array $data = [], bool $updateFieldDescription = true)
+    {
+        if (gettype($post_id) !== 'string' && gettype($post_id) !== 'integer') {
+            return $this->updateMultipleOld($post_id);
+        }
+
+        $dataDesc = [];
+        if (true === $updateFieldDescription) {
+            // if it was marked to update field description.
+            // currently, there is no field description defined in the class. (See RdbAdmin/Models/UserFieldsDb.php for reference.)
+            // reserve this argument/parameter for the future.
+        }
+
+        return $this->updateFieldsMultipleData($post_id, $data, $dataDesc);
+    }// updateMultiple
+
+
+    /**
+     * Old method of update multiple.
+     * 
      * Update post field multiple rows at once.
      * 
      * If data is not exists then it will be call add data automatically.
      * 
+     * @deprecated since version 0.0.14
+     * @todo [rdcms] Delete this method when all call has been changed.
      * @see \Rdb\Modules\RdbCMSA\Models\PostFieldsDb::update() for more details that its attributes will be array keys.
      * @param array $data The array format must be..<pre>
      * array(
@@ -132,8 +169,10 @@ class PostFieldsDb extends \Rdb\System\Core\Models\BaseModel
      * @return array Return array with the same index and its value will be result from `update()` method of this class.
      * @throws \InvalidArgumentException Throw exception if the array format is invalid.
      */
-    public function updateMultiple(array $data): array
+    private function updateMultipleOld(array $data): array
     {
+        trigger_error('Call to `updateMultiple()` has been changed.', E_USER_DEPRECATED);
+
         $output = [];
 
         if (!empty($data)) {
@@ -168,7 +207,7 @@ class PostFieldsDb extends \Rdb\System\Core\Models\BaseModel
         }
 
         return $output;
-    }// updateMultiple
+    }// updateMultipleOld
 
 
 }

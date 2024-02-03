@@ -194,7 +194,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
 
                         if (!empty($dataFields)) {
                             $PostFieldsDb = new \Rdb\Modules\RdbCMSA\Models\PostFieldsDb($this->Container);
-                            $PostFieldsDb->updateMultiple($dataFields);
+                            $PostFieldsDb->updateMultiple($post_id, $dataFields);
                             unset($PostFieldsDb);
                         }
 

@@ -105,7 +105,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
      * 
      * @param array $data The data for `posts` table. The associative array where key is column name and value is its value.
      * @param array $dataRevision The data for `post_revision` table. The associative array where key is column name and value is its value.
-     * @return mixed Return inserted ID if successfully inserted, return `0` (zero), or `false` if failed to insert.
+     * @return mixed Return inserted ID (int) if successfully inserted, return `0` (zero integer), or `false` if failed to insert.
      */
     public function add(array $data, array $dataRevision)
     {
