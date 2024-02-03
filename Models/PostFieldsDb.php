@@ -128,12 +128,8 @@ class PostFieldsDb extends \Rdb\System\Core\Models\BaseModel
      * @param bool $updateFieldDescription Set to `true` to update/insert field description. Default is `true`.
      * @return bool Return `true` if update or insert completed, return `false` for otherwise.
      */
-    public function updateMultiple($post_id, array $data = [], bool $updateFieldDescription = true)
+    public function updateMultiple(int $post_id, array $data, bool $updateFieldDescription = true): bool
     {
-        if (gettype($post_id) !== 'string' && gettype($post_id) !== 'integer') {
-            return $this->updateMultipleOld($post_id);
-        }
-
         $dataDesc = [];
         if (true === $updateFieldDescription) {
             // if it was marked to update field description.
@@ -143,71 +139,6 @@ class PostFieldsDb extends \Rdb\System\Core\Models\BaseModel
 
         return $this->updateFieldsMultipleData($post_id, $data, $dataDesc);
     }// updateMultiple
-
-
-    /**
-     * Old method of update multiple.
-     * 
-     * Update post field multiple rows at once.
-     * 
-     * If data is not exists then it will be call add data automatically.
-     * 
-     * @deprecated since version 0.0.14
-     * @todo [rdcms] Delete this method when all call has been changed.
-     * @see \Rdb\Modules\RdbCMSA\Models\PostFieldsDb::update() for more details that its attributes will be array keys.
-     * @param array $data The array format must be..<pre>
-     * array(
-     *     array(
-     *         'post_id' => 82,
-     *         'field_name' => 'extra_field_name_string_only',
-     *         'field_value' => 'mixed type (non scalar will be serialize automatically).',
-     *         'field_description' => 'Optional. The field description. set to `false` to not change.',
-     *         'previousValue' => 'Optional. Previous value for check that must be matched or it will not update and this array index in return will be `false`. set this to `false` to skip checking.',
-     *     ),
-     *     // ...array
-     * );</pre>
-     * @return array Return array with the same index and its value will be result from `update()` method of this class.
-     * @throws \InvalidArgumentException Throw exception if the array format is invalid.
-     */
-    private function updateMultipleOld(array $data): array
-    {
-        trigger_error('Call to `updateMultiple()` has been changed.', E_USER_DEPRECATED);
-
-        $output = [];
-
-        if (!empty($data)) {
-            // the first loop will be for checking valid $data format.
-            foreach ($data as $item) {
-                if (
-                    !is_array($item) ||
-                    (
-                        !array_key_exists('post_id', $item) ||
-                        !array_key_exists('field_name', $item) ||
-                        !array_key_exists('field_value', $item)
-                    ) ||
-                    !is_string($item['field_name'])
-                ) {
-                    // if invalid array format.
-                    throw new \InvalidArgumentException('Invalid array format for $data.');
-                }
-            }// endforeach;
-            // end first loop. ------------------------------
-
-            // the second loop will be add/update data.
-            foreach ($data as $index => $item) {
-                $post_id = $item['post_id'];
-                $field_name = $item['field_name'];
-                $field_value = $item['field_value'];
-                $field_description = ($item['field_description'] ?? false);
-                $previousValue = ($item['previousValue'] ?? false);
-                $output[$index] = $this->update($post_id, $field_name, $field_value, $field_description, $previousValue);
-            }// endforeach;
-            unset($field_description, $field_name, $field_value, $index, $item, $post_id, $previousValue);
-            // end second loop. -------------------------
-        }
-
-        return $output;
-    }// updateMultipleOld
 
 
 }
