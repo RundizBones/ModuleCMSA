@@ -241,7 +241,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
         foreach ($postIdsArray as $post_id) {
             $postIdsInPlaceholder[] = ':postIdsIn' . $i;
             $values[':postIdsIn' . $i] = $post_id;
-            $i++;
+            ++$i;
         }// endforeach;
         unset($i, $post_id);
 
@@ -683,6 +683,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
      *              `where` (array) the where conditions where key is column name and value is its value,<br>
      *              `tidsIn` (array) the taxonomy IDs to use in the sql command `WHERE IN (...)`<br>
      *              `postidsIn` (array) the post IDs to use in the sql command `WHERE IN (...)`<br>
+     *              `postTypesIn` (array) The post types to use in the sql command `WHERE IN (...)`.<br>
      *              `isPublished` (bool) Set to `true` to list for published, schedule and already on time.<br>
      *              `sortOrders` (array) the sort order where `sort` key is column name, `order` key is mysql order (ASC, DESC),<br>
      *              `unlimited` (bool) set to `true` to show unlimited items, unset or set to `false` to show limited items,<br>
@@ -725,7 +726,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
                 $options['limit'] = 1000;
             }
         }
-        if (!isset($options['where']['post_type'])) {
+        if (!isset($options['where']['post_type']) && !isset($options['postTypesIn'])) {
             $options['where']['post_type'] = $this->postType;
         }
 
@@ -781,7 +782,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
             foreach ($options['tidsIn'] as $tid) {
                 $tidsInPlaceholder[] = ':tidsIn' . $i;
                 $bindValues[':tidsIn' . $i] = $tid;
-                $i++;
+                ++$i;
             }// endforeach;
             unset($i, $tid);
 
@@ -798,13 +799,31 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
             foreach ($options['postidsIn'] as $post_id) {
                 $postidsInPlaceholder[] = ':postidsIn' . $i;
                 $bindValues[':postidsIn' . $i] = $post_id;
-                $i++;
+                ++$i;
             }// endforeach;
             unset($i, $post_id);
 
             $sql .= ' `posts`.`post_id` IN (' . implode(', ', $postidsInPlaceholder) . ')';
             unset($postidsInPlaceholder);
         }
+
+        if (array_key_exists('postTypesIn', $options) && is_array($options['postTypesIn']) && !empty($options['postTypesIn'])) {
+            // if there is `postTypesIn` options. (since v 0.0.14)
+            // post_type IN(..).
+            $sql .= ' AND';
+
+            $posttypesInPlaceholder = [];
+            $i = 0;
+            foreach ($options['postTypesIn'] as $post_type) {
+                $posttypesInPlaceholder[] = ':posttypesIn' . $i;
+                $bindValues[':posttypesIn' . $i] = $post_type;
+                ++$i;
+            }// endforeach;
+            unset($i, $post_type);
+
+            $sql .= ' `posts`.`post_type` IN (' . implode(', ', $posttypesInPlaceholder) . ')';
+            unset($posttypesInPlaceholder);
+        }// endif;
 
         if (array_key_exists('isPublished', $options) && $options['isPublished'] === true) {
             $sql .= ' AND ('
@@ -1251,7 +1270,7 @@ class PostsDb extends \Rdb\System\Core\Models\BaseModel
         foreach ($post_ids as $post_id) {
             $postIdsInPlaceholder[] = ':postIdsIn' . $i;
             $values[':postIdsIn' . $i] = $post_id;
-            $i++;
+            ++$i;
         }// endforeach;
         unset($i, $post_id);
 
