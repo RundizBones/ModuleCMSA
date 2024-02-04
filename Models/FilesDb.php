@@ -651,7 +651,7 @@ class FilesDb extends \Rdb\System\Core\Models\BaseModel
         $Sth->closeCursor();
         unset($bindValues, $sql, $Sth);
 
-        if (is_array($result)) {
+        if (is_array($result) && !empty($result)) {
             $Url = new \Rdb\System\Libraries\Url($this->Container);
             $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem();
             $FilesSubController = new \Rdb\Modules\RdbCMSA\Controllers\Admin\SubControllers\Files\FilesSubController();
