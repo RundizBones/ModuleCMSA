@@ -10,7 +10,7 @@
  * Requirement: 
  * MySQL v8.0+, MariaDB v10.2.3+
  *  * MariaDB 10.2.2 for use `WITH RECURSIVE`
- *  * For JSON functions.
+ *  * MariaDB 10.2.3 for JSON_EXTRACT, JSON_SEARCH functions.
  * 
  * @package RdbCMSA
  * @version 0.0.14dev-20240204
