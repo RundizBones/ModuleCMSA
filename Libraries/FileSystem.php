@@ -251,6 +251,8 @@ class FileSystem extends \Rdb\System\Libraries\FileSystem
      */
     public function getSuffixFileName(string $filename, string $suffix): string
     {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
+
         return $this->addSuffixFileName($filename, $suffix);
     }// getSuffixFileName
 

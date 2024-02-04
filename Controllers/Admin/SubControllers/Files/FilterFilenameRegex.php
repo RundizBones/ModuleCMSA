@@ -20,6 +20,14 @@ class FilterFilenameRegex extends FilterFilesystemRegex
 {
 
 
+    public function __construct(\Iterator $it, string $regex)
+    {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
+
+        parent::__construct($it, $regex);
+    }
+
+
     /**
      * Filter files against the regex
      * 

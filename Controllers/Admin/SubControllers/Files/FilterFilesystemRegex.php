@@ -32,7 +32,10 @@ abstract class FilterFilesystemRegex extends \RecursiveRegexIterator
      * @param \Iterator $it
      * @param string $regex
      */
-    public function __construct(\Iterator $it, string $regex) {
+    public function __construct(\Iterator $it, string $regex)
+    {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
+
         $this->regex = $regex;
         parent::__construct($it, $regex);
     }// __construct

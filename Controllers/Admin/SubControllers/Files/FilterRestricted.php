@@ -45,6 +45,8 @@ class FilterRestricted extends \FilterIterator
      */
     public function __construct(\Iterator $iterator, string $targetDir, array $filter)
     {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
+
         parent::__construct($iterator);
 
         $this->targetDir = $targetDir;

@@ -20,6 +20,14 @@ class FilterDirnameRegex extends FilterFilesystemRegex
 {
 
 
+    public function __construct(\Iterator $it, string $regex)
+    {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
+
+        parent::__construct($it, $regex);
+    }
+
+
     /**
      * Filter directories against the regex
      * 

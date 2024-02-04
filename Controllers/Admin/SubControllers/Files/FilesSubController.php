@@ -84,6 +84,7 @@ class FilesSubController
      */
     private function formatDuration(string $duration): string
     {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
 
         // The base case is A:BB
         if(strlen($duration) == 4) {
@@ -113,6 +114,8 @@ class FilesSubController
      */
     public function getAudioMetadata(string $file): array
     {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
+
         $output = [
             'channels' => null,
             'sample_rate' => null,
@@ -157,6 +160,8 @@ class FilesSubController
      */
     public function getImageMetadata(string $file): array
     {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
+
         $output = [
             'width' => null,
             'height' => null,
@@ -220,6 +225,8 @@ class FilesSubController
      */
     public function getVideoMetadata(string $file): array
     {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
+
         $output = [
             'width' => null,
             'height' => null,
@@ -298,6 +305,8 @@ class FilesSubController
      */
     public function removeWatermark(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null)
     {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
+
         if (!array_key_exists('full_path_new_name', $item)) {
             throw new \InvalidArgumentException('The array key `full_path_new_name` for full path to main image file is required.');
         }
@@ -363,6 +372,8 @@ class FilesSubController
      */
     public function resizeThumbnails(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null)
     {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
+
         if (!array_key_exists('full_path_new_name', $item)) {
             throw new \InvalidArgumentException('The array key `full_path_new_name` for full path to main image file is required.');
         }
@@ -419,6 +430,8 @@ class FilesSubController
         \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null,
         array $options = []
     ) {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
+
         if (!isset($options['returnFullPath'])) {
             $options['returnFullPath'] = true;
         }
@@ -505,6 +518,8 @@ class FilesSubController
      */
     public function setWatermark(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null): bool
     {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
+
         if (!array_key_exists('full_path_new_name', $item)) {
             throw new \InvalidArgumentException('The array key `full_path_new_name` for full path to main image file is required.');
         }

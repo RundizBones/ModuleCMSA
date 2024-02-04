@@ -34,6 +34,8 @@ class FilterNoOriginal extends \FilterIterator
      */
     public function __construct(\Iterator $iterator, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem)
     {
+        trigger_error('This method has been deprecated.', E_USER_WARNING);
+
         parent::__construct($iterator);
 
         $this->FileSystem = $FileSystem;
