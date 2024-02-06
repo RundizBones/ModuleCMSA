@@ -222,13 +222,32 @@ class RdbCMSAPostsCommonActions {
             return ;
         }
 
-        let aceEditor = ace.edit(editorSelector + '-editor', {
+        let aceEditor = ace.edit(editorSelector + '-editor');
+        aceEditor.session.setMode('ace/mode/html');
+        aceEditor.setTheme('ace/theme/monokai');
+        aceEditor.setOptions({
             'maxLines': 90,
             'minLines': 10,
-            'mode': 'ace/mode/html'
+            enableBasicAutocompletion: true,// required ext-language_tools
+            enableLiveAutocompletion: true,// required ext-language_tools
+            enableSnippets: true,// required ext-language_tools
         });
-        aceEditor.setTheme('ace/theme/monokai');
 
+        aceEditor.commands.addCommand({
+            name: "showKeyboardShortcuts",
+            bindKey: {
+                win: "Ctrl-Alt-h", 
+                mac: "Command-Alt-h"
+            },
+            exec: function (aceEditor) {
+                ace.config.loadModule("ace/ext/keybinding_menu", function (module) {
+                    module.init(aceEditor);
+                    aceEditor.showKeyboardShortcuts()
+                })
+            }
+        });// required ext-keybinding_menu
+
+        // ace editor session events. ------------------------------------------------
         // listen on change and set value back to textarea.
         aceEditor.session.on('change', function(delta) {
             document.getElementById(editorSelector).value = aceEditor.getValue();
@@ -256,6 +275,7 @@ class RdbCMSAPostsCommonActions {
                 aceEditor.session.setAnnotations(annotations);
             }
         });
+        // end ace editor session events. --------------------------------------------
 
         let event = new Event('rdbcmsa.postsCommonActions.activateHtmlEditor.found');
         document.dispatchEvent(event, {'bubbles': true});

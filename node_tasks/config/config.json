@@ -28,7 +28,55 @@
         "copyAssetsToPublic": true,
         "copyNodePackages": [
             {
-                "patterns": "node_modules/ace-builds/src-min-noconflict/**",
+                "patterns": "node_modules/ace-builds/src-min-noconflict/ace.*",
+                "destination": "assets/vendor/ace-builds"
+            },
+            {
+                "patterns": "node_modules/ace-builds/src-min-noconflict/ext-keybinding_menu.*",
+                "destination": "assets/vendor/ace-builds"
+            },
+            {
+                "patterns": "node_modules/ace-builds/src-min-noconflict/ext-language_tools.*",
+                "destination": "assets/vendor/ace-builds"
+            },
+            {
+                "patterns": "node_modules/ace-builds/src-min-noconflict/mode-css.*",
+                "destination": "assets/vendor/ace-builds"
+            },
+            {
+                "patterns": "node_modules/ace-builds/src-min-noconflict/worker-css.*",
+                "destination": "assets/vendor/ace-builds"
+            },
+            {
+                "patterns": "node_modules/ace-builds/src-min-noconflict/snippets/css.*",
+                "destination": "assets/vendor/ace-builds/snippets"
+            },
+            {
+                "patterns": "node_modules/ace-builds/src-min-noconflict/mode-html.*",
+                "destination": "assets/vendor/ace-builds"
+            },
+            {
+                "patterns": "node_modules/ace-builds/src-min-noconflict/worker-html.*",
+                "destination": "assets/vendor/ace-builds"
+            },
+            {
+                "patterns": "node_modules/ace-builds/src-min-noconflict/snippets/html.*",
+                "destination": "assets/vendor/ace-builds/snippets"
+            },
+            {
+                "patterns": "node_modules/ace-builds/src-min-noconflict/mode-javascript.*",
+                "destination": "assets/vendor/ace-builds"
+            },
+            {
+                "patterns": "node_modules/ace-builds/src-min-noconflict/worker-javascript.*",
+                "destination": "assets/vendor/ace-builds"
+            },
+            {
+                "patterns": "node_modules/ace-builds/src-min-noconflict/snippets/javascript.*",
+                "destination": "assets/vendor/ace-builds/snippets"
+            },
+            {
+                "patterns": "node_modules/ace-builds/src-min-noconflict/theme-monokai.*",
                 "destination": "assets/vendor/ace-builds"
             },
             {
@@ -36,30 +84,30 @@
                 "rename": "ace-builds-license.txt",
                 "destination": "assets/vendor/ace-builds"
             },
+
             {
                 "patterns": "node_modules/diff/dist/**",
                 "destination": "assets/vendor/diff"
             },
-
             {
                 "patterns": "node_modules/diff/LICENSE*",
                 "rename": "diff-license.txt",
                 "destination": "assets/vendor/diff"
             },
+
             {
                 "patterns": "node_modules/diff2html/bundles/**",
                 "destination": "assets/vendor/diff2html"
             },
-
             {
                 "patterns": "node_modules/diff2html/LICENSE*",
                 "destination": "assets/vendor/diff2html"
             },
+
             {
                 "patterns": "node_modules/@yaireo/tagify/dist/**",
                 "destination": "assets/vendor/tagify"
             },
-
             {
                 "patterns": "node_modules/@yaireo/tagify/LICENSE*",
                 "destination": "assets/vendor/tagify"
