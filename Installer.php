@@ -13,7 +13,7 @@
  *  * MariaDB 10.2.3 for JSON_EXTRACT, JSON_SEARCH functions.
  * 
  * @package RdbCMSA
- * @version 0.0.14dev-20240204
+ * @version 0.0.14dev-20240206
  * @license http://opensource.org/licenses/MIT MIT
  */
 
@@ -251,12 +251,52 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
         }// endforeach;
         unset($config, $ConfigDb);
 
-        // v0.0.6 ----------------------------------
-        $sql = 'ALTER TABLE `rdb_posts` ADD COLUMN IF NOT EXISTS `post_position` INT( 9 ) NOT NULL DEFAULT \'0\' COMMENT \'position when sort/order items.\' AFTER `post_status`';
-        $Sth = $this->Db->PDO()->prepare($sql);
-        $Sth->execute();
-        $Sth->closeCursor();
-        unset($sql, $Sth);
+        // update tables structure from Installer.sql using `alterStructure()` from framework v1.1.7+.
+        try {
+            if (method_exists($this->Db, 'alterStructure')) {
+                $sqlString = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'Installer.sql');
+                $sqlString = $this->Db->removeSQLComments($sqlString);
+                $expSql = explode(';' . "\n", str_replace(["\r\n", "\r", "\n"], "\n", $sqlString));
+                unset($sqlString);
+
+                if (is_array($expSql)) {
+                    foreach ($expSql as $eachStatement) {
+                        if (empty(trim($eachStatement))) {
+                            continue;
+                        }
+
+                        $eachStatement = trim($eachStatement) . ';';
+                        preg_match('/%\$(.[^ ]+)%/iu', $eachStatement, $matches);
+                        if (isset($matches[1])) {
+                            $tableName = $this->Db->tableName((string) $matches[1]);
+                        }
+                        unset($matches);
+
+                        if (isset($tableName)) {
+                            $eachStatement = preg_replace('/%\$(.[^ ]+)%/iu', $tableName, $eachStatement);
+
+                            if (empty($eachStatement)) {
+                                continue;
+                            }
+
+                            $this->Logger->write('modules/rdbcmsa/installer', 0, $eachStatement);
+
+                            $alterResults = $this->Db->alterStructure($eachStatement);
+                            $this->Logger->write('modules/rdbcmsa/installer', 0, 'Alter results: {alterResults}', ['alterResults' => $alterResults]);
+                            $this->Db->convertCharsetAndCollation($tableName, null);
+                            unset($alterResults, $tableName);
+                        }
+                    }// endforeach;
+                    unset($eachStatement);
+                }// endif;
+                unset($expSql);
+            } else {
+                throw new \Exception('The method alterStructure() from the framework v1.1.7 does not exists. Couldn\'t be update the table structure.');
+            }// endif; `alterStructure` method exists
+        } catch (\Exception $e) {
+            $this->Logger->write('modules/rdbcmsa/installer', 3, $e->getMessage());
+            throw $e;
+        }
     }// update
 
 
