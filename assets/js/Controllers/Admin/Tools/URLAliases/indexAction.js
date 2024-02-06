@@ -78,7 +78,7 @@ class RdbCMSAToolsURLAliasesIndexController extends RdbaDatatables {
                             row.RdbCMSAToolsURLAliasesIndexObject = RdbCMSAToolsURLAliasesIndexObject;
                             let html = '';
                             if (data !== null) {
-                                html = data;
+                                html = '<a class="rdba-listpage-edit" href="' + RdbCMSAToolsURLAliasesIndexObject.editAliasUrlBase + '/' + row.alias_id + '">' + data + '</a>';
                             }
                             html += template(row);
                             return html;
