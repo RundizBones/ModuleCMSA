@@ -88,7 +88,16 @@
                                             <div id="revision_head_value-editor"></div><!--for ace editor-->
                                             <textarea id="revision_head_value" name="revision_head_value" rows="7" maxlength="1000"></textarea>
                                             <div class="form-description">
-                                                <?php echo sprintf(d__('rdbcmsa', 'Optional elements such as meta tags, additional styles, or scripts that will be render within %1$s element.'), '<code>' . htmlspecialchars('<head>...</head>') . '</code>'); ?> 
+                                                <?php 
+                                                printf(
+                                                    d__('rdbcmsa', 'Optional elements such as meta tags, additional styles, or scripts that will be render within %1$s element.'), 
+                                                    '<code>' . htmlspecialchars('<head>...</head>') . '</code>');
+                                                echo '<br>' . "\n";
+                                                printf(
+                                                    d__('rdbcmsa', 'Press %1$s to see shortcuts.'),
+                                                    '<kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>H</kbd>'
+                                                ); 
+                                                ?> 
                                             </div>
                                         </div>
                                     </div>
