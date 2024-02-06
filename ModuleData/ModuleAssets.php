@@ -59,12 +59,12 @@ class ModuleAssets
                     [
                         'handle' => 'tagify',
                         'file' => $publicModuleUrl . '/assets/vendor/tagify/tagify.css',
-                        'version' => '4.16.4',
+                        'version' => '4.19.1',
                     ],
                     [
                         'handle' => 'diff2html',
                         'file' => $publicModuleUrl . '/assets/vendor/diff2html/css/diff2html.min.css',
-                        'version' => '3.4.19',
+                        'version' => '3.4.47',
                     ],
                 ],
                 'js' => [
@@ -72,17 +72,17 @@ class ModuleAssets
                     [
                         'handle' => 'ace-builds',
                         'file' => $publicModuleUrl . '/assets/vendor/ace-builds/ace.js',
-                        'version' => '1.13.1',
+                        'version' => '1.32.5',
                     ],
                     [
-                        'handle' => 'ace-ext-modelist',
-                        'file' => $publicModuleUrl . '/assets/vendor/ace-builds/ext-modelist.js',
-                        'version' => '1.13.1',
+                        'handle' => 'ace-ext-keybinding_menu',
+                        'file' => $publicModuleUrl . '/assets/vendor/ace-builds/ext-keybinding_menu.js',
+                        'version' => '1.32.5',
                     ],
                     [
                         'handle' => 'ace-ext-language_tools',
                         'file' => $publicModuleUrl . '/assets/vendor/ace-builds/ext-language_tools.js',
-                        'version' => '1.13.1',
+                        'version' => '1.32.5',
                     ],
                     // diff, diff2html
                     [
@@ -94,25 +94,25 @@ class ModuleAssets
                         'handle' => 'diff2html',
                         'file' => $publicModuleUrl . '/assets/vendor/diff2html/js/diff2html.min.js',
                         'dependency' => ['jsdiff'],
-                        'version' => '3.4.19',
+                        'version' => '3.4.47',
                     ],
                     [
                         'handle' => 'diff2html-ui',
                         'file' => $publicModuleUrl . '/assets/vendor/diff2html/js/diff2html-ui-slim.min.js',
                         'dependency' => ['diff2html'],
-                        'version' => '3.4.19',
+                        'version' => '3.4.47',
                     ],
                     // end diff, diff2html
                     [
                         'handle' => 'tagify',
                         'file' => $publicModuleUrl . '/assets/vendor/tagify/tagify.min.js',
-                        'version' => '4.16.4',
+                        'version' => '4.19.1',
                     ],
                     [
                         'handle' => 'tinymce',
                         'file' => $publicModuleUrl . '/assets/vendor/tinymce/tinymce.min.js',
                         'dependency' => ['rdta'],
-                        'version' => '5.10.5',
+                        'version' => '5.10.9',
                     ],
                     // js utilities class for this module.
                     [
