@@ -13,7 +13,7 @@
  *  * MariaDB 10.2.3 for JSON_EXTRACT, JSON_SEARCH functions.
  * 
  * @package RdbCMSA
- * @version 0.0.14dev-20240206
+ * @version 0.0.14
  * @license http://opensource.org/licenses/MIT MIT
  */
 
