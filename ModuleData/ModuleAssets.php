@@ -72,17 +72,17 @@ class ModuleAssets
                     [
                         'handle' => 'ace-builds',
                         'file' => $publicModuleUrl . '/assets/vendor/ace-builds/ace.js',
-                        'version' => '1.32.5',
+                        'version' => '1.32.6',
                     ],
                     [
                         'handle' => 'ace-ext-keybinding_menu',
                         'file' => $publicModuleUrl . '/assets/vendor/ace-builds/ext-keybinding_menu.js',
-                        'version' => '1.32.5',
+                        'version' => '1.32.6',
                     ],
                     [
                         'handle' => 'ace-ext-language_tools',
                         'file' => $publicModuleUrl . '/assets/vendor/ace-builds/ext-language_tools.js',
-                        'version' => '1.32.5',
+                        'version' => '1.32.6',
                     ],
                     // diff, diff2html
                     [
