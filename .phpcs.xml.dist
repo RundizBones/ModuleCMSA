@@ -23,12 +23,13 @@
 	<arg name="colors"/>
 	<arg name="extensions" value="php"/>
 	<arg name="parallel" value="8"/><!-- Enables parallel processing when available for faster results. -->
-	<arg name="report" value="full"/>
-	<arg name="report-file" value=".phpcs.report.txt"/>
 
-	<rule ref="PHPCompatibility"/>
-	<!-- Rules: Check PHP version compatibility -->
-	<!-- https://github.com/PHPCompatibility/PHPCompatibility#sniffing-your-code-for-compatibility-with-specific-php-versions -->
+	<rule ref="PHPCompatibility">
+            <!-- Rules: Check PHP version compatibility -->
+            <!-- https://github.com/PHPCompatibility/PHPCompatibility#sniffing-your-code-for-compatibility-with-specific-php-versions -->
+            <exclude name="PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue.NeedsInspection"></exclude>
+            <exclude name="PHPCompatibility.FunctionUse.NewFunctions.array_key_lastFound"></exclude>
+        </rule>
 	<config name="testVersion" value="7.1-"/>
 
 	<rule ref="PSR1"/>
