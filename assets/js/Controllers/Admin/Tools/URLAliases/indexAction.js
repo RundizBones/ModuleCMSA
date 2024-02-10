@@ -238,7 +238,7 @@ class RdbCMSAToolsURLAliasesIndexController extends RdbaDatatables {
      */
     listenFormSubmitConfirmDelete(ids, action) {
         if (!_.isArray(ids)) {
-            console.error('The IDs are not array.');
+            console.error('[rdbcmsa]: The IDs are not array.');
             return false;
         }
 

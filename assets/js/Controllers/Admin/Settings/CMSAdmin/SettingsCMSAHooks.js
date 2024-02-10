@@ -36,7 +36,7 @@ class SettingsCMSAHooks {
                             if (thisInputElement.type.toLowerCase() === 'checkbox') {
                                 if (thisInputElement.value == item.config_value) {
                                     thisInputElement.checked = true;
-                                    //console.log('mark ' + key + ' as checked.');
+                                    //console.log('[rdbcmsa]: mark ' + key + ' as checked.');
                                 }
                             } else if (thisInputElement.type.toLowerCase() !== 'file') {
                                 thisInputElement.value = item.config_value;
@@ -63,7 +63,7 @@ class SettingsCMSAHooks {
             return Promise.resolve(responseObject);
         })
         .catch(function(responseObject) {
-            console.error(responseObject);
+            console.error('[rdbcmsa]: ', responseObject);
             let response = (responseObject ? responseObject.response : {});
 
             if (typeof(response) !== 'undefined') {

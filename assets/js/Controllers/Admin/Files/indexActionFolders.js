@@ -64,7 +64,7 @@ class RdbCMSAFilesIndexControllerFolders {
 
                 let thisButton = event.currentTarget.activeElement;
                 if (typeof(thisButton.dataset.folderrelpath) === 'undefined') {
-                    console.error('user clicked on undefined object.');
+                    console.error('[rdbcmsa]: user clicked on undefined object.');
                     return ;
                 }
 
@@ -427,7 +427,7 @@ class RdbCMSAFilesIndexControllerFolders {
         }
 
         if (RdbCMSAFilesCommonObject.debug === true) {
-            console.log('Reloading folders.');
+            console.log('[rdbcmsa]: Reloading folders.');
         }
 
         let formData = new FormData();
@@ -463,7 +463,7 @@ class RdbCMSAFilesIndexControllerFolders {
             let response = responseObject.response;
 
             if (RdbCMSAFilesCommonObject.debug === true) {
-                console.log('Responded from reload folders.');
+                console.log('[rdbcmsa]: Responded from reload folders.');
             }
 
             // reload list.

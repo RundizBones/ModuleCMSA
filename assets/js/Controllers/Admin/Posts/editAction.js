@@ -186,7 +186,7 @@ class RdbCMSAPostsEditController {
 
                     if (revisionHistoryTabNav.classList.contains('active')) {
                         // if current active tab is revision history.
-                        console.log('revision history is empty, hide the revision history tab.');
+                        console.log('[rdbcmsa]: revision history is empty, hide the revision history tab.');
                         let tabsNav = document.querySelector('.rd-tabs-nav');
                         tabsNav.firstElementChild.querySelector('a').click();
                     }
@@ -284,7 +284,7 @@ class RdbCMSAPostsEditController {
                     revision_head_value.classList.add('rd-hidden');
                 }
             } catch (ex) {
-                console.error(ex);
+                console.error('[rdbcmsa]: ', ex);
             }
 
             // activate tags editor.
@@ -292,14 +292,14 @@ class RdbCMSAPostsEditController {
                 postCommonAction.activateTagsEditor();
                 thisClass.setupFormTags(postCommonAction);
             } catch (ex) {
-                console.error(ex);
+                console.error('[rdbcmsa]: ', ex);
             }
 
             // activate featured image browser.
             try {
                 postCommonAction.activateFeaturedImageBrowser();
             } catch (ex) {
-                console.error(ex);
+                console.error('[rdbcmsa]: ', ex);
             }
 
             // activate body content editor.

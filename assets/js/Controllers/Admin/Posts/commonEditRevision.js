@@ -229,7 +229,7 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
                 }
             });// datatables on xhr complete.
 
-            console.log('activated datatable.');
+            console.log('[rdbcmsa]: activated datatable.');
             thisClass.activatedDatatable = true;
         });// uiXhrCommonData.done()
     }// activateRevisionHistoryDatatable
@@ -483,7 +483,7 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
                     .catch(function(responseObject) {
                         // XHR failed.
                         let response = responseObject.response;
-                        console.error(responseObject);
+                        console.error('[rdbcmsa]: ', responseObject);
 
                         if (response && response.formResultMessage) {
                             RDTAAlertDialog.alert({
@@ -527,7 +527,7 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
                 event.key.toLowerCase() == 'enter'
             ) {
                 event.preventDefault();
-                console.log('prevented form submit.');
+                console.log('[rdbcmsa]: prevented form submit.');
             }
         });
     }// listenRevisionOnEnterPreventSubmit
@@ -584,7 +584,7 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
                             .catch(function(responseObject) {
                                 // XHR failed.
                                 let response = responseObject.response;
-                                console.error(responseObject);
+                                console.error('[rdbcmsa]: ', responseObject);
 
                                 if (response && response.formResultMessage) {
                                     RDTAAlertDialog.alert({
@@ -634,7 +634,7 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
                         cancelDisabledLink();
                     }// endif; confirmVal
                 } else {
-                    console.log('please wait while rollback other revision.');
+                    console.log('[rdbcmsa]: please wait while rollback other revision.');
                 }// endif; currentDisableRollbackLink
             }// endif; clicked on selected link.
         });
@@ -661,7 +661,7 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
         document.querySelector(thisClass.editControllerClass.editingTabsSelector).addEventListener('rdta.tabs.activeTab', function(event) {
             if (event.detail && event.detail.targetTab === thisClass.revisionHistoryTabContentSelector) {
                 event.preventDefault();
-                console.log('revision history tab is currently active.');
+                console.log('[rdbcmsa]: revision history tab is currently active.');
 
                 // hide save button
                 document.querySelector(thisClass.editControllerClass.formIDSelector + ' .rdbcmsa-contents-posts-save-container').classList.add('rd-hidden');

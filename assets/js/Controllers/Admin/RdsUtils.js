@@ -28,7 +28,7 @@ class RdsUtils {
     /**
      * Make delay before call the function.
      * 
-     * Usage: `RdsUtils.delay(function() {console.log('hello');}, 1000);`.
+     * Usage: `RdsUtils.delay(function() {alert('hello');}, 1000);`.
      * 
      * @link https://stackoverflow.com/a/1909508/128761 Original source code.
      * @param {function} fn

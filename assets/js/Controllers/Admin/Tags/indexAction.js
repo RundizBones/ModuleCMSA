@@ -341,7 +341,7 @@ class RdbCMSATagsIndexController extends RdbaDatatables {
      */
     listenFormSubmitConfirmDelete(tids, action) {
         if (!_.isArray(tids)) {
-            console.error('The IDs are not array.');
+            console.error('[rdbcmsa]: The IDs are not array.');
             return false;
         }
 

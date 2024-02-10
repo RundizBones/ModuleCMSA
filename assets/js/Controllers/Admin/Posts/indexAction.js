@@ -529,7 +529,7 @@ class RdbCMSAPostsIndexController extends RdbaDatatables {
      */
     listenFormSubmitAjaxDelete(post_ids) {
         if (!_.isArray(post_ids)) {
-            console.error('The IDs are not array.');
+            console.error('[rdbcmsa]: The IDs are not array.');
             return false;
         }
 
@@ -694,7 +694,7 @@ class RdbCMSAPostsIndexController extends RdbaDatatables {
                 event.key.toLowerCase() == 'enter'
             ) {
                 event.preventDefault();
-                console.log('canceled enter key.');
+                console.log('[rdbcmsa]: canceled enter key.');
             }
         });
     }// listenTagAutocomplete

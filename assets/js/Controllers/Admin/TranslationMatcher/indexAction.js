@@ -289,7 +289,7 @@ class RdbCMSATranslationMatcher extends RdbaDatatables {
      */
     listenBulkActionsFormSubmitDelete(itemIdsArray) {
         if (!_.isArray(itemIdsArray)) {
-            console.error('The IDs are not array.');
+            console.error('[rdbcmsa]: The IDs are not array.');
             return false;
         }
 
@@ -443,7 +443,7 @@ class RdbCMSATranslationMatcher extends RdbaDatatables {
                     })
                     .catch(function(responseObject) {
                         // XHR failed.
-                        console.error('XHR error', responseObject);
+                        console.error('[rdbcmsa]: XHR error', responseObject);
                     });
                 }
             }
@@ -612,7 +612,7 @@ class RdbCMSATranslationMatcher extends RdbaDatatables {
                             // XHR failed.
                             let response = responseObject.response;
 
-                            console.error(responseObject);
+                            console.error('[rdbcmsa]: ', responseObject);
                             return Promise.resolve(responseObject);
                         });
                     }, 500)

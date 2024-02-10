@@ -102,7 +102,7 @@ class RdbCMSAFilesFileBrowserFiles {
                 RdbCMSAFilesCommonObject.csrfKeyPair = response.csrfKeyPair;
             }
 
-            console.log('loaded files list, needs call to render function.');
+            console.log('[rdbcmsa]: loaded files list, needs call to render function.');
 
             return Promise.resolve(responseObject);
         });
@@ -152,7 +152,7 @@ class RdbCMSAFilesFileBrowserFiles {
                     if (fileListPlaceholder) {
                         fileListPlaceholder.insertAdjacentHTML('beforeend', templateResult);
                     }
-                    console.log('render finish');
+                    console.log('[rdbcmsa]: render finish');
                     resolve('render finish');
                 } else {
                     reject('no list items');
@@ -278,7 +278,7 @@ class RdbCMSAFilesFileBrowserFiles {
                     let insertHtml = thisClass.listenClickInsertRenderHtml(inputCheckboxes);
 
                     // finish prepare insert html.
-                    console.log('html to insert', insertHtml);
+                    console.log('[rdbcmsa]: html to insert', insertHtml);
                     window.parent.postMessage({
                         mceAction: 'insertContent',
                         content: insertHtml,
@@ -301,7 +301,7 @@ class RdbCMSAFilesFileBrowserFiles {
      * @returns {string} Return determined image size should be use.
      */
     listenClickInsertDeterminImageSize(thumbnailSizesArrayReverse, imageSize, eachInput, fileOriginalName) {
-        //console.log('determining image size for ' + fileOriginalName);
+        //console.log('[rdbcmsa]: determining image size for ' + fileOriginalName);
         let useImageSize = imageSize;
         if (useImageSize !== 'original') {
             // check for selected image size and get next one if not found or use original if really was not found.
@@ -309,7 +309,7 @@ class RdbCMSAFilesFileBrowserFiles {
             if (RdbaCommon.isset(() => eachInput.dataset[datasetThumbnailName])) {
                 // if found selected thumbnail size URL.
                 // no problem.
-                //console.log('found thumbnail size URL (' + fileOriginalName + ' : ' + imageSize + ').');
+                //console.log('[rdbcmsa]: found thumbnail size URL (' + fileOriginalName + ' : ' + imageSize + ').');
             } else {
                 // if not found selected thumbnail size URL.
                 // get next smaller size.
@@ -338,14 +338,14 @@ class RdbCMSAFilesFileBrowserFiles {
                     }
                 } else {
                     // if selected thumbnail size was NOT found in thumbnails list.
-                    console.warn('The selected image size was not found in thumbnails list. (' + fileOriginalName + ' : ' + imageSize + ')');
-                    console.log('The thumbnails list.', thumbnailSizesArrayReverse);
+                    console.warn('[rdbcmsa]: The selected image size was not found in thumbnails list. (' + fileOriginalName + ' : ' + imageSize + ')');
+                    console.log('[rdbcmsa]: The thumbnails list.', thumbnailSizesArrayReverse);
                     // use original.
                     useImageSize = 'original';
                 }
             }// endif; eachInput.dataset.thumbnails-XXX
         }
-        //console.log('determined, use this image size: ' + useImageSize);
+        //console.log('[rdbcmsa]: determined, use this image size: ' + useImageSize);
         // end check for selected image size. ----
 
         return useImageSize;
@@ -874,12 +874,12 @@ class RdbCMSAFilesFileBrowserFiles {
                 event.preventDefault();
                 inputFileElement = document.querySelector('#' + inputFileId);// force get new data.
                 inputFileElement.files = event.dataTransfer.files;
-                //console.log('success set files to input file.', inputFileElement);
+                //console.log('[rdbcmsa]: success set files to input file.', inputFileElement);
                 inputFileElement.dispatchEvent(new Event('change', { 'bubbles': true }));
             } else {
                 // if not dropped in drop zone and input file.
                 event.preventDefault();
-                //console.log('not in drop zone.');
+                //console.log('[rdbcmsa]: not in drop zone.');
                 event.dataTransfer.effectAllowed = 'none';
                 event.dataTransfer.dropEffect = 'none';
             }
@@ -998,7 +998,7 @@ class RdbCMSAFilesFileBrowserFiles {
                 event.key.toLowerCase() === 'enter'
             ) {
                 event.preventDefault();
-                console.log('prevented form submit.');
+                console.log('[rdbcmsa]: prevented form submit.');
             }
         });
     }// listenKeyEnterPreventSubmit
@@ -1035,7 +1035,7 @@ class RdbCMSAFilesFileBrowserFiles {
                         nextPage = (parseInt(currentPage.value) + 1);
                         nextStart = ((nextPage - 1) * itemsPerPage);
                     }
-                    console.log('scroll to bottom view, start ajax pagination at ' + nextStart + '.');
+                    console.log('[rdbcmsa]: scroll to bottom view, start ajax pagination at ' + nextStart + '.');
 
                     thisClass.isLoading = true;
                     thisClass.ajaxLoadFiles(nextStart)
@@ -1080,7 +1080,7 @@ class RdbCMSAFilesFileBrowserFiles {
 
         this.isLoading = false;
         this.isEndRecords = false;
-        console.log('`isLoading` and `isEndRecords` properties was reset.');
+        console.log('[rdbcmsa]: `isLoading` and `isEndRecords` properties was reset.');
     }// resetListPlaceholderAndPage
 
 

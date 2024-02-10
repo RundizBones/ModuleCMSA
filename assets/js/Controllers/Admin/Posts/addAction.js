@@ -107,21 +107,21 @@ class RdbCMSAPostsAddController {
                     revision_head_value.classList.add('rd-hidden');
                 }
             } catch (ex) {
-                console.error(ex);
+                console.error('[rdbcmsa]: ', ex);
             }
 
             // activate tags editor.
             try {
                 postCommonAction.activateTagsEditor();
             } catch (ex) {
-                console.error(ex);
+                console.error('[rdbcmsa]: ', ex);
             }
 
             // activate featured image browser.
             try {
                 postCommonAction.activateFeaturedImageBrowser();
             } catch (ex) {
-                console.error(ex);
+                console.error('[rdbcmsa]: ', ex);
             }
 
             // activate body content editor.

@@ -43,7 +43,7 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
         }
 
         if (RdbCMSAFilesCommonObject.debug === true) {
-            console.log('Loading files.');
+            console.log('[rdbcmsa]: Loading files.');
         }
 
         $.when(uiXhrCommonData)// uiXhrCommonData is variable from /assets/js/Controllers/Admin/UI/XhrCommonDataController/indexAction.js file
@@ -216,7 +216,7 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
             // datatables events
             dataTable.on('xhr.dt', function(e, settings, json, xhr) {
                 if (RdbCMSAFilesCommonObject.debug === true) {
-                    console.log('Responded from list files.');
+                    console.log('[rdbcmsa]: Responded from list files.');
                 }
 
                 if (addedCustomResultControls === false) {
@@ -339,12 +339,12 @@ class RdbCMSAFilesIndexControllerFiles extends RdbaDatatables {
                 event.preventDefault();
                 inputFileElement = document.querySelector('#' + inputFileId);// force get new data.
                 inputFileElement.files = event.dataTransfer.files;
-                //console.log('success set files to input file.', inputFileElement);
+                //console.log('[rdbcmsa]: success set files to input file.', inputFileElement);
                 inputFileElement.dispatchEvent(new Event('change', { 'bubbles': true }));
             } else {
                 // if not dropped in drop zone and input file.
                 event.preventDefault();
-                //console.log('not in drop zone.');
+                //console.log('[rdbcmsa]: not in drop zone.');
                 event.dataTransfer.effectAllowed = 'none';
                 event.dataTransfer.dropEffect = 'none';
             }

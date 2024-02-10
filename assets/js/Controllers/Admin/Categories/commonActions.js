@@ -50,7 +50,7 @@ class RdbCMSACategoriesCommonActions {
      * @returns {undefined}
      */
     activateContentEditor(editorSelector = '#t_description') {
-        console.log('activating tinymce.', tinymce.EditorManager.editors);
+        console.log('[rdbcmsa]: activating tinymce.', tinymce.EditorManager.editors);
 
         let editingObject = {};
         if (typeof(RdbCMSACategoriesIndexObject) !== 'undefined') {
@@ -171,7 +171,7 @@ class RdbCMSACategoriesCommonActions {
     ajaxGetParentCategories() {
         let editingForm = document.querySelector(this.formIDSelector);
         if (!editingForm) {
-            console.log('due to this is working from common class, the editing form maybe duplicated call. Skipping editing form for ' + this.formIDSelector);
+            console.log('[rdbcmsa]: due to this is working from common class, the editing form maybe duplicated call. Skipping editing form for ' + this.formIDSelector);
             return Promise.resolve();
         }
         let submitBtn = editingForm.querySelector('button[type="submit"]');
@@ -270,7 +270,7 @@ class RdbCMSACategoriesCommonActions {
             dialogElement.addEventListener('rdta.dialog.closed', function() {
                 if (RdbaCommon.isset(() => tinymce.activeEditor) && tinymce.activeEditor !== null) {
                     // destroy tinymce to allow it re-init again.
-                    console.log('destroy tinymce', tinymce.activeEditor.destroy());
+                    console.log('[rdbcmsa]: destroy tinymce', tinymce.activeEditor.destroy());
                 }
             });
         }

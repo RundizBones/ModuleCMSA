@@ -104,7 +104,7 @@ class RdbCMSATagsEditController {
             }// endif; resultRow
         })
         .catch(function(responseObject) {
-            console.error(responseObject);
+            console.error('[rdbcmsa]: ', responseObject);
             let response = (responseObject ? responseObject.response : {});
 
             if (typeof(response) !== 'undefined') {

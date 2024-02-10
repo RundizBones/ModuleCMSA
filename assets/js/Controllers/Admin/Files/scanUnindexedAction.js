@@ -87,7 +87,7 @@ class RdbCMSAFilesScanUnindexedController {
 
             if (scannedItems.totalFiles > 0) {
                 // if there still are files to display.
-                console.log('total files: ' + scannedItems.totalFiles + ', unindexed: ' + scannedItems.totalUnIndex);
+                console.log('[rdbcmsa]: total files: ' + scannedItems.totalFiles + ', unindexed: ' + scannedItems.totalUnIndex);
                 // set next start offset.
                 RdbCMSAFilesScanUnindexedObject.offset = (parseInt(RdbCMSAFilesScanUnindexedObject.offset) + parseInt(scannedItems.totalFiles));
                 thisClass.noUnlock = true;

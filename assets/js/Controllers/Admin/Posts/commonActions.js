@@ -218,7 +218,7 @@ class RdbCMSAPostsCommonActions {
             let event = new Event('rdbcmsa.postsCommonActions.activateHtmlEditor.notfound');
             document.dispatchEvent(event, {'bubbles': true});
 
-            console.info('the editor was not found. (' + editorSelector + '-editor)');
+            console.info('[rdbcmsa]: the editor was not found. (' + editorSelector + '-editor)');
             return ;
         }
 
@@ -305,7 +305,7 @@ class RdbCMSAPostsCommonActions {
         tagify.on('add', function(e) {
             if (!RdbaCommon.isset(() => e.detail.data.tid)) {
                 // if not found tid, it is add new tag.
-                //console.log('this is new tag.', e.detail.data);
+                //console.log('[rdbcmsa]: this is new tag.', e.detail.data);
                 e.detail.tag.style = '--tag-bg: #d7fdd7;';// light green.
             }
         });
@@ -432,7 +432,7 @@ class RdbCMSAPostsCommonActions {
                 if (sourceTemplate) {
                     source = sourceTemplate.innerHTML;
                 } else {
-                    console.warn('source template (#rdbcmsa-contents-categories-formfields) was not found.');
+                    console.warn('[rdbcmsa]: source template (#rdbcmsa-contents-categories-formfields) was not found.');
                 }
 
                 let template = Handlebars.compile(source);
@@ -450,7 +450,7 @@ class RdbCMSAPostsCommonActions {
                 if (categoriesPlaceholder) {
                     categoriesPlaceholder.innerHTML = rendered;
                 } else {
-                    console.warn('categories placeholder (#categoriesPlaceholder) was not found.');
+                    console.warn('[rdbcmsa]: categories placeholder (#categoriesPlaceholder) was not found.');
                 }
             }
 
