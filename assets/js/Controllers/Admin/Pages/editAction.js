@@ -71,24 +71,6 @@ class RdbCMSAPostsEditController {
             'contentType': 'application/x-www-form-urlencoded;charset=UTF-8',
             'dataType': 'json'
         })
-        .catch(function(responseObject) {
-            // XHR failed.
-            let response = responseObject.response;
-
-            if (response && response.formResultMessage) {
-                RDTAAlertDialog.alert({
-                    'type': 'danger',
-                    'text': response.formResultMessage
-                });
-            }
-
-            if (typeof(response) !== 'undefined' && typeof(response.csrfKeyPair) !== 'undefined') {
-                RdbCMSAPostsEditObject.csrfKeyPair = response.csrfKeyPair;
-            }
-
-            thisClass.ajaxGetFormDataPromise.reject(responseObject);
-            return Promise.reject(responseObject);
-        })
         .then(function(responseObject) {
             // XHR success.
             let response = responseObject.response;
@@ -209,10 +191,35 @@ class RdbCMSAPostsEditController {
                         tabsNav.firstElementChild.querySelector('a').click();
                     }
                 }
-            }
+
+                // replace view post link data.
+                const viewPostLink = document.querySelector('.rdba-view-post-link');
+                let viewPostLinkValue = viewPostLink?.href;
+                viewPostLinkValue = viewPostLinkValue.replace('%post_id%', resultRow.post_id);
+                viewPostLinkValue = viewPostLinkValue.replace('%post_type%', resultRow.post_type);
+                viewPostLink.href = viewPostLinkValue;
+            }// endif; resultRow
 
             thisClass.ajaxGetFormDataPromise.resolve(responseObject);
             return Promise.resolve(responseObject);
+        })
+        .catch(function(responseObject) {
+            // XHR failed.
+            let response = responseObject.response;
+
+            if (response && response.formResultMessage) {
+                RDTAAlertDialog.alert({
+                    'type': 'danger',
+                    'text': response.formResultMessage
+                });
+            }
+
+            if (typeof(response) !== 'undefined' && typeof(response.csrfKeyPair) !== 'undefined') {
+                RdbCMSAPostsEditObject.csrfKeyPair = response.csrfKeyPair;
+            }
+
+            thisClass.ajaxGetFormDataPromise.reject(responseObject);
+            return Promise.reject(responseObject);
         });
 
         return promiseObj;

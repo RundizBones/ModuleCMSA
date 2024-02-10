@@ -65,6 +65,7 @@
                                 <label class="control-label"></label>
                                 <div class="control-wrapper">
                                     <button class="rd-button primary rdba-submit-button" type="submit"><?php echo __('Save'); ?></button>
+                                    <a class="rd-button rdba-view-post-link" href="<?php echo str_replace('%file_id%', $file_id, $urls['viewFileFrontUrl']); ?>"><?php echo  d__('rdbcmsa', 'View'); ?></a>
                                 </div>
                             </div>
 

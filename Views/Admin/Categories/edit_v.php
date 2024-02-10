@@ -89,6 +89,7 @@
                                 <label class="control-label"></label>
                                 <div class="control-wrapper">
                                     <button class="rd-button primary rdba-submit-button" type="submit"><?php echo __('Save'); ?></button>
+                                    <a class="rd-button rdba-view-taxonomy-link" href="<?php echo $urls['viewCategoryFrontUrl']; ?>"><?php echo  d__('rdbcmsa', 'View'); ?></a>
                                     <span class="action-status-placeholder"></span>
                                 </div>
                             </div>

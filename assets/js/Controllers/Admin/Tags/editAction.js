@@ -65,27 +65,6 @@ class RdbCMSATagsEditController {
             'contentType': 'application/x-www-form-urlencoded;charset=UTF-8',
             'dataType': 'json'
         })
-        .catch(function(responseObject) {
-            console.error(responseObject);
-            let response = (responseObject ? responseObject.response : {});
-
-            if (typeof(response) !== 'undefined') {
-                if (typeof(response.formResultMessage) !== 'undefined') {
-                    let alertClass = RdbaCommon.getAlertClassFromStatus(response.formResultStatus);
-                    let alertBox = RdbaCommon.renderAlertHtml(alertClass, response.formResultMessage);
-                    thisForm.querySelector('.form-result-placeholder').innerHTML = alertBox;
-                }
-            }
-
-            if (responseObject && responseObject.status && responseObject.status === 404) {
-                // if not found.
-                // disable form.
-                let formElements = (thisForm ? thisForm.elements : []);
-                for (var i = 0, len = formElements.length; i < len; ++i) {
-                    formElements[i].disabled = true;
-                }// endfor;
-            }
-        })
         .then(function(responseObject) {
             let response = (responseObject ? responseObject.response : {});
             let resultRow = response.result;
@@ -114,6 +93,36 @@ class RdbCMSATagsEditController {
                     }
                 }
             }// endfor;
+
+            if (resultRow) {
+                // replace view taxonomy link data.
+                const viewTaxonomyLink = document.querySelector('.rdba-view-taxonomy-link');
+                let viewTaxonomyLinkValue = viewTaxonomyLink?.href;
+                viewTaxonomyLinkValue = viewTaxonomyLinkValue.replace('%tid%', resultRow.tid);
+                viewTaxonomyLinkValue = viewTaxonomyLinkValue.replace('%t_type%', resultRow.t_type);
+                viewTaxonomyLink.href = viewTaxonomyLinkValue;
+            }// endif; resultRow
+        })
+        .catch(function(responseObject) {
+            console.error(responseObject);
+            let response = (responseObject ? responseObject.response : {});
+
+            if (typeof(response) !== 'undefined') {
+                if (typeof(response.formResultMessage) !== 'undefined') {
+                    let alertClass = RdbaCommon.getAlertClassFromStatus(response.formResultStatus);
+                    let alertBox = RdbaCommon.renderAlertHtml(alertClass, response.formResultMessage);
+                    thisForm.querySelector('.form-result-placeholder').innerHTML = alertBox;
+                }
+            }
+
+            if (responseObject && responseObject.status && responseObject.status === 404) {
+                // if not found.
+                // disable form.
+                let formElements = (thisForm ? thisForm.elements : []);
+                for (var i = 0, len = formElements.length; i < len; ++i) {
+                    formElements[i].disabled = true;
+                }// endfor;
+            }
         });
     }// ajaxGetFormData
 

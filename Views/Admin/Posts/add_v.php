@@ -202,14 +202,15 @@
                                     <label class="control-label"></label>
                                     <div class="control-wrapper">
                                         <div class="rd-button-group">
-                                            <button class="rd-button primary rdba-submit-button" type="submit" name="prog_save_command" value="save"><?php echo __('Save'); ?><span id="prog-current-post_status"></span></button>
-                                            <?php if (isset($editPost) && $editPost === true) { ?> 
-                                            <button class="rd-button primary dropdown-toggler" type="button"><i class="fa-solid fa-caret-down"></i></button>
-                                            <ul class="rd-dropdown">
-                                                <li><button type="submit" name="prog_save_command" value="save_stay"><?php echo esc_d__('rdbcmsa', 'Save & stay'); ?></button></li>
-                                            </ul>
-                                            <?php }// endif; ?> 
+                                            <!-- 
+                                                To save and stay on edit page use `name="prog_save_command" value="save_stay"` attributes, 
+                                                otherwise use `name="prog_save_command" value="save"` attributes.
+                                            -->
+                                            <button class="rd-button primary rdba-submit-button" type="submit" name="prog_save_command" value="save_stay"><?php echo __('Save'); ?><span id="prog-current-post_status"></span></button>
                                         </div><!-- .rd-button-group -->
+                                        <?php if (isset($editPost) && $editPost === true) { ?> 
+                                        <a class="rd-button rdba-view-post-link" href="<?php echo $urls['viewPostFrontUrl']; ?>"><?php echo  d__('rdbcmsa', 'View'); ?></a>
+                                        <?php }// endif; ?> 
                                     </div>
                                 </div>
                             </div>
