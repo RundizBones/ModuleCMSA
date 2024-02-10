@@ -77,7 +77,7 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
         $output = [
             [
                 'name' => 'rdbcmsa_watermarkfile',
-                'desc' => 'Related path from this module to watermark file.',
+                'desc' => 'Related path from storage permanent folder of this module.',
                 'value' => '',
             ],
             [
@@ -213,44 +213,17 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
      */
     public function update()
     {
-        $ConfigDb = new \Rdb\Modules\RdbAdmin\Models\ConfigDb($this->Container);
-        foreach ($this->getConfig() as $config) {
-            $sql = 'SELECT * FROM `' . $this->Db->tableName('config') . '` WHERE `config_name` = :config_name';
-            $Sth = $this->Db->PDO()->prepare($sql);
-            unset($sql);
-            $Sth->bindValue(':config_name', $config['name']);
-            $Sth->execute();
-            $result = $Sth->fetchObject();
-            $Sth->closeCursor();
-            unset($Sth);
+        $this->updateMoveUploadedWM();
+        $this->updateConfigDb();
+        $this->updateAlterStructure();
+    }// update
 
-            if (!is_object($result) || empty($result) || !isset($result->config_name)) {
-                // if config is not exists.
-                // insert with its default value.
-                $data = [];
-                $data['config_value'] = (array_key_exists('value', $config) ? $config['value'] : null);
-                $data['config_description'] = (array_key_exists('desc', $config) ? $config['desc'] : null);
-                if (array_key_exists('name', $config)) {
-                    $ConfigDb->update($data, ['config_name' => $config['name']]);
-                }
-                unset($data);
-            } else {
-                // if config exists.
-                // check that description is not empty.
-                if (is_object($result) && empty($result->config_description)) {
-                    // if description is empty.
-                    // update the description.
-                    $data = [];
-                    $data['config_description'] = (array_key_exists('desc', $config) ? $config['desc'] : null);
-                    $ConfigDb->update($data, ['config_name' => $config['name']]);
-                    unset($data);
-                }
-            }
 
-            unset($result);
-        }// endforeach;
-        unset($config, $ConfigDb);
-
+    /**
+     * Update table structure.
+     */
+    private function updateAlterStructure()
+    {
         // update tables structure from Installer.sql using `alterStructure()` from framework v1.1.7+.
         try {
             if (method_exists($this->Db, 'alterStructure')) {
@@ -297,7 +270,77 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
             $this->Logger->write('modules/rdbcmsa/installer', 3, $e->getMessage());
             throw $e;
         }
-    }// update
+    }// updateAlterStructure
+
+
+    /**
+     * Update config in DB.
+     */
+    private function updateConfigDb()
+    {
+        $ConfigDb = new \Rdb\Modules\RdbAdmin\Models\ConfigDb($this->Container);
+        foreach ($this->getConfig() as $config) {
+            $sql = 'SELECT * FROM `' . $this->Db->tableName('config') . '` WHERE `config_name` = :config_name';
+            $Sth = $this->Db->PDO()->prepare($sql);
+            unset($sql);
+            $Sth->bindValue(':config_name', $config['name']);
+            $Sth->execute();
+            $result = $Sth->fetchObject();
+            $Sth->closeCursor();
+            unset($Sth);
+
+            if (!is_object($result) || empty($result) || !isset($result->config_name)) {
+                // if config is not exists.
+                // insert with its default value.
+                $data = [];
+                $data['config_value'] = (array_key_exists('value', $config) ? $config['value'] : null);
+                $data['config_description'] = (array_key_exists('desc', $config) ? $config['desc'] : null);
+                if (array_key_exists('name', $config)) {
+                    $ConfigDb->update($data, ['config_name' => $config['name']]);
+                }
+                unset($data);
+            } else {
+                // if config exists.
+                // check that description is not empty.
+                if (is_object($result) && empty($result->config_description)) {
+                    // if description is empty.
+                    // update the description.
+                    $data = [];
+                    $data['config_description'] = (array_key_exists('desc', $config) ? $config['desc'] : null);
+                    $ConfigDb->update($data, ['config_name' => $config['name']]);
+                    unset($data);
+                }
+            }
+
+            unset($result);
+        }// endforeach;
+        unset($config, $ConfigDb);
+    }// updateConfigDb
+
+
+    /**
+     * Update, move uploaded watermark to new location.
+     * 
+     * @todo [rdbcms] Remove this method on v.1.0
+     */
+    private function updateMoveUploadedWM()
+    {
+        $FileSystem = new \Rdb\System\Libraries\FileSystem(__DIR__);
+        if ($FileSystem->isDir('uploadedWatermark')) {
+            $fullPathPreviousUploadWMDir = $FileSystem->getFullPathWithRoot('uploadedWatermark');
+            $FileSystem2 = new \Rdb\System\Libraries\FileSystem(STORAGE_PATH . '/permanent/Modules/RdbCMSA');
+            if (!$FileSystem2->isDir('')) {
+                $FileSystem2->createFolder('');
+            }
+            if ($FileSystem2->isDir('uploadedWatermark')) {
+                $FileSystem2->deleteFolder('uploadedWatermark', true);
+            }
+            $fullPathThisModulePermanentStorageDir = rtrim(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $FileSystem2->getFullPathWithRoot('')), " \n\r\t\v\x00/\\" . DIRECTORY_SEPARATOR);
+            rename($fullPathPreviousUploadWMDir, $fullPathThisModulePermanentStorageDir . DIRECTORY_SEPARATOR . 'uploadedWatermark');
+            unset($FileSystem, $FileSystem2);
+            unset($fullPathPreviousUploadWMDir, $fullPathThisModulePermanentStorageDir);
+        }
+    }// updateMoveUploadedWM
 
 
 }

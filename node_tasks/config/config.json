@@ -8,10 +8,7 @@
         "config/default/**",
 
         "!node_modules",
-        "!node_modules/**",
-
-        "!uploadedWatermark",
-        "uploadedWatermark/.*"
+        "!node_modules/**"
     ],
     "ignorePatterns": "$default",
     "assets": {

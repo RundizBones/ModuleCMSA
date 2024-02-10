@@ -19,6 +19,9 @@ class Image
 {
 
 
+    use \Rdb\Modules\RdbCMSA\Controllers\Admin\Settings\CMSAdmin\Traits\SettingsCMSATrait;
+
+
     /**
      * @since 0.0.8
      * @var \Rdb\System\Container|null
@@ -347,7 +350,7 @@ class Image
      * @param string $file The full path to main image file. The main image file is the file that displayed on the web pages 
      *              but it is not original uploaded file that was created before apply watermark.<br>
      * @param array $options Associative array as options:<br>
-     *              `moduleBasePath` (string) The module base path where watermark file is located at. Default is empty to use this module.<br>
+     *              `wmModuleBasePath` (string) The watermark storage base path that is included this module folder name. Default is empty to use it from trait's value.<br>
      *              `restrictedFolder` (array) Set custom restricted folder names to array. For more description please read on `\Rdb\Modules\RdbCMSA\Libraries\SPLIterators\FilterRestricted->__construct()`. For default, it is using restricted it `FilesTrait`.<br>
      *              `jpg_quality` (int) Jpeg image quality. From 0 (lowest) to 100 (best). Default is 80.<br>
      *              `png_quality` (int) PNG image quality. From 0 (no compression) to 9 (lowest). Default is 5.<br>
@@ -356,8 +359,8 @@ class Image
      */
     public function setWatermark(string $file, array $options = []): bool
     {
-        if (!isset($options['moduleBasePath']) || !is_string($options['moduleBasePath']) || empty($options['moduleBasePath'])) {
-            $options['moduleBasePath'] = dirname(__DIR__);
+        if (!isset($options['wmModuleBasePath']) || !is_string($options['wmModuleBasePath']) || empty($options['wmModuleBasePath'])) {
+            $options['wmModuleBasePath'] = $this->getWatermarkModuleBasePath();
         }
 
         $FileSystem = new \Rdb\Modules\RdbCMSA\Libraries\FileSystem(PUBLIC_PATH);
@@ -368,7 +371,7 @@ class Image
         if (empty($watermarkFile)) {
             return true;
         }
-        $watermarkFile = $options['moduleBasePath'] . DIRECTORY_SEPARATOR . $watermarkFile;
+        $watermarkFile = $options['wmModuleBasePath'] . DIRECTORY_SEPARATOR . $watermarkFile;
         unset($ConfigDb);
 
         if (is_object($this->Container) && $this->Container->has('Logger')) {
@@ -411,20 +414,18 @@ class Image
         $Image = $this->Image;
         $Image->jpg_quality = (isset($options['jpg_quality']) && is_int($options['jpg_quality']) ? $options['jpg_quality'] : 80);
         $Image->png_quality = (isset($options['png_quality']) && is_int($options['png_quality']) ? $options['png_quality'] : 5);
-        unset($originalFile);
 
         $doResize = $Image->resize(2000, 2000);
         $doWatermark = $Image->watermarkImage($watermarkFile, 'center', 'middle');
         $doSave = $Image->save($file);
         $Image->clear();
-        unset($watermarkFile);
 
-        if (false === $doWatermark || false === $doResize) {
+        if (false === $doResize) {
             if (isset($Logger)) {
                 $Logger->write(
                     'modules/rdbcmsa/libraries/image/setwatermark', 
                     3, 
-                    'Unable to watermark or resize the image. {file}', 
+                    'Unable to resize the image. {file}', 
                     [
                         'file' => $originalFile,
                         'message' => $Image->status_msg,
@@ -432,7 +433,22 @@ class Image
                 );
             }// endif $Logger
         }
-        unset($Image, $Logger);
+
+        if (false === $doWatermark) {
+            if (isset($Logger)) {
+                $Logger->write(
+                    'modules/rdbcmsa/libraries/image/setwatermark', 
+                    3, 
+                    'Unable to watermark the image. (image: {file}, watermark: {watermarkfile})', 
+                    [
+                        'file' => $originalFile,
+                        'watermarkfile' => $watermarkFile,
+                        'message' => $Image->status_msg,
+                    ]
+                );
+            }// endif $Logger
+        }
+        unset($Image, $Logger, $originalFile, $watermarkFile);
 
         return ($doWatermark === true && $doResize === true && $doSave === true);
     }// setWatermark

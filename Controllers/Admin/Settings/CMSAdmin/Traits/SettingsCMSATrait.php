@@ -33,13 +33,13 @@ trait SettingsCMSATrait
 
 
     /**
-     * Get watermark base path that is full path of this module.
+     * Get watermark storage base path that is included this module folder name.
      * 
-     * @return string
+     * @return string Return this module folder name inside permanent folder of storage path. Example: STORAGE_PATH/permanent/Modules/RdbCMSA.
      */
     protected function getWatermarkModuleBasePath(): string
     {
-        return MODULE_PATH . DIRECTORY_SEPARATOR . 'RdbCMSA';
+        return STORAGE_PATH . DIRECTORY_SEPARATOR . 'permanent' . DIRECTORY_SEPARATOR . 'Modules' . DIRECTORY_SEPARATOR . 'RdbCMSA';
     }// getWatermarkModuleBase
 
 
