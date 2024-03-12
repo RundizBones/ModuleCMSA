@@ -372,6 +372,10 @@ class Image
             return true;
         }
         $watermarkFile = $options['wmModuleBasePath'] . DIRECTORY_SEPARATOR . $watermarkFile;
+        $configWatermarkPosX = $ConfigDb->get('rdbcmsa_watermarkPositionX', 'center');
+        $configWatermarkPosY = $ConfigDb->get('rdbcmsa_watermarkPositionY', 'middle');
+        $configWatermarkPosYPadding = $ConfigDb->get('rdbcmsa_watermarkPositionYPadding', 20);
+        $configMaxImgDim = $ConfigDb->get('rdbcmsa_imageMaxDimension', '2000x2000');
         unset($ConfigDb);
 
         if (is_object($this->Container) && $this->Container->has('Logger')) {
@@ -415,10 +419,34 @@ class Image
         $Image->jpg_quality = (isset($options['jpg_quality']) && is_int($options['jpg_quality']) ? $options['jpg_quality'] : 80);
         $Image->png_quality = (isset($options['png_quality']) && is_int($options['png_quality']) ? $options['png_quality'] : 5);
 
-        $doResize = $Image->resize(2000, 2000);
-        $doWatermark = $Image->watermarkImage($watermarkFile, 'center', 'middle');
+        list($maxWidth, $maxHeight) = explode('x', $configMaxImgDim);
+        if (in_array($configWatermarkPosY, ['bottom', 'top'])) {
+            list($origImgW, $origImgH) = getimagesize($originalFile);
+            list($wmImgW, $wmImgH) = getimagesize($watermarkFile);
+            list($configWatermarkPosX, $configWatermarkPosY) = $Image->calculateWatermarkImageStartXY(
+                $configWatermarkPosX, 
+                $configWatermarkPosY, 
+                $origImgW,
+                $origImgH,
+                $wmImgW,
+                $wmImgH,
+                ['padding' => intval($configWatermarkPosYPadding)]
+            );
+
+            if ($configWatermarkPosY < 0) {
+                $configWatermarkPosY = 'top';
+            } elseif ($configWatermarkPosY > $origImgH) {
+                $configWatermarkPosY = 'bottom';
+            }
+            unset($origImgH, $origImgW);
+            unset($wmImgH, $wmImgW);
+        }// endif;
+
+        $doResize = $Image->resize(intval(trim($maxWidth)), intval(trim($maxHeight)));
+        $doWatermark = $Image->watermarkImage($watermarkFile, $configWatermarkPosX, $configWatermarkPosY);
         $doSave = $Image->save($file);
         $Image->clear();
+        unset($configMaxImgDim, $maxHeight, $maxWidth);
 
         if (false === $doResize) {
             if (isset($Logger)) {
@@ -449,6 +477,7 @@ class Image
             }// endif $Logger
         }
         unset($Image, $Logger, $originalFile, $watermarkFile);
+        unset($configWatermarkPosX, $configWatermarkPosY, $configWatermarkPosYPadding);
 
         return ($doWatermark === true && $doResize === true && $doSave === true);
     }// setWatermark

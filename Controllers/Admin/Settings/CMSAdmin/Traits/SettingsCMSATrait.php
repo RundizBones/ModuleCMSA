@@ -28,6 +28,10 @@ trait SettingsCMSATrait
         return [
             'rdbcmsa_watermarkfile',
             'rdbcmsa_watermarkAllNewUploaded',
+            'rdbcmsa_watermarkPositionX',
+            'rdbcmsa_watermarkPositionY',
+            'rdbcmsa_watermarkPositionYPadding',
+            'rdbcmsa_imageMaxDimension',
         ];
     }// getRdbCMSAConfigNames
 

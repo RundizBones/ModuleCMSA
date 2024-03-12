@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rdbcmsa\n"
-"POT-Creation-Date: 2024-02-06 13:34+0700\n"
-"PO-Revision-Date: 2024-02-06 13:35+0700\n"
+"POT-Creation-Date: 2024-03-12 16:54+0700\n"
+"PO-Revision-Date: 2024-03-12 16:54+0700\n"
 "Last-Translator: Vee W.\n"
 "Language-Team: \n"
 "Language: th_TH\n"
@@ -36,7 +36,7 @@ msgstr ""
 #: Controllers/Admin/Posts/ActionsController.php:158
 #: Controllers/Admin/Posts/EditController.php:187
 #: Controllers/Admin/Posts/RevisionController.php:280
-#: Controllers/Admin/Settings/CMSAdmin/UpdaterController.php:217
+#: Controllers/Admin/Settings/CMSAdmin/UpdaterController.php:237
 #: Controllers/Admin/Tags/ActionsController.php:116
 #: Controllers/Admin/Tags/EditController.php:154
 #: Controllers/Admin/Tools/URLAliases/EditController.php:159
@@ -516,7 +516,7 @@ msgstr "กรุณาเลือกหนึ่งไฟล์."
 msgid "Uploading"
 msgstr "กำลังอัพโหลด"
 
-#: Controllers/Admin/Settings/CMSAdmin/UpdaterController.php:90
+#: Controllers/Admin/Settings/CMSAdmin/UpdaterController.php:110
 msgid "Unable to delete watermark file."
 msgstr "ไม่สามารถลบไฟล์ลายน้ำได้."
 
@@ -742,7 +742,7 @@ msgid "HTML is allowed."
 msgstr "อนุญาตให้ใช้ HTML."
 
 #: Views/Admin/Categories/add_v.php:53 Views/Admin/Categories/edit_v.php:54
-#: Views/Admin/Pages/add_v.php:84 Views/Admin/Posts/add_v.php:102 Views/Admin/Tags/add_v.php:45
+#: Views/Admin/Pages/add_v.php:84 Views/Admin/Posts/add_v.php:111 Views/Admin/Tags/add_v.php:45
 #: Views/Admin/Tools/URLAliases/add_v.php:41 Views/Admin/Tools/URLAliases/edit_v.php:42
 #: Views/Admin/Tools/URLAliases/index_v.php:22 Views/Admin/Tools/URLAliases/index_v.php:34
 msgid "URL alias"
@@ -756,7 +756,7 @@ msgstr "ชื่อที่จะใช้บนที่อยู่ของ
 #: Views/Admin/Categories/index_v.php:25 Views/Admin/Categories/index_v.php:37
 #: Views/Admin/Files/edit_v.php:59 Views/Admin/Files/index_v.php:56
 #: Views/Admin/Files/index_v.php:68 Views/Admin/Pages/add_v.php:122
-#: Views/Admin/Pages/index_v.php:75 Views/Admin/Posts/add_v.php:140
+#: Views/Admin/Pages/index_v.php:75 Views/Admin/Posts/add_v.php:149
 #: Views/Admin/Posts/index_v.php:77
 msgid "Status"
 msgstr "สถานะ"
@@ -775,6 +775,14 @@ msgstr "ตำแหน่ง"
 msgid "Position of this category in the same parent."
 msgstr "ตำแหน่งของหมวดหมู่นี้ภายใต้หมวดหมู่ผู้ปกครองเดียวกัน."
 
+#: Views/Admin/Categories/edit_v.php:92 Views/Admin/Categories/index_v.php:71
+#: Views/Admin/Files/edit_v.php:68 Views/Admin/Files/index_v.php:124
+#: Views/Admin/Pages/add_v.php:185 Views/Admin/Pages/index_v.php:51
+#: Views/Admin/Posts/add_v.php:212 Views/Admin/Posts/index_v.php:53
+#: Views/Admin/Tags/edit_v.php:63 Views/Admin/Tags/index_v.php:65
+msgid "View"
+msgstr "ดู"
+
 #: Views/Admin/Categories/index_v.php:24 Views/Admin/Categories/index_v.php:36
 #: Views/Admin/Pages/index_v.php:23 Views/Admin/Pages/index_v.php:34
 #: Views/Admin/Tags/edit_v.php:46 Views/Admin/Tags/index_v.php:24
@@ -786,12 +794,6 @@ msgstr "URL"
 #: Views/Admin/Tags/index_v.php:25 Views/Admin/Tags/index_v.php:36
 msgid "Count"
 msgstr "จำนวน"
-
-#: Views/Admin/Categories/index_v.php:71 Views/Admin/Files/index_v.php:124
-#: Views/Admin/Pages/index_v.php:51 Views/Admin/Posts/index_v.php:53
-#: Views/Admin/Tags/index_v.php:65
-msgid "View"
-msgstr "ดู"
 
 #: Views/Admin/Categories/index_v.php:82 Views/Admin/Pages/index_v.php:62
 #: Views/Admin/Posts/index_v.php:64 Views/Admin/Tags/index_v.php:76
@@ -817,7 +819,7 @@ msgid "The files that was linked in the posts will have status of 404 (not found
 msgstr "ไฟล์ต่างๆที่ถูกเชื่อมโยงในโพสต์จะมีสถานะเป็น 404 (ไม่พบไฟล์)."
 
 #: Views/Admin/Files/browser_v.php:10 Views/Admin/Files/index_v.php:24
-#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:5
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:7
 msgid "Drop the files into this area to start upload."
 msgstr "วางไฟล์ลงในพื้นที่นี้เพื่อเริ่มอัพโหลด."
 
@@ -830,7 +832,7 @@ msgid "Click on choose files or drop files here to start upload."
 msgstr "คลิกที่เลือกไฟล์หรือวางไฟล์ที่นี่เพื่อเริ่มอัพโหลด."
 
 #: Views/Admin/Files/browser_v.php:18 Views/Admin/Files/index_v.php:32
-#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:13
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:15
 #, php-format
 msgid "Max file size %s."
 msgstr "ขนาดไฟล์สูงสุด %s."
@@ -901,7 +903,7 @@ msgstr "ตัวเลือกนี้จะถูกใช้สำหรั
 msgid "Insert"
 msgstr "แทรก"
 
-#: Views/Admin/Files/browser_v.php:213 Views/Admin/Files/edit_v.php:75
+#: Views/Admin/Files/browser_v.php:213 Views/Admin/Files/edit_v.php:76
 #: Views/Admin/Files/index_v.php:123
 msgid "Download"
 msgstr "ดาวน์โหลด"
@@ -962,7 +964,7 @@ msgstr "ชื่อโฟลเดอร์"
 msgid "Duration"
 msgstr "ระยะเวลา"
 
-#: Views/Admin/Files/index_v.php:170 Views/Admin/Settings/CMSAdmin/_settings_form_v.php:23
+#: Views/Admin/Files/index_v.php:170 Views/Admin/Settings/CMSAdmin/_settings_form_v.php:25
 msgid "Apply watermark"
 msgstr "นำลายน้ำไปใช้"
 
@@ -1029,8 +1031,8 @@ msgstr "ประวัติการปรับปรุง"
 msgid "Title"
 msgstr "หัวข้อ"
 
-#: Views/Admin/Pages/add_v.php:42 Views/Admin/Pages/add_v.php:196
-#: Views/Admin/Posts/add_v.php:49 Views/Admin/Posts/add_v.php:214
+#: Views/Admin/Pages/add_v.php:42 Views/Admin/Pages/add_v.php:197
+#: Views/Admin/Posts/add_v.php:49 Views/Admin/Posts/add_v.php:224
 msgid "Featured image"
 msgstr "ภาพหลัก"
 
@@ -1043,14 +1045,14 @@ msgstr "เรียกดูภาพ"
 msgid "Head elements"
 msgstr "แท็กต่างๆในส่วนหัว"
 
-#: Views/Admin/Pages/add_v.php:66 Views/Admin/Posts/add_v.php:91
+#: Views/Admin/Pages/add_v.php:66 Views/Admin/Posts/add_v.php:93
 #, php-format
 msgid ""
 "Optional elements such as meta tags, additional styles, or scripts that will be render "
 "within %1$s element."
 msgstr "ทางเลือกแท็กต่างๆอย่างเช่น แท็ก meta, สไตล์ชีท, สคริปต์ ซึ่งมันจะนำไปใช้ภายในแท็ก %1$s."
 
-#: Views/Admin/Pages/add_v.php:70
+#: Views/Admin/Pages/add_v.php:70 Views/Admin/Posts/add_v.php:97
 #, php-format
 msgid "Press %1$s to see shortcuts."
 msgstr "กด %1$s เพื่อดูปุ่มทางลัด."
@@ -1061,56 +1063,52 @@ msgstr "ชื่อที่จะใช้บนที่อยู่ของ
 
 #: Views/Admin/Pages/add_v.php:101 Views/Admin/Pages/index_v.php:24
 #: Views/Admin/Pages/index_v.php:35 Views/Admin/Pages/index_v.php:80
-#: Views/Admin/Posts/add_v.php:119 Views/Admin/Posts/index_v.php:23
+#: Views/Admin/Posts/add_v.php:128 Views/Admin/Posts/index_v.php:23
 #: Views/Admin/Posts/index_v.php:35 Views/Admin/Posts/index_v.php:87
 #: Views/Admin/Posts/revisionHistory_v.php:8 Views/Admin/Posts/revisionHistory_v.php:18
 msgid "Author"
 msgstr "ผู้เขียน"
 
-#: Views/Admin/Pages/add_v.php:108 Views/Admin/Posts/add_v.php:126
+#: Views/Admin/Pages/add_v.php:108 Views/Admin/Posts/add_v.php:135
 #: Views/Admin/Posts/revisionHistory_v.php:9 Views/Admin/Posts/revisionHistory_v.php:19
 msgid "Created date"
 msgstr "วันที่สร้าง"
 
-#: Views/Admin/Pages/add_v.php:114 Views/Admin/Posts/add_v.php:132
+#: Views/Admin/Pages/add_v.php:114 Views/Admin/Posts/add_v.php:141
 msgid "Last update"
 msgstr "ปรับปรุงล่าสุด"
 
-#: Views/Admin/Pages/add_v.php:129 Views/Admin/Posts/add_v.php:147
+#: Views/Admin/Pages/add_v.php:129 Views/Admin/Posts/add_v.php:156
 msgid "Published on"
 msgstr "เผยแพร่เมื่อ"
 
-#: Views/Admin/Pages/add_v.php:133 Views/Admin/Posts/add_v.php:151
+#: Views/Admin/Pages/add_v.php:133 Views/Admin/Posts/add_v.php:160
 #, php-format
 msgid "Please enter in format %1$s. Example: %2$s."
 msgstr "กรุณากรอกในรูปแบบ %1$s. ตัวอย่าง: %2$s."
 
-#: Views/Admin/Pages/add_v.php:144 Views/Admin/Posts/add_v.php:162
+#: Views/Admin/Pages/add_v.php:144 Views/Admin/Posts/add_v.php:171
 msgid "New revision"
 msgstr "ชุดการปรับปรุงใหม่"
 
-#: Views/Admin/Pages/add_v.php:148 Views/Admin/Posts/add_v.php:166
+#: Views/Admin/Pages/add_v.php:148 Views/Admin/Posts/add_v.php:175
 msgid "Create new revision"
 msgstr "สร้างชุดการปรับปรุงใหม่"
 
-#: Views/Admin/Pages/add_v.php:151 Views/Admin/Posts/add_v.php:169
+#: Views/Admin/Pages/add_v.php:151 Views/Admin/Posts/add_v.php:178
 msgid "If you choose to create new revision, it will not overwrite the previous content."
 msgstr "ถ้าคุณเลือกสร้างชุดการปรับปรุงใหม่, มันจะไม่เขียนทับเนื้อหาก่อนหน้า."
 
-#: Views/Admin/Pages/add_v.php:156 Views/Admin/Posts/add_v.php:174
+#: Views/Admin/Pages/add_v.php:156 Views/Admin/Posts/add_v.php:183
 #: Views/Admin/Posts/revisionHistory_v.php:7 Views/Admin/Posts/revisionHistory_v.php:17
 msgid "Revision log"
 msgstr "บันทึกการปรับปรุง"
 
-#: Views/Admin/Pages/add_v.php:182 Views/Admin/Posts/add_v.php:200
-msgid "Save & stay"
-msgstr "บันทึกและอยู่"
-
-#: Views/Admin/Pages/add_v.php:197 Views/Admin/Posts/add_v.php:215
+#: Views/Admin/Pages/add_v.php:198 Views/Admin/Posts/add_v.php:225
 msgid "Close"
 msgstr "ปิด"
 
-#: Views/Admin/Pages/add_v.php:211 Views/Admin/Posts/add_v.php:240
+#: Views/Admin/Pages/add_v.php:212 Views/Admin/Posts/add_v.php:250
 msgid "Remove featured image"
 msgstr "เอาภาพหลักออก"
 
@@ -1138,11 +1136,11 @@ msgstr "เนื้อหาย่อ"
 msgid "Loading, please wait."
 msgstr "กำลังโหลด, โปรดรอ."
 
-#: Views/Admin/Posts/add_v.php:111
+#: Views/Admin/Posts/add_v.php:120
 msgid "The name will be use on address of this post. Do not enter special characters."
 msgstr "ชื่อที่จะใช้บนที่อยู่ของโพสต์นี้. อย่ากรอกอักขระพิเศษ."
 
-#: Views/Admin/Posts/add_v.php:234
+#: Views/Admin/Posts/add_v.php:244
 msgid "There are no category."
 msgstr "ไม่มีหมวดหมู่."
 
@@ -1167,30 +1165,76 @@ msgid "Rollback"
 msgstr "ย้อนกลับ"
 
 #: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:2
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:4
 msgid "Watermark"
 msgstr "ลายน้ำ"
 
-#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:7
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:9
 msgid "Choose file"
 msgstr "เลือกไฟล์"
 
-#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:12
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:14
 msgid "Click on choose file or drop a file here to start upload."
 msgstr "คลิกที่เลือกไฟล์หรือวางไฟล์ที่นี่เพื่อเริ่มอัพโหลด."
 
-#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:18
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:20
 msgid "Check this box to delete current watermark."
 msgstr "ติ๊กกล่องนี้เพื่อลบลายน้ำปัจจุบัน."
 
-#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:27
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:29
 msgid "Apply watermark on new uploaded"
 msgstr "นำลายน้ำไปใช้ในการอัพโหลดใหม่"
 
-#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:29
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:31
 msgid ""
 "If apply, all new uploaded images will be use this watermark otherwise you can manually "
 "apply each file."
 msgstr "ถ้านำไปใช้, การอัพโหลดภาพใหม่ทั้งหมดจะใช้ลายน้ำนี้ ถ้ามิฉะนั้นคุณสามารถกำหนดลายน้ำให้แต่ละไฟล์ได้."
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:35
+msgid "Horizontal position"
+msgstr "ตำแหน่งแนวนอน"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:38
+msgid "Left"
+msgstr "ซ้าย"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:39
+msgid "Center"
+msgstr "กลาง"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:40
+msgid "Right"
+msgstr "ขวา"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:45
+msgid "Vertical position"
+msgstr "ตำแหน่งแนวตั้ง"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:48
+msgid "Top"
+msgstr "บน"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:49
+msgid "Middle"
+msgstr "กลาง"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:50
+msgid "Bottom"
+msgstr "ล่าง"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:55
+msgid "Vertical position padding"
+msgstr "พื้นที่ว่างตำแหน่งแนวตั้ง"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:62
+msgid "Max image dimension"
+msgstr "ขนาดภาพใหญ่ที่สุด"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:65
+#, php-format
+msgid "Specify max image dimension in format width%1$sheight."
+msgstr "ระบุขนาดภาพใหญ่ที่สุดในรูปแบบ กว้าง%1$sสูง."
 
 #: Views/Admin/Tags/add_v.php:54 Views/Admin/Tags/edit_v.php:55
 msgid "The name will be use on address of this tag. Do not enter special characters."
@@ -1296,6 +1340,9 @@ msgstr "ตาราง"
 #: Views/Admin/TranslationMatcher/index_v.php:137
 msgid "The ID of data."
 msgstr "ไอดีของข้อมูล."
+
+#~ msgid "Save & stay"
+#~ msgstr "บันทึกและอยู่"
 
 #~ msgid "Total items"
 #~ msgstr "รายการทั้งหมด"

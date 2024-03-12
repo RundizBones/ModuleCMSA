@@ -68,11 +68,31 @@ class UpdaterController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             } else {
                 $data['rdbcmsa_watermarkAllNewUploaded'] = (int) $data['rdbcmsa_watermarkAllNewUploaded'];
             }
+            $data['rdbcmsa_watermarkPositionX'] = trim($this->Input->patch('rdbcmsa_watermarkPositionX', 'center'));
+            $data['rdbcmsa_watermarkPositionY'] = trim($this->Input->patch('rdbcmsa_watermarkPositionY', 'middle'));
+            $data['rdbcmsa_watermarkPositionYPadding'] = trim($this->Input->patch('rdbcmsa_watermarkPositionYPadding', 20));
+            if (
+                '' === $data['rdbcmsa_watermarkPositionYPadding'] || 
+                !is_numeric($data['rdbcmsa_watermarkPositionYPadding']) || 
+                $data['rdbcmsa_watermarkPositionYPadding'] < 0
+            ) {
+                $data['rdbcmsa_watermarkPositionYPadding'] = 20;
+            }
+            $data['rdbcmsa_imageMaxDimension'] = trim($this->Input->patch('rdbcmsa_imageMaxDimension'));
+            if (empty($data['rdbcmsa_imageMaxDimension'])) {
+                $data['rdbcmsa_imageMaxDimension'] = '2000x2000';
+            }
 
             $ConfigDb = new \Rdb\Modules\RdbAdmin\Models\ConfigDb($this->Container);
 
             // form validation. ----------------------------------------------------------------------------
             $formValidated = true;
+            if (!preg_match('/(\d+x\d+)/', $data['rdbcmsa_imageMaxDimension'])) {
+                $formValidated = false;
+                $output['formResultStatus'] = 'error';
+                $output['formResultMessage'] = __('rdbcmsa', 'Please specify correct format for max image dimension.');
+                http_response_code(400);
+            }
             // end form validation. ------------------------------------------------------------------------
 
             if (isset($formValidated) && $formValidated === true) {

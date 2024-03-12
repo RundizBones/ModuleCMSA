@@ -85,6 +85,26 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
                 'desc' => 'Apply watermark on all new uploaded? 0=no, 1=yes.',
                 'value' => 0,
             ],
+            [
+                'name' => 'rdbcmsa_watermarkPositionX',
+                'desc' => 'Watermark horizontal position. Default is center.',
+                'value' => 'center',
+            ],
+            [
+                'name' => 'rdbcmsa_watermarkPositionY',
+                'desc' => 'Watermark vertical position. Default is middle.',
+                'value' => 'middle',
+            ],
+            [
+                'name' => 'rdbcmsa_watermarkPositionYPadding',
+                'desc' => 'Watermark padding space for vertical position. Default is 20.',
+                'value' => 20,
+            ],
+            [
+                'name' => 'rdbcmsa_imageMaxDimension',
+                'desc' => 'Maximum image dimension on resize new uploaded file.',
+                'value' => '2000x2000',
+            ],
         ];
 
         return $output;
