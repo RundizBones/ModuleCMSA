@@ -423,23 +423,33 @@ class Image
         if (in_array($configWatermarkPosY, ['bottom', 'top'])) {
             list($origImgW, $origImgH) = getimagesize($originalFile);
             list($wmImgW, $wmImgH) = getimagesize($watermarkFile);
-            list($configWatermarkPosX, $configWatermarkPosY) = $Image->calculateWatermarkImageStartXY(
+            $sourceImageHeight = $Image->source_image_height;// keep original
+            if (property_exists($Image, 'source_image_height')) {
+                $Image->source_image_height = min($origImgH, $maxHeight);// override property for fix wrong calculation that doesn't use method's argument.
+            }
+            list($void, $configWatermarkPosY) = $Image->calculateWatermarkImageStartXY(
                 $configWatermarkPosX, 
                 $configWatermarkPosY, 
-                $origImgW,
-                $origImgH,
+                min($origImgW, $maxWidth),
+                min($origImgH, $maxHeight),
                 $wmImgW,
                 $wmImgH,
                 ['padding' => intval($configWatermarkPosYPadding)]
             );
+            if (property_exists($Image, 'source_image_height')) {
+                $Image->source_image_height = $sourceImageHeight;// restore original;
+            }
+            unset($sourceImageHeight);
 
             if ($configWatermarkPosY < 0) {
                 $configWatermarkPosY = 'top';
             } elseif ($configWatermarkPosY > $origImgH) {
                 $configWatermarkPosY = 'bottom';
             }
+
             unset($origImgH, $origImgW);
             unset($wmImgH, $wmImgW);
+            unset($void);
         }// endif;
 
         $doResize = $Image->resize(intval(trim($maxWidth)), intval(trim($maxHeight)));
