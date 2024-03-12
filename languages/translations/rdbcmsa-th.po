@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rdbcmsa\n"
-"POT-Creation-Date: 2024-03-12 16:54+0700\n"
-"PO-Revision-Date: 2024-03-12 16:54+0700\n"
+"POT-Creation-Date: 2024-03-12 21:32+0700\n"
+"PO-Revision-Date: 2024-03-12 21:33+0700\n"
 "Last-Translator: Vee W.\n"
 "Language-Team: \n"
 "Language: th_TH\n"
@@ -515,6 +515,10 @@ msgstr "กรุณาเลือกหนึ่งไฟล์."
 #: Plugins/Settings/Hooks/RdbCMSASettings.php:92
 msgid "Uploading"
 msgstr "กำลังอัพโหลด"
+
+#: Controllers/Admin/Settings/CMSAdmin/UpdaterController.php:93
+msgid "Please specify correct format for max image dimension."
+msgstr "กรุณาระบุรูปแบบที่ถูกต้องสำหรับขนาดภาพใหญ่ที่สุด."
 
 #: Controllers/Admin/Settings/CMSAdmin/UpdaterController.php:110
 msgid "Unable to delete watermark file."

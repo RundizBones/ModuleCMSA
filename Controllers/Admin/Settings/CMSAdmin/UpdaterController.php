@@ -87,10 +87,10 @@ class UpdaterController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
 
             // form validation. ----------------------------------------------------------------------------
             $formValidated = true;
-            if (!preg_match('/(\d+x\d+)/', $data['rdbcmsa_imageMaxDimension'])) {
+            if (!preg_match('/\b(\d+x\d+)\b/i', $data['rdbcmsa_imageMaxDimension'])) {
                 $formValidated = false;
                 $output['formResultStatus'] = 'error';
-                $output['formResultMessage'] = __('rdbcmsa', 'Please specify correct format for max image dimension.');
+                $output['formResultMessage'] = d__('rdbcmsa', 'Please specify correct format for max image dimension.');
                 http_response_code(400);
             }
             // end form validation. ------------------------------------------------------------------------
