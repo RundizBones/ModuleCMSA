@@ -374,6 +374,7 @@ class Image
         $watermarkFile = $options['wmModuleBasePath'] . DIRECTORY_SEPARATOR . $watermarkFile;
         $configWatermarkPosX = $ConfigDb->get('rdbcmsa_watermarkPositionX', 'center');
         $configWatermarkPosY = $ConfigDb->get('rdbcmsa_watermarkPositionY', 'middle');
+        $configWatermarkPosXPadding = $ConfigDb->get('rdbcmsa_watermarkPositionXPadding', 20);
         $configWatermarkPosYPadding = $ConfigDb->get('rdbcmsa_watermarkPositionYPadding', 20);
         $configMaxImgDim = $ConfigDb->get('rdbcmsa_imageMaxDimension', '2000x2000');
         unset($ConfigDb);
@@ -420,13 +421,30 @@ class Image
         $Image->png_quality = (isset($options['png_quality']) && is_int($options['png_quality']) ? $options['png_quality'] : 5);
 
         list($maxWidth, $maxHeight) = explode('x', $configMaxImgDim);
-        if (in_array($configWatermarkPosY, ['bottom', 'top'])) {
-            list($origImgW, $origImgH) = getimagesize($originalFile);
-            list($wmImgW, $wmImgH) = getimagesize($watermarkFile);
-            $sourceImageHeight = $Image->source_image_height;// keep original
-            if (property_exists($Image, 'source_image_height')) {
-                $Image->source_image_height = min($origImgH, $maxHeight);// override property for fix wrong calculation that doesn't use method's argument.
+        list($origImgW, $origImgH) = getimagesize($originalFile);
+        list($wmImgW, $wmImgH) = getimagesize($watermarkFile);
+
+        if (in_array($configWatermarkPosX, ['left', 'right'])) {
+            list($configWatermarkPosX, $void) = $Image->calculateWatermarkImageStartXY(
+                $configWatermarkPosX, 
+                $configWatermarkPosY, 
+                min($origImgW, $maxWidth),
+                min($origImgH, $maxHeight),
+                $wmImgW,
+                $wmImgH,
+                ['padding' => intval($configWatermarkPosXPadding)]
+            );
+
+            if ($configWatermarkPosX < 0) {
+                $configWatermarkPosX = 'left';
+            } elseif ($configWatermarkPosX > $origImgW) {
+                $configWatermarkPosX = 'right';
             }
+
+            unset($void);
+        }// endif; watermark position X is in array.
+
+        if (in_array($configWatermarkPosY, ['bottom', 'top'])) {
             list($void, $configWatermarkPosY) = $Image->calculateWatermarkImageStartXY(
                 $configWatermarkPosX, 
                 $configWatermarkPosY, 
@@ -436,10 +454,6 @@ class Image
                 $wmImgH,
                 ['padding' => intval($configWatermarkPosYPadding)]
             );
-            if (property_exists($Image, 'source_image_height')) {
-                $Image->source_image_height = $sourceImageHeight;// restore original;
-            }
-            unset($sourceImageHeight);
 
             if ($configWatermarkPosY < 0) {
                 $configWatermarkPosY = 'top';
@@ -447,10 +461,10 @@ class Image
                 $configWatermarkPosY = 'bottom';
             }
 
-            unset($origImgH, $origImgW);
-            unset($wmImgH, $wmImgW);
             unset($void);
-        }// endif;
+        }// endif; watermark position Y is in array.
+        unset($origImgH, $origImgW);
+        unset($wmImgH, $wmImgW);
 
         $doResize = $Image->resize(intval(trim($maxWidth)), intval(trim($maxHeight)));
         $doWatermark = $Image->watermarkImage($watermarkFile, $configWatermarkPosX, $configWatermarkPosY);
@@ -487,7 +501,7 @@ class Image
             }// endif $Logger
         }
         unset($Image, $Logger, $originalFile, $watermarkFile);
-        unset($configWatermarkPosX, $configWatermarkPosY, $configWatermarkPosYPadding);
+        unset($configWatermarkPosX, $configWatermarkPosY, $configWatermarkPosXPadding, $configWatermarkPosYPadding);
 
         return ($doWatermark === true && $doResize === true && $doSave === true);
     }// setWatermark

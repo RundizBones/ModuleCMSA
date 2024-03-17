@@ -30,6 +30,7 @@ trait SettingsCMSATrait
             'rdbcmsa_watermarkAllNewUploaded',
             'rdbcmsa_watermarkPositionX',
             'rdbcmsa_watermarkPositionY',
+            'rdbcmsa_watermarkPositionXPadding',
             'rdbcmsa_watermarkPositionYPadding',
             'rdbcmsa_imageMaxDimension',
         ];

@@ -70,6 +70,14 @@ class UpdaterController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdm
             }
             $data['rdbcmsa_watermarkPositionX'] = trim($this->Input->patch('rdbcmsa_watermarkPositionX', 'center'));
             $data['rdbcmsa_watermarkPositionY'] = trim($this->Input->patch('rdbcmsa_watermarkPositionY', 'middle'));
+            $data['rdbcmsa_watermarkPositionXPadding'] = trim($this->Input->patch('rdbcmsa_watermarkPositionXPadding', 20));
+            if (
+                '' === $data['rdbcmsa_watermarkPositionXPadding'] || 
+                !is_numeric($data['rdbcmsa_watermarkPositionXPadding']) || 
+                $data['rdbcmsa_watermarkPositionXPadding'] < 0
+            ) {
+                $data['rdbcmsa_watermarkPositionXPadding'] = 20;
+            }
             $data['rdbcmsa_watermarkPositionYPadding'] = trim($this->Input->patch('rdbcmsa_watermarkPositionYPadding', 20));
             if (
                 '' === $data['rdbcmsa_watermarkPositionYPadding'] || 

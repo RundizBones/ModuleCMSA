@@ -101,6 +101,11 @@ class Installer implements \Rdb\System\Interfaces\ModuleInstaller
                 'value' => 20,
             ],
             [
+                'name' => 'rdbcmsa_watermarkPositionXPadding',
+                'desc' => 'Watermark padding space for horizontal position. Default is 20.',
+                'value' => 20,
+            ],
+            [
                 'name' => 'rdbcmsa_imageMaxDimension',
                 'desc' => 'Maximum image dimension on resize new uploaded file.',
                 'value' => '2000x2000',

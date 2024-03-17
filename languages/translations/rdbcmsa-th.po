@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: rdbcmsa\n"
-"POT-Creation-Date: 2024-03-12 21:32+0700\n"
-"PO-Revision-Date: 2024-03-12 21:33+0700\n"
+"POT-Creation-Date: 2024-03-17 22:38+0700\n"
+"PO-Revision-Date: 2024-03-17 22:38+0700\n"
 "Last-Translator: Vee W.\n"
 "Language-Team: \n"
 "Language: th_TH\n"
@@ -36,7 +36,7 @@ msgstr ""
 #: Controllers/Admin/Posts/ActionsController.php:158
 #: Controllers/Admin/Posts/EditController.php:187
 #: Controllers/Admin/Posts/RevisionController.php:280
-#: Controllers/Admin/Settings/CMSAdmin/UpdaterController.php:237
+#: Controllers/Admin/Settings/CMSAdmin/UpdaterController.php:245
 #: Controllers/Admin/Tags/ActionsController.php:116
 #: Controllers/Admin/Tags/EditController.php:154
 #: Controllers/Admin/Tools/URLAliases/EditController.php:159
@@ -516,11 +516,11 @@ msgstr "กรุณาเลือกหนึ่งไฟล์."
 msgid "Uploading"
 msgstr "กำลังอัพโหลด"
 
-#: Controllers/Admin/Settings/CMSAdmin/UpdaterController.php:93
+#: Controllers/Admin/Settings/CMSAdmin/UpdaterController.php:101
 msgid "Please specify correct format for max image dimension."
 msgstr "กรุณาระบุรูปแบบที่ถูกต้องสำหรับขนาดภาพใหญ่ที่สุด."
 
-#: Controllers/Admin/Settings/CMSAdmin/UpdaterController.php:110
+#: Controllers/Admin/Settings/CMSAdmin/UpdaterController.php:118
 msgid "Unable to delete watermark file."
 msgstr "ไม่สามารถลบไฟล์ลายน้ำได้."
 
@@ -1229,13 +1229,17 @@ msgstr "ล่าง"
 
 #: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:55
 msgid "Vertical position padding"
-msgstr "พื้นที่ว่างตำแหน่งแนวตั้ง"
+msgstr "พื้นที่ว่างแนวตั้ง"
 
-#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:62
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:61
+msgid "Horizontal position padding"
+msgstr "พื้นที่ว่างแนวนอน"
+
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:68
 msgid "Max image dimension"
 msgstr "ขนาดภาพใหญ่ที่สุด"
 
-#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:65
+#: Views/Admin/Settings/CMSAdmin/_settings_form_v.php:71
 #, php-format
 msgid "Specify max image dimension in format width%1$sheight."
 msgstr "ระบุขนาดภาพใหญ่ที่สุดในรูปแบบ กว้าง%1$sสูง."
@@ -1344,6 +1348,14 @@ msgstr "ตาราง"
 #: Views/Admin/TranslationMatcher/index_v.php:137
 msgid "The ID of data."
 msgstr "ไอดีของข้อมูล."
+
+#~ msgid "Padding"
+#~ msgstr "พื้นที่ว่าง"
+
+#, fuzzy
+#~| msgid "Vertical position padding"
+#~ msgid "Position padding"
+#~ msgstr "พื้นที่ว่างตำแหน่งแนวตั้ง"
 
 #~ msgid "Save & stay"
 #~ msgstr "บันทึกและอยู่"

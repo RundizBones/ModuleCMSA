@@ -52,6 +52,12 @@
         </div>
     </div>
     <div class="form-group">
+        <label class="control-label" for="rdbcmsa_watermarkPositionXPadding"><?php echo d__('rdbcmsa', 'Horizontal position padding'); ?></label>
+        <div class="control-wrapper">
+            <input id="rdbcmsa_watermarkPositionXPadding" type="number" name="rdbcmsa_watermarkPositionXPadding" placeholder="20">
+        </div>
+    </div>
+    <div class="form-group">
         <label class="control-label" for="rdbcmsa_watermarkPositionYPadding"><?php echo d__('rdbcmsa', 'Vertical position padding'); ?></label>
         <div class="control-wrapper">
             <input id="rdbcmsa_watermarkPositionYPadding" type="number" name="rdbcmsa_watermarkPositionYPadding" placeholder="20">
