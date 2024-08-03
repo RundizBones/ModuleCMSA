@@ -66,7 +66,7 @@ class EditController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminB
 
             // prepare data for checking.
             $data = [];
-            $data['alias_content_type'] = htmlspecialchars(trim($this->Input->patch('alias_content_type')), ENT_QUOTES);
+            $data['alias_content_type'] = \Rdb\Modules\RdbAdmin\Libraries\RdbaString::staticFilterSanitizeString(trim($this->Input->patch('alias_content_type')));
             $data['alias_content_id'] = trim($this->Input->patch('alias_content_id', '', FILTER_SANITIZE_NUMBER_INT));
             $data['alias_url'] = trim($this->Input->patch('alias_url'));
             $data['alias_redirect_to'] = trim($this->Input->patch('alias_redirect_to'));

@@ -70,7 +70,7 @@ trait EditingTrait
                 . (isset($options['search']) ? ' AND `child`.`t_type` = :t_type' : '')
                 . ' AND `parent`.`language` = :language',
             'whereValues' => [
-                ':t_type' => strip_tags($this->Input->get('t_type', 'category')),
+                ':t_type' => \Rdb\Modules\RdbAdmin\Libraries\RdbaString::staticFilterSanitizeString($this->Input->get('t_type', 'category')),
                 ':language' => ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th'),
             ],
         ];

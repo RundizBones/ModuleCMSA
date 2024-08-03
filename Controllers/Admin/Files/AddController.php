@@ -7,6 +7,9 @@
 namespace Rdb\Modules\RdbCMSA\Controllers\Admin\Files;
 
 
+use Rdb\Modules\RdbAdmin\Libraries\RdbaString;
+
+
 /**
  * Add (+upload) files controller.
  * 
@@ -119,9 +122,9 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
                         $data['file_ext'] = $item['extension'];
                         $data['file_size'] = $item['size'];
                         // the metadata will be update once all items was inserted to db.
-                        $data['file_media_name'] = htmlspecialchars(trim($this->Input->post('file_media_name', $item['name'])), ENT_QUOTES);
+                        $data['file_media_name'] = RdbaString::staticFilterSanitizeString(trim($this->Input->post('file_media_name', $item['name'])));
                         $data['file_media_description'] = trim($this->Input->post('file_media_description'));
-                        $data['file_media_keywords'] = htmlspecialchars(trim($this->Input->post('file_media_keywords', '')), ENT_QUOTES);
+                        $data['file_media_keywords'] = RdbaString::staticFilterSanitizeString(trim($this->Input->post('file_media_keywords', '')));
                         $data = $InputUtils->setEmptyScalarToNull($data);
                         if (is_null($data['file_folder'])) {
                             // if `file_folder` is null, set to empty string.

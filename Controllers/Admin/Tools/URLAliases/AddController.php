@@ -57,7 +57,7 @@ class AddController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdminBa
             // if validated token to prevent CSRF.
             // prepare data for checking.
             $data = [];
-            $data['alias_content_type'] = htmlspecialchars(trim($this->Input->post('alias_content_type')), ENT_QUOTES);
+            $data['alias_content_type'] = \Rdb\Modules\RdbAdmin\Libraries\RdbaString::staticFilterSanitizeString(trim($this->Input->post('alias_content_type')));
             $data['alias_content_id'] = trim($this->Input->post('alias_content_id', '', FILTER_SANITIZE_NUMBER_INT));
             $data['language'] = ($_SERVER['RUNDIZBONES_LANGUAGE'] ?? 'th');
             $data['alias_url'] = trim($this->Input->post('alias_url'));

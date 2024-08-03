@@ -7,6 +7,9 @@
 namespace Rdb\Modules\RdbCMSA\Controllers\Admin\Files;
 
 
+use Rdb\Modules\RdbAdmin\Libraries\RdbaString;
+
+
 /**
  * Files listing controller.
  * 
@@ -93,14 +96,14 @@ class IndexController extends \Rdb\Modules\RdbCMSA\Controllers\Admin\RdbCMSAdmin
         }
         $options['where'] = [
             'file_visibility' => 1,
-            'file_folder' => strip_tags($this->Input->get('filter-file_folder')),
+            'file_folder' => RdbaString::staticFilterSanitizeString($this->Input->get('filter-file_folder')),
         ];
         $filterFileStatus = trim($this->Input->get('filter-file_status', '', FILTER_SANITIZE_NUMBER_INT));
         if (is_numeric($filterFileStatus)) {
             $options['where']['file_status'] = $filterFileStatus;
         }
         unset($filterFileStatus);
-        $filterMime = strip_tags(trim($this->Input->get('filter-mimetype')));
+        $filterMime = RdbaString::staticFilterSanitizeString(trim($this->Input->get('filter-mimetype')));
         if (!empty($filterMime)) {
             $options['filterMime'] = $filterMime;
         }
