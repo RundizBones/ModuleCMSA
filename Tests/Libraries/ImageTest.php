@@ -70,7 +70,7 @@ class ImageTest extends \Rdb\Tests\BaseTestCase
     }
 
 
-    /*public function testSearchOriginalFile()
+    public function testSearchOriginalFile()
     {
         $this->copyTestMiniImage();
 
@@ -116,7 +116,7 @@ class ImageTest extends \Rdb\Tests\BaseTestCase
         $this->assertFalse(is_file($originalFile));
 
         unset($Image);
-    }// testRemoveWatermark*/
+    }// testRemoveWatermark
 
 
 }
