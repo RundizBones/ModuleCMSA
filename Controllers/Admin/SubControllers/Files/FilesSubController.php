@@ -303,7 +303,7 @@ class FilesSubController
      * @return bool Return `true` for successfully removed watermark, skipped because there is no backup file (never set watermark before).<br>
      *                      Return `false` for otherwise.
      */
-    public function removeWatermark(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null)
+    public function removeWatermark(array $item, ?\Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null)
     {
         trigger_error('This method has been deprecated.', E_USER_WARNING);
 
@@ -370,7 +370,7 @@ class FilesSubController
      * @param \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem The file system class.
      * @throws \InvalidArgumentException Throw the errors if the required array key is not exists.
      */
-    public function resizeThumbnails(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null)
+    public function resizeThumbnails(array $item, ?\Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null)
     {
         trigger_error('This method has been deprecated.', E_USER_WARNING);
 
@@ -427,7 +427,7 @@ class FilesSubController
      */
     public function searchOriginalFile(
         array $item, 
-        \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null,
+        ?\Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null,
         array $options = []
     ) {
         trigger_error('This method has been deprecated.', E_USER_WARNING);
@@ -516,7 +516,7 @@ class FilesSubController
      * @return bool Return `true` for successfully set watermark, skipped because there is no watermark file uploaded in settings.<br>
      *                      Return `false` for otherwise.
      */
-    public function setWatermark(array $item, \Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null): bool
+    public function setWatermark(array $item, ?\Rdb\Modules\RdbCMSA\Libraries\FileSystem $FileSystem = null): bool
     {
         trigger_error('This method has been deprecated.', E_USER_WARNING);
 

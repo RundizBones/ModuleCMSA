@@ -37,9 +37,11 @@ class CategoriesDb extends \Rundiz\NestedSet\NestedSet
      * @param \PDO $PDO The PDO class.
      * @param \Rdb\System\Container $Container The DI container.
      */
-    public function __construct(\PDO $PDO, \Rdb\System\Container $Container = null)
+    public function __construct(\PDO $PDO, \Rdb\System\Container $Container)
     {
-        $this->Container = $Container;
+        if ($Container instanceof \Rdb\System\Container) {
+            $this->Container = $Container;
+        }
 
         if ($Container->has('Db')) {
             $this->Db = $Container->get('Db');

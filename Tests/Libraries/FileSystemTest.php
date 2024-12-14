@@ -38,6 +38,22 @@ class FileSystemTest extends \Rdb\Tests\BaseTestCase
 
     public function tearDown(): void
     {
+        // close any stream resources that are left opened. (file system). ------------
+        // this can be prevent unable to delete locked files that was unclosed.
+        $resources = get_resources();
+        foreach ($resources as $rs) {
+            $resourceType = get_resource_type($rs);
+            if ('stream' === strtolower($resourceType)) {
+                $streamMeta = stream_get_meta_data($rs);
+                if (isset($streamMeta['wrapper_type']) && 'plainfile' === strtolower($streamMeta['wrapper_type'])) {
+                    fclose($rs);
+                }
+            }
+            unset($resourceType, $streamMeta);
+        }
+        unset($rs, $resources);
+        // end close any stream. -------------------------------------------------------------
+
         $this->FileSystem->deleteFolder('', true);
         @rmdir($this->targetTestDir);
 
