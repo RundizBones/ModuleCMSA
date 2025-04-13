@@ -672,10 +672,7 @@ class RdbCMSAPostsIndexController extends RdbaDatatables {
 
         // reset form
         document.getElementById('rdba-filter-post_status').value = '';
-        document.getElementById('rdba-filter-tid').value = '';
         document.getElementById('rdba-filter-user_id').value = '';
-        document.getElementById('prog_find_tag').value = '';
-        document.getElementById('rdba-filter-tag-tid').value = '';
         document.getElementById('rdba-filter-search').value = '';
 
         // datatables have to call with jQuery.
