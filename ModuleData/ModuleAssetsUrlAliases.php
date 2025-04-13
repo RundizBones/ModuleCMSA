@@ -51,7 +51,7 @@ class ModuleAssetsUrlAliases
                 [
                     'handle' => 'rdbcmsaToolsURLAliasesIndexAction',
                     'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/Tools/URLAliases/indexAction.js',
-                    'dependency' => ['rdta', 'rdbaDatatables', 'rdbaXhrDialog', 'datatables-plugins-pagination', 'rdbaCommon', 'rdbaUiXhrCommonData'],
+                    'dependency' => ['rdta', 'rdbaDatatables', 'rdbaXhrDialog', 'datatables-features-inputpaging', 'rdbaCommon', 'rdbaUiXhrCommonData'],
                 ],
                 [
                     'handle' => 'rdbcmsaToolsURLAliasesAddAction',

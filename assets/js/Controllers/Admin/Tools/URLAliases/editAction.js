@@ -185,7 +185,7 @@ class RdbCMSAToolsURLAliasesEditController {
                             // this is opening in dialog, close the dialog and reload page.
                             document.querySelector(thisClass.dialogIDSelector + ' [data-dismiss="dialog"]').click();
                             // reload datatable.
-                            jQuery(thisClass.datatableIDSelector).DataTable().ajax.reload(null, false);
+                            new DataTable(thisClass.datatableIDSelector).ajax.reload(null, false);
                         } else {
                             // this is in its page, redirect to the redirect back url.
                             window.location.href = response.redirectBack;

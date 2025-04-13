@@ -82,7 +82,7 @@ class RdbCMSAFilesActionsController {
                         // this is opening in dialog, close the dialog and reload page.
                         document.querySelector('#rdbcmsa-files-editing-dialog [data-dismiss="dialog"]').click();
                         //window.location.reload();// use datatables reload instead.
-                        jQuery('#filesListItemsTable').DataTable().ajax.reload(null, false);
+                        new DataTable('#filesListItemsTable').ajax.reload(null, false);
                     } else {
                         // this is in its page, redirect to the redirect back url.
                         window.location.href = RdbCMSAFilesCommonObject.getFilesUrl;

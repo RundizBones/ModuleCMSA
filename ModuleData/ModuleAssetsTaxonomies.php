@@ -59,7 +59,7 @@ class ModuleAssetsTaxonomies
                 [
                     'handle' => 'rdbcmsaCategoriesIndexAction',
                     'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/Categories/indexAction.js',
-                    'dependency' => ['rdta', 'rdbaDatatables', 'rdbaXhrDialog', 'datatables-plugins-pagination', 'rdbaCommon', 'rdbaUiXhrCommonData', 'tinymce'],
+                    'dependency' => ['rdta', 'rdbaDatatables', 'rdbaXhrDialog', 'datatables-features-inputpaging', 'rdbaCommon', 'rdbaUiXhrCommonData', 'tinymce'],
                 ],
                 [
                     'handle' => 'rdbcmsaCategoriesCommonActions',
@@ -99,7 +99,7 @@ class ModuleAssetsTaxonomies
                 [
                     'handle' => 'rdbcmsaTagsIndexAction',
                     'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/Tags/indexAction.js',
-                    'dependency' => ['rdta', 'rdbaDatatables', 'rdbaXhrDialog', 'datatables-plugins-pagination', 'rdbaCommon', 'rdbaUiXhrCommonData'],
+                    'dependency' => ['rdta', 'rdbaDatatables', 'rdbaXhrDialog', 'datatables-features-inputpaging', 'rdbaCommon', 'rdbaUiXhrCommonData'],
                 ],
                 [
                     'handle' => 'rdbcmsaTagsAddAction',

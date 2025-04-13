@@ -34,13 +34,12 @@ class RdbCMSACategoriesIndexController extends RdbaDatatables {
 
         $.when(uiXhrCommonData)// uiXhrCommonData is variable from /assets/js/Controllers/Admin/UI/XhrCommonDataController/indexAction.js file
         .done(function() {
-            let dataTable = $(thisClass.datatableIDSelector).DataTable({
+            let dataTableOptions = {
                 'ajax': {
                     'url': RdbCMSACategoriesIndexObject.getCategoriesRESTUrl,
                     'method': RdbCMSACategoriesIndexObject.getCategoriesRESTMethod,
                     'dataSrc': 'listItems'// change array key of data source. see https://datatables.net/examples/ajax/custom_data_property.html
                 },
-                'autoWidth': false,// don't set style="width: xxx;" in the table cell.
                 'columnDefs': [
                     {
                         'orderable': false,// make checkbox column not sortable.
@@ -141,27 +140,12 @@ class RdbCMSACategoriesIndexController extends RdbaDatatables {
                         'targets': 7,
                     },
                 ],
-                'dom': thisClass.datatablesDOM,
-                'fixedHeader': true,
-                'language': datatablesTranslation,// datatablesTranslation is variable from /assets/js/Controllers/Admin/UI/XhrCommonDataController/indexAction.js file
                 'order': thisClass.defaultSortOrder,
-                'pageLength': parseInt(RdbaUIXhrCommonData.configDb.rdbadmin_AdminItemsPerPage),
                 'paging': true,
-                'pagingType': 'input',
-                'processing': true,
-                'responsive': {
-                    'details': {
-                        'type': 'column',
-                        'target': 0
-                    }
-                },
-                'searchDelay': 1300,
                 'serverSide': true,
-                // state save ( https://datatables.net/reference/option/stateSave ).
-                // to use state save, any custom filter should use `stateLoadCallback` and set input value.
-                // maybe use keepconditions ( https://github.com/jhyland87/DataTables-Keep-Conditions ).
-                'stateSave': false
-            });//.DataTable()
+            };
+            dataTableOptions = thisClass.applyToDefaultDataTableOptions(dataTableOptions);
+            let dataTable = new DataTable(thisClass.datatableIDSelector, dataTableOptions);
 
             // datatables events
             dataTable.on('xhr.dt', function(e, settings, json, xhr) {
@@ -322,7 +306,7 @@ class RdbCMSACategoriesIndexController extends RdbaDatatables {
             let response = responseObject.response;
 
             // reload datatable.
-            jQuery(thisClass.datatableIDSelector).DataTable().ajax.reload(null, false);
+            new DataTable(thisClass.datatableIDSelector).ajax.reload(null, false);
 
             if (typeof(response) !== 'undefined') {
                 if (typeof(response.formResultMessage) !== 'undefined') {
@@ -363,7 +347,7 @@ class RdbCMSACategoriesIndexController extends RdbaDatatables {
         document.getElementById('rdba-filter-search').value = '';
 
         // datatables have to call with jQuery.
-        $(thisClass.datatableIDSelector).DataTable().order(thisClass.defaultSortOrder).search('').draw();// .order must match in columnDefs.
+        new DataTable(thisClass.datatableIDSelector).order(thisClass.defaultSortOrder).search('').draw();// .order must match in columnDefs.
 
         return false;
     }// resetDataTable

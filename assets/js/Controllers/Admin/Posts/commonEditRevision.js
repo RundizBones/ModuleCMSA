@@ -97,13 +97,12 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
 
         $.when(this.editControllerClass.ajaxGetFormDataPromise)
         .done(function() {
-            let dataTable = $(thisClass.datatableIDSelector).DataTable({
+            let dataTableOptions = {
                 'ajax': {
                     'url': thisClass.editingObject.getPostRevisionHistoryItemsRESTUrlBase + '/' + thisClass.editingObject.post_id,
                     'method': thisClass.editingObject.getPostRevisionHistoryItemsRESTMethod,
                     'dataSrc': 'listItems',// change array key of data source. see https://datatables.net/examples/ajax/custom_data_property.html
                 },
-                'autoWidth': false,// don't set style="width: xxx;" in the table cell.
                 'columnDefs': [
                     {
                         'orderable': false,// make checkbox column not sortable.
@@ -184,26 +183,11 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
                         $(row).addClass('table-row-info');
                     }
                 },
-                'dom': thisClass.datatablesDOM,
-                'fixedHeader': true,
-                'language': datatablesTranslation,// datatablesTranslation is variable from /assets/js/Controllers/Admin/UI/XhrCommonDataController/indexAction.js file
                 'order': thisClass.defaultSortOrder,
-                'pageLength': parseInt(RdbaUIXhrCommonData.configDb.rdbadmin_AdminItemsPerPage),
-                'pagingType': 'input',
-                'processing': true,
-                'responsive': {
-                    'details': {
-                        'type': 'column',
-                        'target': 0
-                    }
-                },
-                'searchDelay': 1300,
                 'serverSide': true,
-                // state save ( https://datatables.net/reference/option/stateSave ).
-                // to use state save, any custom filter should use `stateLoadCallback` and set input value.
-                // maybe use keepconditions ( https://github.com/jhyland87/DataTables-Keep-Conditions ).
-                'stateSave': false
-            });//.DataTable()
+            };
+            dataTableOptions = thisClass.applyToDefaultDataTableOptions(dataTableOptions);
+            let dataTable = new DataTable(thisClass.datatableIDSelector, dataTableOptions);
 
             // datatables events
             dataTable.on('xhr.dt', function(e, settings, json, xhr) {
@@ -687,7 +671,7 @@ class RdbCMSAPostsCommonEditRevision extends RdbaDatatables {
      * @returns {undefined}
      */
     reloadDatatable() {
-        jQuery(this.datatableIDSelector).DataTable().order(this.defaultSortOrder).search('').draw();
+        new DataTable(this.datatableIDSelector).order(this.defaultSortOrder).search('').draw();
     }// reloadDatatable
 
 

@@ -112,7 +112,7 @@ class RdbCMSAFilesIndexControllerFolders {
                         // reload folder list.
                         RdbCMSAFilesIndexControllerFolders.reloadFolders();
                         // reload files data table.
-                        jQuery('#filesListItemsTable').DataTable().ajax.reload(null, false);
+                        new DataTable('#filesListItemsTable').ajax.reload(null, false);
 
                         if (typeof(response) !== 'undefined') {
                             if (typeof(response.formResultMessage) !== 'undefined') {
@@ -206,7 +206,7 @@ class RdbCMSAFilesIndexControllerFolders {
                     // reload folder list.
                     RdbCMSAFilesIndexControllerFolders.reloadFolders();
                     // reload files data table.
-                    jQuery('#filesListItemsTable').DataTable().ajax.reload(null, false);
+                    new DataTable('#filesListItemsTable').ajax.reload(null, false);
 
                     if (typeof(response) !== 'undefined') {
                         if (typeof(response.formResultMessage) !== 'undefined') {

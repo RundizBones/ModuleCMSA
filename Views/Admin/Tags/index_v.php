@@ -13,11 +13,11 @@
 
                         <form id="tags-list-form" class="rdba-datatables-form">
                             <div class="form-result-placeholder"></div>
-                            <table id="tagsListItemsTable" class="tagsListItemsTable rdba-datatables-js responsive hover" width="100%">
+                            <table id="tagsListItemsTable" class="tagsListItemsTable rdba-datatables-js responsive hover">
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th class="column-checkbox"><input type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler(jQuery('.tagsListItemsTable'), jQuery(this));"></th>
+                                        <th class="column-checkbox"><input type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler('.tagsListItemsTable', this);"></th>
                                         <th class="rd-hidden"><?php echo __('ID'); ?></th>
                                         <th class="column-primary" data-priority="1"><?php echo d__('rdbcmsa', 'Name'); ?></th>
                                         <th><?php echo d__('rdbcmsa', 'Description'); ?></th>
@@ -28,7 +28,7 @@
                                 <tfoot>
                                     <tr>
                                         <th></th>
-                                        <th class="column-checkbox"><input type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler(jQuery('.tagsListItemsTable'), jQuery(this));"></th>
+                                        <th class="column-checkbox"><input type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler('.tagsListItemsTable', this);"></th>
                                         <th class="rd-hidden"><?php echo __('ID'); ?></th>
                                         <th class="column-primary" data-priority="1"><?php echo d__('rdbcmsa', 'Name'); ?></th>
                                         <th><?php echo d__('rdbcmsa', 'Description'); ?></th>

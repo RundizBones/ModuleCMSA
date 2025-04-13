@@ -13,11 +13,11 @@
 
                         <form id="translationmatcher-list-form" class="rdba-datatables-form">
                             <div class="form-result-placeholder"></div>
-                            <table id="translationMatcherListTable" class="translationMatcherListTable rdba-datatables-js responsive hover" width="100%">
+                            <table id="translationMatcherListTable" class="translationMatcherListTable rdba-datatables-js responsive hover">
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th class="column-checkbox"><input type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler(jQuery('.translationMatcherListTable'), jQuery(this));"></th>
+                                        <th class="column-checkbox"><input type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler('.translationMatcherListTable', this);"></th>
                                         <th class="rd-hidden"><?php echo __('ID'); ?></th>
                                         <th class="column-primary" data-priority="1"><?php echo d__('rdbcmsa', 'Table'); ?></th>
                                         <?php
@@ -33,7 +33,7 @@
                                 <tfoot>
                                     <tr>
                                         <th></th>
-                                        <th class="column-checkbox"><input type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler(jQuery('.translationMatcherListTable'), jQuery(this));"></th>
+                                        <th class="column-checkbox"><input type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler('.translationMatcherListTable', this);"></th>
                                         <th class="rd-hidden"><?php echo __('ID'); ?></th>
                                         <th class="column-primary" data-priority="1"><?php echo d__('rdbcmsa', 'Table'); ?></th>
                                         <?php

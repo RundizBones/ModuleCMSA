@@ -44,11 +44,11 @@
                                 <form id="rdbcmsa-files-list-form" class="rdba-datatables-form">
                                     <input id="rdbcmsa-files-filter-folder" type="hidden" name="filter-file_folder">
                                     <div class="form-result-placeholder"></div>
-                                    <table id="filesListItemsTable" class="filesListItemsTable rdba-datatables-js responsive hover" width="100%">
+                                    <table id="filesListItemsTable" class="filesListItemsTable rdba-datatables-js responsive hover">
                                         <thead>
                                             <tr>
                                                 <th></th>
-                                                <th class="column-checkbox"><input type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler(jQuery('.filesListItemsTable'), jQuery(this));"></th>
+                                                <th class="column-checkbox"><input type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler('.filesListItemsTable', this);"></th>
                                                 <th class="rd-hidden"><?php echo __('ID'); ?></th>
                                                 <th class="column-primary" data-priority="1"><?php echo d__('rdbcmsa', 'File'); ?></th>
                                                 <th><?php echo d__('rdbcmsa', 'Uploader'); ?></th>
@@ -60,7 +60,7 @@
                                         <tfoot>
                                             <tr>
                                                 <th></th>
-                                                <th class="column-checkbox"><input type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler(jQuery('.filesListItemsTable'), jQuery(this));"></th>
+                                                <th class="column-checkbox"><input type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler('.filesListItemsTable', this);"></th>
                                                 <th class="rd-hidden"><?php echo __('ID'); ?></th>
                                                 <th class="column-primary" data-priority="1"><?php echo d__('rdbcmsa', 'File'); ?></th>
                                                 <th><?php echo d__('rdbcmsa', 'Uploader'); ?></th>

@@ -1,8 +1,8 @@
-<table id="revisionHistoryTable" class="revisionHistoryTable rdba-datatables-js responsive hover" width="100%">
+<table id="revisionHistoryTable" class="revisionHistoryTable rdba-datatables-js responsive hover">
     <thead>
         <tr>
             <th></th>
-            <th class="column-checkbox"><input class="rdbcmsa-posts-revision_id-checkbox" type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler(jQuery('.revisionHistoryTable'), jQuery(this));"></th>
+            <th class="column-checkbox"><input class="rdbcmsa-posts-revision_id-checkbox" type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler('.revisionHistoryTable', this);"></th>
             <th class="rd-hidden"><?php echo __('ID'); ?></th>
             <th class="column-primary" data-priority="1"><?php echo d__('rdbcmsa', 'Revision log'); ?></th>
             <th><?php echo d__('rdbcmsa', 'Author'); ?></th>
@@ -12,7 +12,7 @@
     <tfoot>
         <tr>
             <th></th>
-            <th class="column-checkbox"><input class="rdbcmsa-posts-revision_id-checkbox" type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler(jQuery('.revisionHistoryTable'), jQuery(this));"></th>
+            <th class="column-checkbox"><input class="rdbcmsa-posts-revision_id-checkbox" type="checkbox" onclick="RdbaCommon.dataTableCheckboxToggler('.revisionHistoryTable', this);"></th>
             <th class="rd-hidden"><?php echo __('ID'); ?></th>
             <th class="column-primary" data-priority="1"><?php echo d__('rdbcmsa', 'Revision log'); ?></th>
             <th><?php echo d__('rdbcmsa', 'Author'); ?></th>

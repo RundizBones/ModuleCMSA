@@ -82,7 +82,7 @@ class ModuleAssetsPosts
                     'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/Posts/commonEditRevision.js',
                     'dependency' => [
                         'rdta', 'rdbaCommon', 
-                        'rdbaDatatables', 'datatables-plugins-pagination', 
+                        'rdbaDatatables', 'datatables-features-inputpaging', 
                         'jsdiff', 'diff2html', 'diff2html-ui',
                         'moment.js',
                     ],
@@ -90,7 +90,7 @@ class ModuleAssetsPosts
                 [
                     'handle' => 'rdbcmsaPostsIndexAction',
                     'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/Posts/indexAction.js',
-                    'dependency' => ['rdta', 'rdbaDatatables', 'rdbaXhrDialog', 'datatables-plugins-pagination', 'rdbaCommon', 'rdbaUiXhrCommonData', 'moment.js'],
+                    'dependency' => ['rdta', 'rdbaDatatables', 'rdbaXhrDialog', 'datatables-features-inputpaging', 'rdbaCommon', 'rdbaUiXhrCommonData', 'moment.js'],
                 ],
                 [
                     'handle' => 'rdbcmsaPostsAddAction',
@@ -113,7 +113,7 @@ class ModuleAssetsPosts
                 [
                     'handle' => 'rdbcmsaPagesIndexAction',
                     'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/Pages/indexAction.js',
-                    'dependency' => ['rdta', 'rdbaDatatables', 'rdbaXhrDialog', 'datatables-plugins-pagination', 'rdbaCommon', 'rdbaUiXhrCommonData', 'moment.js'],
+                    'dependency' => ['rdta', 'rdbaDatatables', 'rdbaXhrDialog', 'datatables-features-inputpaging', 'rdbaCommon', 'rdbaUiXhrCommonData', 'moment.js'],
                 ],
                 [
                     'handle' => 'rdbcmsaPagesAddAction',

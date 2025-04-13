@@ -51,7 +51,7 @@ class ModuleAssetsTranslationMatcher
                 [
                     'handle' => 'rdbcmsaTranslationMatcherIndexAction',
                     'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/TranslationMatcher/indexAction.js',
-                    'dependency' => ['rdta', 'rdbaDatatables', 'rdbaXhrDialog', 'datatables-plugins-pagination', 'rdbaCommon', 'rdbaUiXhrCommonData', 'rdbcmsaJsUtils'],
+                    'dependency' => ['rdta', 'rdbaDatatables', 'rdbaXhrDialog', 'datatables-features-inputpaging', 'rdbaCommon', 'rdbaUiXhrCommonData', 'rdbcmsaJsUtils'],
                 ],
             ],
         ];

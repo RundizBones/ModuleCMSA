@@ -87,7 +87,7 @@ class ModuleAssetsFiles
                 [
                     'handle' => 'rdbcmsaFilesIndexActionFiles',
                     'file' => $publicModuleUrl . '/assets/js/Controllers/Admin/Files/indexActionFiles.js',
-                    'dependency' => ['rdta', 'rdbaDatatables', 'datatables-plugins-pagination', 'rdbaXhrDialog', 'rdbaCommon', 'rdbaUiXhrCommonData', 'rdbcmsaFilesCommonActions', 'moment.js'],
+                    'dependency' => ['rdta', 'rdbaDatatables', 'datatables-features-inputpaging', 'rdbaXhrDialog', 'rdbaCommon', 'rdbaUiXhrCommonData', 'rdbcmsaFilesCommonActions', 'moment.js'],
                 ],
                 [
                     'handle' => 'rdbcmsaFilesEditAction',
